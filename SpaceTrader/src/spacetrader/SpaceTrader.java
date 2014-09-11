@@ -24,7 +24,7 @@ public class SpaceTrader extends Application {
         
         Scene scene = new Scene(root);
         stage.setTitle("Space Traders");
-        //scene.getStylesheets().add(getClass().getResource("WelcomeScreen.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("WelcomeScreen.css").toExternalForm());
         stage.setScene(scene);
         stage.show();
     }

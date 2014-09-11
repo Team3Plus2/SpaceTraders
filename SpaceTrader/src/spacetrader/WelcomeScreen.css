@@ -7,4 +7,6 @@ and open the template in the editor.
     Created on : Sep 10, 2014, 9:25:13 PM
     Author     : KartikKini
 */
-
+.root {
+    -fx-background-color: coral;
+}

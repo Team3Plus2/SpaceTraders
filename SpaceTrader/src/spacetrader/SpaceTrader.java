@@ -20,10 +20,11 @@ public class SpaceTrader extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("WelcomeScreen.fxml"));
         
         Scene scene = new Scene(root);
-        
+        stage.setTitle("Space Traders");
+        //scene.getStylesheets().add(getClass().getResource("WelcomeScreen.css").toExternalForm());
         stage.setScene(scene);
         stage.show();
     }

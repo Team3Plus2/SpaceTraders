@@ -22,10 +22,12 @@ public class WelcomeScreenController implements Initializable {
     @FXML
     private Label label;
     
+    /**
+     * Handles what happens when the Start button is pressed
+     */
     @FXML
-    private void handleButtonAction(ActionEvent event) {
-        System.out.println("You clicked me!");
-        label.setText("Hello World!");
+    private void handleStartAction(ActionEvent event) {
+        SpaceTrader.getInstance().goToCharacterConfig();
     }
     
     @Override

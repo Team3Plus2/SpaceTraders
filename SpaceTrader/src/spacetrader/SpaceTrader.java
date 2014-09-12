@@ -6,6 +6,7 @@
 
 package spacetrader;
 
+import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -18,17 +19,45 @@ import javafx.stage.Stage;
  */
 public class SpaceTrader extends Application {
     
+    private Stage stage;
+    
+    private static SpaceTrader instance;
+    
+    public SpaceTrader() {
+        instance = this;
+    }
+    
+    public static SpaceTrader getInstance() {
+        return instance;
+    }
+    
     @Override
-    public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("WelcomeScreen.fxml"));
-        
+    public void start(Stage start) {
+        try {
+            stage = start;
+            stage.setTitle("Space Traders");
+            loadNewScreen("WelcomeScreen.fxml");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void goToCharacterConfig() {
+        try {
+            loadNewScreen("CharacterConfigurationScreen.fxml");
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private void loadNewScreen(String FXML) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource(FXML));
         Scene scene = new Scene(root);
-        stage.setTitle("Space Traders");
-        scene.getStylesheets().add(getClass().getResource("WelcomeScreen.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("SpaceTraderStylesheet.css").toExternalForm());
         stage.setScene(scene);
         stage.show();
     }
-
+    
     /**
      * @param args the command line arguments
      */

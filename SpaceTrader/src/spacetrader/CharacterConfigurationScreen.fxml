@@ -7,8 +7,5 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" fx:controller="spacetrader.CharacterConfigurationScreenController">
-    <stylesheets>
-        <URL value="@WelcomeScreen.css"/>
-    </stylesheets>
-</AnchorPane>
+
+<AnchorPane id="CharConfig" maxHeight="576.0" maxWidth="1024.0" minHeight="576.0" minWidth="1024.0" prefHeight="576.0" prefWidth="1024.0" styleClass="mainFxmlClass" stylesheets="@SpaceTraderStylesheet.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="spacetrader.CharacterConfigurationScreenController" />

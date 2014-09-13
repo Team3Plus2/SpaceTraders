@@ -8,9 +8,26 @@ and open the template in the editor.
     Author     : KartikKini
 */
 .root {
-    -fx-background-color: coral;
+    -fx-background-color: black;
+}
+
+#CharConfig {
+    -fx-background-image: url('../visuals/CharacterSelectionBG.png');
+}
+
+#WelcomeScreenBG{
+    -fx-background-image: url('../visuals/WelcomeScreenBackground.png');
 }
 
 .button {
-    -fx-background-color: red;
+    -fx-font-family: "LVDC Common2";
+    -fx-background-image: url('../visuals/Button.png');
+    -fx-background-size: stretch;
+    -fx-background-color: transparent;
+    -fx-font-size: 30px;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.7), 10, 0.0 , 0 , 0);
+}
+
+.button:hover {
+    -fx-effect: dropshadow( three-pass-box , rgba(255,255,255,0.7) , 20, 0.0 , 0 , 0);
 }

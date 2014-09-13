@@ -7,10 +7,18 @@
 package spacetrader;
 
 import java.io.IOException;
+import javafx.util.Duration;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.StackPane;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 /**
@@ -22,6 +30,8 @@ public class SpaceTrader extends Application {
     private Stage stage;
     
     private static SpaceTrader instance;
+    
+    StackPane stackPane = new StackPane();
     
     public SpaceTrader() {
         instance = this;
@@ -36,7 +46,12 @@ public class SpaceTrader extends Application {
         try {
             stage = start;
             stage.setTitle("Space Traders");
+            Scene scene = new Scene(stackPane);
+            Font.loadFont(getClass().getResource("/visuals/LVDCC.TTF").toExternalForm(), 10);
+            scene.getStylesheets().add(getClass().getResource("SpaceTraderStylesheet.css").toExternalForm());
             loadNewScreen("WelcomeScreen.fxml");
+            stage.setScene(scene);
+            stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -52,10 +67,30 @@ public class SpaceTrader extends Application {
     
     private void loadNewScreen(String FXML) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource(FXML));
-        Scene scene = new Scene(root);
-        scene.getStylesheets().add(getClass().getResource("SpaceTraderStylesheet.css").toExternalForm());
-        stage.setScene(scene);
-        stage.show();
+        stackPane.getChildren().add(root);        
+        EventHandler<ActionEvent> finished = new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if(stackPane.getChildren().size() > 1) {
+                    stackPane.getChildren().remove(0);
+                }
+            }
+        };
+        
+        final Timeline switchPage;
+        if(stackPane.getChildren().size() > 1) {
+            switchPage = new Timeline(
+                new KeyFrame(Duration.seconds(0), new KeyValue(stackPane.getChildren().get(1).opacityProperty(), 0.0), new KeyValue(stackPane.getChildren().get(0).opacityProperty(), 1.0)),
+                new KeyFrame(Duration.seconds(1), finished, new KeyValue(stackPane.getChildren().get(1).opacityProperty(), 1.0), new KeyValue(stackPane.getChildren().get(0).opacityProperty(), 0.0))
+            );
+        } else {
+            switchPage = new Timeline(
+                new KeyFrame(Duration.seconds(0), new KeyValue(stackPane.getChildren().get(0).opacityProperty(), 0.0)),
+                new KeyFrame(Duration.seconds(5), finished, new KeyValue(stackPane.getChildren().get(0).opacityProperty(), 1.0))
+            );
+        }
+        
+        switchPage.play();
     }
     
     /**

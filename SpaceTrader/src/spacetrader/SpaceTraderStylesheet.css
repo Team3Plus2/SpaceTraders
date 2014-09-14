@@ -11,6 +11,40 @@ and open the template in the editor.
     -fx-background-color: black;
 }
 
+.textfield {
+    -fx-font-family: "LVDC Common2";
+    -fx-font-size: 30px;
+    -fx-text-fill: white;
+    -fx-prompt-text-fill: white;
+    -fx-highlight-text-fill: black;
+    -fx-background-color: linear-gradient(to bottom, rgba(30,150,206,0.9) 0%,rgba(24,106,168,0.9) 50%,rgba(29,152,205,0.9) 100%);
+    -fx-effect: innershadow(three-pass-box , rgba(0,0,0,0.7), 5, 0.0 , 0 , 0);
+}
+
+.progressbar .bar {
+    -fx-background-color: #0099cc;
+}
+
+.slider .thumb {
+    -fx-background-image: url('../visuals/Slider_Thumb.png');
+    -fx-background-size: stretch;
+}
+
+.slider .track {
+    -fx-background-color: white;
+}
+
+.label {
+    -fx-font-family: "LVDC Common2";
+    -fx-font-size: 30px;
+    -fx-text-fill: white;
+}
+
+.gridpane {
+    -fx-background-image: url('../visuals/GridLayoutBG.png');
+    -fx-background-size: stretch;
+}
+
 #CharConfig {
     -fx-background-image: url('../visuals/CharacterSelectionBG.png');
 }

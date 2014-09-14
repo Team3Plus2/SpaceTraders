@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import java.net.*?>
 <?import java.util.*?>
@@ -7,5 +10,99 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane id="CharConfig" maxHeight="576.0" maxWidth="1024.0" minHeight="576.0" minWidth="1024.0" prefHeight="576.0" prefWidth="1024.0" styleClass="mainFxmlClass" stylesheets="@SpaceTraderStylesheet.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="spacetrader.CharacterConfigurationScreenController" />
+<AnchorPane id="CharConfig" maxHeight="576.0" maxWidth="1024.0" minHeight="576.0" minWidth="1024.0" prefHeight="576.0" prefWidth="1024.0" styleClass="mainFxmlClass" stylesheets="@SpaceTraderStylesheet.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="spacetrader.CharacterConfigurationScreenController">
+   <children>
+      <Button layoutX="57.0" layoutY="44.0" mnemonicParsing="false" text="Back" />
+      <GridPane alignment="CENTER" layoutX="245.0" layoutY="122.0" prefHeight="431.0" prefWidth="517.0" styleClass="gridpane">
+        <columnConstraints>
+            <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="175.601318359375" minWidth="10.0" prefWidth="173.33444213867188" />
+          <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="SOMETIMES" maxWidth="243.98471069335938" minWidth="10.0" prefWidth="167.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="175.0" minWidth="10.0" prefWidth="174.0" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="57.4971923828125" minHeight="10.0" prefHeight="47.864471435546875" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="82.01687622070312" minHeight="10.0" prefHeight="74.13552856445312" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="Name: " GridPane.valignment="BOTTOM" GridPane.vgrow="NEVER">
+               <GridPane.margin>
+                  <Insets bottom="5.0" />
+               </GridPane.margin></Label>
+            <TextField alignment="TOP_LEFT" styleClass="textfield" GridPane.columnIndex="1" GridPane.valignment="BOTTOM" GridPane.vgrow="NEVER">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <padding>
+                  <Insets top="1.0" />
+               </padding>
+               <GridPane.margin>
+                  <Insets bottom="5.0" />
+               </GridPane.margin>
+            </TextField>
+            <Label text="Skills" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets top="20.0" />
+               </GridPane.margin></Label>
+            <Label text="Pilot:" GridPane.rowIndex="2" />
+            <Label text="Fighter:" GridPane.rowIndex="3" />
+            <Label text="Trader:" GridPane.rowIndex="4" />
+            <Label text="Engineer:" GridPane.rowIndex="5" />
+            <Button mnemonicParsing="false" text="Begin" GridPane.columnIndex="1" GridPane.rowIndex="6">
+               <GridPane.margin>
+                  <Insets bottom="12.0" />
+               </GridPane.margin></Button>
+            <Slider blockIncrement="1.0" majorTickUnit="3.0" max="15.0" minorTickCount="1" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin>
+            </Slider>
+            <Slider blockIncrement="1.0" majorTickUnit="3.0" max="15.0" minorTickCount="1" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Slider blockIncrement="1.0" majorTickUnit="3.0" max="15.0" minorTickCount="1" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Slider blockIncrement="1.0" majorTickUnit="3.0" max="15.0" minorTickCount="1" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <Label style="-fx-font-size: 15;" text="Pilot Level" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+               <font>
+                  <Font size="6.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets bottom="5.0" />
+               </GridPane.margin>
+            </Label>
+            <Label style="-fx-font-size: 15;" text="Fighter Level" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
+               <font>
+                  <Font size="6.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets bottom="5.0" />
+               </GridPane.margin>
+            </Label>
+            <Label style="-fx-font-size: 15;" text="Trader Level" GridPane.columnIndex="1" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
+               <font>
+                  <Font size="6.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets bottom="5.0" />
+               </GridPane.margin>
+            </Label>
+            <Label style="-fx-font-size: 15;" text="Engineer Level" GridPane.columnIndex="1" GridPane.rowIndex="5" GridPane.valignment="BOTTOM">
+               <font>
+                  <Font size="6.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets bottom="5.0" />
+               </GridPane.margin>
+            </Label>
+         </children>
+      </GridPane>
+      <ProgressBar layoutX="514.0" layoutY="320.0" prefHeight="80.0" prefWidth="300.0" progress="1.0" rotate="270.0" styleClass="progressbar" />
+      <Line endX="260.0" layoutX="501.0" layoutY="187.0" opacity="0.53" startX="-260.0" strokeWidth="2.0" />
+      <Label layoutX="634.0" layoutY="344.0" rotate="270.0" text="15/15" />
+   </children>
+</AnchorPane>

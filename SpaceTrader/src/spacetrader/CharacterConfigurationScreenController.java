@@ -28,7 +28,7 @@ public class CharacterConfigurationScreenController implements Initializable {
     }
     
     @FXML
-    private void handleBeginAction(ActionEvent event) {
+    private void handleBackAction(ActionEvent event) {
         SpaceTrader.getInstance().goToCharacterConfig();
     }
     

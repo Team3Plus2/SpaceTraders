@@ -106,7 +106,6 @@ public class CharacterConfigurationScreenController implements Initializable {
             skillPointsAvailable.setProgress(1 - (pilotSliderValue/15.0 + fighterSliderValue/15.0 + tradeSliderValue/15.0 + engineerSliderValue/15.0));
         } else if (pilotSliderValue <  pilotLevelSlider.getValue() || fighterSliderValue < fighterLevelSlider.getValue() || tradeSliderValue < traderLevelSlider.getValue() || engineerSliderValue < engineerLevelSlider.getValue()) {
             pilotLevelSlider.adjustValue(pilotSliderValue);
-            pilotLevelSlider.
             fighterLevelSlider.adjustValue(fighterSliderValue);
             traderLevelSlider.adjustValue(tradeSliderValue);
             engineerLevelSlider.adjustValue(engineerSliderValue);

@@ -51,7 +51,7 @@ public class CharacterConfigurationScreenController implements Initializable {
     
     @FXML
     private void handleBeginAction(ActionEvent event) {
-        Player newPlayer = new Player("name", 0, 0, 0, 0, 0);
+        Player newPlayer = new Player("name", (int) pilotLevelSlider.getValue(), (int) fighterLevelSlider.getValue(), (int) traderLevelSlider.getValue(), (int) engineerLevelSlider.getValue(), 0);
         SpaceTrader.getInstance().goToGame();
     }
     

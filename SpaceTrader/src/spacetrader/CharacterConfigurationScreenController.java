@@ -32,4 +32,10 @@ public class CharacterConfigurationScreenController implements Initializable {
         SpaceTrader.getInstance().goToWelcomeScreen();
     }
     
+    @FXML
+    private void handleBeginAction(ActionEvent event) {
+        Player newPlayer = new Player("name", 0, 0, 0, 0, 0);
+        SpaceTrader.getInstance().goToGame();
+    }
+    
 }

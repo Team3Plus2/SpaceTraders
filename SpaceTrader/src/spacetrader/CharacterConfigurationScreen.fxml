@@ -33,7 +33,7 @@
                <GridPane.margin>
                   <Insets bottom="5.0" />
                </GridPane.margin></Label>
-            <TextField alignment="TOP_LEFT" styleClass="textfield" GridPane.columnIndex="1" GridPane.valignment="BOTTOM" GridPane.vgrow="NEVER">
+            <TextField alignment="TOP_LEFT" fx:id="name" styleClass="textfield" GridPane.columnIndex="1" GridPane.valignment="BOTTOM" GridPane.vgrow="NEVER">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -56,7 +56,7 @@
                <GridPane.margin>
                   <Insets bottom="12.0" />
                </GridPane.margin></Button>
-            <Slider fx:id="pilotLevelSlider" blockIncrement="1.0" max="15.0" minorTickCount="1" majorTickUnit="2.0" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+            <Slider fx:id="pilotLevelSlider" blockIncrement="1.0" max="15.0" minorTickCount="1" majorTickUnit="2.0" showTickMarks="true" snapToTicks="true"  GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -64,10 +64,10 @@
                   <Insets />
                </GridPane.margin>
             </Slider>
-            <Slider fx:id="fighterLevelSlider" blockIncrement="1.0" max="15.0" minorTickCount="1" majorTickUnit="2.0" onDragDone="#handleProgressBarUpdate" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <Slider fx:id="traderLevelSlider" blockIncrement="1.0" max="15.0" minorTickCount="1" majorTickUnit="2.0" onDragDone="#handleProgressBarUpdate" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <Slider fx:id="engineerLevelSlider" blockIncrement="1.0" max="15.0" minorTickCount="1" majorTickUnit="2.0" onDragDone="#handleProgressBarUpdate" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <Label fx:id="pilotLevelLabel" style="-fx-font-size: 15;" text="Pilot Level" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+            <Slider fx:id="fighterLevelSlider" blockIncrement="1.0" max="15.0" minorTickCount="1" majorTickUnit="2.0" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Slider fx:id="traderLevelSlider" blockIncrement="1.0" max="15.0" minorTickCount="1" majorTickUnit="2.0"  showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Slider fx:id="engineerLevelSlider" blockIncrement="1.0" max="15.0" minorTickCount="1" majorTickUnit="2.0" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <Label fx:id="pilotLevelLabel" style="-fx-font-size: 15;" text="0" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
                <font>
                   <Font size="6.0" />
                </font>
@@ -75,7 +75,7 @@
                   <Insets bottom="5.0" />
                </GridPane.margin>
             </Label>
-            <Label fx:id="fighterLevelLabel" style="-fx-font-size: 15;" text="Fighter Level" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
+            <Label fx:id="fighterLevelLabel" style="-fx-font-size: 15;" text="0" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
                <font>
                   <Font size="6.0" />
                </font>
@@ -83,7 +83,7 @@
                   <Insets bottom="5.0" />
                </GridPane.margin>
             </Label>
-            <Label fx:id="traderLevelLabel" style="-fx-font-size: 15;" text="Trader Level" GridPane.columnIndex="1" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
+            <Label fx:id="traderLevelLabel" style="-fx-font-size: 15;" text="0" GridPane.columnIndex="1" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
                <font>
                   <Font size="6.0" />
                </font>
@@ -91,7 +91,7 @@
                   <Insets bottom="5.0" />
                </GridPane.margin>
             </Label>
-            <Label fx:id="engineerLevelLabel" style="-fx-font-size: 15;" text="Engineer Level" GridPane.columnIndex="1" GridPane.rowIndex="5" GridPane.valignment="BOTTOM">
+            <Label fx:id="engineerLevelLabel" style="-fx-font-size: 15;" text="0" GridPane.columnIndex="1" GridPane.rowIndex="5" GridPane.valignment="BOTTOM">
                <font>
                   <Font size="6.0" />
                </font>
@@ -103,6 +103,6 @@
       </GridPane>
       <ProgressBar fx:id="skillPointsAvailable" layoutX="514.0" layoutY="320.0" prefHeight="80.0" prefWidth="300.0" progress="1.0" rotate="270.0" styleClass="progressbar" />
       <Line endX="260.0" layoutX="501.0" layoutY="187.0" opacity="0.53" startX="-260.0" strokeWidth="2.0" />
-      <Label layoutX="634.0" layoutY="344.0" rotate="270.0" text="15/15" />
+      <Label fx:id="skillPointsAvailableLabel" layoutX="634.0" layoutY="344.0" rotate="270.0" text="15/15" />
    </children>
 </AnchorPane>

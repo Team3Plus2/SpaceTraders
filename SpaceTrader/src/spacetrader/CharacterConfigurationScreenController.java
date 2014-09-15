@@ -55,4 +55,10 @@ public class CharacterConfigurationScreenController implements Initializable {
         SpaceTrader.getInstance().goToGame();
     }
     
+    @FXML
+    private void handleProgressBarUpdate(ActionEvent event) {
+        System.out.println(pilotLevelSlider.getValue()/15.0 + fighterLevelSlider.getValue()/15.0 + traderLevelSlider.getValue()/15.0 + engineerLevelSlider.getValue()/15.0);
+        skillPointsAvailable.setProgress( pilotLevelSlider.getValue()/15.0 + fighterLevelSlider.getValue()/15.0 + traderLevelSlider.getValue()/15.0 + engineerLevelSlider.getValue()/15.0);
+    }
+    
 }

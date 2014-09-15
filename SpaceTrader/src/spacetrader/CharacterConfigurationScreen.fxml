@@ -56,7 +56,7 @@
                <GridPane.margin>
                   <Insets bottom="12.0" />
                </GridPane.margin></Button>
-            <Slider fx:id="pilotLevelSlider" blockIncrement="1.0" majorTickUnit="3.0" max="15.0" minorTickCount="1" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+            <Slider fx:id="pilotLevelSlider" blockIncrement="1.0" majorTickUnit="3.0" max="15.0" minorTickCount="1" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="CENTER" onDragDetected="#handleProgressBarUpdate">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -64,9 +64,9 @@
                   <Insets />
                </GridPane.margin>
             </Slider>
-            <Slider fx:id="fighterLevelSlider" blockIncrement="1.0" majorTickUnit="3.0" max="15.0" minorTickCount="1" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <Slider fx:id="traderLevelSlider" blockIncrement="1.0" majorTickUnit="3.0" max="15.0" minorTickCount="1" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <Slider fx:id="engineerLevelSlider" blockIncrement="1.0" majorTickUnit="3.0" max="15.0" minorTickCount="1" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <Slider fx:id="fighterLevelSlider" blockIncrement="1.0" majorTickUnit="3.0" max="15.0" minorTickCount="1" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.rowIndex="3" onDragDetected="#handleProgressBarUpdate" />
+            <Slider fx:id="traderLevelSlider" blockIncrement="1.0" majorTickUnit="3.0" max="15.0" minorTickCount="1" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.rowIndex="4" onDragDetected="#handleProgressBarUpdate" />
+            <Slider fx:id="engineerLevelSlider" blockIncrement="1.0" majorTickUnit="3.0" max="15.0" minorTickCount="1" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.rowIndex="5" onDragDetected="#handleProgressBarUpdate"/>
             <Label style="-fx-font-size: 15;" text="Pilot Level" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
                <font>
                   <Font size="6.0" />

@@ -8,9 +8,13 @@ package spacetrader;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Slider;
 
@@ -36,12 +40,24 @@ public class CharacterConfigurationScreenController implements Initializable {
     @FXML
     private ProgressBar skillPointsAvailable;
     
+    @FXML
+    private Label pilotLevelLabel, fighterLevelLabel, traderLevelLabel, engineerLevelLabel;
+    
+    @FXML
+    private Label progressBarLabel;
+    
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        pilotLevelSlider.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                handleProgressBarUpdate(new ActionEvent());
+            }
+        
+        });
     }
     
     @FXML
@@ -57,8 +73,7 @@ public class CharacterConfigurationScreenController implements Initializable {
     
     @FXML
     private void handleProgressBarUpdate(ActionEvent event) {
-        System.out.println(pilotLevelSlider.getValue()/15.0 + fighterLevelSlider.getValue()/15.0 + traderLevelSlider.getValue()/15.0 + engineerLevelSlider.getValue()/15.0);
-        skillPointsAvailable.setProgress( pilotLevelSlider.getValue()/15.0 + fighterLevelSlider.getValue()/15.0 + traderLevelSlider.getValue()/15.0 + engineerLevelSlider.getValue()/15.0);
+        skillPointsAvailable.setProgress(1 - (pilotLevelSlider.getValue()/15.0 + fighterLevelSlider.getValue()/15.0 + traderLevelSlider.getValue()/15.0 + engineerLevelSlider.getValue()/15.0));
     }
     
 }

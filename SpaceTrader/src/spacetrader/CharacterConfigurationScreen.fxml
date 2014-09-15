@@ -56,7 +56,7 @@
                <GridPane.margin>
                   <Insets bottom="12.0" />
                </GridPane.margin></Button>
-            <Slider fx:id="pilotLevelSlider" blockIncrement="1.0" majorTickUnit="3.0" max="15.0" minorTickCount="1" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="CENTER" onDragDetected="#handleProgressBarUpdate">
+            <Slider fx:id="pilotLevelSlider" blockIncrement="1.0" majorTickUnit="3.0" max="15.0" minorTickCount="1" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -64,9 +64,9 @@
                   <Insets />
                </GridPane.margin>
             </Slider>
-            <Slider fx:id="fighterLevelSlider" blockIncrement="1.0" majorTickUnit="3.0" max="15.0" minorTickCount="1" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.rowIndex="3" onDragDetected="#handleProgressBarUpdate" />
-            <Slider fx:id="traderLevelSlider" blockIncrement="1.0" majorTickUnit="3.0" max="15.0" minorTickCount="1" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.rowIndex="4" onDragDetected="#handleProgressBarUpdate" />
-            <Slider fx:id="engineerLevelSlider" blockIncrement="1.0" majorTickUnit="3.0" max="15.0" minorTickCount="1" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.rowIndex="5" onDragDetected="#handleProgressBarUpdate"/>
+            <Slider fx:id="fighterLevelSlider" blockIncrement="1.0" majorTickUnit="3.0" max="15.0" minorTickCount="1" onDragDone="#handleProgressBarUpdate" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Slider fx:id="traderLevelSlider" blockIncrement="1.0" majorTickUnit="3.0" max="15.0" minorTickCount="1" onDragDone="#handleProgressBarUpdate" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Slider fx:id="engineerLevelSlider" blockIncrement="1.0" majorTickUnit="3.0" max="15.0" minorTickCount="1" onDragDone="#handleProgressBarUpdate" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.rowIndex="5" />
             <Label style="-fx-font-size: 15;" text="Pilot Level" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
                <font>
                   <Font size="6.0" />
@@ -101,7 +101,7 @@
             </Label>
          </children>
       </GridPane>
-      <ProgressBar layoutX="514.0" layoutY="320.0" prefHeight="80.0" prefWidth="300.0" progress="1.0" rotate="270.0" styleClass="progressbar" />
+      <ProgressBar fx:id="skillPointsAvailable" layoutX="514.0" layoutY="320.0" prefHeight="80.0" prefWidth="300.0" progress="1.0" rotate="270.0" styleClass="progressbar" />
       <Line endX="260.0" layoutX="501.0" layoutY="187.0" opacity="0.53" startX="-260.0" strokeWidth="2.0" />
       <Label layoutX="634.0" layoutY="344.0" rotate="270.0" text="15/15" />
    </children>

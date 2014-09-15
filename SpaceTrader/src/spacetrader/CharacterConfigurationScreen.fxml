@@ -56,7 +56,7 @@
                <GridPane.margin>
                   <Insets bottom="12.0" />
                </GridPane.margin></Button>
-            <Slider fx:id="pilotLevelSlider" blockIncrement="1.0" majorTickUnit="3.0" max="15.0" minorTickCount="1" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+            <Slider fx:id="pilotLevelSlider" blockIncrement="1.0" max="15.0" minorTickCount="1" majorTickUnit="2.0" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -64,10 +64,10 @@
                   <Insets />
                </GridPane.margin>
             </Slider>
-            <Slider fx:id="fighterLevelSlider" blockIncrement="1.0" majorTickUnit="3.0" max="15.0" minorTickCount="1" onDragDone="#handleProgressBarUpdate" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <Slider fx:id="traderLevelSlider" blockIncrement="1.0" majorTickUnit="3.0" max="15.0" minorTickCount="1" onDragDone="#handleProgressBarUpdate" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <Slider fx:id="engineerLevelSlider" blockIncrement="1.0" majorTickUnit="3.0" max="15.0" minorTickCount="1" onDragDone="#handleProgressBarUpdate" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <Label style="-fx-font-size: 15;" text="Pilot Level" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+            <Slider fx:id="fighterLevelSlider" blockIncrement="1.0" max="15.0" minorTickCount="1" majorTickUnit="2.0" onDragDone="#handleProgressBarUpdate" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Slider fx:id="traderLevelSlider" blockIncrement="1.0" max="15.0" minorTickCount="1" majorTickUnit="2.0" onDragDone="#handleProgressBarUpdate" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Slider fx:id="engineerLevelSlider" blockIncrement="1.0" max="15.0" minorTickCount="1" majorTickUnit="2.0" onDragDone="#handleProgressBarUpdate" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <Label fx:id="pilotLevelLabel" style="-fx-font-size: 15;" text="Pilot Level" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
                <font>
                   <Font size="6.0" />
                </font>
@@ -75,7 +75,7 @@
                   <Insets bottom="5.0" />
                </GridPane.margin>
             </Label>
-            <Label style="-fx-font-size: 15;" text="Fighter Level" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
+            <Label fx:id="fighterLevelLabel" style="-fx-font-size: 15;" text="Fighter Level" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
                <font>
                   <Font size="6.0" />
                </font>
@@ -83,7 +83,7 @@
                   <Insets bottom="5.0" />
                </GridPane.margin>
             </Label>
-            <Label style="-fx-font-size: 15;" text="Trader Level" GridPane.columnIndex="1" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
+            <Label fx:id="traderLevelLabel" style="-fx-font-size: 15;" text="Trader Level" GridPane.columnIndex="1" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
                <font>
                   <Font size="6.0" />
                </font>
@@ -91,7 +91,7 @@
                   <Insets bottom="5.0" />
                </GridPane.margin>
             </Label>
-            <Label style="-fx-font-size: 15;" text="Engineer Level" GridPane.columnIndex="1" GridPane.rowIndex="5" GridPane.valignment="BOTTOM">
+            <Label fx:id="engineerLevelLabel" style="-fx-font-size: 15;" text="Engineer Level" GridPane.columnIndex="1" GridPane.rowIndex="5" GridPane.valignment="BOTTOM">
                <font>
                   <Font size="6.0" />
                </font>

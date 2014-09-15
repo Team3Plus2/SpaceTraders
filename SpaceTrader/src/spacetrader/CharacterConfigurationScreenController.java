@@ -58,6 +58,27 @@ public class CharacterConfigurationScreenController implements Initializable {
             }
         
         });
+        fighterLevelSlider.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                handleProgressBarUpdate(new ActionEvent());
+            }
+        
+        });
+        traderLevelSlider.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                handleProgressBarUpdate(new ActionEvent());
+            }
+        
+        });
+        engineerLevelSlider.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                handleProgressBarUpdate(new ActionEvent());
+            }
+        
+        });
     }
     
     @FXML
@@ -73,7 +94,23 @@ public class CharacterConfigurationScreenController implements Initializable {
     
     @FXML
     private void handleProgressBarUpdate(ActionEvent event) {
-        skillPointsAvailable.setProgress(1 - (pilotLevelSlider.getValue()/15.0 + fighterLevelSlider.getValue()/15.0 + traderLevelSlider.getValue()/15.0 + engineerLevelSlider.getValue()/15.0));
+        double pilotSliderValue = pilotLevelSlider.getValue();
+        double fighterSliderValue = fighterLevelSlider.getValue();
+        double tradeSliderValue = traderLevelSlider.getValue();
+        double engineerSliderValue = engineerLevelSlider.getValue();
+        if(skillPointsAvailable.getProgress() > 0) {
+            pilotLevelLabel.setText(pilotSliderValue + "");
+            fighterLevelLabel.setText(fighterSliderValue + "");
+            traderLevelLabel.setText(tradeSliderValue + "");
+            engineerLevelLabel.setText(engineerSliderValue + "");
+            skillPointsAvailable.setProgress(1 - (pilotSliderValue/15.0 + fighterSliderValue/15.0 + tradeSliderValue/15.0 + engineerSliderValue/15.0));
+        } else if (pilotSliderValue <  pilotLevelSlider.getValue() || fighterSliderValue < fighterLevelSlider.getValue() || tradeSliderValue < traderLevelSlider.getValue() || engineerSliderValue < engineerLevelSlider.getValue()) {
+            pilotLevelSlider.adjustValue(pilotSliderValue);
+            pilotLevelSlider.
+            fighterLevelSlider.adjustValue(fighterSliderValue);
+            traderLevelSlider.adjustValue(tradeSliderValue);
+            engineerLevelSlider.adjustValue(engineerSliderValue);
+        }
     }
     
 }

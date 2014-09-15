@@ -65,6 +65,14 @@ public class SpaceTrader extends Application {
         }
     }
     
+    public void goToWelcomeScreen() {
+        try {
+            loadNewScreen("WelcomeScreen.fxml");
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
     private void loadNewScreen(String FXML) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource(FXML));
         stackPane.getChildren().add(root);        

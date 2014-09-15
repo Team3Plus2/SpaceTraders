@@ -11,6 +11,8 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ProgressBar;
+import javafx.scene.control.Slider;
 
 /**
  * FXML Controller class
@@ -19,6 +21,21 @@ import javafx.fxml.Initializable;
  */
 public class CharacterConfigurationScreenController implements Initializable {
 
+    @FXML
+    private Slider pilotLevelSlider;
+    
+    @FXML
+    private Slider fighterLevelSlider;
+    
+    @FXML
+    private Slider traderLevelSlider;
+    
+    @FXML
+    private Slider engineerLevelSlider;
+    
+    @FXML
+    private ProgressBar skillPointsAvailable;
+    
     /**
      * Initializes the controller class.
      */

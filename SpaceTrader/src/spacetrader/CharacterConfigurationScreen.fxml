@@ -12,7 +12,7 @@
 
 <AnchorPane id="CharConfig" maxHeight="576.0" maxWidth="1024.0" minHeight="576.0" minWidth="1024.0" prefHeight="576.0" prefWidth="1024.0" styleClass="mainFxmlClass" stylesheets="@SpaceTraderStylesheet.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="spacetrader.CharacterConfigurationScreenController">
    <children>
-      <Button layoutX="57.0" layoutY="44.0" mnemonicParsing="false" text="Back" onAction="#handleBackAction"/>
+      <Button layoutX="57.0" layoutY="44.0" mnemonicParsing="false" onAction="#handleBackAction" text="Back" />
       <GridPane alignment="CENTER" layoutX="245.0" layoutY="122.0" prefHeight="431.0" prefWidth="517.0" styleClass="gridpane">
         <columnConstraints>
             <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="175.601318359375" minWidth="10.0" prefWidth="173.33444213867188" />
@@ -52,11 +52,11 @@
             <Label text="Fighter:" GridPane.rowIndex="3" />
             <Label text="Trader:" GridPane.rowIndex="4" />
             <Label text="Engineer:" GridPane.rowIndex="5" />
-            <Button mnemonicParsing="false" text="Begin" GridPane.columnIndex="1" GridPane.rowIndex="6" onAction="#handleBeginAction">
+            <Button mnemonicParsing="false" onAction="#handleBeginAction" text="Begin" GridPane.columnIndex="1" GridPane.rowIndex="6">
                <GridPane.margin>
                   <Insets bottom="12.0" />
                </GridPane.margin></Button>
-            <Slider blockIncrement="1.0" majorTickUnit="3.0" max="15.0" minorTickCount="1" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+            <Slider fx:id="pilotLevelSlider" blockIncrement="1.0" majorTickUnit="3.0" max="15.0" minorTickCount="1" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -64,9 +64,9 @@
                   <Insets />
                </GridPane.margin>
             </Slider>
-            <Slider blockIncrement="1.0" majorTickUnit="3.0" max="15.0" minorTickCount="1" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <Slider blockIncrement="1.0" majorTickUnit="3.0" max="15.0" minorTickCount="1" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <Slider blockIncrement="1.0" majorTickUnit="3.0" max="15.0" minorTickCount="1" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <Slider fx:id="fighterLevelSlider" blockIncrement="1.0" majorTickUnit="3.0" max="15.0" minorTickCount="1" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Slider fx:id="traderLevelSlider" blockIncrement="1.0" majorTickUnit="3.0" max="15.0" minorTickCount="1" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Slider fx:id="engineerLevelSlider" blockIncrement="1.0" majorTickUnit="3.0" max="15.0" minorTickCount="1" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.rowIndex="5" />
             <Label style="-fx-font-size: 15;" text="Pilot Level" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
                <font>
                   <Font size="6.0" />

@@ -8,6 +8,7 @@ import java.util.Random;
  */
 public class SolarSystem {
     
+    private Planet[] planets;
     private Random rand;
     private SunType sun;
     private Resources resources;
@@ -22,6 +23,7 @@ public class SolarSystem {
         techLevel = TechLevel.random();
         government = Government.random();
         relativeWealth = rand.nextFloat() * 2.0f - 1.0f;
+        planets = new Planet[rand.nextInt(10)];
     }
     
     public SunType SunType() {
@@ -42,6 +44,10 @@ public class SolarSystem {
     
     public float Wealth() {
         return relativeWealth;
+    }
+    
+    public Planet[] Planets() {
+        return planets;
     }
     
     @Override

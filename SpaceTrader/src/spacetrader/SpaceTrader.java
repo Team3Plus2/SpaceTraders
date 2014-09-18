@@ -122,6 +122,8 @@ public class SpaceTrader extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        ExampleUniverseAPI();
+        
         launch(args);
     }
     
@@ -136,15 +138,15 @@ public class SpaceTrader extends Application {
      * kill the program, didn't put to much time into exit functionality :) )
      */
     public static void ExampleUniverseAPI() {
-        Universe universe = new Universe(50, 0.4f);
+        Universe universe = new Universe(100, 0.4f);
         int count = 0;
         for(SolarSystem a : universe) {
             count++;
             if(a == null)
                 System.out.print("0");
             else
-                System.out.print("(" + a + "," + a.x + "," + a.y +")");
-            if(count % 50 == 0)
+                System.out.print("(" + a + ",'" + a.Name() + "')");
+            if(count % 101 == 0)
                 System.out.println();
         }
         

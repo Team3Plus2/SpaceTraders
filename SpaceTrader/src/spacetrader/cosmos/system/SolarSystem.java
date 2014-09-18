@@ -10,9 +10,6 @@ import spacetrader.cosmos.Universe;
  */
 public class SolarSystem {
     
-    public int x;
-    public int y;
-    
     private static final int DEFAULT_MAX_PLANETS = 10;
 
     private String name;
@@ -23,19 +20,7 @@ public class SolarSystem {
     private Government government;
     private float relativeWealth;//-1.0f pays less for goods, 0.0f normal, 1.0f pays more for goods
     
-    public SolarSystem() {
-        rand = new Random();
-        name = Universe.GenerateName(rand);
-        sun = SunType.random();
-        techLevel = TechLevel.random();
-        government = Government.random();
-        relativeWealth = rand.nextFloat() * 2.0f - 1.0f;
-        planets = new Planet[rand.nextInt(DEFAULT_MAX_PLANETS)];
-    }    
-    
-    public SolarSystem(Random rand, int x, int y) {
-        this.x = x;
-        this.y = y;
+    private void init(Random rand) {
         this.rand = rand;
         name = Universe.GenerateName(rand);
         sun = SunType.random(rand);
@@ -47,6 +32,15 @@ public class SolarSystem {
         for(int i = 0; i < planets.length; i ++) {
             planets[i] = new Planet(rand);
         }
+    }
+    
+    public SolarSystem() {
+        rand = new Random();
+        init(rand);
+    }    
+    
+    public SolarSystem(Random rand) {
+        init(rand);
     }
     
     public SunType SunType() {

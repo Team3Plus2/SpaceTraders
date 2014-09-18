@@ -45,11 +45,11 @@ public class SparseSpace implements Iterable<SolarSystem> {
         //at this point, insertion has been successful
         if(x < xMin)
             xMin = x;
-        if(y < xMin)
+        if(y < yMin)
             yMin = y;
-        if(xMax < x)
+        if(xMax <= x)
             xMax = x;
-        if(yMax < y)
+        if(yMax <= y)
             yMax = y;
     }
     
@@ -131,7 +131,7 @@ class SparseIterator implements Iterator<SolarSystem> {
         SolarSystem rit = space.get(currX, currY);
         currX++;
         
-        if(currX == toX) {
+        if(currX > toX) {
             currX = startX;
             currY++;
         }

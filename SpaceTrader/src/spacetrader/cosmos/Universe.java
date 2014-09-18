@@ -13,7 +13,7 @@ import java.util.Random;
 public class Universe implements Iterable<SolarSystem>{
     
     private static final int MEANING = 42;//Also applies to life and everything
-    private static final int DEFAULT_INIT_WIDTH = 50;
+    private static final int DEFAULT_INIT_WIDTH = 100;
     private static final float DEFAULT_INIT_SPREAD = 0.15f;
     private static final int DEFAULT_MAX_NAME_SYLLABLES = 2;
     private static final float DEFAULT_Y_CHANCE = 0.1f;
@@ -122,10 +122,10 @@ public class Universe implements Iterable<SolarSystem>{
      * @param width The width of the area to generate
      */
     public void generateAround(int x, int y, int width) {
-        for(int i = x - width; i < x + width; i++) {
-            for(int j = y - width; j < y + width; j++) {
+        for(int i = x - width/2; i <= x + width/2; i++) {
+            for(int j = y - width/2; j <= y + width/2; j++) {
                 if(canPlaceSystemAt(i,j) && rand.nextFloat() < spread)
-                    Space.insert(i, j, new SolarSystem(rand, i, j));
+                    Space.insert(i, j, new SolarSystem(rand));
             }
         }
     }

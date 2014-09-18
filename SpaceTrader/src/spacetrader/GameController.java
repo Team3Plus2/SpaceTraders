@@ -32,9 +32,9 @@ public class GameController implements Initializable {
         label.setText(player.getName() + "\n"
                 + "Pilot Skill: " + player.getPilotSkill() + "\n"
                 + "Fighter Skill: " + player.getFighterSkill() + "\n"
-                + "Trader Skill: " + player.getFighterSkill() + "\n"
-                + "Engineer Skill: " + player.getFighterSkill() + "\n"
-                + "Investor Skill: " + player.getFighterSkill());
+                + "Trader Skill: " + player.getTraderSkill() + "\n"
+                + "Engineer Skill: " + player.getEngineerSkill() + "\n"
+                + "Investor Skill: " + player.getInvestorSkill());
     }    
     
 }

@@ -29,6 +29,8 @@ public class SpaceTrader extends Application {
     
     private Stage stage;
     
+    private Player newPlayer;
+    
     private static SpaceTrader instance;
     
     StackPane stackPane = new StackPane();
@@ -73,8 +75,9 @@ public class SpaceTrader extends Application {
         }
     }
     
-    public void goToGame() {
+    public void goToGame(Player newPlayer) {
         try {
+            this.newPlayer = newPlayer;
             loadNewScreen("Game.fxml");
         } catch(IOException e) {
             e.printStackTrace();
@@ -114,6 +117,10 @@ public class SpaceTrader extends Application {
      */
     public static void main(String[] args) {
         launch(args);
+    }
+    
+    public Player getPlayer() {
+        return newPlayer;
     }
     
 }

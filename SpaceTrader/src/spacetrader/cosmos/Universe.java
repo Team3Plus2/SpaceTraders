@@ -15,7 +15,7 @@ public class Universe implements Iterable<SolarSystem>{
     private static final int MEANING = 42;//Also applies to life and everything
     private static final int DEFAULT_INIT_WIDTH = 100;
     private static final float DEFAULT_INIT_SPREAD = 0.15f;
-    private static final int DEFAULT_MAX_NAME_SYLLABLES = 2;
+    private static final int DEFAULT_MAX_NAME_SYLLABLES = 3;
     private static final float DEFAULT_Y_CHANCE = 0.1f;
     private static final float DEFAULT_INITIAL_VOWEL_CHANCE = 0.5f;    
     private static final float DEFAULT_DOUBLE_LETER_CHANCE = 0.2f;
@@ -41,12 +41,15 @@ public class Universe implements Iterable<SolarSystem>{
         for(int i = 0; i < syllables; i++) {
             name += randomLetter(rand);
             name += randomVowel(rand);
-            name += randomLetter(rand);
+            //name += randomLetter(rand);
             
             if(rand.nextFloat() < DEFAULT_DOUBLE_LETER_CHANCE) {
                 name += randomLetter(rand);
             }
         }
+        
+        String firstChar = "" + name.charAt(0);
+        name = firstChar.toUpperCase() + name.substring(1);
         
         return name;
     }

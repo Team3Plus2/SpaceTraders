@@ -174,9 +174,4 @@ class SparseIterator implements Iterator<SolarSystem> {
         
         return rit;
     }
-    
-    @Override
-    public void remove() {
-        throw new UnsupportedOperationException();
-    }
 }

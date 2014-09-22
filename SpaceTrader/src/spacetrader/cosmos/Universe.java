@@ -5,6 +5,8 @@ import java.lang.Iterable;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Random;
+import spacetrader.turns.TurnListener;
+import spacetrader.turns.TurnEvent;
 
 /**
  *
@@ -14,7 +16,7 @@ import java.util.Random;
  * 
  * @author Alex
  */
-public class Universe implements Iterable<SolarSystem>{
+public class Universe implements Iterable<SolarSystem>, TurnListener{
     
     private static final int MEANING = 42;//Also applies to life and everything
     private static final int DEFAULT_INIT_WIDTH = 100;
@@ -204,6 +206,11 @@ public class Universe implements Iterable<SolarSystem>{
     
     public SolarSystem getSolarSystem(int x, int y) {
         return Space.get(x, y);
+    }
+    
+    @Override
+    public void handleNextTurn() {
+        System.out.println("Turn: " + TurnEvent.getTurn());
     }
     
     /**

@@ -131,7 +131,12 @@ public class SpaceTrader extends Application {
      */
     public static void main(String[] args) {
         //ExampleUniverseAPI();
-        //TurnEvent.NextTurn();
+        Universe universe = new Universe();
+        TurnEvent.RegisterListener(universe);
+        for(int i = 0; i < 200; i++) {
+            TurnEvent.NextTurn();
+        }
+        
         launch(args);
     }
     

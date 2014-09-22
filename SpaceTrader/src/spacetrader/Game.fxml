@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.shape.*?>
 <?import java.lang.*?>
 <?import java.net.*?>
 <?import java.util.*?>
@@ -7,11 +9,14 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="576.0" prefWidth="1024.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="spacetrader.GameController">
+<AnchorPane prefHeight="576.0" prefWidth="1024.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="spacetrader.GameController">
     <stylesheets>
         <URL value="@SpaceTraderStylesheet.css" />
     </stylesheets>
    <children>
-      <Label fx:id="label" layoutX="328.0" layoutY="96.0" prefHeight="274.0" prefWidth="439.0" text="Label" />
+      <Canvas fx:id="gameCanvas" height="576.0" onMouseClicked="#mouseClicked" width="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <Pane id="GameBackground" mouseTransparent="true" prefHeight="576.0" prefWidth="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <Slider fx:id="zoomSlider" layoutX="980.0" layoutY="112.0" max="3.0" orientation="VERTICAL" prefHeight="305.0" prefWidth="15.0" />
+      <Label fx:id="label" layoutX="7.0" layoutY="7.0" prefHeight="92.0" prefWidth="149.0" style="-fx-font-size: 10;" />
    </children>
 </AnchorPane>

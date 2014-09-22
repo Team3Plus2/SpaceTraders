@@ -37,6 +37,12 @@ public class SpaceTrader extends Application {
     
     private Player newPlayer;
     
+    private Universe universe;
+
+    public Universe getUniverse() {
+        return universe;
+    }
+    
     private static SpaceTrader instance;
     
     StackPane stackPane = new StackPane();
@@ -84,6 +90,7 @@ public class SpaceTrader extends Application {
     public void goToGame(Player newPlayer) {
         try {
             this.newPlayer = newPlayer;
+            this.universe = new Universe(100, 0.1f);
             loadNewScreen("Game.fxml");
         } catch(IOException e) {
             e.printStackTrace();
@@ -142,7 +149,7 @@ public class SpaceTrader extends Application {
         for(SolarSystem a : universe) {
             count++;
             if(a == null)
-                System.out.print("0");
+                System.out.print("");
             else
                 System.out.print("(" + a + ",'" + a.Name() + "')");
             if(count % 101 == 0)

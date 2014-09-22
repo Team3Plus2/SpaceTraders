@@ -62,6 +62,10 @@ and open the template in the editor.
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.7), 10, 0.0 , 0 , 0);
 }
 
+#GameBackground {
+    -fx-background-image: url('../visuals/MainScreen.png');
+}
+
 .button:hover {
     -fx-effect: dropshadow( three-pass-box , rgba(255,255,255,0.7) , 20, 0.0 , 0 , 0);
 }

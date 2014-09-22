@@ -69,6 +69,6 @@ public class SolarSystem {
     
     @Override
     public String toString() {
-        return String.valueOf(planets.length);
+        return name;
     }
 }

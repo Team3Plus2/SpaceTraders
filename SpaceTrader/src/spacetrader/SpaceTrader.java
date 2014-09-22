@@ -6,6 +6,7 @@
 
 package spacetrader;
 
+import spacetrader.turns.TurnEvent;
 import java.io.IOException;
 import javafx.util.Duration;
 import javafx.animation.KeyFrame;
@@ -130,6 +131,7 @@ public class SpaceTrader extends Application {
      */
     public static void main(String[] args) {
         //ExampleUniverseAPI();
+        TurnEvent.NextTurn();
         launch(args);
     }
     
@@ -146,8 +148,8 @@ public class SpaceTrader extends Application {
     public static void ExampleUniverseAPI() {
         Universe universe = new Universe(100, 0.4f);
         System.out.println(universe.canGenerateAround(130, 50, 10));
-        universe.generateAround(130, 50, 10);
-        System.out.println(universe.canGenerateAround(130, 50, 10));
+        //universe.generateAround(130, 50, 10);
+        //System.out.println(universe.canGenerateAround(130, 50, 10));
         int count = 0;
         for(SolarSystem a : universe) {
             count++;
@@ -195,7 +197,5 @@ public class SpaceTrader extends Application {
             finalCommand = in.nextLine();
         } while(finalCommand != "stop");
     }
-    
-
     
 }

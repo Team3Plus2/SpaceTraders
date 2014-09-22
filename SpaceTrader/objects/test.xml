@@ -16,11 +16,11 @@ and open the template in the editor.
         <f1>324</f1>
         <f2>Jimblob</f2>
         <f3>31.0054</f3>        
-        <f3>45.04</f3>
     </lolcats>
     <tstblob>
         <f1>1012313</f1>
-        <f2>Popeye</f2>
         <f3>324243234.0</f3>
+        <f4>45.04</f4>
+        <tech>3</tech>
     </tstblob>
 </root>

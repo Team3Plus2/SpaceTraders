@@ -133,13 +133,6 @@ public class SpaceTrader extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        XMLReader reader = new XMLReader(DummyXMLObject.class, "test.xml");
-        ArrayList<DummyXMLObject> objects = reader.read();
-        
-        for(DummyXMLObject obj : objects) {
-            obj.print();
-        }
-        
         launch(args);
     }
     
@@ -147,6 +140,19 @@ public class SpaceTrader extends Application {
         return newPlayer;
     }
     
+    /**
+     * Simple example call of xml reader to help demonstrate how to interface with the xml reader.
+     * See DummyXMLObject.java and objects/test.xml(look in the files tab) for the complete view of
+     * how to construct objects and xml files that will interface and be parsed by the XMLReader class.
+     */
+    public static void ExampleXMLReaderAPI() {
+        XMLReader reader = new XMLReader(DummyXMLObject.class, "objects/test.xml");
+        ArrayList<DummyXMLObject> objects = reader.read();
+        
+        for(DummyXMLObject obj : objects) {
+            obj.print();
+        }
+    }
     
     /**
      * Prettyish command-prompt interface with the universe to demonstrate how simple it is

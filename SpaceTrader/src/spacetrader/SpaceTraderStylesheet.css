@@ -53,6 +53,10 @@ and open the template in the editor.
     -fx-background-image: url('../visuals/WelcomeScreenBackground.png');
 }
 
+#StarBackdrop {
+    -fx-background-image: url('../visuals/StarBackdrop.png');
+}
+
 .button {
     -fx-font-family: "LVDC Common2";
     -fx-background-image: url('../visuals/Button.png');

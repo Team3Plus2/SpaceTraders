@@ -110,7 +110,8 @@ public class Universe implements Iterable<SolarSystem>{
         rand = new Random();
         Space = new SparseSpace();
         this.spread = spread;
-        generateAround(0,0, width);
+        generateInPosXDirection(0,0, width/2, width/2);
+        generateinNegXDirection(0,-1, width/2, width/2);
     }
     
     public Universe(int width, float spread) {
@@ -122,15 +123,59 @@ public class Universe implements Iterable<SolarSystem>{
     }
     
     /**
-     * Generates an area of the given width around the given coordinates
+     * Generates an area of the given height past the given x
      * 
      * @param x The x coordinate
-     * @param y The y coordinate
      * @param width The width of the area to generate
      */
-    public void generateAround(int x, int y, int width) {
-        for(int i = x - width/2; i <= x + width/2; i++) {
-            for(int j = y - width/2; j <= y + width/2; j++) {
+    public void generateInPosXDirection(int x, int y, int height, int length) {
+        for(int i = x; i <= x + length; i++) {
+            for(int j = y - height/2; j <= y + height/2; j++) {
+                if(canPlaceSystemAt(i,j) && rand.nextFloat() < spread)
+                    Space.insert(i, j, new SolarSystem(rand));
+            }
+        }
+    }
+    
+    /**
+     * Generates an area of the given height past the given x
+     * 
+     * @param x The x coordinate
+     * @param width The width of the area to generate
+     */
+    public void generateinPosYDirection(int x, int y, int width, int length) {
+        for(int i = y; i <= y + length; i++) {
+            for(int j = x - width/2; j <= x + width/2; j++) {
+                if(canPlaceSystemAt(i,j) && rand.nextFloat() < spread)
+                    Space.insert(i, j, new SolarSystem(rand));
+            }
+        }
+    }
+    
+    /**
+     * Generates an area of the given height past the given x
+     * 
+     * @param x The x coordinate
+     * @param width The width of the area to generate
+     */
+    public void generateinNegXDirection(int x, int y, int width, int length) {
+        for(int i = y; i >= y - length; i--) {
+            for(int j = x - width/2; j <= x + width/2; j++) {
+                if(canPlaceSystemAt(i,j) && rand.nextFloat() < spread)
+                    Space.insert(i, j, new SolarSystem(rand));
+            }
+        }
+    }
+    
+    /**
+     * Generates an area of the given height past the given x
+     * 
+     * @param x The x coordinate
+     * @param width The width of the area to generate
+     */
+    public void generateinNegYDirection(int x, int y, int width, int length) {
+        for(int i = y; i >= y - length; i--) {
+            for(int j = x - width/2; j <= x + width/2; j++) {
                 if(canPlaceSystemAt(i,j) && rand.nextFloat() < spread)
                     Space.insert(i, j, new SolarSystem(rand));
             }

@@ -8,9 +8,11 @@ import java.util.NoSuchElementException;
 
 
 /**
- * Array is unbounded
+ * This is a simple sparse array implementation, shouldn't really need any
+ * further modifications
  * 
- * Uses a embedded HashMap
+ * Array is unbounded and uses an embedded HashMap
+ * 
  * 
  * @author Alex
  */
@@ -67,11 +69,29 @@ public class SparseSpace implements Iterable<SolarSystem> {
         return ymap.get(y);
     }
     
+    /**
+     * Returns an iterator that will go from the bottom leftmost generated solarsystem
+     * to the upper rightmost solar system or, more concisely put, will iterate row by row
+     * across the box defined by the corners (xMin, yMin), (xMax, yMax)
+     * 
+     * @return an iterator that will behave as described above
+     */
     @Override
     public Iterator<SolarSystem> iterator() {
         return new SparseIterator(this, xMin, yMin, xMax, yMax);
     }
     
+    /**
+     * 
+     * Iterate from x0 and y0 to x1 and y1
+     * 
+     * @precondition x0 < x1 and y0 < y1
+     * @param x0 lower left x coordinate
+     * @param y0 lower left y coordinate
+     * @param x1 upper right x coordinate
+     * @param y1 upper right y coordinate
+     * @return Iterator which will iterate row by row from the bottom left point to the upper right point (as a box defined by the points)
+     */
     public Iterator<SolarSystem> iterateFrom(int x0, int y0, int x1, int y1) {
         return new SparseIterator(this, x0, y0, x1, y1);
     }
@@ -116,6 +136,22 @@ class SparseIterator implements Iterator<SolarSystem> {
         this.startX = fromX;
         this.toX = toX;
         this.toY = toY;
+    }
+    
+    /**
+     * 
+     * @return the x coordinate of current SolarSystem
+     */
+    public int getX() {
+        return currX;
+    }
+    
+    /**
+     * 
+     * @return the y coordinate of the current SolarSystem
+     */
+    public int getY() {
+        return currY;
     }
     
     @Override

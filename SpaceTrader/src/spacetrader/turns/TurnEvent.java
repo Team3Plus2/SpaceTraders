@@ -14,12 +14,20 @@ public class TurnEvent {
         
     private static int turn = 0;
     
+    /**
+     * Register the provided listener with the TurnEvent
+     * 
+     * @param listener listener to register
+     */
     public static void RegisterListener(TurnListener listener) {
         if(listeners == null)
             listeners = new ArrayList<TurnListener>();
         listeners.add(listener);
     }
     
+    /**
+     * Calls handleNextTurn() for all TurnListeners registered
+     */
     public static void NextTurn() {
         turn++;
         for(TurnListener listener : listeners) {

@@ -7,6 +7,7 @@ import java.util.NoSuchElementException;
 import java.util.Random;
 import spacetrader.turns.TurnListener;
 import spacetrader.turns.TurnEvent;
+import spacetrader.xml.FromXML;
 
 /**
  *
@@ -27,7 +28,9 @@ public class Universe implements Iterable<SolarSystem>, TurnListener{
     private static final float DEFAULT_DOUBLE_LETER_CHANCE = 0.2f;
     
     private SparseSpace Space;
+    @FromXML
     private float spread;
+    @FromXML
     private Random rand;
     
     /**

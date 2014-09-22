@@ -6,6 +6,7 @@
 
 package spacetrader;
 
+import spacetrader.xml.XMLReader;
 import spacetrader.turns.TurnEvent;
 import java.io.IOException;
 import javafx.util.Duration;
@@ -130,13 +131,7 @@ public class SpaceTrader extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        //ExampleUniverseAPI();
-        Universe universe = new Universe();
-        TurnEvent.RegisterListener(universe);
-        for(int i = 0; i < 200; i++) {
-            TurnEvent.NextTurn();
-        }
-        
+        new XMLReader(Universe.class, "");        
         launch(args);
     }
     

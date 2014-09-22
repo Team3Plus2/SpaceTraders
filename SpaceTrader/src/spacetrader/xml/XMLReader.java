@@ -1,6 +1,8 @@
 package spacetrader.xml;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Parameter;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,11 +33,15 @@ public class XMLReader<T> {
     }
     
     public ArrayList<T> read() {
-        ArrayList<Field> fields = new ArrayList<Field>();
+        ArrayList<Field> settableFields = new ArrayList<Field>();
         for(Field field : type.getDeclaredFields()) {
             if(field.getAnnotation(FromXML.class) != null)
-                fields.add(field);
+                settableFields.add(field);
         }
+        
+        /*ArrayList<Constructor> constructors = new ArrayList<Constructor>();
+        for(Constructor a : type.getConstructors())
+            constructors.add(a);*/
         
         ArrayList<T> list = new ArrayList<T>();
         
@@ -65,10 +71,49 @@ public class XMLReader<T> {
             
             if(node.getNodeType() == Node.ELEMENT_NODE) {
                 Element elem = (Element) node;
-                
-                for(Field field : fields) {
-                    
+                T item = null;
+                try {
+                    item = (T)type.newInstance();
+                } catch(InstantiationException excep) {
+                    System.err.println("Error creating item to return from xml read... see message:");
+                    System.err.println(excep.getMessage());
+                } catch(IllegalAccessException excep) {
+                    System.err.println("Error creating item to return from xml read... see message:");
+                    System.err.println(excep.getMessage());
                 }
+                
+                //read constructor data
+                /*for(Constructor a : constructors) {
+                    for(Parameter param : a.getParameters()) {
+                        param.
+                    }
+                }*/
+                
+                for(Field field : settableFields) {
+                    try {
+                        field.setAccessible(true);
+                        String rawValue = elem.getElementsByTagName(field.getName()).item(0).getChildNodes().item(0).getNodeValue();
+                        if(field.getType() == Integer.TYPE) {
+                            field.set(item, Integer.valueOf(rawValue));
+                        } else if(field.getType() == Double.TYPE) {
+                            field.set(item, Double.valueOf(rawValue));
+                        } else {
+                            field.set(item, rawValue);
+                        }
+                        //field.set(item, value);
+                        field.setAccessible(false);
+                    } catch(IllegalAccessException excep) {
+                        System.err.println("Error setting fields in created item to return from xml... see message:");
+                        System.err.println(excep.getMessage());
+                    } catch(IllegalArgumentException except) {
+                        System.err.println("Error reading value from xml into object- type mismatch");
+                        throw except;
+                    }  catch(ClassCastException except) {
+                        System.err.println("Error converting value from xml into field type");
+                        throw except;
+                    }
+                }
+                list.add(item);
             }
         }
         

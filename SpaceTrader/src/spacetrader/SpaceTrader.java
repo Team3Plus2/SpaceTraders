@@ -25,7 +25,9 @@ import javafx.stage.Stage;
 import spacetrader.cosmos.Universe;
 import spacetrader.cosmos.system.SolarSystem;
 import spacetrader.cosmos.system.Planet;
+import spacetrader.xml.DummyXMLObject;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Random;
 
@@ -131,7 +133,13 @@ public class SpaceTrader extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        new XMLReader(Universe.class, "");        
+        XMLReader reader = new XMLReader(DummyXMLObject.class, "test.xml");
+        ArrayList<DummyXMLObject> objects = reader.read();
+        
+        for(DummyXMLObject obj : objects) {
+            obj.print();
+        }
+        
         launch(args);
     }
     

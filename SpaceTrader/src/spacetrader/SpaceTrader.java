@@ -145,6 +145,9 @@ public class SpaceTrader extends Application {
      */
     public static void ExampleUniverseAPI() {
         Universe universe = new Universe(100, 0.4f);
+        System.out.println(universe.canGenerateAround(130, 50, 10));
+        universe.generateAround(130, 50, 10);
+        System.out.println(universe.canGenerateAround(130, 50, 10));
         int count = 0;
         for(SolarSystem a : universe) {
             count++;

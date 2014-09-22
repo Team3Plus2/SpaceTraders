@@ -5,12 +5,19 @@ import java.lang.Iterable;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Random;
+import spacetrader.turns.TurnListener;
+import spacetrader.turns.TurnEvent;
+import spacetrader.xml.FromXML;
 
 /**
  *
+ * The universe class stores stores all solar systems and provides all needed API for the frontend
+ * aspects of the app to generate and display the universe.
+ * 
+ * 
  * @author Alex
  */
-public class Universe implements Iterable<SolarSystem>{
+public class Universe implements Iterable<SolarSystem>, TurnListener{
     
     private static final int MEANING = 42;//Also applies to life and everything
     private static final int DEFAULT_INIT_WIDTH = 100;
@@ -21,8 +28,10 @@ public class Universe implements Iterable<SolarSystem>{
     private static final float DEFAULT_DOUBLE_LETER_CHANCE = 0.2f;
     
     private SparseSpace Space;
+    @FromXML
     private float spread;
-    private Random rand;    
+    @FromXML
+    private Random rand;
     
     /**
      * Generate a random name
@@ -106,7 +115,8 @@ public class Universe implements Iterable<SolarSystem>{
         rand = new Random();
         Space = new SparseSpace();
         this.spread = spread;
-        generateAround(0,0, width);
+        generateInPosXDirection(0,0, width/2, width/2);
+        generateinNegXDirection(0,-1, width/2, width/2);
     }
     
     public Universe(int width, float spread) {
@@ -118,15 +128,59 @@ public class Universe implements Iterable<SolarSystem>{
     }
     
     /**
-     * Generates an area of the given width around the given coordinates
+     * Generates an area of the given height past the given x
      * 
      * @param x The x coordinate
-     * @param y The y coordinate
      * @param width The width of the area to generate
      */
-    public void generateAround(int x, int y, int width) {
-        for(int i = x - width/2; i <= x + width/2; i++) {
-            for(int j = y - width/2; j <= y + width/2; j++) {
+    public void generateInPosXDirection(int x, int y, int height, int length) {
+        for(int i = x; i <= x + length; i++) {
+            for(int j = y - height/2; j <= y + height/2; j++) {
+                if(canPlaceSystemAt(i,j) && rand.nextFloat() < spread)
+                    Space.insert(i, j, new SolarSystem(rand));
+            }
+        }
+    }
+    
+    /**
+     * Generates an area of the given height past the given x
+     * 
+     * @param x The x coordinate
+     * @param width The width of the area to generate
+     */
+    public void generateinPosYDirection(int x, int y, int width, int length) {
+        for(int i = y; i <= y + length; i++) {
+            for(int j = x - width/2; j <= x + width/2; j++) {
+                if(canPlaceSystemAt(i,j) && rand.nextFloat() < spread)
+                    Space.insert(i, j, new SolarSystem(rand));
+            }
+        }
+    }
+    
+    /**
+     * Generates an area of the given height past the given x
+     * 
+     * @param x The x coordinate
+     * @param width The width of the area to generate
+     */
+    public void generateinNegXDirection(int x, int y, int width, int length) {
+        for(int i = y; i >= y - length; i--) {
+            for(int j = x - width/2; j <= x + width/2; j++) {
+                if(canPlaceSystemAt(i,j) && rand.nextFloat() < spread)
+                    Space.insert(i, j, new SolarSystem(rand));
+            }
+        }
+    }
+    
+    /**
+     * Generates an area of the given height past the given x
+     * 
+     * @param x The x coordinate
+     * @param width The width of the area to generate
+     */
+    public void generateinNegYDirection(int x, int y, int width, int length) {
+        for(int i = y; i >= y - length; i--) {
+            for(int j = x - width/2; j <= x + width/2; j++) {
                 if(canPlaceSystemAt(i,j) && rand.nextFloat() < spread)
                     Space.insert(i, j, new SolarSystem(rand));
             }
@@ -143,15 +197,50 @@ public class Universe implements Iterable<SolarSystem>{
         return true;
     }
     
+    public boolean canGenerateAround(int x, int y, int width) {
+        for(int i = x - width/2; i <= x + width/2; i++) {
+            for(int j = y - width/2; j <= y + width/2; j++) {
+                if(Space.get(i,j) != null)
+                    return false;
+            }
+        }
+        return true;
+    }
+    
     public SolarSystem getSolarSystem(int x, int y) {
         return Space.get(x, y);
     }
     
     @Override
+    public void handleNextTurn() {
+        System.out.println("Turn: " + TurnEvent.getTurn());
+    }
+    
+    /**
+     * Returns an iterator that will go from the bottom leftmost generated solarsystem
+     * to the upper rightmost solar system or, more concisely put, will iterate row by row
+     * across the box defined by the corners (xMin, yMin), (xMax, yMax)
+     * 
+     * This can be used to draw a picture of the entire generated universe
+     * 
+     * @return an iterator that will behave as described above
+     */
+    @Override
     public Iterator<SolarSystem> iterator() {
         return Space.iterator();
     }
     
+    /**
+     * 
+     * Iterate from x0 and y0 to x1 and y1
+     * 
+     * @precondition x0 < x1 and y0 < y1
+     * @param x0 lower left x coordinate
+     * @param y0 lower left y coordinate
+     * @param x1 upper right x coordinate
+     * @param y1 upper right y coordinate
+     * @return Iterator which will iterate row by row from the bottom left point to the upper right point (as a box defined by the points)
+     */
     public Iterator<SolarSystem> iterateFrom(int x0, int y0, int x1, int y1) {
         return Space.iterateFrom(x0, y0, x1, y1);
     }

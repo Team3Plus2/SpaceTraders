@@ -7,6 +7,8 @@
 package spacetrader;
 
 import spacetrader.cosmos.player.Player;
+import spacetrader.xml.XMLReader;
+import spacetrader.turns.TurnEvent;
 import java.io.IOException;
 import javafx.util.Duration;
 import javafx.animation.KeyFrame;
@@ -24,7 +26,9 @@ import javafx.stage.Stage;
 import spacetrader.cosmos.Universe;
 import spacetrader.cosmos.system.SolarSystem;
 import spacetrader.cosmos.system.Planet;
+import spacetrader.xml.DummyXMLObject;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Random;
 
@@ -130,7 +134,6 @@ public class SpaceTrader extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        //ExampleUniverseAPI();
         launch(args);
     }
     
@@ -138,6 +141,19 @@ public class SpaceTrader extends Application {
         return newPlayer;
     }
     
+    /**
+     * Simple example call of xml reader to help demonstrate how to interface with the xml reader.
+     * See DummyXMLObject.java and objects/test.xml(look in the files tab) for the complete view of
+     * how to construct objects and xml files that will interface and be parsed by the XMLReader class.
+     */
+    public static void ExampleXMLReaderAPI() {
+        XMLReader reader = new XMLReader(DummyXMLObject.class, "objects/test.xml");
+        ArrayList<DummyXMLObject> objects = reader.read();
+        
+        for(DummyXMLObject obj : objects) {
+            obj.print();
+        }
+    }
     
     /**
      * Prettyish command-prompt interface with the universe to demonstrate how simple it is
@@ -146,6 +162,9 @@ public class SpaceTrader extends Application {
      */
     public static void ExampleUniverseAPI() {
         Universe universe = new Universe(100, 0.4f);
+        System.out.println(universe.canGenerateAround(130, 50, 10));
+        //universe.generateAround(130, 50, 10);
+        //System.out.println(universe.canGenerateAround(130, 50, 10));
         int count = 0;
         for(SolarSystem a : universe) {
             count++;
@@ -193,7 +212,5 @@ public class SpaceTrader extends Application {
             finalCommand = in.nextLine();
         } while(finalCommand != "stop");
     }
-    
-
     
 }

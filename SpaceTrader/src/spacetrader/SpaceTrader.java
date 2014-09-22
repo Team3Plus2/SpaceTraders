@@ -6,6 +6,7 @@
 
 package spacetrader;
 
+import spacetrader.cosmos.player.Player;
 import java.io.IOException;
 import javafx.util.Duration;
 import javafx.animation.KeyFrame;

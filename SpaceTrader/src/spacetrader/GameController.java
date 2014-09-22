@@ -19,6 +19,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import spacetrader.cosmos.Universe;
+import spacetrader.cosmos.player.Player;
 import spacetrader.cosmos.system.SolarSystem;
 
 /**

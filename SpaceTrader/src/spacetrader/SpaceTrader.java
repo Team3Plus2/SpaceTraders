@@ -91,7 +91,7 @@ public class SpaceTrader extends Application {
     public void goToGame(Player newPlayer) {
         try {
             this.newPlayer = newPlayer;
-            this.universe = new Universe(100, 0.1f);
+            this.universe = new Universe(100, 0.01f);
             loadNewScreen("Game.fxml");
         } catch(IOException e) {
             e.printStackTrace();
@@ -131,12 +131,6 @@ public class SpaceTrader extends Application {
      */
     public static void main(String[] args) {
         //ExampleUniverseAPI();
-        Universe universe = new Universe();
-        TurnEvent.RegisterListener(universe);
-        for(int i = 0; i < 200; i++) {
-            TurnEvent.NextTurn();
-        }
-        
         launch(args);
     }
     

@@ -60,6 +60,22 @@ public class Universe implements Iterable<SolarSystem>, TurnListener{
         return name;
     }
     
+    public int xMin() {
+        return Space.xMin();
+    }
+    
+    public int xMax() {
+        return Space.xMax();
+    }
+    
+    public int yMin() {
+        return Space.yMin();
+    }
+    
+    public int yMax() {
+        return Space.yMax();
+    }
+    
     /**
      * Helper method for the GenerateName function
      * 
@@ -206,6 +222,43 @@ public class Universe implements Iterable<SolarSystem>, TurnListener{
     
     public SolarSystem getSolarSystem(int x, int y) {
         return Space.get(x, y);
+    }
+    
+    public SolarSystem getClosestSolarSystem(int x, int y, int rad) {
+        SolarSystem found = null;
+        if(Space.get(x, y) != null) {
+            found = Space.get(x, y);
+        } else {
+            int radius = 1;
+            while (found == null && radius < rad) {
+                if (Space.get(x + radius, y + radius) != null) {
+                    found = Space.get(x + radius, y + radius);
+                }
+                else if (Space.get(x - radius, y + radius) != null) {
+                    found = Space.get(x - radius, y + radius);
+                }
+                else if (Space.get(x + radius, y - radius) != null) {
+                    found = Space.get(x + radius, y - radius);
+                }
+                else if (Space.get(x - radius, y - radius) != null) {
+                    found = Space.get(x - radius, y - radius);
+                }
+                else if (Space.get(x, y - radius) != null) {
+                    found = Space.get(x, y - radius);
+                }
+                else if (Space.get(x, y + radius) != null) {
+                    found = Space.get(x, y + radius);
+                }
+                else if (Space.get(x + radius, y) != null) {
+                    found = Space.get(x + radius, y);
+                }
+                else if (Space.get(x - radius, y) != null) {
+                    found = Space.get(x - radius, y);
+                }
+                radius++;
+            }
+        }
+        return found;
     }
     
     @Override

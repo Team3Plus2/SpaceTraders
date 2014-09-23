@@ -5,7 +5,9 @@
  */
 package spacetrader;
 
+import java.awt.Point;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -16,8 +18,8 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-import javafx.scene.layout.Pane;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import spacetrader.cosmos.Universe;
 import spacetrader.cosmos.system.SolarSystem;
@@ -56,11 +58,15 @@ public class GameController implements Initializable {
     @FXML
     private Slider zoomSlider;
     
+    private HashMap<Point, SolarSystem> solarSystemLocations;
+    
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        solarSystemLocations = new HashMap<>();
+        
         //adds listener for the zoom slider
         zoomSlider.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
@@ -103,6 +109,18 @@ public class GameController implements Initializable {
         preDragX = event.getX();
         preDragY = event.getY();
         checkClick(event);
+    }
+    
+    @FXML
+    private void mouseMove(MouseEvent event) {
+        //SolarSystem mouseOver = universe.getClosestSolarSystem((int)((event.getX() - (515 - mapOffsetX))/zoom + mapOffsetX), (int)((event.getY() - 35)/zoom - 1), 2);
+        SolarSystem mouseOver = solarSystemLocations.get(new Point((int) event.getX(), (int) event.getY()));
+        if(mouseOver != null) {
+            drawUniverse();
+            g.fillText(mouseOver.Name() + ": " + (int)((event.getX() - (515 - mapOffsetX))/zoom + mapOffsetX) + " (" + event.getX() + "), " + (int)(((event.getY() - 35)/zoom) - 1) + " (" + event.getY() + ")", event.getX(), event.getY());
+        } else {
+            drawUniverse();
+        }
     }
     
     /**
@@ -166,7 +184,7 @@ public class GameController implements Initializable {
         if(!dragging) {
             starBackdrop.setTranslateX(-mapOffsetX * 2);
             starBackdrop.setTranslateY(-mapOffsetY * 2);
-            int x = -50, y = -50;
+            int x = universe.xMin(), y = universe.yMin();
             for (SolarSystem a : universe) {
                 if(a != null) {
                     switch(a.SunType()) {
@@ -189,21 +207,23 @@ public class GameController implements Initializable {
                             g.setFill(Color.WHITE);
                             break;
                     }
-                    g.fillOval(((x - mapOffsetX) * zoom) + 512, ((y - mapOffsetY) * zoom) + 288, zoom, zoom);
+                    solarSystemLocations.put(new Point((int) (((x - mapOffsetX) * zoom) + (512 - mapOffsetX)), (int) (((y - mapOffsetY) * zoom) + (288 - mapOffsetY))), a);
+                    g.fillOval(((x - mapOffsetX) * zoom) + (512 - mapOffsetX), ((y - mapOffsetY) * zoom) + (288 - mapOffsetY), (zoom / 2) + a.Planets().length, (zoom / 2) + a.Planets().length);
                     g.setFill(Color.WHITE);
+                    //g.fillText(a.Name() + ": " + x + " (" + (int)(((x - mapOffsetX) * zoom) + (512 - mapOffsetX)) + ") " + y + " (" + (int)(((y - mapOffsetY) * zoom) + (288 - mapOffsetY)) + ")", ((x - mapOffsetX) * zoom) + (512 - mapOffsetX), ((y - mapOffsetY) * zoom) + (288 - mapOffsetY));
                                     
                 }
-                if (x < 50) {
+                if (x < universe.xMax()) {
                     x++;
                 } else {
-                    x = -50;
+                    x = universe.xMin();
                     y++;
                 }
             }
         } else {
             starBackdrop.setTranslateX((- dragOffsetX - mapOffsetX) * 2);
             starBackdrop.setTranslateY((- dragOffsetY - mapOffsetY) * 2);
-            int x = -50, y = -50;
+            int x = universe.xMin(), y = universe.yMin();
             for (SolarSystem a : universe) {
                 if(a != null) {
                     switch(a.SunType()) {
@@ -226,13 +246,13 @@ public class GameController implements Initializable {
                             g.setFill(Color.WHITE);
                             break;
                     }
-                    g.fillOval(((x - dragOffsetX - mapOffsetX) * zoom) + 512, ((y - dragOffsetY - mapOffsetY) * zoom) + 288, zoom, zoom);
+                    g.fillOval(((x - dragOffsetX - mapOffsetX) * zoom) + (512 - mapOffsetX - dragOffsetX), ((y - dragOffsetY - mapOffsetY) * zoom) + (288 - mapOffsetY - dragOffsetY), (zoom / 2) + a.Planets().length, (zoom / 2) + a.Planets().length);
                     g.setFill(Color.WHITE);
                 }
-                if (x < 50) {
+                if (x < universe.xMax()) {
                     x++;
                 } else {
-                    x = -50;
+                    x = universe.xMin();
                     y++;
                 }
             }

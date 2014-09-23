@@ -7,8 +7,10 @@ package spacetrader;
 
 import java.awt.Point;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.ResourceBundle;
+import java.util.Set;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -51,7 +53,7 @@ public class GameController implements Initializable {
     
     private double mapOffsetX = 0, mapOffsetY = 0;
     
-    private boolean dragging = false;
+    private boolean dragging = false, dragFinished = true;
     
     @FXML
     private Canvas gameCanvas;
@@ -60,6 +62,8 @@ public class GameController implements Initializable {
     private Slider zoomSlider;
     
     private HashMap<Point, SolarSystem> solarSystemLocations;
+    
+    private SolarSystem selectedSolarSystem;
     
     /**
      * Initializes the controller class.
@@ -73,6 +77,7 @@ public class GameController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 zoom = (float)zoomSlider.getValue() + 1;
+                dragFinished = true;
                 drawUniverse();
             }
         
@@ -109,16 +114,34 @@ public class GameController implements Initializable {
     private void mouseDown(MouseEvent event) {
         preDragX = event.getX();
         preDragY = event.getY();
-        checkClick(event);
+    }
+    
+    private SolarSystem findClosestSolarSystem(Point p) {
+        SolarSystem forreturn = solarSystemLocations.get(p);
+        if(forreturn == null) {
+            Point[] points = new Point[solarSystemLocations.keySet().size()];
+            solarSystemLocations.keySet().toArray(points);
+            Point closest = points[0];
+            for(Point test : points) {
+                if(closest.distance(p.x, p.y) > test.distance(p.x, p.y)) {
+                    closest = test;
+                }
+            }
+            if(closest.distance(p.x, p.y) < 5) {
+                forreturn = solarSystemLocations.get(closest);
+            }
+        }
+        return forreturn;
     }
     
     @FXML
     private void mouseMove(MouseEvent event) {
-        //SolarSystem mouseOver = universe.getClosestSolarSystem((int)((event.getX() - (515 - mapOffsetX))/zoom + mapOffsetX), (int)((event.getY() - 35)/zoom - 1), 2);
-        SolarSystem mouseOver = solarSystemLocations.get(new Point((int) event.getX(), (int) event.getY()));
+        SolarSystem mouseOver = findClosestSolarSystem(new Point((int) event.getX() - 5, (int) event.getY() - 5));
         if(mouseOver != null) {
             drawUniverse();
-            g.fillText(mouseOver.Name() + ": " + (int)((event.getX() - (515 - mapOffsetX))/zoom + mapOffsetX) + " (" + event.getX() + "), " + (int)(((event.getY() - 35)/zoom) - 1) + " (" + event.getY() + ")", event.getX(), event.getY());
+            //Point p = getSolarSystemCoords(mouseOver);
+            g.setStroke(Color.WHITE);
+            g.strokeOval(event.getX() - 15, event.getY() - 15, 30, 30);
         } else {
             drawUniverse();
         }
@@ -131,14 +154,23 @@ public class GameController implements Initializable {
     @FXML
     private void mouseDrag(MouseEvent event) {
         dragging = true;
-        System.out.println("preDragOffset: " + preDragX + ", " + preDragY);
+        //System.out.println("preDragOffset: " + preDragX + ", " + preDragY);
         double tempX = event.getX();
         double tempY = event.getY();
-        System.out.println("tempX: " + tempX + ", " + tempY);
+        //System.out.println("tempX: " + tempX + ", " + tempY);
         dragOffsetX = (preDragX - tempX)/zoom;
         dragOffsetY = (preDragY - tempY)/zoom;
-        System.out.println("Drag Offset: " + dragOffsetX + ", " + dragOffsetY);
+        //System.out.println("Drag Offset: " + dragOffsetX + ", " + dragOffsetY);
         drawUniverse();
+    }
+    
+    private Point getSolarSystemCoords(SolarSystem s) {
+        for (Point p : solarSystemLocations.keySet()) {
+            if(solarSystemLocations.get(p).equals(s)) {
+                return p;
+            }
+        }
+        return null;
     }
     
     /**
@@ -151,12 +183,12 @@ public class GameController implements Initializable {
             mapOffsetX += dragOffsetX;
             mapOffsetY += dragOffsetY;
             dragging = false;
+            dragFinished = true;
             drawUniverse();
         }
         if(mapOffsetX > 100) {
             
         }
-        checkClick(event);
     }
     
     /**
@@ -164,11 +196,10 @@ public class GameController implements Initializable {
      * @param event contains info about where the mouse was clicked
      */
     private void checkClick(MouseEvent event) {
-        SolarSystem clicked = universe.getSolarSystem((int)(((event.getX())/zoom) + mapOffsetX - 50), (int)(((event.getY())/zoom) + mapOffsetY - 50));
-        System.out.println((int)(((event.getX())/zoom) + mapOffsetX - 50) + ", " + (int)(((event.getY())/zoom) + mapOffsetY - 50) + " " + clicked);
-        if(clicked != null) {
+        SolarSystem mouseOver = findClosestSolarSystem(new Point((int) event.getX() - 5, (int) event.getY() - 5));
+        if(mouseOver != null) {
+            selectedSolarSystem = mouseOver;
             drawUniverse();
-            g.fillText(clicked.Name() + ": " + (int)(((event.getX())/zoom) + mapOffsetX - 50) + ", " + (int)(((event.getY())/zoom) + mapOffsetY - 50), event.getX(), event.getY());
         }
     }
     
@@ -176,6 +207,7 @@ public class GameController implements Initializable {
      * Helper method that draws universe based on map offset and scale
      */
     private void drawUniverse() {
+        int tempSelectedX = 0, tempSelectedY = 0;
         //sets scale of star backdrop
         starBackdrop.setScaleX(zoom/5);
         starBackdrop.setScaleY(zoom/5);
@@ -193,7 +225,7 @@ public class GameController implements Initializable {
                             g.setFill(Color.BLUE);
                             break;
                         case BLACK_HOLE:
-                            g.setFill(Color.BLACK);
+                            g.setFill(Color.VIOLET);
                             break;
                         case PROTO:
                             g.setFill(Color.PINK);
@@ -208,11 +240,15 @@ public class GameController implements Initializable {
                             g.setFill(Color.WHITE);
                             break;
                     }
-                    solarSystemLocations.put(new Point((int) (((x - mapOffsetX) * zoom) + (512 - mapOffsetX)), (int) (((y - mapOffsetY) * zoom) + (288 - mapOffsetY))), a);
+                    if(dragFinished) {
+                        solarSystemLocations.put(new Point((int) (((x - mapOffsetX) * zoom) + (512 - mapOffsetX)), (int) (((y - mapOffsetY) * zoom) + (288 - mapOffsetY))), a);
+                    }
                     g.fillOval(((x - mapOffsetX) * zoom) + (512 - mapOffsetX), ((y - mapOffsetY) * zoom) + (288 - mapOffsetY), (zoom / 2) + a.Planets().length, (zoom / 2) + a.Planets().length);
                     g.setFill(Color.WHITE);
-                    //g.fillText(a.Name() + ": " + x + " (" + (int)(((x - mapOffsetX) * zoom) + (512 - mapOffsetX)) + ") " + y + " (" + (int)(((y - mapOffsetY) * zoom) + (288 - mapOffsetY)) + ")", ((x - mapOffsetX) * zoom) + (512 - mapOffsetX), ((y - mapOffsetY) * zoom) + (288 - mapOffsetY));
-                                    
+                    if(a.equals(selectedSolarSystem)) {
+                        tempSelectedX = (int) (((x - mapOffsetX) * zoom) + (512 - mapOffsetX));
+                        tempSelectedY = (int) (((y - mapOffsetY) * zoom) + (288 - mapOffsetY));
+                    }
                 }
                 if (x < universe.xMax()) {
                     x++;
@@ -221,6 +257,7 @@ public class GameController implements Initializable {
                     y++;
                 }
             }
+            dragFinished = false;
         } else {
             starBackdrop.setTranslateX((- dragOffsetX - mapOffsetX) * 2);
             starBackdrop.setTranslateY((- dragOffsetY - mapOffsetY) * 2);
@@ -232,7 +269,7 @@ public class GameController implements Initializable {
                             g.setFill(Color.BLUE);
                             break;
                         case BLACK_HOLE:
-                            g.setFill(Color.BLACK);
+                            g.setFill(Color.VIOLET);
                             break;
                         case PROTO:
                             g.setFill(Color.PINK);
@@ -249,6 +286,10 @@ public class GameController implements Initializable {
                     }
                     g.fillOval(((x - dragOffsetX - mapOffsetX) * zoom) + (512 - mapOffsetX - dragOffsetX), ((y - dragOffsetY - mapOffsetY) * zoom) + (288 - mapOffsetY - dragOffsetY), (zoom / 2) + a.Planets().length, (zoom / 2) + a.Planets().length);
                     g.setFill(Color.WHITE);
+                    if(a.equals(selectedSolarSystem)) {
+                        tempSelectedX = (int) (((x - dragOffsetX - mapOffsetX) * zoom) + (512 - dragOffsetX - mapOffsetX));
+                        tempSelectedY = (int) (((y - dragOffsetY - mapOffsetY) * zoom) + (288 - dragOffsetY - mapOffsetY));
+                    }
                 }
                 if (x < universe.xMax()) {
                     x++;
@@ -258,7 +299,22 @@ public class GameController implements Initializable {
                 }
             }
         }
+        if(selectedSolarSystem != null) {
+            g.setFill(Color.BLACK);
+            g.fillRect(tempSelectedX + 4, tempSelectedY - 10, longestLine(selectedSolarSystem.toString()) * 8, selectedSolarSystem.toString().split("\n").length * 15);
+            g.setFill(Color.WHITE);
+            g.fillText(selectedSolarSystem.toString(), tempSelectedX + 5, tempSelectedY);
+        }
     }
     
-    
+    private int longestLine(String s) {
+        String[] strings = s.split("\n");
+        int longest = strings[0].length();
+        for (int i = 0; i < strings.length; i++) {
+            if(strings[i].length() > longest) {
+                longest = strings[i].length();
+            }
+        }
+        return longest;
+    }
 }

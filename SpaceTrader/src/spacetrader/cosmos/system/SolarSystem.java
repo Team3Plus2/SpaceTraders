@@ -69,6 +69,10 @@ public class SolarSystem {
     
     @Override
     public String toString() {
-        return name;
+        String forreturn = name + ":\n-----";
+        for(int i = 0; i < planets.length; i++) {
+            forreturn = forreturn + planets[i];
+        }
+        return forreturn;
     }
 }

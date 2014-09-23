@@ -42,4 +42,8 @@ public class Planet {
     public String Name() {
         return name;
     }
+    
+    public String toString() {
+        return "\n" + name + ": " + resources;
+    }
 }

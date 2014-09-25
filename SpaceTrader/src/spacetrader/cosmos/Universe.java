@@ -1,13 +1,16 @@
 package spacetrader.cosmos;
 
-import spacetrader.cosmos.system.SolarSystem;
+import java.awt.Point;
 import java.lang.Iterable;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Random;
+import spacetrader.cosmos.system.SolarSystem;
 import spacetrader.turns.TurnListener;
 import spacetrader.turns.TurnEvent;
 import spacetrader.xml.FromXML;
+import spacetrader.cosmos.SparseSpace.SparseIterator;
 
 /**
  *
@@ -28,6 +31,7 @@ public class Universe implements Iterable<SolarSystem>, TurnListener{
     private static final float DEFAULT_DOUBLE_LETER_CHANCE = 0.2f;
     
     private SparseSpace Space;
+    private HashSet<Point> generated;//stores all 
     @FromXML
     private float spread;
     @FromXML
@@ -128,6 +132,7 @@ public class Universe implements Iterable<SolarSystem>, TurnListener{
      * @return A generated universe object
      */
     private void init(int width, float spread) {
+        generated = new HashSet<>();
         rand = new Random();
         Space = new SparseSpace();
         this.spread = spread;
@@ -143,17 +148,33 @@ public class Universe implements Iterable<SolarSystem>, TurnListener{
         init(DEFAULT_INIT_WIDTH, DEFAULT_INIT_SPREAD);
     }
     
+        /**
+     * Generates an area of the given width around the given coordinates
+     * 
+     * @param x The x coordinate
+     * @param y The y coordinate
+     * @param width The width of the area to generate
+     */
+    public void generateFrom(int x0, int y0, int x1, int y1) {
+        for(int i = x0; i < x1; i++) {
+            for(int j = y0; j < y1; j++) {
+               if(!isPointGenerated(i,j))
+                    generatePoint(i,j);
+            }
+        }
+    }
+    
     /**
      * Generates an area of the given height past the given x
      * 
      * @param x The x coordinate
-     * @param width The width of the area to generate
+     * @param height The width of the area to generate
      */
     public void generateInPosXDirection(int x, int y, int height, int length) {
         for(int i = x; i <= x + length; i++) {
             for(int j = y - height/2; j <= y + height/2; j++) {
-                if(canPlaceSystemAt(i,j) && rand.nextFloat() < spread)
-                    Space.insert(i, j, new SolarSystem(rand));
+                if(!isPointGenerated(i,j))
+                    generatePoint(i,j);
             }
         }
     }
@@ -167,8 +188,8 @@ public class Universe implements Iterable<SolarSystem>, TurnListener{
     public void generateinPosYDirection(int x, int y, int width, int length) {
         for(int i = y; i <= y + length; i++) {
             for(int j = x - width/2; j <= x + width/2; j++) {
-                if(canPlaceSystemAt(i,j) && rand.nextFloat() < spread)
-                    Space.insert(i, j, new SolarSystem(rand));
+                if(!isPointGenerated(i,j))
+                    generatePoint(i,j);
             }
         }
     }
@@ -182,8 +203,8 @@ public class Universe implements Iterable<SolarSystem>, TurnListener{
     public void generateinNegXDirection(int x, int y, int width, int length) {
         for(int i = y; i >= y - length; i--) {
             for(int j = x - width/2; j <= x + width/2; j++) {
-                if(canPlaceSystemAt(i,j) && rand.nextFloat() < spread)
-                    Space.insert(i, j, new SolarSystem(rand));
+                if(!isPointGenerated(i,j))
+                    generatePoint(i,j);
             }
         }
     }
@@ -197,10 +218,20 @@ public class Universe implements Iterable<SolarSystem>, TurnListener{
     public void generateinNegYDirection(int x, int y, int width, int length) {
         for(int i = y; i >= y - length; i--) {
             for(int j = x - width/2; j <= x + width/2; j++) {
-                if(canPlaceSystemAt(i,j) && rand.nextFloat() < spread)
-                    Space.insert(i, j, new SolarSystem(rand));
+                if(!isPointGenerated(i,j))
+                    generatePoint(i,j);
             }
         }
+    }
+    
+    private void generatePoint(int x, int y) {
+        if(canPlaceSystemAt(x,y) && rand.nextFloat() < spread)
+            Space.insert(x, y, new SolarSystem(rand));
+        generated.add(new Point(x,y));
+    }
+    
+    private boolean isPointGenerated(int x, int y) {
+        return generated.contains(new Point(x,y));
     }
     
     private boolean canPlaceSystemAt(int x, int y) {
@@ -279,7 +310,7 @@ public class Universe implements Iterable<SolarSystem>, TurnListener{
      * @return an iterator that will behave as described above
      */
     @Override
-    public Iterator<SolarSystem> iterator() {
+    public SparseIterator iterator() {
         return Space.iterator();
     }
     
@@ -294,7 +325,7 @@ public class Universe implements Iterable<SolarSystem>, TurnListener{
      * @param y1 upper right y coordinate
      * @return Iterator which will iterate row by row from the bottom left point to the upper right point (as a box defined by the points)
      */
-    public Iterator<SolarSystem> iterateFrom(int x0, int y0, int x1, int y1) {
+    public SparseIterator iterateFrom(int x0, int y0, int x1, int y1) {
         return Space.iterateFrom(x0, y0, x1, y1);
     }
 }

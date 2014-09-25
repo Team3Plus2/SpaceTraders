@@ -27,6 +27,7 @@ import spacetrader.cosmos.Universe;
 import spacetrader.cosmos.player.Player;
 import spacetrader.cosmos.system.SolarSystem;
 import spacetrader.cosmos.system.SunType;
+import spacetrader.cosmos.SparseSpace;
 
 /**
  * FXML Controller class
@@ -35,6 +36,8 @@ import spacetrader.cosmos.system.SunType;
  */
 public class GameController implements Initializable {
 
+    private static final int GENERATION_BUFFER = 10;
+    
     @FXML
     private Label label;
     
@@ -184,10 +187,8 @@ public class GameController implements Initializable {
             mapOffsetY += dragOffsetY;
             dragging = false;
             dragFinished = true;
-            drawUniverse();
-        }
-        if(mapOffsetX > 100) {
             
+            drawUniverse();
         }
     }
     
@@ -207,6 +208,12 @@ public class GameController implements Initializable {
      * Helper method that draws universe based on map offset and scale
      */
     private void drawUniverse() {
+        
+        Point lower = getLower();
+        Point upper = getUpper();
+
+        universe.generateFrom(lower.x, lower.y, upper.x, upper.y );
+        
         int tempSelectedX = 0, tempSelectedY = 0;
         //sets scale of star backdrop
         starBackdrop.setScaleX(zoom/5);
@@ -217,8 +224,11 @@ public class GameController implements Initializable {
         if(!dragging) {
             starBackdrop.setTranslateX(-mapOffsetX * 2);
             starBackdrop.setTranslateY(-mapOffsetY * 2);
-            int x = universe.xMin(), y = universe.yMin();
-            for (SolarSystem a : universe) {
+            //int x = universe.xMin(), y = universe.yMin();
+            for (SparseSpace.SparseIterator iter = universe.iterateFrom(lower.x, lower.y, upper.x, upper.y); iter.hasNext();) {
+                SolarSystem a = iter.next();
+                int x = iter.getX();
+                int y = iter.getY();
                 if(a != null) {
                     switch(a.SunType()) {
                         case BINARY:
@@ -250,19 +260,15 @@ public class GameController implements Initializable {
                         tempSelectedY = (int) (((y - mapOffsetY) * zoom) + (288 - mapOffsetY));
                     }
                 }
-                if (x < universe.xMax()) {
-                    x++;
-                } else {
-                    x = universe.xMin();
-                    y++;
-                }
             }
             dragFinished = false;
         } else {
             starBackdrop.setTranslateX((- dragOffsetX - mapOffsetX) * 2);
             starBackdrop.setTranslateY((- dragOffsetY - mapOffsetY) * 2);
-            int x = universe.xMin(), y = universe.yMin();
-            for (SolarSystem a : universe) {
+            for (SparseSpace.SparseIterator iter = universe.iterateFrom(lower.x, lower.y, upper.x, upper.y); iter.hasNext();) {
+                SolarSystem a = iter.next();
+                int x = iter.getX();
+                int y = iter.getY();
                 if(a != null) {
                     switch(a.SunType()) {
                         case BINARY:
@@ -291,12 +297,6 @@ public class GameController implements Initializable {
                         tempSelectedY = (int) (((y - dragOffsetY - mapOffsetY) * zoom) + (288 - dragOffsetY - mapOffsetY));
                     }
                 }
-                if (x < universe.xMax()) {
-                    x++;
-                } else {
-                    x = universe.xMin();
-                    y++;
-                }
             }
         }
         if(selectedSolarSystem != null) {
@@ -316,5 +316,33 @@ public class GameController implements Initializable {
             }
         }
         return longest;
+    }
+    
+    private Point getLower() {
+        int lowerX;
+        int lowerY;
+        if(!dragging) {//using Kartik's method
+            lowerY = (int)((mapOffsetY - gameCanvas.getHeight()/2))/(int)zoom + (int)mapOffsetY;
+            lowerX = (int)((mapOffsetX - gameCanvas.getWidth()/2))/(int)zoom + (int)mapOffsetX;
+        } else {
+            lowerY = (int)((mapOffsetY + dragOffsetX - gameCanvas.getHeight()/2))/(int)zoom + (int)mapOffsetY + (int)dragOffsetY;
+            lowerX = (int)((mapOffsetX + dragOffsetX - gameCanvas.getWidth()/2))/(int)zoom + (int)mapOffsetX + (int)dragOffsetX;
+        }
+
+        return new Point(lowerX, lowerY);
+    }
+    
+    private Point getUpper() {
+        int upperX;
+        int upperY;
+        if(!dragging) {//using Kartik's method
+            upperY = (int)((mapOffsetY + gameCanvas.getHeight()/2))/(int)zoom + (int)mapOffsetY;
+            upperX = (int)((mapOffsetX + gameCanvas.getWidth()/2))/(int)zoom + (int)mapOffsetX;
+        } else {
+            upperY = (int)((mapOffsetY + dragOffsetX + gameCanvas.getHeight()/2))/(int)zoom + (int)mapOffsetY + (int)dragOffsetY;
+            upperX = (int)((mapOffsetX + dragOffsetX + gameCanvas.getWidth()/2))/(int)zoom + (int)mapOffsetX + (int)dragOffsetX;
+        }
+        
+        return new Point(upperX, upperY);
     }
 }

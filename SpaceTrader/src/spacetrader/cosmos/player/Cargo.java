@@ -74,6 +74,7 @@ public class Cargo {
      */
     public boolean setNumWater(int numWater) {
         if (slotsFilled - water + numWater < maxCargo) {
+            slotsFilled = slotsFilled - water + numWater;
             water = numWater;
             return true;
         } else {
@@ -96,6 +97,7 @@ public class Cargo {
      */
     public boolean setNumFurs(int numFurs) {
         if (slotsFilled - furs + numFurs < maxCargo) {
+            slotsFilled = slotsFilled - furs + numFurs;
             furs = numFurs;
             return true;
         } else {
@@ -118,6 +120,7 @@ public class Cargo {
      */
     public boolean setNumFood(int numFood) {
         if (slotsFilled - food + numFood < maxCargo) {
+            slotsFilled = slotsFilled - food + numFood;
             food = numFood;
             return true;
         } else {
@@ -140,6 +143,7 @@ public class Cargo {
      */
     public boolean setNumOre(int numOre) {
         if (slotsFilled - ore + numOre < maxCargo) {
+            slotsFilled = slotsFilled - ore + numOre;
             ore = numOre;
             return true;
         } else {
@@ -162,6 +166,7 @@ public class Cargo {
      */
     public boolean setNumGames(int numGames) {
         if (slotsFilled - games + numGames < maxCargo) {
+            slotsFilled = slotsFilled - games + numGames;
             games = numGames;
             return true;
         } else {
@@ -184,6 +189,7 @@ public class Cargo {
      */
     public boolean setNumFirearms(int numFirearms) {
         if (slotsFilled - firearms + numFirearms < maxCargo) {
+            slotsFilled = slotsFilled - firearms + numFirearms;
             firearms = numFirearms;
             return true;
         } else {
@@ -206,6 +212,7 @@ public class Cargo {
      */
     public boolean setNumMedicine(int numMedicine) {
         if (slotsFilled - medicine + numMedicine < maxCargo) {
+            slotsFilled = slotsFilled - medicine + numMedicine;
             medicine = numMedicine;
             return true;
         } else {
@@ -228,6 +235,7 @@ public class Cargo {
      */
     public boolean setNumMachines(int numMachines) {
         if (slotsFilled - machines + numMachines < maxCargo) {
+            slotsFilled = slotsFilled - machines + numMachines;
             machines = numMachines;
             return true;
         } else {
@@ -250,6 +258,7 @@ public class Cargo {
      */
     public boolean setNumNarcotics(int numNarcotics) {
         if (slotsFilled - narcotics + numNarcotics < maxCargo) {
+            slotsFilled = slotsFilled - narcotics + numNarcotics;
             narcotics = numNarcotics;
             return true;
         } else {
@@ -272,6 +281,7 @@ public class Cargo {
      */
     public boolean setNumRobots(int numRobots) {
         if (slotsFilled - robots + numRobots < maxCargo) {
+            slotsFilled = slotsFilled - robots + numRobots;
             robots = numRobots;
             return true;
         } else {

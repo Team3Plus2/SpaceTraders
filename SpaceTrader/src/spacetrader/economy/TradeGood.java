@@ -8,7 +8,7 @@ import spacetrader.cosmos.system.Resources;
  * @author Carey MacDonald
  */
 public class TradeGood {
-    private int amount;
+    //private int amount;
     private String name;
     private float basePrice, increasePerLevel, priceVariance, minRandPrice, maxRandPrice;
     private TechLevel minLevelProduce, minLevelUse, levelProduceMost;

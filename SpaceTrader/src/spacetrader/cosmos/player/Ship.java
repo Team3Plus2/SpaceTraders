@@ -5,7 +5,7 @@
  */
 package spacetrader.cosmos.player;
 
-import spacetrader.cosmos.system.TradeGood;
+import spacetrader.economy.TradeGood;
 import java.util.ArrayList;
 
 /**
@@ -49,7 +49,7 @@ public class Ship {
     private ArrayList<Shield> shields;
     private ArrayList<Gadget> gadgets;
     private ArrayList<Mercenary> mercenaries;
-    private ArrayList<TradeGood> cargo;
+    private Cargo cargo;
     
     /**
      * Creates a new ship with basic stats.
@@ -58,7 +58,7 @@ public class Ship {
      */
     public Ship(ShipType ship) {
         fuel = ship.maxFuel;
-        cargo = new ArrayList<TradeGood>(ship.maxCargo);
+        cargo = new Cargo(maxCargo);
         weapons = new ArrayList<Weapon>(ship.maxWeapons);
         shields = new ArrayList<Shield>(ship.maxShields);
         gadgets = new ArrayList<Gadget>(ship.maxGadgets);
@@ -170,29 +170,5 @@ public class Ship {
      */
     public Mercenary fireMercenary(int slot) {
         return mercenaries.remove(slot);
-    }
-    
-    /**
-     * Stores a trade good in an open cargo slot if one is available.
-     * 
-     * @param good the trade good to be added
-     * @return false if there is no more room for trade goods
-     */
-    public boolean addGood(TradeGood good) {
-        if (cargo.size() < maxCargo) {
-            return cargo.add(good);
-        } else {
-            return false;
-        }
-    }
-    
-    /**
-     * Removes a trade good from the given cargo slot.
-     * 
-     * @param slot the slot in which the trade good is located
-     * @return the removed good; null if slot was already empty
-     */
-    public TradeGood removeGood(int slot) {
-        return cargo.remove(slot);
     }
 }

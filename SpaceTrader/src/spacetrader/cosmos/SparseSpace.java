@@ -78,7 +78,7 @@ public class SparseSpace implements Iterable<SolarSystem> {
      * @return an iterator that will behave as described above
      */
     @Override
-    public Iterator<SolarSystem> iterator() {
+    public SparseIterator iterator() {
         return new SparseIterator(this, xMin, yMin, xMax, yMax);
     }
     
@@ -93,7 +93,7 @@ public class SparseSpace implements Iterable<SolarSystem> {
      * @param y1 upper right y coordinate
      * @return Iterator which will iterate row by row from the bottom left point to the upper right point (as a box defined by the points)
      */
-    public Iterator<SolarSystem> iterateFrom(int x0, int y0, int x1, int y1) {
+    public SparseIterator iterateFrom(int x0, int y0, int x1, int y1) {
         return new SparseIterator(this, x0, y0, x1, y1);
     }
     
@@ -120,59 +120,60 @@ public class SparseSpace implements Iterable<SolarSystem> {
     public int yMax() {
         return yMax;
     }
+    
+    public class SparseIterator implements Iterator<SolarSystem> {
+        private SparseSpace space;
+        private int currX;
+        private int currY;
+        private int startX;
+        private int toX;
+        private int toY;
+
+        public SparseIterator(SparseSpace toIterate, int fromX, int fromY, int toX, int toY) {
+            this.space = toIterate;
+            this.currX = fromX;
+            this.currY = fromY;
+            this.startX = fromX;
+            this.toX = toX;
+            this.toY = toY;
+        }
+
+        /**
+         * 
+         * @return the x coordinate of current SolarSystem
+         */
+        public int getX() {
+            return currX;
+        }
+
+        /**
+         * 
+         * @return the y coordinate of the current SolarSystem
+         */
+        public int getY() {
+            return currY;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return (currY <= toY);//note: x will never be larger than toX
+        }
+
+        @Override
+        public SolarSystem next() {
+            if(!hasNext())
+                throw new NoSuchElementException();
+
+            SolarSystem rit = space.get(currX, currY);
+            currX++;
+
+            if(currX > toX) {
+                currX = startX;
+                currY++;
+            }
+
+            return rit;
+        }
+    }
 }
 
-class SparseIterator implements Iterator<SolarSystem> {
-    private SparseSpace space;
-    private int currX;
-    private int currY;
-    private int startX;
-    private int toX;
-    private int toY;
-    
-    public SparseIterator(SparseSpace toIterate, int fromX, int fromY, int toX, int toY) {
-        this.space = toIterate;
-        this.currX = fromX;
-        this.currY = fromY;
-        this.startX = fromX;
-        this.toX = toX;
-        this.toY = toY;
-    }
-    
-    /**
-     * 
-     * @return the x coordinate of current SolarSystem
-     */
-    public int getX() {
-        return currX;
-    }
-    
-    /**
-     * 
-     * @return the y coordinate of the current SolarSystem
-     */
-    public int getY() {
-        return currY;
-    }
-    
-    @Override
-    public boolean hasNext() {
-        return (currY <= toY);//note: x will never be larger than toX
-    }
-    
-    @Override
-    public SolarSystem next() {
-        if(!hasNext())
-            throw new NoSuchElementException();
-        
-        SolarSystem rit = space.get(currX, currY);
-        currX++;
-        
-        if(currX > toX) {
-            currX = startX;
-            currY++;
-        }
-        
-        return rit;
-    }
-}

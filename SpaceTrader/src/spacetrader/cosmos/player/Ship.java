@@ -171,4 +171,11 @@ public class Ship {
     public Mercenary fireMercenary(int slot) {
         return mercenaries.remove(slot);
     }
+    
+    /**
+     * @return the cargo hold object of the ship
+     */
+    public Cargo getCargo() {
+        return cargo;
+    }
 }

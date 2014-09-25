@@ -17,6 +17,22 @@ public class TradeGood {
     private Resources priceLowCondition, priceHighCondition;
     
     private float currentPrice;
+
+    public float getCurrentPrice() {
+        return currentPrice;
+    }
+
+    public void setCurrentPrice(float currentPrice) {
+        this.currentPrice = currentPrice;
+    }
+    
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
     
     /**
      * Trade goods should have the following names:

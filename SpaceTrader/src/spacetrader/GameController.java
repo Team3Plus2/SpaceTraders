@@ -322,11 +322,11 @@ public class GameController implements Initializable {
         int lowerX;
         int lowerY;
         if(!dragging) {//using Kartik's method
-            lowerY = (int)((mapOffsetY - gameCanvas.getHeight()/2))/(int)zoom + (int)mapOffsetY;
-            lowerX = (int)((mapOffsetX - gameCanvas.getWidth()/2))/(int)zoom + (int)mapOffsetX;
+            lowerY = (int)(((mapOffsetY - gameCanvas.getHeight()/2))/zoom + mapOffsetY);
+            lowerX = (int)(((mapOffsetX - gameCanvas.getWidth()/2))/zoom + mapOffsetX);
         } else {
-            lowerY = (int)((mapOffsetY + dragOffsetX - gameCanvas.getHeight()/2))/(int)zoom + (int)mapOffsetY + (int)dragOffsetY;
-            lowerX = (int)((mapOffsetX + dragOffsetX - gameCanvas.getWidth()/2))/(int)zoom + (int)mapOffsetX + (int)dragOffsetX;
+            lowerY = (int)(((mapOffsetY + dragOffsetY - gameCanvas.getHeight()/2))/zoom + mapOffsetY + dragOffsetY);
+            lowerX = (int)(((mapOffsetX + dragOffsetX - gameCanvas.getWidth()/2))/zoom + mapOffsetX + dragOffsetX);
         }
 
         return new Point(lowerX, lowerY);
@@ -336,11 +336,11 @@ public class GameController implements Initializable {
         int upperX;
         int upperY;
         if(!dragging) {//using Kartik's method
-            upperY = (int)((mapOffsetY + gameCanvas.getHeight()/2))/(int)zoom + (int)mapOffsetY;
-            upperX = (int)((mapOffsetX + gameCanvas.getWidth()/2))/(int)zoom + (int)mapOffsetX;
+            upperY = (int)(((mapOffsetY + gameCanvas.getHeight()/2))/zoom + mapOffsetY);
+            upperX = (int)(((mapOffsetX + gameCanvas.getWidth()/2))/zoom + mapOffsetX);
         } else {
-            upperY = (int)((mapOffsetY + dragOffsetX + gameCanvas.getHeight()/2))/(int)zoom + (int)mapOffsetY + (int)dragOffsetY;
-            upperX = (int)((mapOffsetX + dragOffsetX + gameCanvas.getWidth()/2))/(int)zoom + (int)mapOffsetX + (int)dragOffsetX;
+            upperY = (int)(((mapOffsetY + dragOffsetY + gameCanvas.getHeight()/2))/zoom + mapOffsetY + dragOffsetY);
+            upperX = (int)(((mapOffsetX + dragOffsetX + gameCanvas.getWidth()/2))/zoom + mapOffsetX + dragOffsetX);
         }
         
         return new Point(upperX, upperY);

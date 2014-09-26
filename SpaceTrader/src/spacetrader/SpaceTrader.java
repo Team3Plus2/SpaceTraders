@@ -26,7 +26,9 @@ import javafx.stage.Stage;
 import spacetrader.cosmos.Universe;
 import spacetrader.cosmos.system.SolarSystem;
 import spacetrader.cosmos.system.Planet;
+import spacetrader.cosmos.system.Resource;
 import spacetrader.xml.DummyXMLObject;
+import spacetrader.xml.ObjectLoader;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -134,6 +136,9 @@ public class SpaceTrader extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        ObjectLoader.LoadAllObjects();
+        //Resource.get("DESERT");
+        
         launch(args);
     }
     

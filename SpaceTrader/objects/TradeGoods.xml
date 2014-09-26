@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<root>
+    <furs>
+        <name>Furs</name>
+        <minLevelProduce>0</minLevelProduce>
+        <minLevelUse>0</minLevelUse>
+        <levelProduceMost>0</levelProduceMost>
+        <basePrice>250</basePrice>
+        <increasePerLevel>10</increasePerLevel>
+        <priceVariance>10</priceVariance>
+        <priceLowCondition>RICH_FAUNA</priceLowCondition>
+        <priceHighCondition>LIFELESS</priceHighCondition>
+        <minRandPrice>230</minRandPrice>
+        <maxRandPrice>280</maxRandPrice>
+    </furs>
+</root>

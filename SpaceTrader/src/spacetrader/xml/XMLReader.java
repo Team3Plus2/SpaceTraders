@@ -126,16 +126,19 @@ public class XMLReader<T> {
                         } else if(field.getType().equals(Float.TYPE)) {
                             field.set(item, Float.valueOf(rawValue));
                         } else if(field.getType().equals(TechLevel.class)) {
+                            TechLevel level = TechLevel.get(rawValue);
+                            if(level == null)
+                                level = TechLevel.get(Integer.valueOf(rawValue));
                             try {
-                                field.set(item, TechLevel.valueOf(rawValue));
+                                field.set(item, level);
                             } catch(IllegalArgumentException excep) {
-                                field.set(item, TechLevel.values()[Integer.valueOf(rawValue)]);
+                                field.set(item, TechLevel.get(0));
                             }
-                        } else if(field.getType().equals(Resources.class)) {
+                        } else if(field.getType().equals(Resource.class)) {
                             try {
-                                field.set(item, Resources.valueOf(rawValue));
+                                field.set(item, Resource.get(rawValue));
                             } catch(IllegalArgumentException excep) {
-                                field.set(item, Resources.values()[Integer.valueOf(rawValue)]);
+                                field.set(item, Resource.get("NO_SPECIAL_RESOURCES"));
                             }
                         } else if(field.getType().equals(SunType.class)) {
                             try {
@@ -145,9 +148,9 @@ public class XMLReader<T> {
                             }
                         } else if(field.getType().equals(Government.class)) {
                             try {
-                                field.set(item, Government.valueOf(rawValue));
+                                field.set(item, Government.get(rawValue));
                             } catch(IllegalArgumentException excep) {
-                                field.set(item, Government.values()[Integer.valueOf(rawValue)]);
+                                field.set(item, Government.get(""));
                             }
                         } else {
                             field.set(item, rawValue);

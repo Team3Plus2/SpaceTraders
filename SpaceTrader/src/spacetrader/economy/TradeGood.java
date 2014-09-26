@@ -1,7 +1,7 @@
 package spacetrader.economy;
 
 import spacetrader.cosmos.system.TechLevel;
-import spacetrader.cosmos.system.Resources;
+import spacetrader.cosmos.system.Resource;
 
 /**
  * Trade goods should have the following names:
@@ -10,20 +10,20 @@ import spacetrader.cosmos.system.Resources;
  * @author Carey MacDonald
  */
 public class TradeGood {
-    private int amount;
     private String name;
     private float basePrice, increasePerLevel, priceVariance, minRandPrice, maxRandPrice;
     private TechLevel minLevelProduce, minLevelUse, levelProduceMost;
-    private Resources priceLowCondition, priceHighCondition;
+    private Resource priceLowCondition, priceHighCondition;
     
-    private float currentPrice;
+    private float currentPriceEach;
+    private int amount;
 
-    public float getCurrentPrice() {
-        return currentPrice;
+    public float getCurrentPriceEach() {
+        return currentPriceEach;
     }
-
-    public void setCurrentPrice(float currentPrice) {
-        this.currentPrice = currentPrice;
+    
+    public void computeCurrentPriceEach(TechLevel planetLevel) {
+        
     }
     
     public int getAmount() {
@@ -45,19 +45,8 @@ public class TradeGood {
         this.amount = 0;
     }
     
-    public void computeCurrentPrice(TechLevel planetLevel) {
-        
-    }
-    
     public String getName() {
         return name;
     }
-    
-    public int getAmount() {
-        return amount;
-    }
-    
-    public void setAmount(int amount) {
-        this.amount = amount;
-    }
+
 }

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<root>
+    <MINERAL_RICH>
+        <name>MINERAL_RICH</name>
+    </MINERAL_RICH>
+    <MINERAL_POOR>
+        <name>MINERAL_POOR</name>
+    </MINERAL_POOR>
+    <DESERT>
+        <name>DESERT</name>
+    </DESERT>
+    <LOTS_OF_WATER>
+        <name>LOTS_OF_WATER</name>
+    </LOTS_OF_WATER>
+    <RICH_SOIL>
+        <name>RICH_SOIL</name>
+    </RICH_SOIL>
+    <POOR_SOIL>
+        <name>POOR_SOIL</name>
+    </POOR_SOIL>
+    <RICH_FAUNA>
+        <name>RICH_FAUNA</name>
+    </RICH_FAUNA>
+    <LIFELESS>
+        <name>LIFELESS</name>
+    </LIFELESS>
+    <WIERD_MUSHROOMS>
+        <name>WIERD_MUSHROOMS</name>
+    </WIERD_MUSHROOMS>
+    <LOTS_OF_HERBS>
+        <name>LOTS_OF_HERBS</name>
+    </LOTS_OF_HERBS>
+    <ARTISTIC>
+        <name>ARTISTIC</name>
+    </ARTISTIC>
+    <WARLIKE>
+        <name>WARLIKE</name>
+    </WARLIKE>
+</root>

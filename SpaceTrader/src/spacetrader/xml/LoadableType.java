@@ -38,10 +38,10 @@ public class LoadableType<T> implements Comparable{
      * @return null if the given type is not defined, otherwise an object of the given type.  Note: object will need to be casted back into type from LoadableType.
      */
     public static LoadableType get(String name) {
-        for(LoadableType a : types) {
+        /*for(LoadableType a : types) {
             if(a.name.equals(name))
                 return a;
-        }
+        }*/
         return null;
     }
     

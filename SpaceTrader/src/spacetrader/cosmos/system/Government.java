@@ -56,8 +56,15 @@ public class Government {
     @FromXML
     private String name;
     
-    @FromXML
+    @FromXML (required = false)//TODO fix xml and make this required again... I'm just pressed for time right now
     TechLevel lowestTechnology;//if null, then the government requires no technology
+    
+    /**
+     * Required by XMLReader
+     */
+    public Government() {
+        
+    }
     
     Government(TechLevel requiredTechnology) {
         lowestTechnology = requiredTechnology;

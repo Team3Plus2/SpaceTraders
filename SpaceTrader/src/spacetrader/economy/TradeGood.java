@@ -24,7 +24,7 @@ public class TradeGood {
         tradeGoodTypes = reader.read();
     }
 
-    //private int amount;
+    private int amount;
     @FromXML
     private String name;
     
@@ -39,6 +39,13 @@ public class TradeGood {
     
     @FromXML(required = false)
     private float currentPrice;
+    
+    /**
+     * Required by XMLReader
+     */
+    public TradeGood() {
+        
+    }
     
     /**
      * Trade goods should have the following names:

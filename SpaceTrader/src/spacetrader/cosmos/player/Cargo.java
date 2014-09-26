@@ -5,20 +5,32 @@
  */
 package spacetrader.cosmos.player;
 
+import java.util.ArrayList;
+import spacetrader.economy.TradeGood;
+
 /**
  * An object that allows for easier access to a ship's cargo hold.
  * 
  * @author Aaron McAnally
  */
 public class Cargo {
-    private int maxCargo, slotsFilled;
-    private int water, furs, food, ore, games, firearms,
-                medicine, machines, narcotics, robots;
+    private int maxCargo;
+    private ArrayList<TradeGood> goods;
     
     public Cargo(int maxCargo) {
         this.maxCargo = maxCargo;
-        slotsFilled = water = furs = food = ore = games = firearms
-                = medicine = machines = narcotics = robots = 0;
+        goods = new ArrayList<TradeGood>();
+        goods.add(new TradeGood("water"));
+        goods.add(new TradeGood("furs"));
+        goods.add(new TradeGood("food"));
+        goods.add(new TradeGood("ore"));
+        goods.add(new TradeGood("games"));
+        goods.add(new TradeGood("firearms"));
+        goods.add(new TradeGood("medicine"));
+        goods.add(new TradeGood("machines"));
+        goods.add(new TradeGood("narcotics"));
+        goods.add(new TradeGood("robots"));
+        
     }
     
     /**
@@ -49,243 +61,119 @@ public class Cargo {
      * @return the number of filled cargo hold slots
      */
     public int getNumFilled() {
-        return slotsFilled;
+        int numFilled = 0;
+        for (TradeGood good: goods) {
+            numFilled += good.getAmount();
+        }
+        return numFilled;
     }
     
     /**
      * @return the number of empty cargo hold slots remaining
      */
     public int getNumEmpty() {
-        return maxCargo - slotsFilled;
+        return maxCargo - getNumFilled();
+    }
+    
+    /**
+     * Adds a set of goods of a particular type to the cargo hold if there is room
+     * 
+     * @param good - the good to be added to the cargo hold
+     * @return true if successful; false if failed - not enough room in cargo hold
+     */
+    public boolean addTradeGood(TradeGood good) {
+        if (good.getAmount() <= getNumEmpty()) {
+            for (int i = 0; i < 10; i++) {
+                if (goods.get(i).getName().equals(good.getName())) {
+                    goods.get(i).setAmount(goods.get(i).getAmount() + good.getAmount());
+                }
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    public boolean removeTradeGood(TradeGood good) {
+        boolean success = false;
+        for (int i = 0; i < 10; i++) {
+            if (goods.get(i).getName().equals(good.getName())) {
+                 if (goods.get(i).getAmount() >= good.getAmount()) {
+                     goods.get(i).setAmount(goods.get(i).getAmount() - good.getAmount());
+                     success = true;
+                 }
+            }
+        }
+        return success;
     }
     
     /**
      * @return the number of water goods on the ship
      */
     public int getNumWater() {
-        return water;
-    }
-    
-    /**
-     * 
-     * @param numWater - the new amount of water stored on the ship
-     * @return true if successful;
-     *         false if failed: this new amount puts total cargo over capacity
-     */
-    public boolean setNumWater(int numWater) {
-        if (slotsFilled - water + numWater < maxCargo) {
-            slotsFilled = slotsFilled - water + numWater;
-            water = numWater;
-            return true;
-        } else {
-            return false;
-        }
+        return goods.get(0).getAmount();
     }
     
     /**
      * @return the number of furs goods on the ship
      */
     public int getNumFurs() {
-        return furs;
-    }
-    
-    /**
-     * 
-     * @param numFurs - the new amount of furs stored on the ship
-     * @return true if successful;
-     *         false if failed: this new amount puts total cargo over capacity
-     */
-    public boolean setNumFurs(int numFurs) {
-        if (slotsFilled - furs + numFurs < maxCargo) {
-            slotsFilled = slotsFilled - furs + numFurs;
-            furs = numFurs;
-            return true;
-        } else {
-            return false;
-        }
+        return goods.get(1).getAmount();
     }
     
     /**
      * @return the number of furs goods on the ship
      */
     public int getNumFood() {
-        return food;
-    }
-    
-    /**
-     * 
-     * @param numFood - the new amount of food stored on the ship
-     * @return true if successful;
-     *         false if failed: this new amount puts total cargo over capacity
-     */
-    public boolean setNumFood(int numFood) {
-        if (slotsFilled - food + numFood < maxCargo) {
-            slotsFilled = slotsFilled - food + numFood;
-            food = numFood;
-            return true;
-        } else {
-            return false;
-        }
+        return goods.get(2).getAmount();
     }
     
     /**
      * @return the number of ore goods on the ship
      */
     public int getNumOre() {
-        return ore;
-    }
-    
-    /**
-     * 
-     * @param numOre - the new amount of ore stored on the ship
-     * @return true if successful;
-     *         false if failed: this new amount puts total cargo over capacity
-     */
-    public boolean setNumOre(int numOre) {
-        if (slotsFilled - ore + numOre < maxCargo) {
-            slotsFilled = slotsFilled - ore + numOre;
-            ore = numOre;
-            return true;
-        } else {
-            return false;
-        }
+        return goods.get(3).getAmount();
     }
     
     /**
      * @return the number of games goods on the ship
      */
     public int getNumGames() {
-        return games;
-    }
-    
-    /**
-     * 
-     * @param numGames - the new amount of games stored on the ship
-     * @return true if successful;
-     *         false if failed: this new amount puts total cargo over capacity
-     */
-    public boolean setNumGames(int numGames) {
-        if (slotsFilled - games + numGames < maxCargo) {
-            slotsFilled = slotsFilled - games + numGames;
-            games = numGames;
-            return true;
-        } else {
-            return false;
-        }
+        return goods.get(4).getAmount();
     }
     
     /**
      * @return the number of firearms goods on the ship
      */
     public int getNumFirearms() {
-        return firearms;
+        return goods.get(5).getAmount();
     }
-    
-    /**
-     * 
-     * @param numFirearms - the new amount of firearms stored on the ship
-     * @return true if successful;
-     *         false if failed: this new amount puts total cargo over capacity
-     */
-    public boolean setNumFirearms(int numFirearms) {
-        if (slotsFilled - firearms + numFirearms < maxCargo) {
-            slotsFilled = slotsFilled - firearms + numFirearms;
-            firearms = numFirearms;
-            return true;
-        } else {
-            return false;
-        }
-    }
-    
+
     /**
      * @return the number of medicine goods on the ship
      */
     public int getNumMedicine() {
-        return medicine;
+        return goods.get(6).getAmount();
     }
-    
-    /**
-     * 
-     * @param numMedicine - the new amount of medicine stored on the ship
-     * @return true if successful;
-     *         false if failed: this new amount puts total cargo over capacity
-     */
-    public boolean setNumMedicine(int numMedicine) {
-        if (slotsFilled - medicine + numMedicine < maxCargo) {
-            slotsFilled = slotsFilled - medicine + numMedicine;
-            medicine = numMedicine;
-            return true;
-        } else {
-            return false;
-        }
-    }
-    
+
     /**
      * @return the number of machines goods on the ship
      */
     public int getNumMachines() {
-        return machines;
+        return goods.get(7).getAmount();
     }
-    
-    /**
-     * 
-     * @param numMachines - the new amount of machines stored on the ship
-     * @return true if successful;
-     *         false if failed: this new amount puts total cargo over capacity
-     */
-    public boolean setNumMachines(int numMachines) {
-        if (slotsFilled - machines + numMachines < maxCargo) {
-            slotsFilled = slotsFilled - machines + numMachines;
-            machines = numMachines;
-            return true;
-        } else {
-            return false;
-        }
-    }
-    
+
     /**
      * @return the number of narcotics goods on the ship
      */
     public int getNumNarcotics() {
-        return water;
-    }
-    
-    /**
-     * 
-     * @param numNarcotics - the new amount of narcotics stored on the ship
-     * @return true if successful;
-     *         false if failed: this new amount puts total cargo over capacity
-     */
-    public boolean setNumNarcotics(int numNarcotics) {
-        if (slotsFilled - narcotics + numNarcotics < maxCargo) {
-            slotsFilled = slotsFilled - narcotics + numNarcotics;
-            narcotics = numNarcotics;
-            return true;
-        } else {
-            return false;
-        }
+        return goods.get(8).getAmount();
     }
     
     /**
      * @return the number of robots goods on the ship
      */
     public int getNumRobots() {
-        return robots;
-    }
-    
-    /**
-     * 
-     * @param numRobots - the new amount of robots stored on the ship
-     * @return true if successful;
-     *         false if failed: this new amount puts total cargo over capacity
-     */
-    public boolean setNumRobots(int numRobots) {
-        if (slotsFilled - robots + numRobots < maxCargo) {
-            slotsFilled = slotsFilled - robots + numRobots;
-            robots = numRobots;
-            return true;
-        } else {
-            return false;
-        }
+        return goods.get(9).getAmount();
     }
 }

@@ -12,13 +12,13 @@ public class Planet {
     
     private Random rand;
     private String name;
-    private Resources resources;
+    private Resource resources;
     private float relativeWealth;//-1.0f pays less for goods, 0.0f normal, 1.0f pays more for goods
 
     private void init(Random rand) {
         this.rand = rand;
         name = Universe.GenerateName(rand);
-        resources = Resources.random();
+        resources = Resource.random();
         relativeWealth = rand.nextFloat() * 2.0f - 1.0f;
     }
     
@@ -31,7 +31,7 @@ public class Planet {
         init(rand);
     } 
     
-    public Resources Resources() {
+    public Resource Resources() {
         return resources;
     }
     

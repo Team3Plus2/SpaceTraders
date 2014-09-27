@@ -130,7 +130,7 @@ public class GameController implements Initializable {
                     closest = test;
                 }
             }
-            if(closest.distance(p.x, p.y) < 5) {
+            if(closest.distance(p.x, p.y) < 10) {
                 forreturn = solarSystemLocations.get(closest);
             }
         }
@@ -145,6 +145,7 @@ public class GameController implements Initializable {
             //Point p = getSolarSystemCoords(mouseOver);
             g.setStroke(Color.WHITE);
             g.strokeOval(event.getX() - 15, event.getY() - 15, 30, 30);
+            g.fillText(mouseOver.Name(), event.getX(), event.getY());
         } else {
             drawUniverse();
         }
@@ -185,9 +186,11 @@ public class GameController implements Initializable {
         if (dragging) {
             mapOffsetX += dragOffsetX;
             mapOffsetY += dragOffsetY;
+            dragOffsetX = 0;
+            dragOffsetY = 0;
             dragging = false;
             dragFinished = true;
-            
+            solarSystemLocations.clear();
             drawUniverse();
         }
     }
@@ -208,7 +211,6 @@ public class GameController implements Initializable {
      * Helper method that draws universe based on map offset and scale
      */
     private void drawUniverse() {
-        
         Point lower = getLower();
         Point upper = getUpper();
 
@@ -221,35 +223,38 @@ public class GameController implements Initializable {
         //makes sure that solar systems are being drawn depending on it being dragged
         //clears before drawing
         g.clearRect(0, 0, gameCanvas.getWidth(), gameCanvas.getHeight());
-        if(!dragging) {
-            starBackdrop.setTranslateX(-mapOffsetX * 2);
-            starBackdrop.setTranslateY(-mapOffsetY * 2);
-            //int x = universe.xMin(), y = universe.yMin();
-            for (SparseSpace.SparseIterator iter = universe.iterateFrom(lower.x, lower.y, upper.x, upper.y); iter.hasNext();) {
-                SolarSystem a = iter.next();
-                int x = iter.getX();
-                int y = iter.getY();
-                if(a != null) {
-                    switch(a.SunType()) {
-                        case BINARY:
-                            g.setFill(Color.BLUE);
-                            break;
-                        case BLACK_HOLE:
-                            g.setFill(Color.VIOLET);
-                            break;
-                        case PROTO:
-                            g.setFill(Color.PINK);
-                            break;
-                        case RED_GIANT:
-                            g.setFill(Color.RED);
-                            break;
-                        case SOL:
-                            g.setFill(Color.YELLOW);
-                            break;
-                        case WHITE_DWARF:
-                            g.setFill(Color.WHITE);
-                            break;
-                    }
+        //int x = universe.xMin(), y = universe.yMin();
+        starBackdrop.setTranslateX((-mapOffsetX - dragOffsetX)*2);
+        starBackdrop.setTranslateY((-mapOffsetY - dragOffsetY)*2);
+        for (SparseSpace.SparseIterator iter = universe.iterateFrom(lower.x, lower.y, upper.x, upper.y); iter.hasNext();) {
+            SolarSystem a = iter.next();
+            int x = iter.getX();
+            int y = iter.getY();
+            if(a != null) {
+                //set color of star based on suntype
+                switch(a.SunType()) {
+                    case BINARY:
+                        g.setFill(Color.BLUE);
+                        break;
+                    case BLACK_HOLE:
+                        g.setFill(Color.VIOLET);
+                        break;
+                    case PROTO:
+                        g.setFill(Color.PINK);
+                        break;
+                    case RED_GIANT:
+                        g.setFill(Color.RED);
+                        break;
+                    case SOL:
+                        g.setFill(Color.YELLOW);
+                        break;
+                    case WHITE_DWARF:
+                        g.setFill(Color.WHITE);
+                        break;
+                }
+                if(!dragging) {
+//                    starBackdrop.setTranslateX(-mapOffsetX * 2);
+//                    starBackdrop.setTranslateY(-mapOffsetY * 2);
                     if(dragFinished) {
                         solarSystemLocations.put(new Point((int) (((x - mapOffsetX) * zoom) + (512 - mapOffsetX)), (int) (((y - mapOffsetY) * zoom) + (288 - mapOffsetY))), a);
                     }
@@ -259,37 +264,7 @@ public class GameController implements Initializable {
                         tempSelectedX = (int) (((x - mapOffsetX) * zoom) + (512 - mapOffsetX));
                         tempSelectedY = (int) (((y - mapOffsetY) * zoom) + (288 - mapOffsetY));
                     }
-                }
-            }
-            dragFinished = false;
-        } else {
-            starBackdrop.setTranslateX((- dragOffsetX - mapOffsetX) * 2);
-            starBackdrop.setTranslateY((- dragOffsetY - mapOffsetY) * 2);
-            for (SparseSpace.SparseIterator iter = universe.iterateFrom(lower.x, lower.y, upper.x, upper.y); iter.hasNext();) {
-                SolarSystem a = iter.next();
-                int x = iter.getX();
-                int y = iter.getY();
-                if(a != null) {
-                    switch(a.SunType()) {
-                        case BINARY:
-                            g.setFill(Color.BLUE);
-                            break;
-                        case BLACK_HOLE:
-                            g.setFill(Color.VIOLET);
-                            break;
-                        case PROTO:
-                            g.setFill(Color.PINK);
-                            break;
-                        case RED_GIANT:
-                            g.setFill(Color.RED);
-                            break;
-                        case SOL:
-                            g.setFill(Color.YELLOW);
-                            break;
-                        case WHITE_DWARF:
-                            g.setFill(Color.WHITE);
-                            break;
-                    }
+                } else {
                     g.fillOval(((x - dragOffsetX - mapOffsetX) * zoom) + (512 - mapOffsetX - dragOffsetX), ((y - dragOffsetY - mapOffsetY) * zoom) + (288 - mapOffsetY - dragOffsetY), (zoom / 2) + a.Planets().length, (zoom / 2) + a.Planets().length);
                     g.setFill(Color.WHITE);
                     if(a.equals(selectedSolarSystem)) {
@@ -299,6 +274,7 @@ public class GameController implements Initializable {
                 }
             }
         }
+       
         if(selectedSolarSystem != null) {
             g.setFill(Color.BLACK);
             g.fillRect(tempSelectedX + 4, tempSelectedY - 10, longestLine(selectedSolarSystem.toString()) * 8, selectedSolarSystem.toString().split("\n").length * 15);

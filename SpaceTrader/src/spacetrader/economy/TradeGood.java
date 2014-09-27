@@ -71,25 +71,25 @@ public class TradeGood {
         int variance2 = rand.nextInt(priceVariance);
         if (variance1 == 0) {
             if (resource.equals(priceLowCondition)) {
-                currentPriceEach = (basePrice * .5) + (increasePerLevel * (TechLevel.getLevelNum(planetLevel) - minLevelProduce))
-                    - (basePrice * ((float) variance2/100));
+                currentPriceEach = (basePrice * .5f) + (increasePerLevel * (TechLevel.getLevelNum(planetLevel)
+                        - TechLevel.getLevelNum(minLevelProduce))) - (basePrice * ((float) variance2/100));
             } else if (resource.equals(priceHighCondition)) {
-                currentPriceEach = (basePrice * 1.5) + (increasePerLevel * (TechLevel.getLevelNum(planetLevel) - minLevelProduce))
-                    - (basePrice * ((float) variance2/100));
+                currentPriceEach = (basePrice * 1.5f) + (increasePerLevel * (TechLevel.getLevelNum(planetLevel)
+                        - TechLevel.getLevelNum(minLevelProduce))) - (basePrice * ((float) variance2/100));
             } else {
-                currentPriceEach = basePrice + (increasePerLevel * (TechLevel.getLevelNum(planetLevel) - minLevelProduce))
-                    - (basePrice * ((float) variance2/100));
+                currentPriceEach = basePrice + (increasePerLevel * (TechLevel.getLevelNum(planetLevel)
+                        - TechLevel.getLevelNum(minLevelProduce))) - (basePrice * ((float) variance2/100));
             }
         } else {
             if (resource.equals(priceLowCondition)) {
-                currentPriceEach = (basePrice * .5) + (increasePerLevel * (TechLevel.getLevelNum(planetLevel) - minLevelProduce))
-                    + (basePrice * ((float) variance2/100));
+                currentPriceEach = (basePrice * .5f) + (increasePerLevel * (TechLevel.getLevelNum(planetLevel)
+                        - TechLevel.getLevelNum(minLevelProduce))) + (basePrice * ((float) variance2/100));
             } else if (resource.equals(priceHighCondition)) {
-                currentPriceEach = (basePrice * 1.5) + (increasePerLevel * (TechLevel.getLevelNum(planetLevel) - minLevelProduce))
-                    + (basePrice * ((float) variance2/100));
+                currentPriceEach = (basePrice * 1.5f) + (increasePerLevel * (TechLevel.getLevelNum(planetLevel)
+                        - TechLevel.getLevelNum(minLevelProduce))) + (basePrice * ((float) variance2/100));
             } else {
-                currentPriceEach = basePrice + (increasePerLevel * (TechLevel.getLevelNum(planetLevel) - minLevelProduce))
-                    + (basePrice * ((float) variance2/100));
+                currentPriceEach = basePrice + (increasePerLevel * (TechLevel.getLevelNum(planetLevel)
+                        - TechLevel.getLevelNum(minLevelProduce))) + (basePrice * ((float) variance2/100));
             }
         }
     }

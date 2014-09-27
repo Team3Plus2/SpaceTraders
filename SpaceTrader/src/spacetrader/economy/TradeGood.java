@@ -121,14 +121,14 @@ public class TradeGood {
     public TradeGood(String name) {
         this.name = name;
         this.amount = 0;
-        this.rand = Random();
+        this.rand = new Random();
     }
     
     /**
      * Required by XMLReader
      */
     public TradeGood() {
-        this.rand = Random();
+        this.rand = new Random();
     }
     
     /**
@@ -204,7 +204,7 @@ public class TradeGood {
         if (other == null) {
             return false;
         } else if (other instanceof TradeGood) {
-            TradeGood tg = TradeGood (other);
+            TradeGood tg = (TradeGood) other;
             if (tg.getName().equals(this.getName())) {
                 return true;
             }

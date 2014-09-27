@@ -7,8 +7,21 @@ and open the template in the editor.
 
 
 <root>
+    <water>
+        <name>water</name>
+        <minLevelProduce>0</minLevelProduce>
+        <minLevelUse>0</minLevelUse>
+        <levelProduceMost>2</levelProduceMost>
+        <basePrice>30</basePrice>
+        <increasePerLevel>3</increasePerLevel>
+        <priceVariance>4</priceVariance>
+        <priceLowCondition>LOTS_OF_WATER</priceLowCondition>
+        <priceHighCondition>DESERT</priceHighCondition>
+        <minRandPrice>30</minRandPrice>
+        <maxRandPrice>50</maxRandPrice>
+    </water>
     <furs>
-        <name>Furs</name>
+        <name>furs</name>
         <minLevelProduce>0</minLevelProduce>
         <minLevelUse>0</minLevelUse>
         <levelProduceMost>0</levelProduceMost>
@@ -20,4 +33,100 @@ and open the template in the editor.
         <minRandPrice>230</minRandPrice>
         <maxRandPrice>280</maxRandPrice>
     </furs>
+    <food>
+        <name>food</name>
+        <minLevelProduce>1</minLevelProduce>
+        <minLevelUse>0</minLevelUse>
+        <levelProduceMost>1</levelProduceMost>
+        <basePrice>100</basePrice>
+        <increasePerLevel>5</increasePerLevel>
+        <priceVariance>5</priceVariance>
+        <priceLowCondition>RICH_SOIL</priceLowCondition>
+        <priceHighCondition>POOR_SOIL</priceHighCondition>
+        <minRandPrice>90</minRandPrice>
+        <maxRandPrice>160</maxRandPrice>
+    </food>
+    <ore>
+        <name>ore</name>
+        <minLevelProduce>2</minLevelProduce>
+        <minLevelUse>2</minLevelUse>
+        <levelProduceMost>3</levelProduceMost>
+        <basePrice>350</basePrice>
+        <increasePerLevel>20</increasePerLevel>
+        <priceVariance>10</priceVariance>
+        <priceLowCondition>MINERAL_RICH</priceLowCondition>
+        <priceHighCondition>MINERAL_POOR</priceHighCondition>
+        <minRandPrice>350</minRandPrice>
+        <maxRandPrice>420</maxRandPrice>
+    </ore>
+    <games>
+        <name>games</name>
+        <minLevelProduce>3</minLevelProduce>
+        <minLevelUse>1</minLevelUse>
+        <levelProduceMost>6</levelProduceMost>
+        <basePrice>250</basePrice>
+        <increasePerLevel>-10</increasePerLevel>
+        <priceVariance>5</priceVariance>
+        <priceLowCondition>ARTISTIC</priceLowCondition>
+        <minRandPrice>160</minRandPrice>
+        <maxRandPrice>270</maxRandPrice>
+    </games>
+    <firearms>
+        <name>firearms</name>
+        <minLevelProduce>3</minLevelProduce>
+        <minLevelUse>1</minLevelUse>
+        <levelProduceMost>5</levelProduceMost>
+        <basePrice>1250</basePrice>
+        <increasePerLevel>-75</increasePerLevel>
+        <priceVariance>100</priceVariance>
+        <priceLowCondition>WAR_LIKE</priceLowCondition>
+        <minRandPrice>600</minRandPrice>
+        <maxRandPrice>1100</maxRandPrice>
+    </firearms>
+    <medicine>
+        <name>medicine</name>
+        <minLevelProduce>4</minLevelProduce>
+        <minLevelUse>1</minLevelUse>
+        <levelProduceMost>6</levelProduceMost>
+        <basePrice>650</basePrice>
+        <increasePerLevel>-20</increasePerLevel>
+        <priceVariance>10</priceVariance>
+        <priceLowCondition>LOTS_OF_HERBS</priceLowCondition>
+        <minRandPrice>400</minRandPrice>
+        <maxRandPrice>700</maxRandPrice>
+    </medicine>
+    <machines>
+        <name>machines</name>
+        <minLevelProduce>4</minLevelProduce>
+        <minLevelUse>3</minLevelUse>
+        <levelProduceMost>5</levelProduceMost>
+        <basePrice>900</basePrice>
+        <increasePerLevel>-30</increasePerLevel>
+        <priceVariance>5</priceVariance>
+        <minRandPrice>600</minRandPrice>
+        <maxRandPrice>800</maxRandPrice>
+    </machines>
+    <narcotics>
+        <name>narcotics</name>
+        <minLevelProduce>5</minLevelProduce>
+        <minLevelUse>0</minLevelUse>
+        <levelProduceMost>5</levelProduceMost>
+        <basePrice>3500</basePrice>
+        <increasePerLevel>-125</increasePerLevel>
+        <priceVariance>150</priceVariance>
+        <priceLowCondition>WEIRD_MUSHROOMS</priceLowCondition>
+        <minRandPrice>2000</minRandPrice>
+        <maxRandPrice>3000</maxRandPrice>
+    </narcotics>
+    <robots>
+        <name>robots</name>
+        <minLevelProduce>6</minLevelProduce>
+        <minLevelUse>4</minLevelUse>
+        <levelProduceMost>7</levelProduceMost>
+        <basePrice>5000</basePrice>
+        <increasePerLevel>-150</increasePerLevel>
+        <priceVariance>100</priceVariance>
+        <minRandPrice>3500</minRandPrice>
+        <maxRandPrice>5000</maxRandPrice>
+    </robots>
 </root>

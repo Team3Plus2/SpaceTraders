@@ -12,6 +12,8 @@ import spacetrader.xml.FromXML;
 public class TechLevel implements Comparable {
     
     private static final String techLevelFile = "objects/TechLevels.xml";
+    
+    // Must be in order to match index with appropriate int!
     private static ArrayList<TechLevel> techLevels;
     
     public static void LoadTechLevels() {
@@ -45,6 +47,10 @@ public class TechLevel implements Comparable {
         if(level >= techLevels.size())
             return null;
         return techLevels.get(level);
+    }
+    
+    public static int getLevelNum(TechLevel t) {
+        return techLevels.indexOf(t);
     }
     
     @FromXML

@@ -4,8 +4,9 @@
  * and open the template in the editor.
  */
 
-package spacetrader;
+package spacetrader.view;
 
+import spacetrader.main.SpaceTrader;
 import spacetrader.cosmos.player.Player;
 import java.net.URL;
 import java.util.ResourceBundle;

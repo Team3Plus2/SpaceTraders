@@ -4,12 +4,11 @@
  * and open the template in the editor.
  */
 
-package spacetrader;
+package spacetrader.view;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
-import spacetrader.cosmos.system.SolarSystem;
 
 /**
  * FXML Controller class
@@ -17,8 +16,6 @@ import spacetrader.cosmos.system.SolarSystem;
  * @author KartikKini
  */
 public class SolarSystemViewController implements Initializable {
-    
-    private SolarSystem currentSolarSystem;
 
     /**
      * Initializes the controller class.

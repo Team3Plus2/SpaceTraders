@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package spacetrader;
+package spacetrader.view;
 
 import java.awt.Point;
 import java.awt.geom.AffineTransform;
@@ -34,6 +34,7 @@ import spacetrader.cosmos.Universe;
 import spacetrader.cosmos.player.Player;
 import spacetrader.cosmos.system.SolarSystem;
 import spacetrader.cosmos.system.SunType;
+import spacetrader.main.SpaceTrader;
 
 /**
  * FXML Controller class
@@ -81,8 +82,6 @@ public class StarScreenController implements Initializable {
     
     /**
      * Initializes the controller class.
-     * @param url
-     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -222,21 +221,11 @@ public class StarScreenController implements Initializable {
         SolarSystem mouseOver = findClosestSolarSystem(new Point((int) event.getX() - 5, (int) event.getY() - 5));
         if(mouseOver != null) {
             selectedSolarSystem = mouseOver;
-            goToPlanet.setTranslateX(event.getX());
-            goToPlanet.setTranslateY(event.getY() + 50);
-            goToPlanet.setVisible(true);
             drawUniverse();
         } else {
-            goToPlanet.setVisible(false);
             selectedSolarSystem = null;
             drawUniverse();
         }
-    }
-    
-    @FXML
-    private void goToSolarSystem() {
-        player.setCurrentSolarSystem(selectedSolarSystem);
-        SpaceTrader.getInstance().goToSolarSystem();
     }
     
     /**

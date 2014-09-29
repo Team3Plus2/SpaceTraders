@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package spacetrader;
+package spacetrader.main;
 
 import spacetrader.cosmos.player.Player;
 import spacetrader.xml.XMLReader;
@@ -77,14 +77,6 @@ public class SpaceTrader extends Application {
             e.printStackTrace();
         }
     }
-    
-    public void goToSolarSystem() {
-        try {
-            loadNewScreen("SolarSystemView.fxml");
-        } catch(IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     public void goToCharacterConfig() {
         try {
@@ -106,7 +98,7 @@ public class SpaceTrader extends Application {
         try {
             this.newPlayer = newPlayer;
             this.universe = new Universe(100, 0.1f);
-            loadNewScreen("StarScreen.fxml");
+            loadNewScreen("Game.fxml");
         } catch(IOException e) {
             e.printStackTrace();
         }

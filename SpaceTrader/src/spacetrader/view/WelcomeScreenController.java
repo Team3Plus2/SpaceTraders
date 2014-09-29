@@ -4,8 +4,9 @@
  * and open the template in the editor.
  */
 
-package spacetrader;
+package spacetrader.view;
 
+import spacetrader.main.SpaceTrader;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;

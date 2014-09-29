@@ -69,8 +69,8 @@ public class SpaceTrader extends Application {
             stage.setTitle("Space Traders");
             Scene scene = new Scene(stackPane);
             Font.loadFont(getClass().getResource("/visuals/LVDCC.TTF").toExternalForm(), 10);
-            scene.getStylesheets().add(getClass().getResource("SpaceTraderStylesheet.css").toExternalForm());
-            loadNewScreen("WelcomeScreen.fxml");
+            scene.getStylesheets().add(getClass().getResource("/spacetrader/view/SpaceTraderStylesheet.css").toExternalForm());
+            loadNewScreen("/spacetrader/view/WelcomeScreen.fxml");
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
@@ -80,7 +80,15 @@ public class SpaceTrader extends Application {
 
     public void goToCharacterConfig() {
         try {
-            loadNewScreen("CharacterConfigurationScreen.fxml");
+            loadNewScreen("/spacetrader/view/CharacterConfigurationScreen.fxml");
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void goToSolarSystemView() {
+        try {
+            loadNewScreen("/spacetrader/view/SolarSystemView.fxml");
         } catch(IOException e) {
             e.printStackTrace();
         }
@@ -88,7 +96,7 @@ public class SpaceTrader extends Application {
     
     public void goToWelcomeScreen() {
         try {
-            loadNewScreen("WelcomeScreen.fxml");
+            loadNewScreen("/spacetrader/view/WelcomeScreen.fxml");
         } catch(IOException e) {
             e.printStackTrace();
         }
@@ -98,7 +106,7 @@ public class SpaceTrader extends Application {
         try {
             this.newPlayer = newPlayer;
             this.universe = new Universe(100, 0.1f);
-            loadNewScreen("Game.fxml");
+            loadNewScreen("/spacetrader/view/StarScreen.fxml");
         } catch(IOException e) {
             e.printStackTrace();
         }

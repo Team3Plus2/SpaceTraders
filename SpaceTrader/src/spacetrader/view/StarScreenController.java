@@ -137,6 +137,12 @@ public class StarScreenController implements Initializable {
         preDragY = event.getY();
     }
     
+    @FXML
+    private void goToSolarSystem() {
+        player.setCurrentSolarSystem(selectedSolarSystem);
+        SpaceTrader.getInstance().goToSolarSystemView();
+    }
+    
     private SolarSystem findClosestSolarSystem(Point p) {
         SolarSystem forreturn = solarSystemLocations.get(p);
         if(forreturn == null) {
@@ -222,9 +228,12 @@ public class StarScreenController implements Initializable {
         if(mouseOver != null) {
             selectedSolarSystem = mouseOver;
             drawUniverse();
+            goToPlanet.setVisible(true);
+            goToPlanet.setText(mouseOver.Name());
         } else {
             selectedSolarSystem = null;
             drawUniverse();
+            goToPlanet.setVisible(false);
         }
     }
     
@@ -299,6 +308,8 @@ public class StarScreenController implements Initializable {
                     if(a.equals(selectedSolarSystem)) {
                         tempSelectedX = (int) (((x - mapOffsetX) * zoom) + (512 - mapOffsetX));
                         tempSelectedY = (int) (((y - mapOffsetY) * zoom) + (288 - mapOffsetY));
+                        goToPlanet.setTranslateX((int) (((x - mapOffsetX) * zoom) + (512 - mapOffsetX)));
+                        goToPlanet.setTranslateY((int) (((y - mapOffsetY) * zoom) + (288 - mapOffsetY)) + 10);
                     }
                 } else {
                     if(starImage == null) {
@@ -317,6 +328,8 @@ public class StarScreenController implements Initializable {
                     if(a.equals(selectedSolarSystem)) {
                         tempSelectedX = (int) (((x - dragOffsetX - mapOffsetX) * zoom) + (512 - dragOffsetX - mapOffsetX));
                         tempSelectedY = (int) (((y - dragOffsetY - mapOffsetY) * zoom) + (288 - dragOffsetY - mapOffsetY));
+                        goToPlanet.setTranslateX((int) (((x - dragOffsetX - mapOffsetX) * zoom) + (512 - dragOffsetX - mapOffsetX)));
+                        goToPlanet.setTranslateY((int) (((y - dragOffsetY - mapOffsetY) * zoom) + (288 - dragOffsetY - mapOffsetY)) + 10);
                     }
                 }
             }

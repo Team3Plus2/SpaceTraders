@@ -5,7 +5,6 @@
  */
 package spacetrader;
 
-import spacetrader.main.SpaceTrader;
 import java.awt.Point;
 import java.awt.geom.AffineTransform;
 import java.net.URL;
@@ -21,6 +20,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
@@ -40,7 +40,7 @@ import spacetrader.cosmos.system.SunType;
  *
  * @author Aaron McAnally
  */
-public class GameController implements Initializable {
+public class StarScreenController implements Initializable {
 
     private static final int GENERATION_BUFFER = 10;
     
@@ -75,6 +75,9 @@ public class GameController implements Initializable {
     private HashMap<Point, SolarSystem> solarSystemLocations;
     
     private SolarSystem selectedSolarSystem;
+    
+    @FXML
+    private Button goToPlanet;
     
     /**
      * Initializes the controller class.

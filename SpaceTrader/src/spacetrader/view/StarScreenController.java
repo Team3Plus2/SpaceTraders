@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package spacetrader;
+package spacetrader.view;
 
 import java.awt.Point;
 import java.awt.geom.AffineTransform;
@@ -34,6 +34,7 @@ import spacetrader.cosmos.Universe;
 import spacetrader.cosmos.player.Player;
 import spacetrader.cosmos.system.SolarSystem;
 import spacetrader.cosmos.system.SunType;
+import spacetrader.main.SpaceTrader;
 
 /**
  * FXML Controller class

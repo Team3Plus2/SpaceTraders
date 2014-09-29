@@ -19,6 +19,6 @@
       <Pane id="GameBackground" mouseTransparent="true" prefHeight="576.0" prefWidth="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
       <Slider fx:id="zoomSlider" layoutX="980.0" layoutY="112.0" max="15.0" min="10.0" orientation="VERTICAL" prefHeight="305.0" prefWidth="15.0" value="10.0" />
       <Label fx:id="label" layoutX="7.0" layoutY="7.0" prefHeight="92.0" prefWidth="149.0" style="-fx-font-size: 10;" />
-      <Button fx:id="goToPlanet" layoutX="200.0" layoutY="100.0" mnemonicParsing="false" text="Button" />
+      <Button fx:id="goToPlanet" layoutX="200.0" layoutY="100.0" mnemonicParsing="false" onAction="#goToSolarSystem" text="Button" visible="false" />
    </children>
 </AnchorPane>

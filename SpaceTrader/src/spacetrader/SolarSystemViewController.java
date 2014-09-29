@@ -9,6 +9,7 @@ package spacetrader;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
+import spacetrader.cosmos.system.SolarSystem;
 
 /**
  * FXML Controller class
@@ -16,6 +17,8 @@ import javafx.fxml.Initializable;
  * @author KartikKini
  */
 public class SolarSystemViewController implements Initializable {
+    
+    private SolarSystem currentSolarSystem;
 
     /**
      * Initializes the controller class.

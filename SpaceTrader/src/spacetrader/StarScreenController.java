@@ -81,6 +81,8 @@ public class StarScreenController implements Initializable {
     
     /**
      * Initializes the controller class.
+     * @param url
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -220,11 +222,21 @@ public class StarScreenController implements Initializable {
         SolarSystem mouseOver = findClosestSolarSystem(new Point((int) event.getX() - 5, (int) event.getY() - 5));
         if(mouseOver != null) {
             selectedSolarSystem = mouseOver;
+            goToPlanet.setTranslateX(event.getX());
+            goToPlanet.setTranslateY(event.getY() + 50);
+            goToPlanet.setVisible(true);
             drawUniverse();
         } else {
+            goToPlanet.setVisible(false);
             selectedSolarSystem = null;
             drawUniverse();
         }
+    }
+    
+    @FXML
+    private void goToSolarSystem() {
+        player.setCurrentSolarSystem(selectedSolarSystem);
+        SpaceTrader.getInstance().goToSolarSystem();
     }
     
     /**

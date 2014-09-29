@@ -77,6 +77,14 @@ public class SpaceTrader extends Application {
             e.printStackTrace();
         }
     }
+    
+    public void goToSolarSystem() {
+        try {
+            loadNewScreen("SolarSystemView.fxml");
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void goToCharacterConfig() {
         try {

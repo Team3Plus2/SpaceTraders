@@ -98,7 +98,7 @@ public class SpaceTrader extends Application {
         try {
             this.newPlayer = newPlayer;
             this.universe = new Universe(100, 0.1f);
-            loadNewScreen("Game.fxml");
+            loadNewScreen("StarScreen.fxml");
         } catch(IOException e) {
             e.printStackTrace();
         }

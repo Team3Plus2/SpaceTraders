@@ -31,7 +31,7 @@ import javafx.scene.transform.Affine;
 import javafx.scene.transform.Rotate;
 import spacetrader.cosmos.SparseSpace;
 import spacetrader.cosmos.Universe;
-import spacetrader.cosmos.player.Player;
+import spacetrader.player.Player;
 import spacetrader.cosmos.system.SolarSystem;
 import spacetrader.cosmos.system.SunType;
 import spacetrader.main.SpaceTrader;

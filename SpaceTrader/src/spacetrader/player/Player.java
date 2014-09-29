@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package spacetrader.cosmos.player;
+package spacetrader.player;
 
 import spacetrader.cosmos.system.Planet;
 import spacetrader.cosmos.system.SolarSystem;

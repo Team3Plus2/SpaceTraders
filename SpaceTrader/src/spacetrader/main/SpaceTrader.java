@@ -6,7 +6,7 @@
 
 package spacetrader.main;
 
-import spacetrader.cosmos.player.Player;
+import spacetrader.player.Player;
 import spacetrader.xml.XMLReader;
 import spacetrader.turns.TurnEvent;
 import java.io.IOException;

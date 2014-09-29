@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package spacetrader.cosmos.player;
+package spacetrader.player;
 
 /**
  * A gadget can be used to upgrade a ship.

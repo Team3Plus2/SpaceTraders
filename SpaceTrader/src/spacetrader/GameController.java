@@ -5,6 +5,7 @@
  */
 package spacetrader;
 
+import spacetrader.main.SpaceTrader;
 import java.awt.Point;
 import java.awt.geom.AffineTransform;
 import java.net.URL;

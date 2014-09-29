@@ -6,6 +6,7 @@
 
 package spacetrader;
 
+import spacetrader.main.SpaceTrader;
 import spacetrader.cosmos.player.Player;
 import java.net.URL;
 import java.util.ResourceBundle;

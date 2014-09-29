@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package spacetrader;
+package spacetrader.main;
 
 import spacetrader.cosmos.player.Player;
 import spacetrader.xml.XMLReader;

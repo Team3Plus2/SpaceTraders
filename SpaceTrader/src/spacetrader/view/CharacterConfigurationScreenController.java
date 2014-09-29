@@ -7,7 +7,7 @@
 package spacetrader.view;
 
 import spacetrader.main.SpaceTrader;
-import spacetrader.cosmos.player.Player;
+import spacetrader.player.Player;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.beans.property.DoubleProperty;

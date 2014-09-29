@@ -6,9 +6,11 @@
 package spacetrader;
 
 import java.awt.Point;
+import java.awt.geom.AffineTransform;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.Set;
 import javafx.beans.value.ChangeListener;
@@ -20,14 +22,17 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.transform.Affine;
+import javafx.scene.transform.Rotate;
+import spacetrader.cosmos.SparseSpace;
 import spacetrader.cosmos.Universe;
 import spacetrader.cosmos.player.Player;
 import spacetrader.cosmos.system.SolarSystem;
 import spacetrader.cosmos.system.SunType;
-import spacetrader.cosmos.SparseSpace;
 
 /**
  * FXML Controller class
@@ -58,6 +63,8 @@ public class GameController implements Initializable {
     
     private boolean dragging = false, dragFinished = true;
     
+    private Image binaryStar,protoStar,redGiantStar,solStar,whiteDwarfStar;
+    
     @FXML
     private Canvas gameCanvas;
     
@@ -74,6 +81,12 @@ public class GameController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         solarSystemLocations = new HashMap<>();
+        
+        binaryStar = new Image("/visuals/Stars/Binary.png");
+        protoStar = new Image("/visuals/Stars/Proto.png");
+        redGiantStar = new Image("/visuals/Stars/RedGiant.png");
+        solStar = new Image("/visuals/Stars/Sol.png");
+        whiteDwarfStar = new Image("/visuals/Stars/WhiteDwarf.png");
         
         //adds listener for the zoom slider
         zoomSlider.valueProperty().addListener(new ChangeListener<Number>() {
@@ -204,6 +217,9 @@ public class GameController implements Initializable {
         if(mouseOver != null) {
             selectedSolarSystem = mouseOver;
             drawUniverse();
+        } else {
+            selectedSolarSystem = null;
+            drawUniverse();
         }
     }
     
@@ -211,8 +227,11 @@ public class GameController implements Initializable {
      * Helper method that draws universe based on map offset and scale
      */
     private void drawUniverse() {
+        int universeScale = 2;
         Point lower = getLower();
         Point upper = getUpper();
+        lower = new Point(lower.x / (universeScale), lower.y / (universeScale));
+        upper = new Point(upper.x / (universeScale), upper.y / (universeScale));
 
         universe.generateFrom(lower.x, lower.y, upper.x, upper.y );
         
@@ -228,44 +247,67 @@ public class GameController implements Initializable {
         starBackdrop.setTranslateY((-mapOffsetY - dragOffsetY)*2);
         for (SparseSpace.SparseIterator iter = universe.iterateFrom(lower.x, lower.y, upper.x, upper.y); iter.hasNext();) {
             SolarSystem a = iter.next();
-            int x = iter.getX();
-            int y = iter.getY();
+            Image starImage = null;
+            int x = iter.getX() * universeScale;
+            int y = iter.getY() * universeScale;
             if(a != null) {
+                Random r = new Random();
+                r.setSeed(a.Name().hashCode());
                 //set color of star based on suntype
                 switch(a.SunType()) {
                     case BINARY:
-                        g.setFill(Color.BLUE);
+                        starImage = binaryStar;
                         break;
                     case BLACK_HOLE:
                         g.setFill(Color.VIOLET);
                         break;
                     case PROTO:
-                        g.setFill(Color.PINK);
+                        starImage = protoStar; 
                         break;
                     case RED_GIANT:
-                        g.setFill(Color.RED);
+                        starImage = redGiantStar;
                         break;
                     case SOL:
-                        g.setFill(Color.YELLOW);
+                        starImage = solStar;
                         break;
                     case WHITE_DWARF:
-                        g.setFill(Color.WHITE);
+                        starImage = whiteDwarfStar;
                         break;
                 }
                 if(!dragging) {
-//                    starBackdrop.setTranslateX(-mapOffsetX * 2);
-//                    starBackdrop.setTranslateY(-mapOffsetY * 2);
+                    double size = zoom * 2 + a.Planets().length;
+                    double xPosition = ((x - mapOffsetX) * zoom) + (512 - mapOffsetX) - (size / 2);
+                    double yPosition = ((y - mapOffsetY) * zoom) + (288 - mapOffsetY) - (size / 2);
                     if(dragFinished) {
-                        solarSystemLocations.put(new Point((int) (((x - mapOffsetX) * zoom) + (512 - mapOffsetX)), (int) (((y - mapOffsetY) * zoom) + (288 - mapOffsetY))), a);
+                        solarSystemLocations.put(new Point((int) (xPosition + (size/2)), (int) (yPosition + (size/2))), a);
                     }
-                    g.fillOval(((x - mapOffsetX) * zoom) + (512 - mapOffsetX), ((y - mapOffsetY) * zoom) + (288 - mapOffsetY), (zoom / 2) + a.Planets().length, (zoom / 2) + a.Planets().length);
+                    if(starImage == null) {
+                        g.fillOval(((x - mapOffsetX) * zoom) + (512 - mapOffsetX), ((y - mapOffsetY) * zoom) + (288 - mapOffsetY), (zoom / 2) + a.Planets().length, (zoom / 2) + a.Planets().length);
+                    } else {
+                        Affine old = g.getTransform();
+                        double angle = r.nextDouble() * 360;
+                        rotate(angle, xPosition + size/2, yPosition + size/2);
+                        g.drawImage(starImage, xPosition, yPosition, size, size);
+                        g.setTransform(old);
+                    }
                     g.setFill(Color.WHITE);
                     if(a.equals(selectedSolarSystem)) {
                         tempSelectedX = (int) (((x - mapOffsetX) * zoom) + (512 - mapOffsetX));
                         tempSelectedY = (int) (((y - mapOffsetY) * zoom) + (288 - mapOffsetY));
                     }
                 } else {
-                    g.fillOval(((x - dragOffsetX - mapOffsetX) * zoom) + (512 - mapOffsetX - dragOffsetX), ((y - dragOffsetY - mapOffsetY) * zoom) + (288 - mapOffsetY - dragOffsetY), (zoom / 2) + a.Planets().length, (zoom / 2) + a.Planets().length);
+                    if(starImage == null) {
+                        g.fillOval(((x - mapOffsetX - dragOffsetX) * zoom) + (512 - dragOffsetX - mapOffsetX), ((y - mapOffsetY - dragOffsetY) * zoom) + (288 - dragOffsetY - mapOffsetY), (zoom / 2) + a.Planets().length, (zoom / 2) + a.Planets().length);
+                    } else {
+                        Affine old = g.getTransform();
+                        double angle = r.nextDouble() * 360;
+                        double size = zoom * 2 + a.Planets().length;
+                        double xPosition = ((x - mapOffsetX - dragOffsetX) * zoom) + (512 - mapOffsetX - dragOffsetX) - (size/2);
+                        double yPosition = ((y - mapOffsetY - dragOffsetY) * zoom) + (288 - mapOffsetY - dragOffsetY) - (size/2);
+                        rotate(angle, xPosition + size/2, yPosition + size/2);
+                        g.drawImage(starImage, xPosition, yPosition, size, size);
+                        g.setTransform(old);
+                    }
                     g.setFill(Color.WHITE);
                     if(a.equals(selectedSolarSystem)) {
                         tempSelectedX = (int) (((x - dragOffsetX - mapOffsetX) * zoom) + (512 - dragOffsetX - mapOffsetX));
@@ -281,6 +323,11 @@ public class GameController implements Initializable {
             g.setFill(Color.WHITE);
             g.fillText(selectedSolarSystem.toString(), tempSelectedX + 5, tempSelectedY);
         }
+    }
+    
+    private void rotate(double angle, double px, double py) {
+        Rotate r = new Rotate(angle, px, py);
+        g.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx(), r.getTy());
     }
     
     private int longestLine(String s) {

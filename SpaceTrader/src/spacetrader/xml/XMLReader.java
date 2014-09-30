@@ -2,6 +2,8 @@ package spacetrader.xml;
 
 import java.lang.reflect.Field;
 
+import javafx.scene.paint.Color;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -45,10 +47,14 @@ public class XMLReader<T> {
      */
     public ArrayList<T> read() {
         ArrayList<Field> settableFields = new ArrayList<>();
-        for(Field field : type.getDeclaredFields()) {
-            if(field.getAnnotation(FromXML.class) != null)
-                settableFields.add(field);
-        }
+        Class tmpType = type;
+        do {
+            for(Field field : tmpType.getDeclaredFields()) {
+                if(field.getAnnotation(FromXML.class) != null)
+                    settableFields.add(field);
+            }
+            tmpType = tmpType.getSuperclass();
+        } while (tmpType != null);
         
         /*ArrayList<Constructor> constructors = new ArrayList<Constructor>();
         for(Constructor a : type.getConstructors())
@@ -99,6 +105,19 @@ public class XMLReader<T> {
                 }*/
                 
                 for(Field field : settableFields) {
+                    
+                    if(field.getName().equals("name")) {
+                        try {
+                            field.setAccessible(true);
+                            field.set(item, elem.getNodeName());
+                            field.setAccessible(false);
+                        } catch(IllegalAccessException excep) {
+                            System.err.println("Error setting primary name field in created item to return from xml... see message:");
+                            System.err.println(excep.getMessage());
+                        }
+                        continue;
+                    }
+                    
                     if(elem.getElementsByTagName(field.getName()).getLength() == 0) { //if field is missing
                         if(field.getAnnotation(FromXML.class).required())
                             throw new XMLObjectMismatchException(field, localFile);
@@ -126,13 +145,10 @@ public class XMLReader<T> {
                         } else if(field.getType().equals(Float.TYPE)) {
                             field.set(item, Float.valueOf(rawValue));
                         } else if(field.getType().equals(TechLevel.class)) {
-                            TechLevel level = TechLevel.get(rawValue);
-                            if(level == null)
-                                level = TechLevel.get(Integer.valueOf(rawValue));
                             try {
-                                field.set(item, level);
+                                field.set(item, TechLevel.get(rawValue));
                             } catch(IllegalArgumentException excep) {
-                                field.set(item, TechLevel.get(0));
+                                field.set(item, TechLevel.Default());
                             }
                         } else if(field.getType().equals(Resource.class)) {
                             try {
@@ -142,15 +158,21 @@ public class XMLReader<T> {
                             }
                         } else if(field.getType().equals(SunType.class)) {
                             try {
-                                field.set(item, SunType.valueOf(rawValue));
+                                field.set(item, SunType.get(rawValue));
                             } catch(IllegalArgumentException excep) {
-                                field.set(item, SunType.values()[Integer.valueOf(rawValue)]);
+                                field.set(item, SunType.Default());
                             }
                         } else if(field.getType().equals(Government.class)) {
                             try {
                                 field.set(item, Government.get(rawValue));
                             } catch(IllegalArgumentException excep) {
                                 field.set(item, Government.get(""));
+                            }
+                        } else if(field.getType().equals(Color.class)) {
+                            try {
+                                field.set(item, Color.valueOf(rawValue));
+                            } catch(IllegalArgumentException excep) {
+                                field.set(item, Color.WHITE);
                             }
                         } else {
                             field.set(item, rawValue);

@@ -7,5 +7,10 @@ and open the template in the editor.
 
 
 <root>
-    <AGRICULTURE />
+    <REGULAR>
+        <color>yellow</color>
+    </REGULAR>
+    <ODD>
+        <color>aqua</color>
+    </ODD>
 </root>

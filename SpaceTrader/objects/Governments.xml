@@ -7,5 +7,7 @@ and open the template in the editor.
 
 
 <root>
-    <AGRICULTURE />
+    <SUPER_COMMUNISM>
+        <lowestTechnology>2</lowestTechnology>
+    </SUPER_COMMUNISM>
 </root>

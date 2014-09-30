@@ -232,26 +232,7 @@ public class GameController implements Initializable {
             int y = iter.getY();
             if(a != null) {
                 //set color of star based on suntype
-                switch(a.SunType()) {
-                    case BINARY:
-                        g.setFill(Color.BLUE);
-                        break;
-                    case BLACK_HOLE:
-                        g.setFill(Color.VIOLET);
-                        break;
-                    case PROTO:
-                        g.setFill(Color.PINK);
-                        break;
-                    case RED_GIANT:
-                        g.setFill(Color.RED);
-                        break;
-                    case SOL:
-                        g.setFill(Color.YELLOW);
-                        break;
-                    case WHITE_DWARF:
-                        g.setFill(Color.WHITE);
-                        break;
-                }
+                g.setFill(a.SunType().getColor());
                 if(!dragging) {
 //                    starBackdrop.setTranslateX(-mapOffsetX * 2);
 //                    starBackdrop.setTranslateY(-mapOffsetY * 2);

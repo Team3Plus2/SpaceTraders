@@ -137,7 +137,8 @@ public class SpaceTrader extends Application {
      */
     public static void main(String[] args) {
         ObjectLoader.LoadAllObjects();
-        //Resource.get("DESERT");
+        Resource desert = (Resource)Resource.get("DESERT");
+        System.out.println(desert.getName());
         
         launch(args);
     }

@@ -6,6 +6,7 @@ import spacetrader.economy.TradeGood;
 import spacetrader.cosmos.system.Resource;
 import spacetrader.cosmos.system.TechLevel;
 import spacetrader.cosmos.system.Government;
+import spacetrader.cosmos.system.SunType;
 
 /**
  * 
@@ -17,11 +18,11 @@ import spacetrader.cosmos.system.Government;
 public class ObjectLoader {
     
     public static void LoadAllObjects() {
-        Resource.initialize();
         Resource.Load();
-        TechLevel.LoadTechLevels();
-        TradeGood.LoadTradeGoods();
-        Government.LoadGovernments();
+        TechLevel.Load();
+        TradeGood.Load();
+        Government.Load();
+        SunType.Load();
     }
     
 }

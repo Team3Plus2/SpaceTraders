@@ -26,7 +26,7 @@ and open the template in the editor.
 }
 
 .slider .thumb {
-    -fx-background-image: url('/visuals/Slider_Thumb.png');
+    -fx-background-image: url('../../visuals/Slider_Thumb.png');
     -fx-background-size: stretch;
 }
 
@@ -41,26 +41,30 @@ and open the template in the editor.
 }
 
 .gridpane {
-    -fx-background-image: url('/visuals/GridLayoutBG.png');
+    -fx-background-image: url('../../visuals/GridLayoutBG.png');
     -fx-background-size: stretch;
 }
 
 #CharConfig {
-    -fx-background-image: url('/visuals/CharacterSelectionBG.png');
+    -fx-background-image: url('../../visuals/CharacterSelectionBG.png');
 }
 
 #WelcomeScreenBG{
     -fx-background-color: transparent;
-    -fx-background-image: url('/visuals/WelcomeScreenBackground.png');
+    -fx-background-image: url('../../visuals/WelcomeScreenBackground.png');
 }
 
 #StarBackdrop {
-    -fx-background-image: url('/visuals/StarBackdrop.png');
+    -fx-background-image: url('../../visuals/StarBackdrop.png');
+}
+
+.starbackdrop {
+    -fx-background-image: url('../../visuals/StarBackdrop.png');
 }
 
 .button {
     -fx-font-family: "LVDC Common2";
-    -fx-background-image: url('/visuals/Button.png');
+    -fx-background-image: url('../../visuals/Button.png');
     -fx-background-size: stretch;
     -fx-background-color: transparent;
     -fx-font-size: 30px;
@@ -68,7 +72,7 @@ and open the template in the editor.
 }
 
 #GameBackground {
-    -fx-background-image: url('/visuals/MainScreen.png');
+    -fx-background-image: url('../../visuals/MainScreen.png');
 }
 
 .button:hover {

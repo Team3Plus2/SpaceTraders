@@ -33,6 +33,7 @@ import spacetrader.xml.ObjectLoader;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Random;
+import spacetrader.view.SolarSystemViewController;
 
 /**
  *
@@ -106,6 +107,16 @@ public class SpaceTrader extends Application {
         try {
             this.newPlayer = newPlayer;
             this.universe = new Universe(100, 0.1f);
+            this.newPlayer.setCurrentSolarSystem(this.universe.getClosestSolarSystem(0, 0, 20));
+            System.out.println(this.newPlayer.getCurrentSolarSystem());
+            loadNewScreen("/spacetrader/view/StarScreen.fxml");
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void goToGame() {
+        try {
             loadNewScreen("/spacetrader/view/StarScreen.fxml");
         } catch(IOException e) {
             e.printStackTrace();
@@ -113,8 +124,13 @@ public class SpaceTrader extends Application {
     }
     
     private void loadNewScreen(String FXML) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource(FXML));
-        stackPane.getChildren().add(root);        
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(FXML));
+        Parent root = (Parent)loader.load();
+        stackPane.getChildren().add(root);
+        if(FXML.equals("/spacetrader/view/SolarSystemView.fxml")) {
+            SolarSystemViewController controller = (SolarSystemViewController)loader.getController();
+            controller.setScene(stage.getScene());
+        }
         EventHandler<ActionEvent> finished = new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {

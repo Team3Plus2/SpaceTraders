@@ -6,10 +6,11 @@
 package spacetrader.encounter;
 
 /**
- * An interface for the trader, pirate, and police encounters
- * 
+ *
  * @author Aaron McAnally
  */
-public interface Encounter {
-    public void handleEncounter();
+public class Police implements Encounter {
+    public void handleEncounter() {
+        
+    }
 }

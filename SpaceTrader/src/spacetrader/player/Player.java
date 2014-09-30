@@ -24,10 +24,10 @@ public class Player {
     private float money;
     private Ship ship;
     
-    public Player(String name, float money, int pilotSkill, int fighterSkill, int traderSkill,
+    public Player(String name, int pilotSkill, int fighterSkill, int traderSkill,
                   int engineerSkill, int investorSkill) {
         this.name = name;
-        this.money = money;
+        this.money = 1000;
         this.pilotSkill = pilotSkill;
         this.fighterSkill = fighterSkill;
         this.traderSkill = traderSkill;

@@ -95,7 +95,7 @@ public class CharacterConfigurationScreenController implements Initializable {
     @FXML
     private void handleBeginAction(ActionEvent event) {
         if (!(name.getText().equals("")) && skillPointsAvailable.getProgress() == 0) {
-            Player newPlayer = new Player(name.getText(), 10f, (int) pilotLevelSlider.getValue(), (int) fighterLevelSlider.getValue(), (int) traderLevelSlider.getValue(), (int) engineerLevelSlider.getValue(), 0);
+            Player newPlayer = new Player(name.getText(), (int) pilotLevelSlider.getValue(), (int) fighterLevelSlider.getValue(), (int) traderLevelSlider.getValue(), (int) engineerLevelSlider.getValue(), 0);
             SpaceTrader.getInstance().goToGame(newPlayer);
         } else {
             System.out.println("Please enter a name for your character or finish setting your skill points.");

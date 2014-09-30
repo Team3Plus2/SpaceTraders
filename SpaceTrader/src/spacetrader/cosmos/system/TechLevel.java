@@ -2,7 +2,7 @@ package spacetrader.cosmos.system;
 
 import java.util.ArrayList;
 import java.util.Random;
-import spacetrader.xml.TypeLoader;
+import spacetrader.xml.LoadedType;
 import spacetrader.xml.XMLReader;
 import spacetrader.xml.FromXML;
 
@@ -10,7 +10,7 @@ import spacetrader.xml.FromXML;
  *
  * @author Alex
  */
-public class TechLevel extends TypeLoader {
+public class TechLevel extends LoadedType {
     
     private static final String techLevelFile = "objects/TechLevels.xml";
 

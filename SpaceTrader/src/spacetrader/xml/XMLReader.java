@@ -45,7 +45,7 @@ public class XMLReader<T> {
     }
     
     /**
-     * read the xml file into an ArrayList<T>
+     * read the xml file into an ArrayLis
      * 
      * @return the arraylist built from the data in the file
      * @throws XMLObjectMismatchException if a required field is missing in the xml

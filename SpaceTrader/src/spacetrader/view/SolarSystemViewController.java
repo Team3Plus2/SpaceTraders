@@ -290,7 +290,7 @@ public class SolarSystemViewController implements Initializable {
 
     /**
      * Used to set the scene so that timer thread can exit
-     * @param scene 
+     * @param scene the scene to set
      */
     public void setScene(Scene scene) {
         scene.getWindow().setOnCloseRequest((WindowEvent event) -> {

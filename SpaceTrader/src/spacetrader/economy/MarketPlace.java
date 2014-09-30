@@ -22,8 +22,8 @@ public class MarketPlace {
      * Creates a new MarketPlace object based on the current techLevel and 
      * resource of the planet where the MarketPlace will be stored.
      * 
-     * @param techLevel
-     * @param resource 
+     * @param techLevel the techlevel of the planet
+     * @param resource the resource of the planet
      */
     public MarketPlace(TechLevel techLevel, Resource resource) {
         rand = new Random();

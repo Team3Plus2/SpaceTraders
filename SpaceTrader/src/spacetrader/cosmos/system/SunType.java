@@ -7,13 +7,13 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import spacetrader.xml.FromXML;
-import spacetrader.xml.TypeLoader;
+import spacetrader.xml.LoadedType;
 
 /**
  *
  * @author Alex
  */
-public class SunType extends TypeLoader {
+public class SunType extends LoadedType {
     
     private static final String sunTypeFileLocation = "objects/SunTypes.xml";
     

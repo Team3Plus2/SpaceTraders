@@ -3,7 +3,7 @@ package spacetrader.economy;
 import java.util.ArrayList;
 import java.util.Random;
 
-import spacetrader.xml.TypeLoader;
+import spacetrader.xml.LoadedType;
 import spacetrader.xml.XMLReader;
 import spacetrader.xml.FromXML;
 import spacetrader.cosmos.system.TechLevel;
@@ -16,7 +16,7 @@ import spacetrader.cosmos.system.Resource;
  * 
  * @author Carey MacDonald
  */
-public class TradeGood extends TypeLoader {
+public class TradeGood extends LoadedType {
     
     private static final String tradeGoodsFile = "objects/TradeGoods.xml";
     
@@ -115,7 +115,7 @@ public class TradeGood extends TypeLoader {
      * Trade goods should have the following names:
      *      water, furs, food, ore, games, firearms, medicine, machines, narcotics, robots
      * 
-     * @param name 
+     * @param name the name of the tradegood
      */
     public TradeGood(String name) {
         super(name);

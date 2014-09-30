@@ -2,7 +2,7 @@ package spacetrader.cosmos.system;
 
 import java.util.ArrayList;
 import java.util.Random;
-import spacetrader.xml.TypeLoader;
+import spacetrader.xml.LoadedType;
 import spacetrader.xml.FromXML;
 import spacetrader.xml.XMLReader;
 
@@ -11,7 +11,7 @@ import spacetrader.xml.XMLReader;
  * 
  * @author Alex
  */
-public class Government extends TypeLoader {
+public class Government extends LoadedType {
     
     private static final String governmentsFile = "objects/Governments.xml";
     

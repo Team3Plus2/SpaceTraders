@@ -2,9 +2,9 @@ package spacetrader.cosmos.system;
 
 import java.util.ArrayList;
 import java.util.Random;
-import spacetrader.xml.LoadableType;
+import spacetrader.xml.LoadedType;
 import spacetrader.xml.FromXML;
-import spacetrader.xml.TypeLoader;
+import spacetrader.xml.LoadedType;
 import spacetrader.xml.XMLReader;
 
 /**
@@ -13,7 +13,7 @@ import spacetrader.xml.XMLReader;
  * 
  * @author Alex
  */
-public class Resource extends TypeLoader {
+public class Resource extends LoadedType {
     
     private static float DEFAULT_RESOURCE_CHANCE = 0.25f;
     

@@ -3,6 +3,7 @@ package spacetrader.xml;
 import java.lang.reflect.Field;
 
 import javafx.scene.paint.Color;
+import javafx.scene.image.Image;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,6 +31,10 @@ import spacetrader.cosmos.system.*;
  * @author Alex
  */
 public class XMLReader<T> {
+    
+    private static void DefaultWarning(String rawValue, String def) {
+        System.err.println("Warning: Could not find image '" + rawValue + "', reverting to default value '" + def + "'");
+    }
     
     private Class type;
     private String file;
@@ -148,32 +153,44 @@ public class XMLReader<T> {
                             try {
                                 field.set(item, TechLevel.get(rawValue));
                             } catch(IllegalArgumentException excep) {
+                                DefaultWarning(rawValue, TechLevel.Default().toString());
                                 field.set(item, TechLevel.Default());
                             }
                         } else if(field.getType().equals(Resource.class)) {
                             try {
                                 field.set(item, Resource.get(rawValue));
                             } catch(IllegalArgumentException excep) {
+                                DefaultWarning(rawValue, "NO_SPECIAL_RESOURCES");
                                 field.set(item, Resource.get("NO_SPECIAL_RESOURCES"));
                             }
                         } else if(field.getType().equals(SunType.class)) {
                             try {
                                 field.set(item, SunType.get(rawValue));
                             } catch(IllegalArgumentException excep) {
+                                DefaultWarning(rawValue, SunType.Default().toString());
                                 field.set(item, SunType.Default());
                             }
                         } else if(field.getType().equals(Government.class)) {
                             try {
                                 field.set(item, Government.get(rawValue));
                             } catch(IllegalArgumentException excep) {
+                                DefaultWarning(rawValue, "");
                                 field.set(item, Government.get(""));
                             }
                         } else if(field.getType().equals(Color.class)) {
                             try {
                                 field.set(item, Color.valueOf(rawValue));
                             } catch(IllegalArgumentException excep) {
+                                DefaultWarning(rawValue, Color.WHITE.toString());
                                 field.set(item, Color.WHITE);
                             }
+                        } else if(field.getType().equals(Image.class)) {
+                            try {
+                                field.set(item, new Image(rawValue));
+                            } catch(IllegalArgumentException excep) {
+                                DefaultWarning(rawValue, null);
+                                field.set(item, null);
+                            } 
                         } else {
                             field.set(item, rawValue);
                         }
@@ -198,5 +215,5 @@ public class XMLReader<T> {
         return list;
     
     }
-
+    
 }

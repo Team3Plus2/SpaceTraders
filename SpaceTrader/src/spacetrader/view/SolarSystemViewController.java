@@ -136,15 +136,19 @@ public class SolarSystemViewController implements Initializable {
         
         //draw initial view
         draw();
+        
+        //draw initial flare
+        double size = (starImage.getWidth() / 2);
+        double posx = 512 - (size / 2) - dragOffsetX - mapOffsetX;
+        double posy = 288 - (size / 2) - dragOffsetY - mapOffsetY;
+        flareG.setGlobalBlendMode(BlendMode.ADD);
+        drawFlares(size, posx, posy);
     }
     
     /**
      * draws the solar system
      */
     private void draw() {
-        flareG.setGlobalBlendMode(BlendMode.SRC_OVER);
-        flareG.clearRect(0, 0, 1024, 576);
-        flareG.setGlobalBlendMode(BlendMode.ADD);
         g.clearRect(0, 0, 1024, 576);
         starBackdrop.setScaleX(2 + (zoom / 30));
         starBackdrop.setScaleY(2 + (zoom / 30));
@@ -158,6 +162,27 @@ public class SolarSystemViewController implements Initializable {
         double posx = 512 - (size / 2) - dragOffsetX - mapOffsetX;
         double posy = 288 - (size / 2) - dragOffsetY - mapOffsetY;
         g.drawImage(starImage, posx, posy, size, size);
+        if(dragging){
+            flareG.setGlobalBlendMode(BlendMode.SRC_OVER);
+            flareG.clearRect(0, 0, 1024, 576);
+            flareG.setGlobalBlendMode(BlendMode.ADD);
+            drawFlares(size, posx, posy);
+        }
+        g.setStroke(Color.WHITE);
+        for(Planet p : curSystem.Planets()) {
+            posx = getCartesianLocation(p.getLocation(), p.getOrbitEllipse()).x - dragOffsetX - mapOffsetX;
+            posy = getCartesianLocation(p.getLocation(), p.getOrbitEllipse()).y - dragOffsetY - mapOffsetY;
+            for(int i = 0; i < 90; i++) {
+                g.setFill(Color.gray(Math.max(Math.min(Math.abs(Math.sin(i/50.0)), 0.8), 0.5)));
+                g.fillOval(getCartesianLocation(new Point(i*14, p.getLocation().y), p.getOrbitEllipse()).x - dragOffsetX - mapOffsetX - 1, getCartesianLocation(new Point(i*14, p.getLocation().y), p.getOrbitEllipse()).y - dragOffsetY - mapOffsetY - 1, 2, 2);
+                g.fillOval(getCartesianLocation(new Point((i + 90)*14, p.getLocation().y), p.getOrbitEllipse()).x - dragOffsetX - mapOffsetX - 1, getCartesianLocation(new Point((i + 90)*14, p.getLocation().y), p.getOrbitEllipse()).y - dragOffsetY - mapOffsetY - 1, 2, 2);
+            }
+            g.setFill(Color.WHITE);
+            g.fillOval(posx - 5, posy - 5, 10, 10);
+        }
+    }
+    
+    private void drawFlares(double size, double posx, double posy) {
         flareG.drawImage(flareImage, flareImage.getWidth()/2.0, flareImage.getWidth()/2.0, flareImage.getWidth()/2.0, flareImage.getHeight()/2.0, posx + ((dragOffsetX + mapOffsetX) * 4), posy + ((dragOffsetY + mapOffsetY) * 4), size, size);
         flareG.drawImage(flareImage, flareImage.getWidth()/2.0, flareImage.getWidth()/2.0, flareImage.getWidth()/2.0, flareImage.getHeight()/2.0, posx + ((dragOffsetX + mapOffsetX) * 2), posy + ((dragOffsetY + mapOffsetY) * 2), size, size);
         size *= 4;
@@ -174,23 +199,18 @@ public class SolarSystemViewController implements Initializable {
         posy = 288 - (size / 2) - dragOffsetY - mapOffsetY;
         flareG.drawImage(flareImage, flareImage.getWidth()/2.0, flareImage.getWidth()/2.0, flareImage.getWidth()/2.0, flareImage.getHeight()/2.0, posx + ((dragOffsetX + mapOffsetX) * 3), posy + ((dragOffsetY + mapOffsetY) * 3), size, size);
         flareG.drawImage(flareImage, flareImage.getWidth()/2.0, flareImage.getWidth()/2.0, flareImage.getWidth()/2.0, flareImage.getHeight()/2.0, posx + ((dragOffsetX + mapOffsetX) * 1.5), posy + ((dragOffsetY + mapOffsetY) * 1.5), size, size);
+        size /= 4;
+        posx = 512 - (size / 2) - dragOffsetX - mapOffsetX;
+        posy = 288 - (size / 2) - dragOffsetY - mapOffsetY;
         flareG.drawImage(flareImage, flareImage.getWidth()/2.0, flareImage.getWidth()/2.0, flareImage.getWidth()/2.0, flareImage.getHeight()/2.0, posx + ((dragOffsetX + mapOffsetX) * 1.75), posy + ((dragOffsetY + mapOffsetY) * 1.75), size, size);
+        size /= 4;
+        posx = 512 - (size / 2) - dragOffsetX - mapOffsetX;
+        posy = 288 - (size / 2) - dragOffsetY - mapOffsetY;
         flareG.drawImage(flareImage, flareImage.getWidth()/2.0, flareImage.getWidth()/2.0, flareImage.getWidth()/2.0, flareImage.getHeight()/2.0, posx + ((dragOffsetX + mapOffsetX) * 3.75), posy + ((dragOffsetY + mapOffsetY) * 3.75), size, size);
-        size *= 18;
+        size *= 200;
         posx = 512 - (size / 2) - ((dragOffsetX + mapOffsetX)*4);
         posy = 288 - (size / 2) - ((dragOffsetY + mapOffsetY)*4);
         flareG.drawImage(flareImage, 0, flareImage.getWidth()/2.0, flareImage.getWidth()/2.0, flareImage.getHeight()/2.0, posx, posy, size, size);
-        g.setStroke(Color.WHITE);
-        for(Planet p : curSystem.Planets()) {
-            posx = getCartesianLocation(p.getLocation(), p.getOrbitEllipse()).x - dragOffsetX - mapOffsetX;
-            posy = getCartesianLocation(p.getLocation(), p.getOrbitEllipse()).y - dragOffsetY - mapOffsetY;
-            for(int i = 0; i < 360; i++) {
-                g.setFill(Color.gray(Math.max(Math.min(Math.abs(Math.sin(i/100.0)), 0.9), 0.3)));
-                g.fillOval(getCartesianLocation(new Point(i*7, p.getLocation().y), p.getOrbitEllipse()).x - dragOffsetX - mapOffsetX - 1, getCartesianLocation(new Point(i*7, p.getLocation().y), p.getOrbitEllipse()).y - dragOffsetY - mapOffsetY - 1, 2, 2);
-            }
-            g.setFill(Color.WHITE);
-            g.fillOval(posx - 5, posy - 5, 10, 10);
-        }
     }
     
     /**

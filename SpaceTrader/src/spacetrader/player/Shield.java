@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package spacetrader.cosmos.player;
+package spacetrader.player;
 
 /**
  * A shield is added protection to a ship.

@@ -4,9 +4,9 @@
  * and open the template in the editor.
  */
 
-package spacetrader;
+package spacetrader.main;
 
-import spacetrader.cosmos.player.Player;
+import spacetrader.player.Player;
 import spacetrader.xml.XMLReader;
 import spacetrader.turns.TurnEvent;
 import java.io.IOException;
@@ -33,6 +33,7 @@ import spacetrader.xml.ObjectLoader;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Random;
+import spacetrader.view.SolarSystemViewController;
 
 /**
  *
@@ -69,8 +70,8 @@ public class SpaceTrader extends Application {
             stage.setTitle("Space Traders");
             Scene scene = new Scene(stackPane);
             Font.loadFont(getClass().getResource("/visuals/LVDCC.TTF").toExternalForm(), 10);
-            scene.getStylesheets().add(getClass().getResource("SpaceTraderStylesheet.css").toExternalForm());
-            loadNewScreen("WelcomeScreen.fxml");
+            scene.getStylesheets().add(getClass().getResource("/spacetrader/view/SpaceTraderStylesheet.css").toExternalForm());
+            loadNewScreen("/spacetrader/view/WelcomeScreen.fxml");
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
@@ -80,7 +81,15 @@ public class SpaceTrader extends Application {
 
     public void goToCharacterConfig() {
         try {
-            loadNewScreen("CharacterConfigurationScreen.fxml");
+            loadNewScreen("/spacetrader/view/CharacterConfigurationScreen.fxml");
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void goToSolarSystemView() {
+        try {
+            loadNewScreen("/spacetrader/view/SolarSystemView.fxml");
         } catch(IOException e) {
             e.printStackTrace();
         }
@@ -88,7 +97,7 @@ public class SpaceTrader extends Application {
     
     public void goToWelcomeScreen() {
         try {
-            loadNewScreen("WelcomeScreen.fxml");
+            loadNewScreen("/spacetrader/view/WelcomeScreen.fxml");
         } catch(IOException e) {
             e.printStackTrace();
         }
@@ -98,15 +107,30 @@ public class SpaceTrader extends Application {
         try {
             this.newPlayer = newPlayer;
             this.universe = new Universe(100, 0.1f);
-            loadNewScreen("Game.fxml");
+            this.newPlayer.setCurrentSolarSystem(this.universe.getClosestSolarSystem(0, 0, 20));
+            System.out.println(this.newPlayer.getCurrentSolarSystem());
+            loadNewScreen("/spacetrader/view/StarScreen.fxml");
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void goToGame() {
+        try {
+            loadNewScreen("/spacetrader/view/StarScreen.fxml");
         } catch(IOException e) {
             e.printStackTrace();
         }
     }
     
     private void loadNewScreen(String FXML) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource(FXML));
-        stackPane.getChildren().add(root);        
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(FXML));
+        Parent root = (Parent)loader.load();
+        stackPane.getChildren().add(root);
+        if(FXML.equals("/spacetrader/view/SolarSystemView.fxml")) {
+            SolarSystemViewController controller = (SolarSystemViewController)loader.getController();
+            controller.setScene(stage.getScene());
+        }
         EventHandler<ActionEvent> finished = new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -137,8 +161,7 @@ public class SpaceTrader extends Application {
      */
     public static void main(String[] args) {
         ObjectLoader.LoadAllObjects();
-        Resource desert = (Resource)Resource.get("DESERT");
-        System.out.println(desert.getName());
+        //Resource.get("DESERT");
         
         launch(args);
     }

@@ -4,9 +4,10 @@
  * and open the template in the editor.
  */
 
-package spacetrader.cosmos.player;
+package spacetrader.player;
 
 import spacetrader.cosmos.system.Planet;
+import spacetrader.cosmos.system.SolarSystem;
 
 /**
  * The main player and everything it owns.
@@ -18,6 +19,8 @@ public class Player {
     private String name;
     private int pilotSkill, fighterSkill, traderSkill, engineerSkill, investorSkill;
     private Planet currentPlanet;
+    private SolarSystem currentSolarSystem;
+
     private float money;
     private Ship ship;
     
@@ -35,6 +38,14 @@ public class Player {
     
     public String getName() {
         return name;
+    }
+    
+    public SolarSystem getCurrentSolarSystem() {
+        return currentSolarSystem;
+    }
+
+    public void setCurrentSolarSystem(SolarSystem currentSolarSystem) {
+        this.currentSolarSystem = currentSolarSystem;
     }
 
     public void setName(String name) {

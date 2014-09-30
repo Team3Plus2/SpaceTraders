@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package spacetrader.cosmos.player;
+package spacetrader.player;
 
 import java.util.ArrayList;
 import spacetrader.economy.TradeGood;

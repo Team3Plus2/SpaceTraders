@@ -3,7 +3,7 @@ package spacetrader.economy;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
-import spacetrader.cosmos.player.Player;
+import spacetrader.player.Player;
 import spacetrader.cosmos.system.TechLevel;
 import spacetrader.cosmos.system.Resource;
 

@@ -10,7 +10,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="CharConfig" maxHeight="576.0" maxWidth="1024.0" minHeight="576.0" minWidth="1024.0" prefHeight="576.0" prefWidth="1024.0" styleClass="mainFxmlClass" stylesheets="@SpaceTraderStylesheet.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="spacetrader.CharacterConfigurationScreenController">
+<AnchorPane id="CharConfig" maxHeight="576.0" maxWidth="1024.0" minHeight="576.0" minWidth="1024.0" prefHeight="576.0" prefWidth="1024.0" styleClass="mainFxmlClass" stylesheets="@SpaceTraderStylesheet.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="spacetrader.view.CharacterConfigurationScreenController">
    <children>
       <Button layoutX="57.0" layoutY="44.0" mnemonicParsing="false" onAction="#handleBackAction" text="Back" />
       <GridPane alignment="CENTER" layoutX="245.0" layoutY="122.0" prefHeight="431.0" prefWidth="517.0" styleClass="gridpane">

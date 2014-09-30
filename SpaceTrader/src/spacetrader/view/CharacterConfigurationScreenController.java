@@ -4,9 +4,10 @@
  * and open the template in the editor.
  */
 
-package spacetrader;
+package spacetrader.view;
 
-import spacetrader.cosmos.player.Player;
+import spacetrader.main.SpaceTrader;
+import spacetrader.player.Player;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.beans.property.DoubleProperty;

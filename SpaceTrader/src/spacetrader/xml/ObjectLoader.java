@@ -7,6 +7,7 @@ import spacetrader.cosmos.system.Resource;
 import spacetrader.cosmos.system.TechLevel;
 import spacetrader.cosmos.system.Government;
 import spacetrader.cosmos.system.SunType;
+import spacetrader.player.Gadget;
 
 /**
  * 
@@ -23,6 +24,7 @@ public class ObjectLoader {
         TradeGood.Load();
         Government.Load();
         SunType.Load();
+        Gadget.Load();
     }
     
 }

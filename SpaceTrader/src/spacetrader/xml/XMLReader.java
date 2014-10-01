@@ -1,12 +1,15 @@
 package spacetrader.xml;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 
 import javafx.scene.paint.Color;
 import javafx.scene.image.Image;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -96,10 +99,15 @@ public class XMLReader<T> {
                 Element elem = (Element) node;
                 T item = null;
                 try {
-                    item = (T)type.newInstance();
-                } catch(InstantiationException | IllegalAccessException excep) {
+                    Constructor construct = type.getConstructor();
+                    construct.setAccessible(true);
+                    item = (T)construct.newInstance();
+                    construct.setAccessible(false);
+                    //item = (T)type.newInstance();
+                } catch(NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException excep) {
                     System.err.println("Error creating item to return from xml read... see message:");
                     System.err.println(excep.getMessage());
+                    continue;
                 }
                 
                 //read constructor data

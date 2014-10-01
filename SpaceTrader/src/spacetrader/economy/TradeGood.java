@@ -184,4 +184,8 @@ public class TradeGood extends LoadedType {
         return levelProduceMost;
     }
 
+    @Override
+    public String toString() {
+        return getName() + " - $" + getCurrentPriceEach();
+    }
 }

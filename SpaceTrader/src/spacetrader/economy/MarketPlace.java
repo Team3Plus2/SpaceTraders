@@ -98,6 +98,25 @@ public class MarketPlace {
         return tradeGoods.get(tg).getAmount();
     }
     
+    /**
+     * returns the current price of the given TradeGood.
+     * 
+     * @param tg the TradeGood we want the price of.
+     * @return the price of the TradeGood.
+     */
+    public float priceOfGood(TradeGood tg) {
+        return tg.getCurrentPriceEach();
+    }
+    
+    /**
+     * @return a list of the goods in the marketplace
+     */
+    public ArrayList<TradeGood> getListOfGoods() {
+        ArrayList<TradeGood> goods = new ArrayList<TradeGood>();
+        goods.addAll(tradeGoods.values());
+        return goods;
+    }
+    
     //TODO Implement method to update MarketPlace prices/amounts/items across turns
    
 }

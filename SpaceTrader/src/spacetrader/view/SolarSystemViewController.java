@@ -277,6 +277,9 @@ public class SolarSystemViewController implements Initializable {
     }
     
     private Planet findClosestPlanet(Point p) {
+        if(curSystem.Planets()[0] == null) {
+            return null;
+        }
         Planet forreturn = screenSpace.get(p);
         if(forreturn == null) {
             Point[] points = new Point[screenSpace.keySet().size()];
@@ -294,7 +297,6 @@ public class SolarSystemViewController implements Initializable {
         return forreturn;
     }
     
-    //GOING TO IMPLEMENT MOUSE OVER
     @FXML
     private void mouseMove(MouseEvent event) {
         Planet mouseOver = findClosestPlanet(new Point((int)event.getX(), (int)event.getY()));

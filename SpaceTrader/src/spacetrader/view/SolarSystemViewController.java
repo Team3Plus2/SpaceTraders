@@ -42,30 +42,28 @@ import spacetrader.player.Player;
  */
 public class SolarSystemViewController implements Initializable {
     
-    @FXML
-    private Canvas viewCanvas;
-    
     private GraphicsContext g;
-    
     private GraphicsContext flareG;
+    private GraphicsContext selectionG;
     
     private Image starImage;
     private Image flareImage;
     
     private SolarSystem curSystem;
-    
     private Player player;
     
     private Timer timer;
     
     @FXML
     private Slider zoomSlider;
-    
     @FXML
     private Pane starBackdrop;
-    
     @FXML
     private Canvas flareLayer;
+    @FXML
+    private Canvas viewCanvas;
+    @FXML
+    private Canvas selectionLayer;
     
     private double zoom = 1;
     private double preDragX;
@@ -76,6 +74,8 @@ public class SolarSystemViewController implements Initializable {
     private double mapOffsetX;
     private double mapOffsetY;
     private boolean dragFinished;
+    
+    private HashMap<Point, Planet> screenSpace;
 
     /**
      * Initializes the controller class.
@@ -87,42 +87,15 @@ public class SolarSystemViewController implements Initializable {
         curSystem = player.getCurrentSolarSystem();
         g = viewCanvas.getGraphicsContext2D();
         flareG = flareLayer.getGraphicsContext2D();
+        selectionG = selectionLayer.getGraphicsContext2D();
         starImage = new Image("/visuals/Stars/Sol_big.png");
         flareImage = new Image("/visuals/Stars/SolFlareSheet.png");
         Random r = new Random();
+        screenSpace = new HashMap<>();
         
-        //ensure no planets are too close to one another
-        if(curSystem.Planets().length > 1) {
-            for(int i = 0; i < curSystem.Planets().length; i++) {
-                for(int j = i + 1; j < curSystem.Planets().length; j++) {
-                    int p1 = curSystem.Planets()[i].getLocation().y;
-                    int p2 = curSystem.Planets()[j].getLocation().y;
-                    while (Math.abs(p1 - p2) < 30) {
-                        curSystem.Planets()[j].setLocation(new Point(curSystem.Planets()[j].getLocation().x, p2 + 1));
-                        p1 = curSystem.Planets()[i].getLocation().y;
-                        p2 = curSystem.Planets()[j].getLocation().y;
-                        i = 0;
-                    }
-                }
-            }
-        }
+        checkRadii();
         
-        //update orbits
-        timer = new Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                Platform.runLater(() -> {
-                    for(Planet p : curSystem.Planets()) {
-                        if(p.getLocation().x + 1 > 144000) {
-                            p.setLocation(new Point(0, p.getLocation().y));
-                        }
-                        p.setLocation(new Point(p.getLocation().x + 1, p.getLocation().y));
-                    }
-                    draw();
-                });
-            }
-        }, 0, 100);
+        updateTimer();
         
         //adds listener for the zoom slider
         zoomSlider.valueProperty().addListener(new ChangeListener<Number>() {
@@ -145,11 +118,45 @@ public class SolarSystemViewController implements Initializable {
         drawFlares(size, posx, posy);
     }
     
-    /**
-     * draws the solar system
-     */
-    private void draw() {
-        g.clearRect(0, 0, 1024, 576);
+    private void checkRadii() {
+        //ensure no planets are too close to one another
+        if(curSystem.Planets().length > 1) {
+            for(int i = 0; i < curSystem.Planets().length; i++) {
+                for(int j = i + 1; j < curSystem.Planets().length; j++) {
+                    int p1 = curSystem.Planets()[i].getLocation().y;
+                    int p2 = curSystem.Planets()[j].getLocation().y;
+                    while (Math.abs(p1 - p2) < 30) {
+                        curSystem.Planets()[j].setLocation(new Point(curSystem.Planets()[j].getLocation().x, p2 + 1));
+                        p1 = curSystem.Planets()[i].getLocation().y;
+                        p2 = curSystem.Planets()[j].getLocation().y;
+                        i = 0;
+                    }
+                }
+            }
+        }
+    }
+    
+    private void updateTimer() {
+        //update orbits
+        timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                Platform.runLater(() -> {
+                    for(Planet p : curSystem.Planets()) {
+                        if(p.getLocation().x + 1 > 144000) {
+                            p.setLocation(new Point(0, p.getLocation().y));
+                        }
+                        p.setLocation(new Point(p.getLocation().x + 1, p.getLocation().y));
+                    }
+                    screenSpace.clear();
+                    draw();
+                });
+            }
+        }, 0, 100);
+    }
+    
+    private void updateCanvasScales() {
         starBackdrop.setScaleX(2 + (zoom / 30));
         starBackdrop.setScaleY(2 + (zoom / 30));
         starBackdrop.setTranslateX(-(dragOffsetX + mapOffsetX)/4);
@@ -158,6 +165,14 @@ public class SolarSystemViewController implements Initializable {
         viewCanvas.setScaleY(1 + (zoom / 10));
         flareLayer.setScaleX(1 + (zoom / 20));
         flareLayer.setScaleY(1 + (zoom / 20));
+    }
+    
+    /**
+     * draws the solar system
+     */
+    private void draw() {
+        g.clearRect(0, 0, 1024, 576);
+        updateCanvasScales();
         double size = (starImage.getWidth() / 2);
         double posx = 512 - (size / 2) - dragOffsetX - mapOffsetX;
         double posy = 288 - (size / 2) - dragOffsetY - mapOffsetY;
@@ -179,7 +194,19 @@ public class SolarSystemViewController implements Initializable {
             }
             g.setFill(Color.WHITE);
             g.fillOval(posx - 5, posy - 5, 10, 10);
+            screenSpace.put(new Point((int)(posx - 5), (int)(posy - 5)), p);
         }
+    }
+    
+     /**
+     * draws the solar system
+     */
+    private void drawSelection(Point mouse, Planet selection) {
+        selectionG.clearRect(0, 0, 1024, 576);
+        selectionG.setStroke(Color.WHITE);
+        selectionG.setFill(Color.WHITE);
+        selectionG.strokeOval(mouse.x - 15, mouse.y - 15, 30, 30);
+        selectionG.fillText(selection.Name(), mouse.getX(), mouse.getY());
     }
     
     private void drawFlares(double size, double posx, double posy) {
@@ -223,19 +250,36 @@ public class SolarSystemViewController implements Initializable {
         preDragY = event.getY();
     }
     
+    private Planet findClosestPlanet(Point p) {
+        Planet forreturn = screenSpace.get(p);
+        if(forreturn == null) {
+            Point[] points = new Point[screenSpace.keySet().size()];
+            screenSpace.keySet().toArray(points);
+            Point closest = points[0];
+            for(Point test : points) {
+                if(closest.distance(p.x, p.y) > test.distance(p.x, p.y)) {
+                    closest = test;
+                }
+            }
+            if(closest.distance(p.x, p.y) < 10) {
+                forreturn = screenSpace.get(closest);
+            }
+        }
+        return forreturn;
+    }
+    
     //GOING TO IMPLEMENT MOUSE OVER
-//    @FXML
-//    private void mouseMove(MouseEvent event) {
-//        if(mouseOver != null) {
-//            draw();
-//            //Point p = getSolarSystemCoords(mouseOver);
-//            g.setStroke(Color.WHITE);
-//            g.strokeOval(event.getX() - 15, event.getY() - 15, 30, 30);
-//            g.fillText(mouseOver.Name(), event.getX(), event.getY());
-//        } else {
-//            draw();
-//        }
-//    }
+    @FXML
+    private void mouseMove(MouseEvent event) {
+        Planet mouseOver = findClosestPlanet(new Point((int)event.getX(), (int)event.getY()));
+//        System.out.println("Mouse: " + (int)event.getX() + " " + (int)event.getY());
+//        Planet mouseOver = curSystem.Planets()[0];
+        if(mouseOver != null) {
+            drawSelection(new Point((int)event.getX(), (int)event.getY()), mouseOver);
+        } else {
+            selectionG.clearRect(0, 0, 1024, 576);
+        }
+    }
     
     /**
      * update drag offsets when dragging

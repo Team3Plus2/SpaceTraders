@@ -14,8 +14,9 @@
     </stylesheets>
    <children>
       <Pane id="StarBackdrop" fx:id="starBackdrop" prefHeight="576.0" prefWidth="1024.0" scaleX="2.0" scaleY="2.0" />
-      <Canvas fx:id="viewCanvas" height="576.0" onMouseDragged="#mouseDrag" onMousePressed="#mouseDown" onMouseReleased="#mouseReleased" width="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-      <Canvas fx:id="flareLayer" blendMode="ADD" height="576.0" onMouseDragged="#mouseDrag" onMousePressed="#mouseDown" onMouseReleased="#mouseReleased" width="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <Canvas fx:id="viewCanvas" height="576.0" onMouseDragged="#mouseDrag" onMouseMoved="#mouseMove" onMousePressed="#mouseDown" onMouseReleased="#mouseReleased" width="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <Canvas fx:id="flareLayer" blendMode="ADD" height="576.0" mouseTransparent="true" width="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <Canvas fx:id="selectionLayer" height="576.0" mouseTransparent="true" width="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" layoutX="0" layoutY="0"  />
       <Pane id="GameBackground" layoutX="1.0" layoutY="2.0" mouseTransparent="true" prefHeight="576.0" prefWidth="1024.0" stylesheets="@SpaceTraderStylesheet.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
       <Slider fx:id="zoomSlider" layoutX="980.0" layoutY="111.0" max="15.0" min="1.0" orientation="VERTICAL" prefHeight="305.0" prefWidth="15.0" stylesheets="@SpaceTraderStylesheet.css" value="1.0" />
       <Button layoutX="67.0" layoutY="77.0" mnemonicParsing="false" onAction="#handleBackAction" text="Back" />

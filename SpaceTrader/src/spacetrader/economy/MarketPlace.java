@@ -112,7 +112,9 @@ public class MarketPlace {
      * @return a list of the goods in the marketplace
      */
     public ArrayList<TradeGood> getListOfGoods() {
-        return (ArrayList<TradeGood>) (tradeGoods.values());
+        ArrayList<TradeGood> goods = new ArrayList<TradeGood>();
+        goods.addAll(tradeGoods.values());
+        return goods;
     }
     
     //TODO Implement method to update MarketPlace prices/amounts/items across turns

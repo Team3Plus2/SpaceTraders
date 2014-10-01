@@ -114,8 +114,6 @@ public class Player {
         this.ship = ship;
     }
     
-    
-    //TO DO!!!!
     public ArrayList<SolarSystem> getTravelable(Universe universe) {
         int travelRadius = (int)ship.getFuel();
         ArrayList<SolarSystem> systems = new ArrayList<>();

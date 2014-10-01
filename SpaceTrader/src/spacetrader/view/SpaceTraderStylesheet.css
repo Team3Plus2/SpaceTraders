@@ -40,6 +40,17 @@ and open the template in the editor.
     -fx-padding: 0.6em 0.2em 0.2em 0.655em;
 }
 
+.list-cell {
+    -fx-background-insets: 0.0em 0.4em 0.0em 0.0em;
+}
+
+.list-cell:odd {
+    -fx-background-color: rgba(52, 106, 181, 0.5);
+}
+
+.list-cell:even {
+    -fx-background-color: rgba(52, 106, 181, 0.7);
+}
 
 .tab-pane .tab {
     -fx-background-color: #678a96;

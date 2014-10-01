@@ -268,6 +268,7 @@ public class SolarSystemViewController implements Initializable {
     private void mouseClick(MouseEvent event) {
         if(curPlanet != null) {
             marketplaceUI.setVisible(true);
+            generateBuyList();
         }
     }
     
@@ -400,6 +401,8 @@ public class SolarSystemViewController implements Initializable {
     private Label buyDetails;
     @FXML
     private TabPane marketplaceUI;
+    @FXML
+    private Label planetMarketplaceLabel;
     
     @FXML
     private void generateBuyList() {
@@ -409,7 +412,7 @@ public class SolarSystemViewController implements Initializable {
             ObservableList<TradeGood> list = FXCollections.observableArrayList(tradeGoodTypes);
             planetInventory.setItems(list);
             for (TradeGood goodType: tradeGoodTypes) {
-
+                
             }
         }
     }
@@ -418,15 +421,11 @@ public class SolarSystemViewController implements Initializable {
     private void generateSellList() {
         market = new MarketPlace(curSystem.TechLevel(), curPlanet.Resources());
         ArrayList<TradeGood> cargo = player.getShip().getCargo().getCargoList();
-    }
-    
-    @FXML
-    private void selectItem() {
         
     }
     
     @FXML
-    private void backAction() {
+    private void selectItem() {
         
     }
 }

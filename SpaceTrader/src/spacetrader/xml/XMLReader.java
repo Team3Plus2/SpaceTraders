@@ -159,7 +159,12 @@ public class XMLReader<T> {
                             field.set(item, Float.valueOf(rawValue));
                         } else if(field.getType().equals(TechLevel.class)) {
                             try {
-                                field.set(item, TechLevel.get(rawValue));
+                                TechLevel level = (TechLevel)TechLevel.get(rawValue);
+                                if(level == null)
+                                    level = (TechLevel)TechLevel.get(Integer.valueOf(rawValue), TechLevel.class);
+                                if(level == null)//if the level is still null, the xml value is invalid
+                                    System.err.println("The value " + rawValue + " for the element " + elem.getTagName() + " is not a valid techLevel");
+                                field.set(item, level);
                             } catch(IllegalArgumentException excep) {
                                 DefaultWarning(rawValue, TechLevel.Default().toString());
                                 field.set(item, TechLevel.Default());

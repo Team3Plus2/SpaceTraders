@@ -383,12 +383,14 @@ public class SolarSystemViewController implements Initializable {
     
     @FXML
     private void generateBuyList() {
-        market = new MarketPlace(curSystem.TechLevel(), curPlanet.Resources());
-        ArrayList<TradeGood> tradeGoodTypes = TradeGood.getTradeGoodTypes();
-        ObservableList<TradeGood> list = FXCollections.observableArrayList(tradeGoodTypes);
-        planetInventory.setItems(list);
-        for (TradeGood goodType: tradeGoodTypes) {
-            
+        if (curPlanet != null) {
+            market = new MarketPlace(curSystem.TechLevel(), curPlanet.Resources());
+            ArrayList<TradeGood> tradeGoodTypes = TradeGood.getTradeGoodTypes();
+            ObservableList<TradeGood> list = FXCollections.observableArrayList(tradeGoodTypes);
+            planetInventory.setItems(list);
+            for (TradeGood goodType : tradeGoodTypes) {
+
+            }
         }
     }
     

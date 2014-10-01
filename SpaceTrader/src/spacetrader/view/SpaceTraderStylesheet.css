@@ -30,6 +30,57 @@ and open the template in the editor.
     -fx-background-size: stretch;
 }
 
+.tab-pane:top *.tab-header-area {
+    -fx-background-insets: 0, 0 0 0 0;
+    -fx-background-color: background;
+    -fx-border-color: black;
+    -fx-border-radius: 0;
+    -fx-border-width: 5;
+    -fx-border-insets: 0.0em 0.0em 0.0em 0em;
+    -fx-padding: 0.5em 0.2em 0.2em 1em;
+}
+
+
+.tab-pane .tab {
+    -fx-background-color: #678a96;
+    -fx-padding: 0.0em 0.0em 0.0em 0.0em;
+}
+
+.tab-pane .tab:selected {
+    -fx-background-color: #005d7f;
+    -fx-padding: 0.0em 0.0em 0.0em 0.0em;
+    -fx-background-insets: 0 0 0 0,0,0;
+}
+
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-background-color: background;
+}
+
+/*.control-buttons-tab {
+    -fx-background-color: black;
+    -fx-background-insets: 0, 1, 2;
+    -fx-background-radius: 5 5 0 0, 4 4 0 0, 3 3 0 0;
+    -fx-padding: 0.0em 0.0em 0.0em 0.0em;  1 3 1 3 
+}*/
+
+.tab-down-button {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-padding: 0.0em 0.0em 0.0em 0.0em; /* 0 5 0 5 */
+}
+
+.tab-down-button:hover {
+    -fx-background-color: transparent;
+    -fx-color: -fx-hover-base;
+}
+
+.tab-down-button .arrow {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0 0 0 0, 0;
+    -fx-padding: 0.0em 0.0em 0.0em 0.0em; /* 2.857 5 2.857 5 */
+    -fx-shape: "M 0 0 H 7 L 3.5 4 z";
+}
+
 .slider .track {
     -fx-background-color: white;
 }

@@ -16,8 +16,39 @@
       <Pane id="StarBackdrop" fx:id="starBackdrop" prefHeight="576.0" prefWidth="1024.0" scaleX="2.0" scaleY="2.0" />
       <Canvas fx:id="viewCanvas" height="576.0" onMouseDragged="#mouseDrag" onMouseMoved="#mouseMove" onMousePressed="#mouseDown" onMouseReleased="#mouseReleased" width="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
       <Canvas fx:id="flareLayer" blendMode="ADD" height="576.0" mouseTransparent="true" width="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-      <Canvas fx:id="selectionLayer" height="576.0" mouseTransparent="true" width="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" layoutX="0" layoutY="0"  />
+      <Canvas fx:id="selectionLayer" height="576.0" layoutX="0" layoutY="0" mouseTransparent="true" width="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
       <Pane id="GameBackground" layoutX="1.0" layoutY="2.0" mouseTransparent="true" prefHeight="576.0" prefWidth="1024.0" stylesheets="@SpaceTraderStylesheet.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <TabPane prefHeight="456.0" prefWidth="702.0" styleClass="gridpane" stylesheets="@SpaceTraderStylesheet.css" tabClosingPolicy="UNAVAILABLE" tabMaxHeight="50.0" tabMaxWidth="250.0" tabMinHeight="50.0" tabMinWidth="250.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="20.0">
+        <tabs>
+          <Tab closable="false" text="Buy">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ListView fx:id="planetInventory" layoutX="14.0" layoutY="14.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="15.0" />
+                        <Button fx:id="back1" mnemonicParsing="false" onAction="#handleBackAction" text="Back" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="340.0" AnchorPane.rightAnchor="15.0" />
+                        <Button fx:id="buyButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleBackAction" text="Buy" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="340.0" AnchorPane.rightAnchor="15.0" />
+                        <TextField fx:id="buyQuantity" layoutX="406.0" layoutY="233.0" prefHeight="26.0" prefWidth="102.0" AnchorPane.rightAnchor="16.0" />
+                        <Label layoutX="339.0" layoutY="230.0" text="Qty:" AnchorPane.leftAnchor="339.0" AnchorPane.rightAnchor="126.0" />
+                        <Label fx:id="buyDetails" layoutX="339.0" layoutY="15.0" prefHeight="209.0" prefWidth="172.0" text="Qty:" AnchorPane.leftAnchor="339.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0" />
+                     </children></AnchorPane>
+            </content>
+          </Tab>
+            <Tab closable="false" text="Sell">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ListView fx:id="playerInventory" layoutX="14.0" layoutY="14.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="15.0" />
+                        <Button fx:id="back2" mnemonicParsing="false" onAction="#handleBackAction" text="Back" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="340.0" AnchorPane.rightAnchor="15.0" />
+                        <Button fx:id="sellButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleBackAction" text="Sell" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="340.0" AnchorPane.rightAnchor="15.0" />
+                        <TextField fx:id="sellQuantity" layoutX="406.0" layoutY="233.0" prefHeight="26.0" prefWidth="102.0" AnchorPane.rightAnchor="16.0" />
+                        <Label layoutX="339.0" layoutY="230.0" text="Qty:" AnchorPane.leftAnchor="339.0" AnchorPane.rightAnchor="126.0" />
+                        <Label fx:id="sellDetails" prefHeight="209.0" prefWidth="172.0" text="Qty:" AnchorPane.leftAnchor="339.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+        </tabs>
+      </TabPane>
       <Slider fx:id="zoomSlider" layoutX="980.0" layoutY="111.0" max="15.0" min="1.0" orientation="VERTICAL" prefHeight="305.0" prefWidth="15.0" stylesheets="@SpaceTraderStylesheet.css" value="1.0" />
       <Button layoutX="67.0" layoutY="77.0" mnemonicParsing="false" onAction="#handleBackAction" text="Back" />
    </children>

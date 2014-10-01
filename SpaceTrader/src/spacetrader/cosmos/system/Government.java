@@ -2,6 +2,7 @@ package spacetrader.cosmos.system;
 
 import java.util.ArrayList;
 import java.util.Random;
+import spacetrader.xml.LoadedType;
 import spacetrader.xml.FromXML;
 import spacetrader.xml.XMLReader;
 
@@ -10,30 +11,13 @@ import spacetrader.xml.XMLReader;
  * 
  * @author Alex
  */
-public class Government {
+public class Government extends LoadedType {
     
-    private static final String governmentsFile = "objects/Resources.xml";
-    private static ArrayList<Government> governments;
+    private static final String governmentsFile = "objects/Governments.xml";
     
     
-    public static void LoadGovernments() {
-        XMLReader reader = new XMLReader(Government.class, governmentsFile);
-        governments = reader.read();
-    }
-    
-    /**
-     * 
-     * Gets a government with the given name
-     * 
-     * @param name the name of the government type
-     * @return null if the given government type is not defined, otherwise a government object of the given type
-     */
-    public static Government get(String name) {
-        for(Government a : governments) {
-            if(a.name.equals(name))
-                return a;
-        }
-        return null;
+    public static void Load() {
+        Government.Load(Government.class, governmentsFile, null);
     }
     
     /*ANARCHY(null),
@@ -54,9 +38,6 @@ public class Government {
     THEOCRACY(null);*/
     
     @FromXML
-    private String name;
-    
-    @FromXML (required = false)//TODO fix xml and make this required again... I'm just pressed for time right now
     TechLevel lowestTechnology;//if null, then the government requires no technology
     
     /**
@@ -81,7 +62,7 @@ public class Government {
     public static Government random(Random rand, TechLevel technology) {
         Government selectedGov = null;
         do {
-            selectedGov = governments.get(rand.nextInt(governments.size()));
+            selectedGov = (Government)Government.get(rand.nextInt(Government.size(Government.class)), Government.class);
             if(selectedGov.lowestTechnology != null && technology.compareTo(selectedGov.lowestTechnology) < 0)
                 selectedGov = null;
         } while(selectedGov == null);
@@ -94,6 +75,6 @@ public class Government {
      * @return a random government type
      */
     public static Government random() {
-        return random(new Random(), TechLevel.get(0));
+        return random(new Random(), null);
     }
 }

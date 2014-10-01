@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<root>
+    <PROTOSTAR>
+        <image>/visuals/Stars/Proto.png</image>
+        <chance>.05</chance>
+    </PROTOSTAR>
+    <BINARY>
+        <image>/visuals/Stars/Binary.png</image>
+        <chance>.05</chance>
+    </BINARY>
+    <RED_GIANT>
+        <image>/visuals/Stars/RedGiant.png</image>
+        <chance>.05</chance>
+    </RED_GIANT>
+    <SOL>
+        <image>/visuals/Stars/Sol.png</image>
+        <chance>.4</chance>
+    </SOL>
+    <WHITE_DWARF>
+        <image>/visuals/Stars/WhiteDwarf.png</image>
+        <chance>.05</chance>
+    </WHITE_DWARF>
+    <BLACK_HOLE>
+        <color>black</color>
+        <chance>.005</chance>
+    </BLACK_HOLE>
+    <!--<SUPER_STAR>
+        <color>orange</color>
+        <chance>.4</chance>
+    </SUPER_STAR>-->
+</root>

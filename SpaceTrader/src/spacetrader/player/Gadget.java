@@ -1,9 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package spacetrader.player;
+
+import spacetrader.xml.LoadedType;
 
 /**
  * A gadget can be used to upgrade a ship.
@@ -11,19 +8,30 @@ package spacetrader.player;
  * @author Aaron McAnally
  */
 public class Gadget {
-    /**
-     * GadgetTypes: CARGO, NAVIGATION, AUTOREPAIR, TARGETING, CLOAKING
-     */
-    public enum GadgetType {
-        CARGO, NAVIGATION, AUTOREPAIR, TARGETING, CLOAKING;
-    }
-    
+
     private GadgetType gadgetType;
+    
+    public static void Load() {
+        GadgetType.Load();
+    }
     
     /**
      * @param gadgetType an enum that determines the type of gadget
      */
     public Gadget(GadgetType gadgetType) {
         this.gadgetType = gadgetType;
+    }
+}
+
+class GadgetType extends LoadedType {
+
+    private static final String GadgetFileLocation = "objects/Gadgets.xml";
+
+    public static void Load() {
+        GadgetType.Load(GadgetType.class, GadgetFileLocation, null);
+    }
+
+    public GadgetType() {
+        
     }
 }

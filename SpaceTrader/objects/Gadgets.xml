@@ -7,13 +7,9 @@ and open the template in the editor.
 
 
 <root>
-    <AGRICULTURE />
-    <LEVEL_1 />
-    <LEVEL_2 />
-    <LEVEL_3 />
-    <LEVEL_4 />
-    <LEVEL_5 />
-    <LEVEL_6 />
-    <LEVEL_7 />
-    <LEVEL_8 />
+    <CARGO></CARGO>
+    <NAVIGATION></NAVIGATION>
+    <AUTOREPAIR></AUTOREPAIR>
+    <TARGETING></TARGETING>
+    <CLOAKING></CLOAKING>
 </root>

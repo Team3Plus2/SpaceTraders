@@ -6,6 +6,7 @@
 
 package spacetrader.main;
 
+import spacetrader.economy.MarketPlace;
 import spacetrader.player.Player;
 import spacetrader.xml.XMLReader;
 import spacetrader.turns.TurnEvent;
@@ -33,6 +34,7 @@ import spacetrader.xml.ObjectLoader;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Random;
+import spacetrader.cosmos.system.TechLevel;
 import spacetrader.view.SolarSystemViewController;
 
 /**

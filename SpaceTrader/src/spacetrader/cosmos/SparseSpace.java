@@ -86,7 +86,8 @@ public class SparseSpace implements Iterable<SolarSystem> {
      * 
      * Iterate from x0 and y0 to x1 and y1
      * 
-     * @precondition x0 < x1 and y0 < y1
+     * Note: x0 is less than x1 and y0 is less than y1
+     * 
      * @param x0 lower left x coordinate
      * @param y0 lower left y coordinate
      * @param x1 upper right x coordinate

@@ -3,6 +3,7 @@ package spacetrader.economy;
 import java.util.ArrayList;
 import java.util.Random;
 
+import spacetrader.xml.LoadedType;
 import spacetrader.xml.XMLReader;
 import spacetrader.xml.FromXML;
 import spacetrader.cosmos.system.TechLevel;
@@ -15,23 +16,21 @@ import spacetrader.cosmos.system.Resource;
  * 
  * @author Carey MacDonald
  */
-public class TradeGood {
+public class TradeGood extends LoadedType {
     
     private static final String tradeGoodsFile = "objects/TradeGoods.xml";
-    
-    private static ArrayList<TradeGood> tradeGoodTypes;
     
     /**
      * Loads the various TradeGood types from TradeGoods.
      */
-    public static void LoadTradeGoods() {
-        XMLReader reader = new XMLReader(TradeGood.class, tradeGoodsFile);
-        tradeGoodTypes = reader.read();
+    public static void Load() {
+        TradeGood.Load(TradeGood.class, tradeGoodsFile, null);
+    }
+    
+    public static TradeGood Default() {
+        return (TradeGood)TradeGood.Default(TradeGood.class);
     }
 
-    @FromXML
-    private String name;
-    
     @FromXML
     private float basePrice, increasePerLevel, minRandPrice, maxRandPrice;
     
@@ -71,25 +70,25 @@ public class TradeGood {
         int variance2 = rand.nextInt(priceVariance);
         if (variance1 == 0) {
             if (resource.equals(priceLowCondition)) {
-                currentPriceEach = (basePrice * .5f) + (increasePerLevel * (TechLevel.getLevelNum(planetLevel)
-                        - TechLevel.getLevelNum(minLevelProduce))) - (basePrice * ((float) variance2/100));
+                currentPriceEach = (basePrice * .5f) + (increasePerLevel * (TechLevel.getIndex(planetLevel)
+                        - TechLevel.getIndex(minLevelProduce))) - (basePrice * ((float) variance2/100));
             } else if (resource.equals(priceHighCondition)) {
-                currentPriceEach = (basePrice * 1.5f) + (increasePerLevel * (TechLevel.getLevelNum(planetLevel)
-                        - TechLevel.getLevelNum(minLevelProduce))) - (basePrice * ((float) variance2/100));
+                currentPriceEach = (basePrice * 1.5f) + (increasePerLevel * (TechLevel.getIndex(planetLevel)
+                        - TechLevel.getIndex(minLevelProduce))) - (basePrice * ((float) variance2/100));
             } else {
-                currentPriceEach = basePrice + (increasePerLevel * (TechLevel.getLevelNum(planetLevel)
-                        - TechLevel.getLevelNum(minLevelProduce))) - (basePrice * ((float) variance2/100));
+                currentPriceEach = basePrice + (increasePerLevel * (TechLevel.getIndex(planetLevel)
+                        - TechLevel.getIndex(minLevelProduce))) - (basePrice * ((float) variance2/100));
             }
         } else {
             if (resource.equals(priceLowCondition)) {
-                currentPriceEach = (basePrice * .5f) + (increasePerLevel * (TechLevel.getLevelNum(planetLevel)
-                        - TechLevel.getLevelNum(minLevelProduce))) + (basePrice * ((float) variance2/100));
+                currentPriceEach = (basePrice * .5f) + (increasePerLevel * (TechLevel.getIndex(planetLevel)
+                        - TechLevel.getIndex(minLevelProduce))) + (basePrice * ((float) variance2/100));
             } else if (resource.equals(priceHighCondition)) {
-                currentPriceEach = (basePrice * 1.5f) + (increasePerLevel * (TechLevel.getLevelNum(planetLevel)
-                        - TechLevel.getLevelNum(minLevelProduce))) + (basePrice * ((float) variance2/100));
+                currentPriceEach = (basePrice * 1.5f) + (increasePerLevel * (TechLevel.getIndex(planetLevel)
+                        - TechLevel.getIndex(minLevelProduce))) + (basePrice * ((float) variance2/100));
             } else {
-                currentPriceEach = basePrice + (increasePerLevel * (TechLevel.getLevelNum(planetLevel)
-                        - TechLevel.getLevelNum(minLevelProduce))) + (basePrice * ((float) variance2/100));
+                currentPriceEach = basePrice + (increasePerLevel * (TechLevel.getIndex(planetLevel)
+                        - TechLevel.getIndex(minLevelProduce))) + (basePrice * ((float) variance2/100));
             }
         }
     }
@@ -116,10 +115,10 @@ public class TradeGood {
      * Trade goods should have the following names:
      *      water, furs, food, ore, games, firearms, medicine, machines, narcotics, robots
      * 
-     * @param name 
+     * @param name the name of the tradegood
      */
     public TradeGood(String name) {
-        this.name = name;
+        super(name);
         this.amount = 0;
         this.rand = new Random();
     }
@@ -130,15 +129,6 @@ public class TradeGood {
     public TradeGood() {
         this.rand = new Random();
     }
-    
-    /**
-     * Getter for name.
-     * 
-     * @return name
-     */
-    public String getName() {
-        return name;
-    }
 
     /**
      * Getter for tradeGoodTypes.
@@ -146,7 +136,7 @@ public class TradeGood {
      * @return tradeGoodTypes
      */
     public static ArrayList<TradeGood> getTradeGoodTypes() {
-        return tradeGoodTypes;
+        return (ArrayList<TradeGood>)TradeGood.getList(TradeGood.class);
     }
 
     /**
@@ -192,24 +182,6 @@ public class TradeGood {
      */
     public TechLevel getLevelProduceMost() {
         return levelProduceMost;
-    }
-    
-    /**
-     * Overriding equals to determine if two TradeGood objects are equal.
-     * 
-     * @param other the Object we want to know if this is equal to.
-     * @return true is this and other are equal.
-     */
-    public boolean equals(Object other) {
-        if (other == null) {
-            return false;
-        } else if (other instanceof TradeGood) {
-            TradeGood tg = (TradeGood) other;
-            if (tg.getName().equals(this.getName())) {
-                return true;
-            }
-        }
-        return false;
     }
 
 }

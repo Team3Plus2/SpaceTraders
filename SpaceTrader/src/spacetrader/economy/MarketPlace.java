@@ -22,15 +22,15 @@ public class MarketPlace {
      * Creates a new MarketPlace object based on the current techLevel and 
      * resource of the planet where the MarketPlace will be stored.
      * 
-     * @param techLevel
-     * @param resource 
+     * @param techLevel the techlevel of the planet
+     * @param resource the resource of the planet
      */
     public MarketPlace(TechLevel techLevel, Resource resource) {
         rand = new Random();
         ArrayList<TradeGood> tradeGoodTypes = TradeGood.getTradeGoodTypes();
         tradeGoods = new HashMap<TradeGood, TradeGood>();
         for (TradeGood tg : tradeGoodTypes) {
-            if (TechLevel.getLevelNum(tg.getMinLevelUse()) >= TechLevel.getLevelNum(techLevel)) {
+            /*if (TechLevel.getLevelNum(tg.getMinLevelUse()) >= TechLevel.getLevelNum(techLevel)) {
                 if (TechLevel.getLevelNum(tg.getMinLevelProduce()) >= TechLevel.getLevelNum(techLevel)) {
                     if (TechLevel.getLevelNum(tg.getLevelProduceMost()) == TechLevel.getLevelNum(techLevel)) {
                         tg.setAmount(rand.nextInt(100) + 100);
@@ -40,7 +40,7 @@ public class MarketPlace {
                     tg.computeCurrentPriceEach(techLevel, resource);
                 }
                 tradeGoods.put(tg, tg);
-            }
+            }*/
         }
     }
     

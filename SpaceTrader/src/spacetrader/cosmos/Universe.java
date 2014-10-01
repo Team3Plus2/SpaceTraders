@@ -151,9 +151,10 @@ public class Universe implements Iterable<SolarSystem>, TurnListener{
         /**
      * Generates an area of the given width around the given coordinates
      * 
-     * @param x The x coordinate
-     * @param y The y coordinate
-     * @param width The width of the area to generate
+     * @param x0 The x0 coordinate
+     * @param y0 The y0 coordinate
+     * @param x1 The x1 coordinate
+     * @param y1 The y1 coordinate
      */
     public void generateFrom(int x0, int y0, int x1, int y1) {
         for(int i = x0; i < x1; i++) {
@@ -168,7 +169,9 @@ public class Universe implements Iterable<SolarSystem>, TurnListener{
      * Generates an area of the given height past the given x
      * 
      * @param x The x coordinate
+     * @param y The y coordinate
      * @param height The width of the area to generate
+     * @param length The length of the area to generate
      */
     public void generateInPosXDirection(int x, int y, int height, int length) {
         for(int i = x; i <= x + length; i++) {
@@ -183,7 +186,9 @@ public class Universe implements Iterable<SolarSystem>, TurnListener{
      * Generates an area of the given height past the given x
      * 
      * @param x The x coordinate
+     * @param y The y coordinate
      * @param width The width of the area to generate
+     * @param length The length of the area to generate
      */
     public void generateinPosYDirection(int x, int y, int width, int length) {
         for(int i = y; i <= y + length; i++) {
@@ -198,7 +203,9 @@ public class Universe implements Iterable<SolarSystem>, TurnListener{
      * Generates an area of the given height past the given x
      * 
      * @param x The x coordinate
+     * @param y The y coordinate
      * @param width The width of the area to generate
+     * @param length The length of the area to generate
      */
     public void generateinNegXDirection(int x, int y, int width, int length) {
         for(int i = y; i >= y - length; i--) {
@@ -213,7 +220,9 @@ public class Universe implements Iterable<SolarSystem>, TurnListener{
      * Generates an area of the given height past the given x
      * 
      * @param x The x coordinate
+     * @param y The y coordinate
      * @param width The width of the area to generate
+     * @param length The length of the area to generate
      */
     public void generateinNegYDirection(int x, int y, int width, int length) {
         for(int i = y; i >= y - length; i--) {
@@ -318,7 +327,8 @@ public class Universe implements Iterable<SolarSystem>, TurnListener{
      * 
      * Iterate from x0 and y0 to x1 and y1
      * 
-     * @precondition x0 < x1 and y0 < y1
+     * Note: x0 is less than x1 and y0 is less than y1
+     * 
      * @param x0 lower left x coordinate
      * @param y0 lower left y coordinate
      * @param x1 upper right x coordinate

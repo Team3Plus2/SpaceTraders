@@ -87,11 +87,11 @@ public class StarScreenController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         solarSystemLocations = new HashMap<>();
         
-        binaryStar = new Image("/visuals/Stars/Binary.png");
+        /*binaryStar = new Image("/visuals/Stars/Binary.png");
         protoStar = new Image("/visuals/Stars/Proto.png");
         redGiantStar = new Image("/visuals/Stars/RedGiant.png");
         solStar = new Image("/visuals/Stars/Sol.png");
-        whiteDwarfStar = new Image("/visuals/Stars/WhiteDwarf.png");
+        whiteDwarfStar = new Image("/visuals/Stars/WhiteDwarf.png");*/
         
         //adds listener for the zoom slider
         zoomSlider.valueProperty().addListener(new ChangeListener<Number>() {
@@ -268,26 +268,12 @@ public class StarScreenController implements Initializable {
                 Random r = new Random();
                 r.setSeed(a.Name().hashCode());
                 //set color of star based on suntype
-                switch(a.SunType()) {
-                    case BINARY:
-                        starImage = binaryStar;
-                        break;
-                    case BLACK_HOLE:
-                        g.setFill(Color.VIOLET);
-                        break;
-                    case PROTO:
-                        starImage = protoStar; 
-                        break;
-                    case RED_GIANT:
-                        starImage = redGiantStar;
-                        break;
-                    case SOL:
-                        starImage = solStar;
-                        break;
-                    case WHITE_DWARF:
-                        starImage = whiteDwarfStar;
-                        break;
+                if(a.SunType().usesColor()) {
+                    g.setFill(a.SunType().getColor());
+                } else {
+                    starImage = a.SunType().getImage();
                 }
+                
                 if(!dragging) {
                     double size = zoom * 2 + a.Planets().length;
                     double xPosition = ((x - mapOffsetX) * zoom) + (512 - mapOffsetX) - (size / 2);

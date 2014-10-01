@@ -2,6 +2,9 @@ package spacetrader.xml;
 
 import java.lang.reflect.Field;
 
+import javafx.scene.paint.Color;
+import javafx.scene.image.Image;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,6 +32,10 @@ import spacetrader.cosmos.system.*;
  */
 public class XMLReader<T> {
     
+    private static void DefaultWarning(String rawValue, String def) {
+        System.err.println("Warning: Could not find image '" + rawValue + "', reverting to default value '" + def + "'");
+    }
+    
     private Class type;
     private String file;
     
@@ -38,17 +45,21 @@ public class XMLReader<T> {
     }
     
     /**
-     * read the xml file into an ArrayList<T>
+     * read the xml file into an ArrayLis
      * 
      * @return the arraylist built from the data in the file
      * @throws XMLObjectMismatchException if a required field is missing in the xml
      */
     public ArrayList<T> read() {
         ArrayList<Field> settableFields = new ArrayList<>();
-        for(Field field : type.getDeclaredFields()) {
-            if(field.getAnnotation(FromXML.class) != null)
-                settableFields.add(field);
-        }
+        Class tmpType = type;
+        do {
+            for(Field field : tmpType.getDeclaredFields()) {
+                if(field.getAnnotation(FromXML.class) != null)
+                    settableFields.add(field);
+            }
+            tmpType = tmpType.getSuperclass();
+        } while (tmpType != null);
         
         /*ArrayList<Constructor> constructors = new ArrayList<Constructor>();
         for(Constructor a : type.getConstructors())
@@ -99,6 +110,19 @@ public class XMLReader<T> {
                 }*/
                 
                 for(Field field : settableFields) {
+                    
+                    if(field.getName().equals("name")) {
+                        try {
+                            field.setAccessible(true);
+                            field.set(item, elem.getNodeName());
+                            field.setAccessible(false);
+                        } catch(IllegalAccessException excep) {
+                            System.err.println("Error setting primary name field in created item to return from xml... see message:");
+                            System.err.println(excep.getMessage());
+                        }
+                        continue;
+                    }
+                    
                     if(elem.getElementsByTagName(field.getName()).getLength() == 0) { //if field is missing
                         if(field.getAnnotation(FromXML.class).required())
                             throw new XMLObjectMismatchException(field, localFile);
@@ -126,32 +150,47 @@ public class XMLReader<T> {
                         } else if(field.getType().equals(Float.TYPE)) {
                             field.set(item, Float.valueOf(rawValue));
                         } else if(field.getType().equals(TechLevel.class)) {
-                            TechLevel level = TechLevel.get(rawValue);
-                            if(level == null)
-                                level = TechLevel.get(Integer.valueOf(rawValue));
                             try {
-                                field.set(item, level);
+                                field.set(item, TechLevel.get(rawValue));
                             } catch(IllegalArgumentException excep) {
-                                field.set(item, TechLevel.get(0));
+                                DefaultWarning(rawValue, TechLevel.Default().toString());
+                                field.set(item, TechLevel.Default());
                             }
                         } else if(field.getType().equals(Resource.class)) {
                             try {
                                 field.set(item, Resource.get(rawValue));
                             } catch(IllegalArgumentException excep) {
+                                DefaultWarning(rawValue, "NO_SPECIAL_RESOURCES");
                                 field.set(item, Resource.get("NO_SPECIAL_RESOURCES"));
                             }
                         } else if(field.getType().equals(SunType.class)) {
                             try {
-                                field.set(item, SunType.valueOf(rawValue));
+                                field.set(item, SunType.get(rawValue));
                             } catch(IllegalArgumentException excep) {
-                                field.set(item, SunType.values()[Integer.valueOf(rawValue)]);
+                                DefaultWarning(rawValue, SunType.Default().toString());
+                                field.set(item, SunType.Default());
                             }
                         } else if(field.getType().equals(Government.class)) {
                             try {
                                 field.set(item, Government.get(rawValue));
                             } catch(IllegalArgumentException excep) {
+                                DefaultWarning(rawValue, "");
                                 field.set(item, Government.get(""));
                             }
+                        } else if(field.getType().equals(Color.class)) {
+                            try {
+                                field.set(item, Color.valueOf(rawValue));
+                            } catch(IllegalArgumentException excep) {
+                                DefaultWarning(rawValue, Color.WHITE.toString());
+                                field.set(item, Color.WHITE);
+                            }
+                        } else if(field.getType().equals(Image.class)) {
+                            try {
+                                field.set(item, new Image(rawValue));
+                            } catch(IllegalArgumentException excep) {
+                                DefaultWarning(rawValue, null);
+                                field.set(item, null);
+                            } 
                         } else {
                             field.set(item, rawValue);
                         }
@@ -176,5 +215,5 @@ public class XMLReader<T> {
         return list;
     
     }
-
+    
 }

@@ -30,9 +30,9 @@ public class MarketPlace {
         ArrayList<TradeGood> tradeGoodTypes = TradeGood.getTradeGoodTypes();
         tradeGoods = new HashMap<TradeGood, TradeGood>();
         for (TradeGood tg : tradeGoodTypes) {
-            /*if (TechLevel.getLevelNum(tg.getMinLevelUse()) >= TechLevel.getLevelNum(techLevel)) {
-                if (TechLevel.getLevelNum(tg.getMinLevelProduce()) >= TechLevel.getLevelNum(techLevel)) {
-                    if (TechLevel.getLevelNum(tg.getLevelProduceMost()) == TechLevel.getLevelNum(techLevel)) {
+            if (TechLevel.getIndex(tg.getMinLevelUse()) >= TechLevel.getIndex(techLevel)) {
+                if (TechLevel.getIndex(tg.getMinLevelProduce()) >= TechLevel.getIndex(techLevel)) {
+                    if (TechLevel.getIndex(tg.getLevelProduceMost()) == TechLevel.getIndex(techLevel)) {
                         tg.setAmount(rand.nextInt(100) + 100);
                     } else {
                         tg.setAmount(rand.nextInt(100));
@@ -40,7 +40,7 @@ public class MarketPlace {
                     tg.computeCurrentPriceEach(techLevel, resource);
                 }
                 tradeGoods.put(tg, tg);
-            }*/
+            }
         }
     }
     

@@ -7,6 +7,9 @@ and open the template in the editor.
 
 
 <root>
+    <TRIBAL>
+        <lowestTechnology>0</lowestTechnology>
+    </TRIBAL>
     <SUPER_COMMUNISM>
         <lowestTechnology>2</lowestTechnology>
     </SUPER_COMMUNISM>

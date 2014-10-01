@@ -17,6 +17,8 @@ import java.util.TimerTask;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -73,29 +75,6 @@ public class SolarSystemViewController implements Initializable {
     @FXML
     private Canvas selectionLayer;
     
-    
-    @FXML
-    private ListView planetInventory;
-    @FXML
-    private ListView playerInventory;
-    @FXML
-    private Button back1;
-    @FXML
-    private Button buyButton;
-    @FXML
-    private Button back2;
-    @FXML
-    private Button sellButton;
-    @FXML
-    private TextField buyQuantity;
-    @FXML
-    private TextField sellQuantity;
-    @FXML
-    private Label sellDetails;
-    @FXML
-    private Label buyDetails;
-    
-    
     private double zoom = 1;
     private double preDragX;
     private double preDragY;
@@ -116,6 +95,7 @@ public class SolarSystemViewController implements Initializable {
         //initialize variables
         player = SpaceTrader.getInstance().getPlayer();
         curSystem = player.getCurrentSolarSystem();
+        curPlanet = curSystem.Planets()[0];
         g = viewCanvas.getGraphicsContext2D();
         flareG = flareLayer.getGraphicsContext2D();
         selectionG = selectionLayer.getGraphicsContext2D();
@@ -147,6 +127,7 @@ public class SolarSystemViewController implements Initializable {
         double posy = 288 - (size / 2) - dragOffsetY - mapOffsetY;
         flareG.setGlobalBlendMode(BlendMode.ADD);
         drawFlares(size, posx, posy);
+        generateBuyList();
     }
     
     private void checkRadii() {
@@ -380,9 +361,35 @@ public class SolarSystemViewController implements Initializable {
     private MarketPlace market;
     
     @FXML
+    private ListView planetInventory;
+    @FXML
+    private ListView playerInventory;
+    @FXML
+    private Button back1;
+    @FXML
+    private Button buyButton;
+    @FXML
+    private Button back2;
+    @FXML
+    private Button sellButton;
+    @FXML
+    private TextField buyQuantity;
+    @FXML
+    private TextField sellQuantity;
+    @FXML
+    private Label sellDetails;
+    @FXML
+    private Label buyDetails;
+    
+    @FXML
     private void generateBuyList() {
         market = new MarketPlace(curSystem.TechLevel(), curPlanet.Resources());
         ArrayList<TradeGood> tradeGoodTypes = TradeGood.getTradeGoodTypes();
+        ObservableList<TradeGood> list = FXCollections.observableArrayList(tradeGoodTypes);
+        planetInventory.setItems(list);
+        for (TradeGood goodType: tradeGoodTypes) {
+            
+        }
     }
     
     @FXML

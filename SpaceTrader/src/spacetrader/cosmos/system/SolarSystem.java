@@ -12,6 +12,8 @@ public class SolarSystem {
     
     private static final int DEFAULT_MAX_PLANETS = 10;
 
+    private int x;
+    private int y;
     private String name;
     private Planet[] planets;
     private Random rand;
@@ -65,6 +67,22 @@ public class SolarSystem {
     
     public String Name() {
         return name;
+    }
+    
+    public void setX(int x) {
+        this.x = x;
+    }
+    
+    public void setY(int y) {
+        this.y = y;
+    }
+    
+    public int getX() {
+        return x;
+    }
+    
+    public int getY() {
+        return y;
     }
     
     @Override

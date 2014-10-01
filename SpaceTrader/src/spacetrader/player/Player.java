@@ -6,6 +6,9 @@
 
 package spacetrader.player;
 
+import java.util.Iterator;
+import java.util.ArrayList;
+
 import spacetrader.cosmos.Universe;
 import spacetrader.cosmos.system.Planet;
 import spacetrader.cosmos.system.SolarSystem;
@@ -17,6 +20,8 @@ import spacetrader.cosmos.system.SolarSystem;
  * @author Aaron McAnally
  */
 public class Player {
+    
+    
     private String name;
     private int pilotSkill, fighterSkill, traderSkill, engineerSkill, investorSkill;
     private Planet currentPlanet;
@@ -111,7 +116,16 @@ public class Player {
     
     
     //TO DO!!!!
-    public SolarSystem[] getTravelable(Universe universe) {
-        return null;
+    public ArrayList<SolarSystem> getTravelable(Universe universe) {
+        int travelRadius = (int)ship.getFuel();
+        ArrayList<SolarSystem> systems = new ArrayList<>();
+        int x = currentSolarSystem.getX();
+        int y = currentSolarSystem.getY();
+        Iterator<SolarSystem> iter = universe.iterateFrom(x - travelRadius, y - travelRadius, x + travelRadius, y + travelRadius);
+        for(SolarSystem i = iter.next();iter.hasNext(); i = iter.next()) {
+            if(i != null)
+                systems.add(i);
+        }
+        return systems;
     }
 }

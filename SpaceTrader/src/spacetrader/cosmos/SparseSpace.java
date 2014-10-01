@@ -37,6 +37,8 @@ public class SparseSpace implements Iterable<SolarSystem> {
      */
     public void insert(int x, int y, SolarSystem system) {
         //System.out.println(x + " " + y + ": " + system.Name());
+        system.setX(x);
+        system.setY(y);
         if(spaceMap.containsKey(x)) {
             spaceMap.get(x).put(y, system);
         } else {

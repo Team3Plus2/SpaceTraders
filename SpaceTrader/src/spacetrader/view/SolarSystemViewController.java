@@ -8,6 +8,7 @@ package spacetrader.view;
 
 import java.awt.Point;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.ResourceBundle;
@@ -16,6 +17,8 @@ import java.util.TimerTask;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -36,6 +39,8 @@ import javafx.stage.Window;
 import javafx.stage.WindowEvent;
 import spacetrader.cosmos.system.Planet;
 import spacetrader.cosmos.system.SolarSystem;
+import spacetrader.economy.MarketPlace;
+import spacetrader.economy.TradeGood;
 import spacetrader.main.SpaceTrader;
 import spacetrader.player.Player;
 
@@ -54,6 +59,7 @@ public class SolarSystemViewController implements Initializable {
     private Image flareImage;
     
     private SolarSystem curSystem;
+    private Planet curPlanet;
     private Player player;
     
     private Timer timer;
@@ -68,29 +74,6 @@ public class SolarSystemViewController implements Initializable {
     private Canvas viewCanvas;
     @FXML
     private Canvas selectionLayer;
-    
-    
-    @FXML
-    private ListView planetInventory;
-    @FXML
-    private ListView playerInventory;
-    @FXML
-    private Button back1;
-    @FXML
-    private Button buyButton;
-    @FXML
-    private Button back2;
-    @FXML
-    private Button sellButton;
-    @FXML
-    private TextField buyQuantity;
-    @FXML
-    private TextField sellQuantity;
-    @FXML
-    private Label sellDetails;
-    @FXML
-    private Label buyDetails;
-    
     
     private double zoom = 1;
     private double preDragX;
@@ -112,6 +95,7 @@ public class SolarSystemViewController implements Initializable {
         //initialize variables
         player = SpaceTrader.getInstance().getPlayer();
         curSystem = player.getCurrentSolarSystem();
+        curPlanet = curSystem.Planets()[0];
         g = viewCanvas.getGraphicsContext2D();
         flareG = flareLayer.getGraphicsContext2D();
         selectionG = selectionLayer.getGraphicsContext2D();
@@ -143,6 +127,7 @@ public class SolarSystemViewController implements Initializable {
         double posy = 288 - (size / 2) - dragOffsetY - mapOffsetY;
         flareG.setGlobalBlendMode(BlendMode.ADD);
         drawFlares(size, posx, posy);
+        generateBuyList();
     }
     
     private void checkRadii() {
@@ -369,4 +354,57 @@ public class SolarSystemViewController implements Initializable {
         });
     }
     
+    /***************************************************
+    *   Start of Marketplace Screen functions          *
+    ****************************************************/
+    
+    private MarketPlace market;
+    
+    @FXML
+    private ListView planetInventory;
+    @FXML
+    private ListView playerInventory;
+    @FXML
+    private Button back1;
+    @FXML
+    private Button buyButton;
+    @FXML
+    private Button back2;
+    @FXML
+    private Button sellButton;
+    @FXML
+    private TextField buyQuantity;
+    @FXML
+    private TextField sellQuantity;
+    @FXML
+    private Label sellDetails;
+    @FXML
+    private Label buyDetails;
+    
+    @FXML
+    private void generateBuyList() {
+        market = new MarketPlace(curSystem.TechLevel(), curPlanet.Resources());
+        ArrayList<TradeGood> tradeGoodTypes = TradeGood.getTradeGoodTypes();
+        ObservableList<TradeGood> list = FXCollections.observableArrayList(tradeGoodTypes);
+        planetInventory.setItems(list);
+        for (TradeGood goodType: tradeGoodTypes) {
+            
+        }
+    }
+    
+    @FXML
+    private void generateSellList() {
+        market = new MarketPlace(curSystem.TechLevel(), curPlanet.Resources());
+        ArrayList<TradeGood> cargo = player.getShip().getCargo().getCargoList();
+    }
+    
+    @FXML
+    private void selectItem() {
+        
+    }
+    
+    @FXML
+    private void backAction() {
+        
+    }
 }

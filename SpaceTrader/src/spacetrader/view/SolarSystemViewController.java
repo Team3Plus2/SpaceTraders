@@ -22,7 +22,11 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TextField;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
@@ -64,6 +68,29 @@ public class SolarSystemViewController implements Initializable {
     private Canvas viewCanvas;
     @FXML
     private Canvas selectionLayer;
+    
+    
+    @FXML
+    private ListView planetInventory;
+    @FXML
+    private ListView playerInventory;
+    @FXML
+    private Button back1;
+    @FXML
+    private Button buyButton;
+    @FXML
+    private Button back2;
+    @FXML
+    private Button sellButton;
+    @FXML
+    private TextField buyQuantity;
+    @FXML
+    private TextField sellQuantity;
+    @FXML
+    private Label sellDetails;
+    @FXML
+    private Label buyDetails;
+    
     
     private double zoom = 1;
     private double preDragX;
@@ -161,6 +188,8 @@ public class SolarSystemViewController implements Initializable {
         starBackdrop.setScaleY(2 + (zoom / 30));
         starBackdrop.setTranslateX(-(dragOffsetX + mapOffsetX)/4);
         starBackdrop.setTranslateY(-(dragOffsetY + mapOffsetY)/4);
+        selectionLayer.setScaleX(1 + (zoom / 10));
+        selectionLayer.setScaleY(1 + (zoom / 10));
         viewCanvas.setScaleX(1 + (zoom / 10));
         viewCanvas.setScaleY(1 + (zoom / 10));
         flareLayer.setScaleX(1 + (zoom / 20));
@@ -272,8 +301,6 @@ public class SolarSystemViewController implements Initializable {
     @FXML
     private void mouseMove(MouseEvent event) {
         Planet mouseOver = findClosestPlanet(new Point((int)event.getX(), (int)event.getY()));
-//        System.out.println("Mouse: " + (int)event.getX() + " " + (int)event.getY());
-//        Planet mouseOver = curSystem.Planets()[0];
         if(mouseOver != null) {
             drawSelection(new Point((int)event.getX(), (int)event.getY()), mouseOver);
         } else {

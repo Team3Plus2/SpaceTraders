@@ -8,6 +8,7 @@ package spacetrader.view;
 
 import java.awt.Point;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.ResourceBundle;
@@ -32,6 +33,8 @@ import javafx.stage.Window;
 import javafx.stage.WindowEvent;
 import spacetrader.cosmos.system.Planet;
 import spacetrader.cosmos.system.SolarSystem;
+import spacetrader.economy.MarketPlace;
+import spacetrader.economy.TradeGood;
 import spacetrader.main.SpaceTrader;
 import spacetrader.player.Player;
 
@@ -50,6 +53,7 @@ public class SolarSystemViewController implements Initializable {
     private Image flareImage;
     
     private SolarSystem curSystem;
+    private Planet curPlanet;
     private Player player;
     
     private Timer timer;
@@ -342,4 +346,31 @@ public class SolarSystemViewController implements Initializable {
         });
     }
     
+    /***************************************************
+    *   Start of Marketplace Screen functions          *
+    ****************************************************/
+    
+    private MarketPlace market;
+    
+    @FXML
+    private void generateBuyList() {
+        market = new MarketPlace(curSystem.TechLevel(), curPlanet.Resources());
+        ArrayList<TradeGood> tradeGoodTypes = TradeGood.getTradeGoodTypes();
+    }
+    
+    @FXML
+    private void generateSellList() {
+        market = new MarketPlace(curSystem.TechLevel(), curPlanet.Resources());
+        ArrayList<TradeGood> cargo = player.getShip().getCargo().getCargoList();
+    }
+    
+    @FXML
+    private void selectItem() {
+        
+    }
+    
+    @FXML
+    private void backAction() {
+        
+    }
 }

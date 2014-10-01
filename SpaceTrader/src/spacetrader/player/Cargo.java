@@ -19,18 +19,7 @@ public class Cargo {
     
     public Cargo(int maxCargo) {
         this.maxCargo = maxCargo;
-        goods = new ArrayList<TradeGood>();
-        goods.add(new TradeGood("water"));
-        goods.add(new TradeGood("furs"));
-        goods.add(new TradeGood("food"));
-        goods.add(new TradeGood("ore"));
-        goods.add(new TradeGood("games"));
-        goods.add(new TradeGood("firearms"));
-        goods.add(new TradeGood("medicine"));
-        goods.add(new TradeGood("machines"));
-        goods.add(new TradeGood("narcotics"));
-        goods.add(new TradeGood("robots"));
-        
+        goods = TradeGood.getTradeGoodTypes();
     }
     
     /**
@@ -108,72 +97,9 @@ public class Cargo {
     }
     
     /**
-     * @return the number of water goods on the ship
+     * @return the cargo ArrayList of trade goods
      */
-    public int getNumWater() {
-        return goods.get(0).getAmount();
-    }
-    
-    /**
-     * @return the number of furs goods on the ship
-     */
-    public int getNumFurs() {
-        return goods.get(1).getAmount();
-    }
-    
-    /**
-     * @return the number of furs goods on the ship
-     */
-    public int getNumFood() {
-        return goods.get(2).getAmount();
-    }
-    
-    /**
-     * @return the number of ore goods on the ship
-     */
-    public int getNumOre() {
-        return goods.get(3).getAmount();
-    }
-    
-    /**
-     * @return the number of games goods on the ship
-     */
-    public int getNumGames() {
-        return goods.get(4).getAmount();
-    }
-    
-    /**
-     * @return the number of firearms goods on the ship
-     */
-    public int getNumFirearms() {
-        return goods.get(5).getAmount();
-    }
-
-    /**
-     * @return the number of medicine goods on the ship
-     */
-    public int getNumMedicine() {
-        return goods.get(6).getAmount();
-    }
-
-    /**
-     * @return the number of machines goods on the ship
-     */
-    public int getNumMachines() {
-        return goods.get(7).getAmount();
-    }
-
-    /**
-     * @return the number of narcotics goods on the ship
-     */
-    public int getNumNarcotics() {
-        return goods.get(8).getAmount();
-    }
-    
-    /**
-     * @return the number of robots goods on the ship
-     */
-    public int getNumRobots() {
-        return goods.get(9).getAmount();
+    public ArrayList<TradeGood> getCargoList() {
+        return goods;
     }
 }

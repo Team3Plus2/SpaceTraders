@@ -8,7 +8,7 @@ package spacetrader.view;
 import java.awt.Point;
 import java.awt.geom.AffineTransform;
 import java.net.URL;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.ResourceBundle;
@@ -65,7 +65,7 @@ public class StarScreenController implements Initializable {
     
     private boolean dragging = false, dragFinished = true;
     
-    private Image binaryStar,protoStar,redGiantStar,solStar,whiteDwarfStar;
+    private HashMap<String, Image> sunImages;
     
     @FXML
     private Canvas gameCanvas;
@@ -86,12 +86,12 @@ public class StarScreenController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         solarSystemLocations = new HashMap<>();
+        sunImages = new HashMap<>();
         
-        /*binaryStar = new Image("/visuals/Stars/Binary.png");
-        protoStar = new Image("/visuals/Stars/Proto.png");
-        redGiantStar = new Image("/visuals/Stars/RedGiant.png");
-        solStar = new Image("/visuals/Stars/Sol.png");
-        whiteDwarfStar = new Image("/visuals/Stars/WhiteDwarf.png");*/
+        for(SunType star : (ArrayList<SunType>)SunType.getList(SunType.class)) {
+            if(star.usesImage())
+                sunImages.put(star.getName(), new Image(star.getImage()));
+        }
         
         //adds listener for the zoom slider
         zoomSlider.valueProperty().addListener(new ChangeListener<Number>() {
@@ -271,7 +271,7 @@ public class StarScreenController implements Initializable {
                 if(a.SunType().usesColor()) {
                     g.setFill(a.SunType().getColor());
                 } else {
-                    starImage = a.SunType().getImage();
+                    starImage = sunImages.get(a.SunType().getName());
                 }
                 
                 if(!dragging) {

@@ -381,32 +381,24 @@ public class SolarSystemViewController implements Initializable {
     @FXML
     private Label buyDetails;
     
+    
+    
     @FXML
     private void generateBuyList() {
         if (curPlanet != null) {
             market = new MarketPlace(curSystem.TechLevel(), curPlanet.Resources());
-            ArrayList<TradeGood> tradeGoodTypes = TradeGood.getTradeGoodTypes();
-            ObservableList<TradeGood> list = FXCollections.observableArrayList(tradeGoodTypes);
+            ObservableList<TradeGood> list = FXCollections.observableArrayList(market.getListOfGoods());
             planetInventory.setItems(list);
-            for (TradeGood goodType : tradeGoodTypes) {
-
-            }
         }
     }
     
     @FXML
     private void generateSellList() {
-        market = new MarketPlace(curSystem.TechLevel(), curPlanet.Resources());
         ArrayList<TradeGood> cargo = player.getShip().getCargo().getCargoList();
     }
     
     @FXML
     private void selectItem() {
-        
-    }
-    
-    @FXML
-    private void backAction() {
         
     }
 }

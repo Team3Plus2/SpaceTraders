@@ -3,6 +3,7 @@ package spacetrader.cosmos.system;
 import java.awt.Point;
 import java.util.Random;
 import spacetrader.cosmos.Universe;
+import spacetrader.economy.MarketPlace;
 
 /**
  * This is a planet, it stores planet specific resources and social information
@@ -15,6 +16,7 @@ public class Planet {
     private String name;
     private Resource resources;
     private float relativeWealth;//-1.0f pays less for goods, 0.0f normal, 1.0f pays more for goods
+    private MarketPlace market;
     
     //needed only for display
     //location x: degree of orbit, y: average radius distance from sun
@@ -74,4 +76,11 @@ public class Planet {
         this.orbitEllipse = orbitEllipse;
     }
     
+    public MarketPlace getMarket() {
+        return market;
+    }
+
+    public void setMarket(MarketPlace market) {
+        this.market = market;
+    }
 }

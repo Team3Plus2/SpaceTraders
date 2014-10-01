@@ -127,7 +127,6 @@ public class SolarSystemViewController implements Initializable {
         double posy = 288 - (size / 2) - dragOffsetY - mapOffsetY;
         flareG.setGlobalBlendMode(BlendMode.ADD);
         drawFlares(size, posx, posy);
-        generateBuyList();
     }
     
     private void checkRadii() {
@@ -267,6 +266,11 @@ public class SolarSystemViewController implements Initializable {
     @FXML
     private void mouseClick(MouseEvent event) {
         if(curPlanet != null) {
+            if (curPlanet.getMarket() == null) {
+                market = new MarketPlace(curSystem.TechLevel(), curPlanet.Resources());
+                generateBuyList();
+                generateSellList();
+            }
             marketplaceUI.setVisible(true);
         }
     }
@@ -401,32 +405,20 @@ public class SolarSystemViewController implements Initializable {
     @FXML
     private TabPane marketplaceUI;
     
-    @FXML
     private void generateBuyList() {
-        if(curPlanet != null) {
-            market = new MarketPlace(curSystem.TechLevel(), curPlanet.Resources());
-            ArrayList<TradeGood> tradeGoodTypes = TradeGood.getTradeGoodTypes();
-            ObservableList<TradeGood> list = FXCollections.observableArrayList(tradeGoodTypes);
+        if (curPlanet != null) {
+            ObservableList<TradeGood> list = FXCollections.observableArrayList(market.getListOfGoods());
             planetInventory.setItems(list);
-            for (TradeGood goodType: tradeGoodTypes) {
-
-            }
         }
     }
     
-    @FXML
     private void generateSellList() {
-        market = new MarketPlace(curSystem.TechLevel(), curPlanet.Resources());
-        ArrayList<TradeGood> cargo = player.getShip().getCargo().getCargoList();
+        ObservableList<TradeGood> list = FXCollections.observableArrayList(player.getShip().getCargo().getCargoList());
+        playerInventory.setItems(list);
     }
     
     @FXML
     private void selectItem() {
-        
-    }
-    
-    @FXML
-    private void backAction() {
         
     }
 }

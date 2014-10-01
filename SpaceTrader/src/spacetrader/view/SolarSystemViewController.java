@@ -29,6 +29,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.image.Image;
@@ -95,7 +96,6 @@ public class SolarSystemViewController implements Initializable {
         //initialize variables
         player = SpaceTrader.getInstance().getPlayer();
         curSystem = player.getCurrentSolarSystem();
-        curPlanet = curSystem.Planets()[0];
         g = viewCanvas.getGraphicsContext2D();
         flareG = flareLayer.getGraphicsContext2D();
         selectionG = selectionLayer.getGraphicsContext2D();
@@ -264,7 +264,22 @@ public class SolarSystemViewController implements Initializable {
         preDragY = event.getY();
     }
     
+    @FXML
+    private void mouseClick(MouseEvent event) {
+        if(curPlanet != null) {
+            marketplaceUI.setVisible(true);
+        }
+    }
+    
+    @FXML
+    private void hideMarketplace() {
+        marketplaceUI.setVisible(false);
+    }
+    
     private Planet findClosestPlanet(Point p) {
+        if(curSystem.Planets()[0] == null) {
+            return null;
+        }
         Planet forreturn = screenSpace.get(p);
         if(forreturn == null) {
             Point[] points = new Point[screenSpace.keySet().size()];
@@ -275,20 +290,23 @@ public class SolarSystemViewController implements Initializable {
                     closest = test;
                 }
             }
-            if(closest.distance(p.x, p.y) < 10) {
+            if(closest.distance(p.x, p.y) < 20 + zoom) {
                 forreturn = screenSpace.get(closest);
             }
         }
         return forreturn;
     }
     
-    //GOING TO IMPLEMENT MOUSE OVER
     @FXML
     private void mouseMove(MouseEvent event) {
         Planet mouseOver = findClosestPlanet(new Point((int)event.getX(), (int)event.getY()));
         if(mouseOver != null) {
             drawSelection(new Point((int)event.getX(), (int)event.getY()), mouseOver);
+            curPlanet = mouseOver;
         } else {
+            if(!marketplaceUI.isVisible()) {
+                curPlanet = null;
+            }
             selectionG.clearRect(0, 0, 1024, 576);
         }
     }
@@ -380,15 +398,19 @@ public class SolarSystemViewController implements Initializable {
     private Label sellDetails;
     @FXML
     private Label buyDetails;
+    @FXML
+    private TabPane marketplaceUI;
     
     @FXML
     private void generateBuyList() {
-        market = new MarketPlace(curSystem.TechLevel(), curPlanet.Resources());
-        ArrayList<TradeGood> tradeGoodTypes = TradeGood.getTradeGoodTypes();
-        ObservableList<TradeGood> list = FXCollections.observableArrayList(tradeGoodTypes);
-        planetInventory.setItems(list);
-        for (TradeGood goodType: tradeGoodTypes) {
-            
+        if(curPlanet != null) {
+            market = new MarketPlace(curSystem.TechLevel(), curPlanet.Resources());
+            ArrayList<TradeGood> tradeGoodTypes = TradeGood.getTradeGoodTypes();
+            ObservableList<TradeGood> list = FXCollections.observableArrayList(tradeGoodTypes);
+            planetInventory.setItems(list);
+            for (TradeGood goodType: tradeGoodTypes) {
+
+            }
         }
     }
     

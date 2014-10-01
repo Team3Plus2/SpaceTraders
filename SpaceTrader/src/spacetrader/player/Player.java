@@ -6,6 +6,7 @@
 
 package spacetrader.player;
 
+import spacetrader.cosmos.Universe;
 import spacetrader.cosmos.system.Planet;
 import spacetrader.cosmos.system.SolarSystem;
 
@@ -106,5 +107,11 @@ public class Player {
     
     public void setShip(Ship ship) {
         this.ship = ship;
+    }
+    
+    
+    //TO DO!!!!
+    public SolarSystem[] getTravelable(Universe universe) {
+        return null;
     }
 }

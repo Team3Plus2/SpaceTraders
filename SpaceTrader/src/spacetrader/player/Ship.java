@@ -178,4 +178,12 @@ public class Ship {
     public Cargo getCargo() {
         return cargo;
     }
+
+    public float getFuel() {
+        return fuel;
+    }
+
+    public void setFuel(float fuel) {
+        this.fuel = fuel;
+    }
 }

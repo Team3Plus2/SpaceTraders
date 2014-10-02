@@ -5,19 +5,38 @@
  */
 package spacetrader.player;
 
+import spacetrader.xml.LoadedType;
+
 /**
  * Mercenaries can be hired on the ship to add to player skills.
  * 
  * @author Aaron McAnally
  */
 public class Mercenary {
-    public enum MercenaryType {
-        PILOT, FIGHTER, TRADER, ENGINEER, INVESTOR;
-    }
     
     private MercenaryType mercenaryType;
     
+    public static void Load() {
+        MercenaryType.Load();
+    }
+    
     public Mercenary(MercenaryType mercenaryType) {
         this.mercenaryType = mercenaryType;
+    }
+}
+
+/*
+ *PILOT, FIGHTER, TRADER, ENGINEER, INVESTOR;
+ */
+class MercenaryType extends LoadedType {
+
+    private static final String MercenaryFileLocation = "objects/Mercenaries.xml";
+
+    public static void Load() {
+        MercenaryType.Load(MercenaryType.class, MercenaryFileLocation, null);
+    }
+
+    public MercenaryType() {
+        
     }
 }

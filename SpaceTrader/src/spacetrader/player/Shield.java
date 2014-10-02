@@ -1,9 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package spacetrader.player;
+
+import spacetrader.xml.LoadedType;
+import spacetrader.xml.FromXML;
 
 /**
  * A shield is added protection to a ship.
@@ -12,18 +10,8 @@ package spacetrader.player;
  */
 public class Shield {
     
-    /**
-     * ShieldTypes:
-     * ShieldType(1): energy shield
-     * ShieldType(2): reflective shield
-     */
-    public enum ShieldType {
-        ENERGY(1), REFLECTIVE(2);
-        
-        private final int strength;
-        ShieldType(int strength) {
-            this.strength = strength;
-        }
+    public static void Load() {
+        ShieldType.Load();
     }
     
     private ShieldType shieldType;
@@ -35,3 +23,30 @@ public class Shield {
         this.shieldType = shieldType;
     }
 }
+
+
+/**
+ * Basic ShieldTypes:
+ * ShieldType(1): energy shield
+ * ShieldType(2): reflective shield
+ */
+class ShieldType extends LoadedType {
+
+    private static final String ShieldFileLocation = "objects/Shields.xml";
+
+    public static void Load() {
+        ShieldType.Load(ShieldType.class, ShieldFileLocation, null);
+    }
+    
+    @FromXML
+    private int strength;
+    
+    public ShieldType() {
+
+    }
+    
+    ShieldType(int strength) {
+        this.strength = strength;
+    }
+}
+

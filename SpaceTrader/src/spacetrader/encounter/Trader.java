@@ -9,6 +9,7 @@ import spacetrader.economy.TradeGood;
 import spacetrader.main.SpaceTrader;
 import spacetrader.player.Player;
 import spacetrader.player.Ship;
+import spacetrader.player.ShipType;
 
 /**
  * Handles the trader encounter
@@ -23,7 +24,7 @@ public class Trader implements Encounter {
         int traderSkill = (int) (Math.random() * 10 + 1);
         trader = new Player("trader", 5, 5, traderSkill, 5, 5);
         
-        trader.setShip(new Ship(Ship.ShipType.FIREFLY));
+        trader.setShip(new Ship((ShipType)ShipType.get("FIREFLY")));
         int cargoFilled = (int) (Math.random() * 20 + 1);
         for (int i = 0; i < cargoFilled; i++) {
             trader.getShip().getCargo().addTradeGood(new TradeGood());

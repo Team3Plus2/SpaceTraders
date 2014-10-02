@@ -36,6 +36,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Window;
 import javafx.stage.WindowEvent;
 import spacetrader.cosmos.system.Planet;
@@ -75,6 +76,8 @@ public class SolarSystemViewController implements Initializable {
     private Canvas viewCanvas;
     @FXML
     private Canvas selectionLayer;
+    @FXML
+    private Button backToStarScreen;
     
     private double zoom = 1;
     private double preDragX;
@@ -267,11 +270,14 @@ public class SolarSystemViewController implements Initializable {
     private void mouseClick(MouseEvent event) {
         if(curPlanet != null) {
             if (curPlanet.getMarket() == null) {
+                planetMarketplaceLabel.setText(curPlanet.Name() + " Marketplace");
+                planetMarketplaceLabel.setFont(Font.font(curPlanet.Name().length()));
                 market = new MarketPlace(curSystem.TechLevel(), curPlanet.Resources());
                 generateBuyList();
                 generateSellList();
             }
             marketplaceUI.setVisible(true);
+            backToStarScreen.setVisible(false);
             generateBuyList();
         }
     }
@@ -279,6 +285,7 @@ public class SolarSystemViewController implements Initializable {
     @FXML
     private void hideMarketplace() {
         marketplaceUI.setVisible(false);
+        backToStarScreen.setVisible(true);
     }
     
     private Planet findClosestPlanet(Point p) {

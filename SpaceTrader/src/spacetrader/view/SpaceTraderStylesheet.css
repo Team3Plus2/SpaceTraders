@@ -40,8 +40,41 @@ and open the template in the editor.
     -fx-padding: 0.6em 0.2em 0.2em 0.655em;
 }
 
+.list-view {
+    -fx-background-image: url('../../visuals/GridLayoutBG.png');
+    -fx-background-size: stretch;
+    -fx-padding: 0.35em 0.388em 0.35em 0.35em;
+}
+
+.list-view .virtual-flow .scroll-bar:vertical .track-background {
+    -fx-background-color: transparent;
+}
+
+.list-view .virtual-flow .scroll-bar:vertical .increment-button .increment-arrow {
+    -fx-background-color: transparent;
+}
+
+.list-view .virtual-flow .scroll-bar:vertical .decrement-button .decrement-arrow {
+    -fx-background-color: transparent;
+}
+
+.list-view .virtual-flow .scroll-bar:vertical .thumb {
+    -fx-background-color: white;
+    -fx-background-insets: 0, 0, 0;
+    -fx-background-radius: 2, 0, 0;
+}
+
+.list-view .virtual-flow .scroll-bar:vertical .track {
+    -fx-padding: -1.0em 0.0em 0.0em 0.0em; 
+    -fx-background-color: background;
+}
+
+.list-view .virtual-flow .scroll-bar:vertical {
+    -fx-background-color: rgba(52, 106, 181, 0.7);
+}
+
 .list-cell {
-    -fx-background-insets: 0.0em 0.4em 0.0em 0.0em;
+    -fx-background-insets: 0.0em 0.0em 0.0em 0.0em;
 }
 
 .list-cell:odd {
@@ -50,6 +83,10 @@ and open the template in the editor.
 
 .list-cell:even {
     -fx-background-color: rgba(52, 106, 181, 0.7);
+}
+
+.list-cell:selected {
+    -fx-background-color: rgba(52, 106, 181, 1);
 }
 
 .tab-pane .tab {

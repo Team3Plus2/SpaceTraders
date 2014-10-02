@@ -443,13 +443,20 @@ public class SolarSystemViewController implements Initializable {
 
     @FXML
     private void selectBuyableItem() {
-        buyableGood = (TradeGood) (planetInventory.getSelectionModel().selectedItemProperty().get());
+        TradeGood selected = (TradeGood) (planetInventory.getSelectionModel().selectedItemProperty().get());
+        if (selected != null) {
+            buyableGood = selected;
+        }
         updateBuyableItem();
     }
 
     @FXML
     private void selectSellableItem() {
-        sellableGood = (TradeGood) (playerInventory.getSelectionModel().selectedItemProperty().get());
+        TradeGood selected = (TradeGood) (playerInventory.getSelectionModel().selectedItemProperty().get());
+        if (selected != null) {
+            sellableGood = selected;
+        }
+        System.out.println(sellableGood);
         updateSellableItem();
     }
 
@@ -484,7 +491,6 @@ public class SolarSystemViewController implements Initializable {
 
     @FXML
     private void handleSellAction() {
-        System.out.println(sellableGood);
         if (sellableGood != null) {
             TradeGood temp = new TradeGood(sellableGood);
             temp.setPrice(sellableGood.getCurrentPriceEach());

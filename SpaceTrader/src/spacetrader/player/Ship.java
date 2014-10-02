@@ -6,6 +6,9 @@
 package spacetrader.player;
 
 import spacetrader.economy.TradeGood;
+import spacetrader.xml.LoadedType;
+import spacetrader.xml.FromXML;
+
 import java.util.ArrayList;
 
 /**
@@ -15,32 +18,8 @@ import java.util.ArrayList;
  */
 public class Ship {
     
-    /**
-     * An enum for ship types with basic stats:
-     *      maxCargo, maxFuel, maxWeapons, maxShields, maxGadgets, maxMercenaries
-     */
-    public enum ShipType {
-        FLEA(0, 20, 0, 0, 0, 0),
-        GNAT(15, 14, 1, 0, 1, 0),
-        FIREFLY(20, 17, 1, 1, 1, 0),
-        MOSQUITO(15, 13, 2, 1, 1, 0),
-        BUMBLEBEE(20, 15, 1, 2, 2, 1),
-        BEETLE(50, 14, 0, 1, 1, 3),
-        HORNET(20, 16, 3, 2, 1, 2),
-        GRASSHOPPER(30, 15, 2, 1, 3, 3),
-        TERMITE(60, 13, 1, 3, 2, 3),
-        WASP(35, 14, 3, 2, 2, 3);
-        
-        private final int maxCargo, maxWeapons, maxShields, maxGadgets, maxMercenaries;
-        private final float maxFuel;
-        private ShipType(int maxCargo, float maxFuel, int maxWeapons, int maxShields, int maxGadgets, int maxMercenaries) {
-            this.maxCargo = maxCargo;
-            this.maxFuel = maxFuel;
-            this.maxWeapons = maxWeapons;
-            this.maxShields = maxShields;
-            this.maxGadgets = maxGadgets;
-            this.maxMercenaries = maxMercenaries;
-        }
+    public static void Load() {
+        ShipType.Load();
     }
     
     private float fuel;
@@ -57,24 +36,24 @@ public class Ship {
      * @param ship the ShipType enum that stores the basic stats of the ship.
      */
     public Ship(ShipType ship) {
-        fuel = ship.maxFuel;
+        fuel = ship.getMaxFuel();
         cargo = new Cargo(maxCargo);
-        weapons = new ArrayList<Weapon>(ship.maxWeapons);
-        shields = new ArrayList<Shield>(ship.maxShields);
-        gadgets = new ArrayList<Gadget>(ship.maxGadgets);
-        mercenaries = new ArrayList<Mercenary>(ship.maxMercenaries);
-        maxCargo = ship.maxCargo;
-        maxWeapons = ship.maxWeapons;
-        maxShields = ship.maxShields;
-        maxGadgets = ship.maxGadgets;
-        maxMercenaries = ship.maxMercenaries;
+        weapons = new ArrayList<Weapon>(ship.getMaxWeapons());
+        shields = new ArrayList<Shield>(ship.getMaxShields());
+        gadgets = new ArrayList<Gadget>(ship.getMaxGadgets());
+        mercenaries = new ArrayList<Mercenary>(ship.getMaxMercenaries());
+        maxCargo = ship.getMaxCargo();
+        maxWeapons = ship.getMaxWeapons();
+        maxShields = ship.getMaxShields();
+        maxGadgets = ship.getMaxGadgets();
+        maxMercenaries = ship.getMaxMercenaries();
     }
     
     /**
      * Creates a ship of type GNAT (the starter ship for the player)
      */
     public Ship() {
-        this(ShipType.GNAT);
+        this(ShipType.Default());
     }
     /**
      * Puts a weapon in an open weapon slot if one is available.
@@ -187,3 +166,5 @@ public class Ship {
         this.fuel = fuel;
     }
 }
+
+

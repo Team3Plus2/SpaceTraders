@@ -8,6 +8,10 @@ import spacetrader.cosmos.system.TechLevel;
 import spacetrader.cosmos.system.Government;
 import spacetrader.cosmos.system.SunType;
 import spacetrader.player.Gadget;
+import spacetrader.player.Mercenary;
+import spacetrader.player.Shield;
+import spacetrader.player.Ship;
+import spacetrader.player.Weapon;
 
 /**
  * 
@@ -25,6 +29,10 @@ public class ObjectLoader {
         Government.Load();
         SunType.Load();
         Gadget.Load();
+        Mercenary.Load();
+        Shield.Load();
+        Ship.Load();
+        Weapon.Load();
     }
     
 }

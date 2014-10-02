@@ -1,7 +1,6 @@
 package spacetrader.cosmos.system;
 
 import javafx.scene.paint.Color;
-import javafx.scene.image.Image;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -56,7 +55,7 @@ public class SunType extends LoadedType {
     private Color color;
     
     @FromXML (required = false)
-    private Image image;
+    private String image;
     
     public boolean usesColor() {
         return image == null;
@@ -70,7 +69,7 @@ public class SunType extends LoadedType {
         return color;
     }
     
-    public Image getImage() {
+    public String getImage() {
         return image;
     }
     

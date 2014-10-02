@@ -19,7 +19,7 @@
       <Canvas fx:id="flareLayer" blendMode="ADD" height="576.0" mouseTransparent="true" width="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
       <Canvas fx:id="selectionLayer" height="576.0" layoutX="0" layoutY="0" mouseTransparent="true" width="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
       <Pane id="GameBackground" layoutX="1.0" layoutY="2.0" mouseTransparent="true" prefHeight="576.0" prefWidth="1024.0" stylesheets="@SpaceTraderStylesheet.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-      <TabPane fx:id="marketplaceUI" prefHeight="456.0" prefWidth="702.0" styleClass="gridpane" stylesheets="@SpaceTraderStylesheet.css" tabClosingPolicy="UNAVAILABLE" tabMaxHeight="50.0" tabMaxWidth="250.0" tabMinHeight="50.0" tabMinWidth="254.0" visible="false" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="20.0">
+      <TabPane fx:id="marketplaceUI" prefHeight="456.0" prefWidth="702.0" styleClass="gridpane" stylesheets="@SpaceTraderStylesheet.css" tabClosingPolicy="UNAVAILABLE" tabMaxHeight="50.0" tabMaxWidth="250.0" tabMinHeight="50.0" tabMinWidth="254.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="20.0">
         <tabs>
           <Tab closable="false" text="Buy">
             <content>
@@ -29,10 +29,11 @@
                         <Button fx:id="back1" mnemonicParsing="false" onAction="#hideMarketplace" text="Back" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="340.0" AnchorPane.rightAnchor="15.0" />
                         <Button fx:id="buyButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleBackAction" text="Buy" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="340.0" AnchorPane.rightAnchor="15.0" />
                         <Label layoutX="339.0" layoutY="230.0" text="Qty:" AnchorPane.leftAnchor="339.0" AnchorPane.rightAnchor="126.0" />
-                        <Label fx:id="buyDetails" alignment="TOP_LEFT" layoutX="339.0" layoutY="57.0" prefHeight="167.0" prefWidth="170.0" style="-fx-font-size: 25;" AnchorPane.leftAnchor="339.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="57.0" />
+                        <Label fx:id="buyDetails" layoutX="339.0" layoutY="57.0" prefHeight="133.0" prefWidth="170.0" text="Qty:" AnchorPane.leftAnchor="339.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="57.0" />
                         <Label fx:id="planetMarketplaceLabel" layoutX="44.0" layoutY="14.0" prefHeight="32.0" prefWidth="443.0" style="-fx-alignment: CENTER;" text="Planet Inventory" textAlignment="CENTER" textOverrun="CLIP" AnchorPane.leftAnchor="44.0" AnchorPane.rightAnchor="44.0" AnchorPane.topAnchor="14.0" />
                         <TextField fx:id="buyQuantity" prefHeight="26.0" prefWidth="102.0" style="-fx-padding: 0,0,0;" styleClass="textfield" text="1" AnchorPane.bottomAnchor="130.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="233.0" />
                         <Line endX="200.0" layoutX="262.0" layoutY="50.0" opacity="0.6" startX="-200.0" strokeWidth="2.0" />
+                        <Label fx:id="buySum" layoutX="339.0" layoutY="189.0" prefHeight="35.0" prefWidth="170.0" text="Sum::" />
                      </children></AnchorPane>
             </content>
           </Tab>

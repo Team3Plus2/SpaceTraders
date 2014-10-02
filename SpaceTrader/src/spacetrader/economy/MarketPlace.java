@@ -102,7 +102,6 @@ public class MarketPlace {
         tg.setAmount(amount);
         if(p.getShip().getCargo().removeTradeGood(tg)) {
             p.setMoney(p.getMoney() + (tg.getCurrentPriceEach() * amount));
-            System.out.println("FJLKSD");
         }
         return false;
     }

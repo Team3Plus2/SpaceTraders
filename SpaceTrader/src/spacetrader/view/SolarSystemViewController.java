@@ -456,7 +456,6 @@ public class SolarSystemViewController implements Initializable {
         if (selected != null) {
             sellableGood = selected;
         }
-        System.out.println(sellableGood);
         updateSellableItem();
     }
 
@@ -482,7 +481,6 @@ public class SolarSystemViewController implements Initializable {
     private void handleBuyAction() {
         if (buyableGood != null) {
             boolean success = market.buy(player, buyableGood, Integer.parseInt(buyQuantity.getText()));
-            System.out.println(success);
             generateBuyList();
             generateSellList();
             updateBuyableItem();
@@ -495,7 +493,6 @@ public class SolarSystemViewController implements Initializable {
             TradeGood temp = new TradeGood(sellableGood);
             temp.setPrice(sellableGood.getCurrentPriceEach());
             boolean success = market.sell(player, temp, Integer.parseInt(sellQuantity.getText()));
-            System.out.println(success);
             generateSellList();
             updateSellableItem();
         }

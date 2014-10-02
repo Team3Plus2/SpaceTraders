@@ -407,18 +407,33 @@ public class SolarSystemViewController implements Initializable {
     
     private void generateBuyList() {
         if (curPlanet != null) {
-            ObservableList<TradeGood> list = FXCollections.observableArrayList(market.getListOfGoods());
+            ArrayList<TradeGood> goods = market.getListOfGoods();
+            ObservableList<TradeGood> list = FXCollections.observableArrayList(goods);
             planetInventory.setItems(list);
         }
     }
     
     private void generateSellList() {
-        ObservableList<TradeGood> list = FXCollections.observableArrayList(player.getShip().getCargo().getCargoList());
+        ArrayList<TradeGood> goods = player.getShip().getCargo().getNonEmptyCargoList();
+        ObservableList<TradeGood> list = FXCollections.observableArrayList(goods);
         playerInventory.setItems(list);
     }
     
     @FXML
-    private void selectItem() {
-        
+    private void selectBuyableItem() {
+//        int index = playerInventory.getEditingIndex();
+//        if (index != -1) {
+//            ArrayList<TradeGood> goods = market.getListOfGoods();
+//            TradeGood good = goods.get(index);
+//            buyDetails.setText("Cash: $" + player.getMoney());
+//        }
+        planetInventory.getSelectionModel().selectedItemProperty().addListener(
+            new ChangeListener<String>() {
+                public void changed(ObservableValue<? extends String> ov, 
+                    String old_val, String new_val) {
+                        buyDetails.setText(new_val);
+                        buyDetails.setTextFill(Color.web(new_val));
+            }
+        });
     }
 }

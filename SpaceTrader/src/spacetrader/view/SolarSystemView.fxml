@@ -24,7 +24,7 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <ListView id="listView" fx:id="planetInventory" layoutX="14.0" layoutY="57.0" prefHeight="321.0" prefWidth="309.0" styleClass="gridpane" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="57.0" />
+                        <ListView id="listView" fx:id="planetInventory" layoutX="14.0" layoutY="57.0" onMouseClicked="#selectBuyableItem" prefHeight="321.0" prefWidth="309.0" styleClass="gridpane" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="57.0" />
                         <Button fx:id="back1" mnemonicParsing="false" onAction="#hideMarketplace" text="Back" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="340.0" AnchorPane.rightAnchor="15.0" />
                         <Button fx:id="buyButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleBackAction" text="Buy" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="340.0" AnchorPane.rightAnchor="15.0" />
                         <Label layoutX="339.0" layoutY="230.0" text="Qty:" AnchorPane.leftAnchor="339.0" AnchorPane.rightAnchor="126.0" />

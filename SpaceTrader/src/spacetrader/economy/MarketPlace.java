@@ -27,19 +27,20 @@ public class MarketPlace {
      */
     public MarketPlace(TechLevel techLevel, Resource resource) {
         rand = new Random();
-        ArrayList<TradeGood> tradeGoodTypes = TradeGood.getTradeGoodTypes();
-        tradeGoods = new HashMap<TradeGood, TradeGood>();
-        for (TradeGood tg : tradeGoodTypes) {
-            if (TechLevel.getIndex(tg.getMinLevelUse()) >= TechLevel.getIndex(techLevel)) {
-                if (TechLevel.getIndex(tg.getMinLevelProduce()) >= TechLevel.getIndex(techLevel)) {
-                    if (TechLevel.getIndex(tg.getLevelProduceMost()) == TechLevel.getIndex(techLevel)) {
-                        tg.setAmount(rand.nextInt(100) + 100);
+        //ArrayList<TradeGood> tradeGoodTypes = TradeGood.getTradeGoodTypes();
+        tradeGoods = TradeGood.getEmptyGoodMap();
+        for (TradeGood good : tradeGoods.values()) {
+            //TradeGood good = new TradeGood(type);
+            if (TechLevel.getIndex(good.getMinLevelUse()) >= TechLevel.getIndex(techLevel)) {
+                if (TechLevel.getIndex(good.getMinLevelProduce()) >= TechLevel.getIndex(techLevel)) {
+                    if (TechLevel.getIndex(good.getLevelProduceMost()) == TechLevel.getIndex(techLevel)) {
+                        good.setAmount(rand.nextInt(100) + 100);
                     } else {
-                        tg.setAmount(rand.nextInt(100));
+                        good.setAmount(rand.nextInt(100));
                     }
-                    tg.computeCurrentPriceEach(techLevel, resource);
+                    good.computeCurrentPriceEach(techLevel, resource);
                 }
-                tradeGoods.put(tg, tg);
+                //tradeGoods.put(type, good);
             }
         }
     }
@@ -113,7 +114,11 @@ public class MarketPlace {
      */
     public ArrayList<TradeGood> getListOfGoods() {
         ArrayList<TradeGood> goods = new ArrayList<TradeGood>();
-        goods.addAll(tradeGoods.values());
+        for (TradeGood good: tradeGoods.values()) {
+            if (good.getAmount() > 0) {
+                goods.add(good);
+            }
+        }
         return goods;
     }
     

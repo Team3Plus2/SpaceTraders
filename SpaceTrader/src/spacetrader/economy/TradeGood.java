@@ -1,6 +1,7 @@
 package spacetrader.economy;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 import spacetrader.xml.LoadedType;
@@ -115,12 +116,20 @@ public class TradeGood extends LoadedType {
      * Trade goods should have the following names:
      *      water, furs, food, ore, games, firearms, medicine, machines, narcotics, robots
      * 
-     * @param name the name of the tradegood
+     * @param good the TradeGood type to be instantiated
      */
-    public TradeGood(String name) {
-        super(name);
+    public TradeGood(TradeGood good) {
+        super(good.getName());
         this.amount = 0;
         this.rand = new Random();
+        this.minLevelProduce = good.minLevelProduce;
+        this.minLevelUse = good.minLevelUse;
+        this.basePrice = good.basePrice;
+        this.currentPriceEach = good.currentPriceEach;
+        this.levelProduceMost = good.levelProduceMost;
+        this.priceVariance = good.priceVariance;
+        this.priceLowCondition = good.priceLowCondition;
+        this.priceHighCondition = good.priceHighCondition;
     }
     
     /**
@@ -137,6 +146,15 @@ public class TradeGood extends LoadedType {
      */
     public static ArrayList<TradeGood> getTradeGoodTypes() {
         return (ArrayList<TradeGood>)TradeGood.getList(TradeGood.class);
+    }
+    
+    public static HashMap<TradeGood, TradeGood> getEmptyGoodMap() {
+        HashMap<TradeGood, TradeGood> goods = new HashMap<TradeGood, TradeGood>();
+        ArrayList<TradeGood> types = getTradeGoodTypes();
+        for (TradeGood type: types) {
+            goods.put(type, new TradeGood(type));
+        }
+        return goods;
     }
 
     /**
@@ -186,6 +204,6 @@ public class TradeGood extends LoadedType {
 
     @Override
     public String toString() {
-        return getName() + " - $" + getCurrentPriceEach();
+        return getName() + " - $" + getCurrentPriceEach() + " - Amount: " + getAmount();
     }
 }

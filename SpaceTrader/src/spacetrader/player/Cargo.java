@@ -102,4 +102,19 @@ public class Cargo {
     public ArrayList<TradeGood> getCargoList() {
         return goods;
     }
+    
+    /**
+     * Meant for use by the SolarSystemViewController in Marketplace view
+     * 
+     * @return ArrayList of trade goods with amount greater than 0
+     */
+    public ArrayList<TradeGood> getNonEmptyCargoList() {
+        ArrayList<TradeGood> cargo = new ArrayList<TradeGood>();
+        for (TradeGood good: goods) {
+            if (good.getAmount() > 0) {
+                cargo.add(good);
+            }
+        }
+        return cargo;
+    }
 }

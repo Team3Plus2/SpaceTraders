@@ -31,8 +31,8 @@ public class MarketPlace {
         tradeGoods = TradeGood.getEmptyGoodMap();
         for (TradeGood good : tradeGoods.values()) {
             //TradeGood good = new TradeGood(type);
-            if (TechLevel.getIndex(good.getMinLevelUse()) >= TechLevel.getIndex(techLevel)) {
-                if (TechLevel.getIndex(good.getMinLevelProduce()) >= TechLevel.getIndex(techLevel)) {
+            if (TechLevel.getIndex(good.getMinLevelUse()) <= TechLevel.getIndex(techLevel)) {
+                if (TechLevel.getIndex(good.getMinLevelProduce()) <= TechLevel.getIndex(techLevel)) {
                     if (TechLevel.getIndex(good.getLevelProduceMost()) == TechLevel.getIndex(techLevel)) {
                         good.setAmount(rand.nextInt(100) + 100);
                     } else {

@@ -25,11 +25,11 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <ListView id="listView" fx:id="planetInventory" layoutX="14.0" layoutY="57.0" prefHeight="321.0" prefWidth="309.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="57.0" />
+                        <ListView id="listView" fx:id="planetInventory" layoutX="14.0" layoutY="57.0" onMouseClicked="#selectBuyableItem" prefHeight="321.0" prefWidth="309.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="57.0" />
                         <Button fx:id="back1" mnemonicParsing="false" onAction="#hideMarketplace" text="Back" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="340.0" AnchorPane.rightAnchor="15.0" />
                         <Button fx:id="buyButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleBackAction" text="Buy" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="340.0" AnchorPane.rightAnchor="15.0" />
                         <Label layoutX="339.0" layoutY="230.0" text="Qty:" AnchorPane.leftAnchor="339.0" AnchorPane.rightAnchor="126.0" />
-                        <Label fx:id="buyDetails" layoutX="339.0" layoutY="57.0" prefHeight="167.0" prefWidth="170.0" text="Qty:" AnchorPane.leftAnchor="339.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="57.0" />
+                        <Label fx:id="buyDetails" alignment="TOP_LEFT" layoutX="339.0" layoutY="57.0" prefHeight="167.0" prefWidth="170.0" style="-fx-font-size: 25;" AnchorPane.leftAnchor="339.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="57.0" />
                         <Label fx:id="planetMarketplaceLabel" layoutX="44.0" layoutY="14.0" prefHeight="32.0" prefWidth="443.0" style="-fx-alignment: CENTER;" text="Planet Inventory" textAlignment="CENTER" textOverrun="CLIP" AnchorPane.leftAnchor="44.0" AnchorPane.rightAnchor="44.0" AnchorPane.topAnchor="14.0" />
                         <TextField fx:id="buyQuantity" prefHeight="26.0" prefWidth="102.0" style="-fx-padding: 0,0,0;" styleClass="textfield" text="1" AnchorPane.bottomAnchor="130.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="233.0" />
                         <Line endX="200.0" layoutX="262.0" layoutY="50.0" opacity="0.6" startX="-200.0" strokeWidth="2.0" />

@@ -388,8 +388,6 @@ public class SolarSystemViewController implements Initializable {
     *   Start of Marketplace Screen functions          *
     ****************************************************/
     
-    private MarketPlace market;
-    
     @FXML
     private ListView planetInventory;
     @FXML
@@ -415,6 +413,9 @@ public class SolarSystemViewController implements Initializable {
     @FXML
     private Label planetMarketplaceLabel;
     
+    private MarketPlace market;
+    private TradeGood buyableGood, sellableGood;
+    
     private void generateBuyList() {
         if (curPlanet != null) {
             ArrayList<TradeGood> goods = market.getListOfGoods();
@@ -431,19 +432,16 @@ public class SolarSystemViewController implements Initializable {
     
     @FXML
     private void selectBuyableItem() {
-//        int index = playerInventory.getEditingIndex();
-//        if (index != -1) {
-//            ArrayList<TradeGood> goods = market.getListOfGoods();
-//            TradeGood good = goods.get(index);
-//            buyDetails.setText("Cash: $" + player.getMoney());
-//        }
-        planetInventory.getSelectionModel().selectedItemProperty().addListener(
-            new ChangeListener<String>() {
-                public void changed(ObservableValue<? extends String> ov, 
-                    String old_val, String new_val) {
-                        buyDetails.setText(new_val);
-                        buyDetails.setTextFill(Color.web(new_val));
-            }
-        });
+        buyableGood = (TradeGood) (planetInventory.getSelectionModel().selectedItemProperty().get());
+        buyDetails.setText("Cash: $" + player.getMoney()
+                         + "\nCost: $" + buyableGood.getCurrentPriceEach());
+        
+    }
+    
+    @FXML
+    private void selectSellableItem() {
+        sellableGood = (TradeGood) (playerInventory.getSelectionModel().selectedItemProperty().get());
+        sellDetails.setText("Cash: $" + player.getMoney()
+                          + "\nValue: $" + sellableGood.getCurrentPriceEach());
     }
 }

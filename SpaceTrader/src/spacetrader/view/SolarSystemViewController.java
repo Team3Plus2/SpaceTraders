@@ -412,6 +412,10 @@ public class SolarSystemViewController implements Initializable {
     private TabPane marketplaceUI;
     @FXML
     private Label planetMarketplaceLabel;
+    @FXML
+    private Label buySum;
+    @FXML
+    private Label sellSum;
     
     private MarketPlace market;
     private TradeGood buyableGood, sellableGood;
@@ -435,7 +439,7 @@ public class SolarSystemViewController implements Initializable {
         buyableGood = (TradeGood) (planetInventory.getSelectionModel().selectedItemProperty().get());
         buyDetails.setText("Cash: $" + player.getMoney()
                          + "\nCost: $" + buyableGood.getCurrentPriceEach());
-        
+        buySum.setText("Sum: $" + (player.getMoney() - buyableGood.getCurrentPriceEach() * Float.parseFloat(buyQuantity.getText())));
     }
     
     @FXML
@@ -443,5 +447,6 @@ public class SolarSystemViewController implements Initializable {
         sellableGood = (TradeGood) (playerInventory.getSelectionModel().selectedItemProperty().get());
         sellDetails.setText("Cash: $" + player.getMoney()
                           + "\nValue: $" + sellableGood.getCurrentPriceEach());
+        sellSum.setText("Sum: $" + (player.getMoney() + sellableGood.getCurrentPriceEach() * Float.parseFloat(sellQuantity.getText())));
     }
 }

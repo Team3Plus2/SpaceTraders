@@ -75,6 +75,7 @@ public class Cargo {
             for (int i = 0; i < 10; i++) {
                 if (goods.get(i).getName().equals(good.getName())) {
                     goods.get(i).setAmount(goods.get(i).getAmount() + good.getAmount());
+                    goods.get(i).setPrice(good.getCurrentPriceEach());
                 }
             }
             return true;
@@ -87,8 +88,10 @@ public class Cargo {
         boolean success = false;
         for (int i = 0; i < 10; i++) {
             if (goods.get(i).getName().equals(good.getName())) {
+                System.out.println(goods.get(i).getAmount() + " " + good.getAmount());
                  if (goods.get(i).getAmount() >= good.getAmount()) {
                      goods.get(i).setAmount(goods.get(i).getAmount() - good.getAmount());
+                     System.out.println(goods.get(i).getAmount() + " " + good.getAmount());
                      success = true;
                  }
             }

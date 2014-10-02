@@ -37,7 +37,6 @@ public class Ship {
      */
     public Ship(ShipType ship) {
         fuel = ship.getMaxFuel();
-        cargo = new Cargo(maxCargo);
         weapons = new ArrayList<Weapon>(ship.getMaxWeapons());
         shields = new ArrayList<Shield>(ship.getMaxShields());
         gadgets = new ArrayList<Gadget>(ship.getMaxGadgets());
@@ -47,6 +46,7 @@ public class Ship {
         maxShields = ship.getMaxShields();
         maxGadgets = ship.getMaxGadgets();
         maxMercenaries = ship.getMaxMercenaries();
+        cargo = new Cargo(maxCargo);
     }
     
     /**

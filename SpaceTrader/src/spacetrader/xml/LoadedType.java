@@ -232,7 +232,7 @@ class TypeWrapper {
         if(other.getClass().equals(TypeWrapper.class)) {
             TypeWrapper otherType = (TypeWrapper)other;
             if(otherType.type.getClass().equals(this.type.getClass()) 
-                && other.hashCode() == other.hashCode())
+                && this.hashCode() == other.hashCode())
                 return true;
         } else if(other instanceof LoadedType) {
             return this.type.equals(other);

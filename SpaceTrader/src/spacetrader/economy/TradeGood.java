@@ -95,6 +95,15 @@ public class TradeGood extends LoadedType {
     }
     
     /**
+     * price setter
+     * 
+     * @param price the price to set the good to
+     */
+    public void setPrice(float price) {
+        this.currentPriceEach = price;
+    }
+    
+    /**
      * Getter for amount.
      * 
      * @return amount
@@ -205,5 +214,10 @@ public class TradeGood extends LoadedType {
     @Override
     public String toString() {
         return getName() + " - $" + getCurrentPriceEach() + " - Amount: " + getAmount();
+    }
+    
+    @Override
+    public int hashCode() {
+        return getName().hashCode();
     }
 }

@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package spacetrader.view;
 
 import java.awt.Point;
@@ -52,20 +51,20 @@ import spacetrader.player.Player;
  * @author KartikKini
  */
 public class SolarSystemViewController implements Initializable {
-    
+
     private GraphicsContext g;
     private GraphicsContext flareG;
     private GraphicsContext selectionG;
-    
+
     private Image starImage;
     private Image flareImage;
-    
+
     private SolarSystem curSystem;
     private Planet curPlanet;
     private Player player;
-    
+
     private Timer timer;
-    
+
     @FXML
     private Slider zoomSlider;
     @FXML
@@ -78,7 +77,7 @@ public class SolarSystemViewController implements Initializable {
     private Canvas selectionLayer;
     @FXML
     private Button backToStarScreen;
-    
+
     private double zoom = 1;
     private double preDragX;
     private double preDragY;
@@ -88,7 +87,7 @@ public class SolarSystemViewController implements Initializable {
     private double mapOffsetX;
     private double mapOffsetY;
     private boolean dragFinished;
-    
+
     private HashMap<Point, Planet> screenSpace;
 
     /**
@@ -106,24 +105,24 @@ public class SolarSystemViewController implements Initializable {
         flareImage = new Image("/visuals/Stars/SolFlareSheet.png");
         Random r = new Random();
         screenSpace = new HashMap<>();
-        
+
         checkRadii();
-        
+
         updateTimer();
-        
+
         //adds listener for the zoom slider
         zoomSlider.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                zoom = (float)zoomSlider.getValue();
+                zoom = (float) zoomSlider.getValue();
                 draw();
             }
-        
+
         });
-        
+
         //draw initial view
         draw();
-        
+
         //draw initial flare
         double size = (starImage.getWidth() / 2);
         double posx = 512 - (size / 2) - dragOffsetX - mapOffsetX;
@@ -131,12 +130,12 @@ public class SolarSystemViewController implements Initializable {
         flareG.setGlobalBlendMode(BlendMode.ADD);
         drawFlares(size, posx, posy);
     }
-    
+
     private void checkRadii() {
         //ensure no planets are too close to one another
-        if(curSystem.Planets().length > 1) {
-            for(int i = 0; i < curSystem.Planets().length; i++) {
-                for(int j = i + 1; j < curSystem.Planets().length; j++) {
+        if (curSystem.Planets().length > 1) {
+            for (int i = 0; i < curSystem.Planets().length; i++) {
+                for (int j = i + 1; j < curSystem.Planets().length; j++) {
                     int p1 = curSystem.Planets()[i].getLocation().y;
                     int p2 = curSystem.Planets()[j].getLocation().y;
                     while (Math.abs(p1 - p2) < 30) {
@@ -149,7 +148,7 @@ public class SolarSystemViewController implements Initializable {
             }
         }
     }
-    
+
     private void updateTimer() {
         //update orbits
         timer = new Timer();
@@ -157,8 +156,8 @@ public class SolarSystemViewController implements Initializable {
             @Override
             public void run() {
                 Platform.runLater(() -> {
-                    for(Planet p : curSystem.Planets()) {
-                        if(p.getLocation().x + 1 > 144000) {
+                    for (Planet p : curSystem.Planets()) {
+                        if (p.getLocation().x + 1 > 144000) {
                             p.setLocation(new Point(0, p.getLocation().y));
                         }
                         p.setLocation(new Point(p.getLocation().x + 1, p.getLocation().y));
@@ -169,12 +168,12 @@ public class SolarSystemViewController implements Initializable {
             }
         }, 0, 100);
     }
-    
+
     private void updateCanvasScales() {
         starBackdrop.setScaleX(2 + (zoom / 30));
         starBackdrop.setScaleY(2 + (zoom / 30));
-        starBackdrop.setTranslateX(-(dragOffsetX + mapOffsetX)/4);
-        starBackdrop.setTranslateY(-(dragOffsetY + mapOffsetY)/4);
+        starBackdrop.setTranslateX(-(dragOffsetX + mapOffsetX) / 4);
+        starBackdrop.setTranslateY(-(dragOffsetY + mapOffsetY) / 4);
         selectionLayer.setScaleX(1 + (zoom / 10));
         selectionLayer.setScaleY(1 + (zoom / 10));
         viewCanvas.setScaleX(1 + (zoom / 10));
@@ -182,7 +181,7 @@ public class SolarSystemViewController implements Initializable {
         flareLayer.setScaleX(1 + (zoom / 20));
         flareLayer.setScaleY(1 + (zoom / 20));
     }
-    
+
     /**
      * draws the solar system
      */
@@ -193,28 +192,28 @@ public class SolarSystemViewController implements Initializable {
         double posx = 512 - (size / 2) - dragOffsetX - mapOffsetX;
         double posy = 288 - (size / 2) - dragOffsetY - mapOffsetY;
         g.drawImage(starImage, posx, posy, size, size);
-        if(dragging){
+        if (dragging) {
             flareG.setGlobalBlendMode(BlendMode.SRC_OVER);
             flareG.clearRect(0, 0, 1024, 576);
             flareG.setGlobalBlendMode(BlendMode.ADD);
             drawFlares(size, posx, posy);
         }
         g.setStroke(Color.WHITE);
-        for(Planet p : curSystem.Planets()) {
+        for (Planet p : curSystem.Planets()) {
             posx = getCartesianLocation(p.getLocation(), p.getOrbitEllipse()).x - dragOffsetX - mapOffsetX;
             posy = getCartesianLocation(p.getLocation(), p.getOrbitEllipse()).y - dragOffsetY - mapOffsetY;
-            for(int i = 0; i < 90; i++) {
-                g.setFill(Color.gray(Math.max(Math.min(Math.abs(Math.sin(i/50.0)), 0.8), 0.5)));
-                g.fillOval(getCartesianLocation(new Point(i*14, p.getLocation().y), p.getOrbitEllipse()).x - dragOffsetX - mapOffsetX - 1, getCartesianLocation(new Point(i*14, p.getLocation().y), p.getOrbitEllipse()).y - dragOffsetY - mapOffsetY - 1, 2, 2);
-                g.fillOval(getCartesianLocation(new Point((i + 90)*14, p.getLocation().y), p.getOrbitEllipse()).x - dragOffsetX - mapOffsetX - 1, getCartesianLocation(new Point((i + 90)*14, p.getLocation().y), p.getOrbitEllipse()).y - dragOffsetY - mapOffsetY - 1, 2, 2);
+            for (int i = 0; i < 90; i++) {
+                g.setFill(Color.gray(Math.max(Math.min(Math.abs(Math.sin(i / 50.0)), 0.8), 0.5)));
+                g.fillOval(getCartesianLocation(new Point(i * 14, p.getLocation().y), p.getOrbitEllipse()).x - dragOffsetX - mapOffsetX - 1, getCartesianLocation(new Point(i * 14, p.getLocation().y), p.getOrbitEllipse()).y - dragOffsetY - mapOffsetY - 1, 2, 2);
+                g.fillOval(getCartesianLocation(new Point((i + 90) * 14, p.getLocation().y), p.getOrbitEllipse()).x - dragOffsetX - mapOffsetX - 1, getCartesianLocation(new Point((i + 90) * 14, p.getLocation().y), p.getOrbitEllipse()).y - dragOffsetY - mapOffsetY - 1, 2, 2);
             }
             g.setFill(Color.WHITE);
             g.fillOval(posx - 5, posy - 5, 10, 10);
-            screenSpace.put(new Point((int)(posx - 5), (int)(posy - 5)), p);
+            screenSpace.put(new Point((int) (posx - 5), (int) (posy - 5)), p);
         }
     }
-    
-     /**
+
+    /**
      * draws the solar system
      */
     private void drawSelection(Point mouse, Planet selection) {
@@ -224,107 +223,111 @@ public class SolarSystemViewController implements Initializable {
         selectionG.strokeOval(mouse.x - 15, mouse.y - 15, 30, 30);
         selectionG.fillText(selection.Name(), mouse.getX(), mouse.getY());
     }
-    
+
     private void drawFlares(double size, double posx, double posy) {
-        flareG.drawImage(flareImage, flareImage.getWidth()/2.0, flareImage.getWidth()/2.0, flareImage.getWidth()/2.0, flareImage.getHeight()/2.0, posx + ((dragOffsetX + mapOffsetX) * 4), posy + ((dragOffsetY + mapOffsetY) * 4), size, size);
-        flareG.drawImage(flareImage, flareImage.getWidth()/2.0, flareImage.getWidth()/2.0, flareImage.getWidth()/2.0, flareImage.getHeight()/2.0, posx + ((dragOffsetX + mapOffsetX) * 2), posy + ((dragOffsetY + mapOffsetY) * 2), size, size);
+        flareG.drawImage(flareImage, flareImage.getWidth() / 2.0, flareImage.getWidth() / 2.0, flareImage.getWidth() / 2.0, flareImage.getHeight() / 2.0, posx + ((dragOffsetX + mapOffsetX) * 4), posy + ((dragOffsetY + mapOffsetY) * 4), size, size);
+        flareG.drawImage(flareImage, flareImage.getWidth() / 2.0, flareImage.getWidth() / 2.0, flareImage.getWidth() / 2.0, flareImage.getHeight() / 2.0, posx + ((dragOffsetX + mapOffsetX) * 2), posy + ((dragOffsetY + mapOffsetY) * 2), size, size);
         size *= 4;
         posx = 512 - (size / 2) - dragOffsetX - mapOffsetX;
         posy = 288 - (size / 2) - dragOffsetY - mapOffsetY;
-        flareG.drawImage(flareImage, 0, 0, flareImage.getWidth()/2.0, flareImage.getHeight()/2.0, posx, posy, size, size);
+        flareG.drawImage(flareImage, 0, 0, flareImage.getWidth() / 2.0, flareImage.getHeight() / 2.0, posx, posy, size, size);
         size /= 3;
         posx = 512 - (size / 2) - dragOffsetX - mapOffsetX;
         posy = 288 - (size / 2) - dragOffsetY - mapOffsetY;
-        flareG.drawImage(flareImage, flareImage.getWidth()/2.0, flareImage.getWidth()/2.0, flareImage.getWidth()/2.0, flareImage.getHeight()/2.0, posx + ((dragOffsetX + mapOffsetX) * 3.5), posy + ((dragOffsetY + mapOffsetY) * 3.5), size, size);
-        flareG.drawImage(flareImage, flareImage.getWidth()/2.0, flareImage.getWidth()/2.0, flareImage.getWidth()/2.0, flareImage.getHeight()/2.0, posx + ((dragOffsetX + mapOffsetX) * 2.5), posy + ((dragOffsetY + mapOffsetY) * 2.5), size, size);
+        flareG.drawImage(flareImage, flareImage.getWidth() / 2.0, flareImage.getWidth() / 2.0, flareImage.getWidth() / 2.0, flareImage.getHeight() / 2.0, posx + ((dragOffsetX + mapOffsetX) * 3.5), posy + ((dragOffsetY + mapOffsetY) * 3.5), size, size);
+        flareG.drawImage(flareImage, flareImage.getWidth() / 2.0, flareImage.getWidth() / 2.0, flareImage.getWidth() / 2.0, flareImage.getHeight() / 2.0, posx + ((dragOffsetX + mapOffsetX) * 2.5), posy + ((dragOffsetY + mapOffsetY) * 2.5), size, size);
         size /= 4;
         posx = 512 - (size / 2) - dragOffsetX - mapOffsetX;
         posy = 288 - (size / 2) - dragOffsetY - mapOffsetY;
-        flareG.drawImage(flareImage, flareImage.getWidth()/2.0, flareImage.getWidth()/2.0, flareImage.getWidth()/2.0, flareImage.getHeight()/2.0, posx + ((dragOffsetX + mapOffsetX) * 3), posy + ((dragOffsetY + mapOffsetY) * 3), size, size);
-        flareG.drawImage(flareImage, flareImage.getWidth()/2.0, flareImage.getWidth()/2.0, flareImage.getWidth()/2.0, flareImage.getHeight()/2.0, posx + ((dragOffsetX + mapOffsetX) * 1.5), posy + ((dragOffsetY + mapOffsetY) * 1.5), size, size);
+        flareG.drawImage(flareImage, flareImage.getWidth() / 2.0, flareImage.getWidth() / 2.0, flareImage.getWidth() / 2.0, flareImage.getHeight() / 2.0, posx + ((dragOffsetX + mapOffsetX) * 3), posy + ((dragOffsetY + mapOffsetY) * 3), size, size);
+        flareG.drawImage(flareImage, flareImage.getWidth() / 2.0, flareImage.getWidth() / 2.0, flareImage.getWidth() / 2.0, flareImage.getHeight() / 2.0, posx + ((dragOffsetX + mapOffsetX) * 1.5), posy + ((dragOffsetY + mapOffsetY) * 1.5), size, size);
         size /= 4;
         posx = 512 - (size / 2) - dragOffsetX - mapOffsetX;
         posy = 288 - (size / 2) - dragOffsetY - mapOffsetY;
-        flareG.drawImage(flareImage, flareImage.getWidth()/2.0, flareImage.getWidth()/2.0, flareImage.getWidth()/2.0, flareImage.getHeight()/2.0, posx + ((dragOffsetX + mapOffsetX) * 1.75), posy + ((dragOffsetY + mapOffsetY) * 1.75), size, size);
+        flareG.drawImage(flareImage, flareImage.getWidth() / 2.0, flareImage.getWidth() / 2.0, flareImage.getWidth() / 2.0, flareImage.getHeight() / 2.0, posx + ((dragOffsetX + mapOffsetX) * 1.75), posy + ((dragOffsetY + mapOffsetY) * 1.75), size, size);
         size /= 4;
         posx = 512 - (size / 2) - dragOffsetX - mapOffsetX;
         posy = 288 - (size / 2) - dragOffsetY - mapOffsetY;
-        flareG.drawImage(flareImage, flareImage.getWidth()/2.0, flareImage.getWidth()/2.0, flareImage.getWidth()/2.0, flareImage.getHeight()/2.0, posx + ((dragOffsetX + mapOffsetX) * 3.75), posy + ((dragOffsetY + mapOffsetY) * 3.75), size, size);
+        flareG.drawImage(flareImage, flareImage.getWidth() / 2.0, flareImage.getWidth() / 2.0, flareImage.getWidth() / 2.0, flareImage.getHeight() / 2.0, posx + ((dragOffsetX + mapOffsetX) * 3.75), posy + ((dragOffsetY + mapOffsetY) * 3.75), size, size);
         size *= 200;
-        posx = 512 - (size / 2) - ((dragOffsetX + mapOffsetX)*4);
-        posy = 288 - (size / 2) - ((dragOffsetY + mapOffsetY)*4);
-        flareG.drawImage(flareImage, 0, flareImage.getWidth()/2.0, flareImage.getWidth()/2.0, flareImage.getHeight()/2.0, posx, posy, size, size);
+        posx = 512 - (size / 2) - ((dragOffsetX + mapOffsetX) * 4);
+        posy = 288 - (size / 2) - ((dragOffsetY + mapOffsetY) * 4);
+        flareG.drawImage(flareImage, 0, flareImage.getWidth() / 2.0, flareImage.getWidth() / 2.0, flareImage.getHeight() / 2.0, posx, posy, size, size);
     }
-    
+
     /**
-     * 
-     * @param event 
+     *
+     * @param event
      */
     @FXML
     private void mouseDown(MouseEvent event) {
         preDragX = event.getX();
         preDragY = event.getY();
     }
-    
+
     @FXML
     private void mouseClick(MouseEvent event) {
-        if(curPlanet != null) {
+        if (curPlanet != null) {
             if (curPlanet.getMarket() == null) {
                 planetMarketplaceLabel.setText(curPlanet.Name() + " Marketplace");
                 planetMarketplaceLabel.setFont(Font.font(curPlanet.Name().length()));
                 market = new MarketPlace(curSystem.TechLevel(), curPlanet.Resources());
-                generateBuyList();
-                generateSellList();
+                curPlanet.setMarket(market);
+            } else {
+                market = curPlanet.getMarket();
             }
+            generateBuyList();
+            generateSellList();
             marketplaceUI.setVisible(true);
             backToStarScreen.setVisible(false);
             generateBuyList();
         }
     }
-    
+
     @FXML
     private void hideMarketplace() {
         marketplaceUI.setVisible(false);
         backToStarScreen.setVisible(true);
     }
-    
+
     private Planet findClosestPlanet(Point p) {
-        if(curSystem.Planets()[0] == null) {
+        if (curSystem.Planets()[0] == null) {
             return null;
         }
         Planet forreturn = screenSpace.get(p);
-        if(forreturn == null) {
+        if (forreturn == null) {
             Point[] points = new Point[screenSpace.keySet().size()];
             screenSpace.keySet().toArray(points);
             Point closest = points[0];
-            for(Point test : points) {
-                if(closest.distance(p.x, p.y) > test.distance(p.x, p.y)) {
+            for (Point test : points) {
+                if (closest.distance(p.x, p.y) > test.distance(p.x, p.y)) {
                     closest = test;
                 }
             }
-            if(closest.distance(p.x, p.y) < 20 + zoom) {
+            if (closest.distance(p.x, p.y) < 20 + zoom) {
                 forreturn = screenSpace.get(closest);
             }
         }
         return forreturn;
     }
-    
+
     @FXML
     private void mouseMove(MouseEvent event) {
-        Planet mouseOver = findClosestPlanet(new Point((int)event.getX(), (int)event.getY()));
-        if(mouseOver != null) {
-            drawSelection(new Point((int)event.getX(), (int)event.getY()), mouseOver);
+        Planet mouseOver = findClosestPlanet(new Point((int) event.getX(), (int) event.getY()));
+        if (mouseOver != null) {
+            drawSelection(new Point((int) event.getX(), (int) event.getY()), mouseOver);
             curPlanet = mouseOver;
         } else {
-            if(!marketplaceUI.isVisible()) {
+            if (!marketplaceUI.isVisible()) {
                 curPlanet = null;
             }
             selectionG.clearRect(0, 0, 1024, 576);
         }
     }
-    
+
     /**
      * update drag offsets when dragging
+     *
      * @param event info about the mouse
      */
     @FXML
@@ -336,9 +339,10 @@ public class SolarSystemViewController implements Initializable {
         dragOffsetY = (preDragY - tempY);
         draw();
     }
-    
+
     /**
      * when mouse is released, update mapoffset
+     *
      * @param event contains info about the mouse
      */
     @FXML
@@ -353,29 +357,30 @@ public class SolarSystemViewController implements Initializable {
             draw();
         }
     }
-    
+
     @FXML
     private void handleBackAction() {
         timer.cancel();
         SpaceTrader.getInstance().goToGame();
     }
-    
+
     /**
-     * 
+     *
      * @param p
-     * @return 
+     * @return
      */
     private Point getCartesianLocation(Point p, Point e) {
-        double x,y;
-        x = Math.cos(p.x/400.0) * p.y * ((e.x / 10.0) + 1);
-        y = Math.sin(p.x/400.0) * p.y * ((e.y / 10.0) + 1);
+        double x, y;
+        x = Math.cos(p.x / 400.0) * p.y * ((e.x / 10.0) + 1);
+        y = Math.sin(p.x / 400.0) * p.y * ((e.y / 10.0) + 1);
         x += 512;
         y += 288;
-        return new Point((int)x, (int)y);
+        return new Point((int) x, (int) y);
     }
 
     /**
      * Used to set the scene so that timer thread can exit
+     *
      * @param scene the scene to set
      */
     public void setScene(Scene scene) {
@@ -383,11 +388,12 @@ public class SolarSystemViewController implements Initializable {
             timer.cancel();
         });
     }
-    
-    /***************************************************
-    *   Start of Marketplace Screen functions          *
-    ****************************************************/
-    
+
+    /**
+     * *************************************************
+     * Start of Marketplace Screen functions *
+     * **************************************************
+     */
     @FXML
     private ListView planetInventory;
     @FXML
@@ -414,12 +420,10 @@ public class SolarSystemViewController implements Initializable {
     private Label planetMarketplaceLabel;
     @FXML
     private Label buySum;
-    @FXML
-    private Label sellSum;
-    
+
     private MarketPlace market;
     private TradeGood buyableGood, sellableGood;
-    
+
     private void generateBuyList() {
         if (curPlanet != null) {
             ArrayList<TradeGood> goods = market.getListOfGoods();
@@ -427,26 +431,67 @@ public class SolarSystemViewController implements Initializable {
             planetInventory.setItems(list);
         }
     }
-    
+
     private void generateSellList() {
         ArrayList<TradeGood> goods = player.getShip().getCargo().getNonEmptyCargoList();
+        for(TradeGood tg : goods) {
+            tg.setPrice(market.priceOfGood(tg));
+        }
         ObservableList<TradeGood> list = FXCollections.observableArrayList(goods);
         playerInventory.setItems(list);
     }
-    
+
     @FXML
     private void selectBuyableItem() {
         buyableGood = (TradeGood) (planetInventory.getSelectionModel().selectedItemProperty().get());
-        buyDetails.setText("Cash: $" + player.getMoney()
-                         + "\nCost: $" + buyableGood.getCurrentPriceEach());
-        buySum.setText("Sum: $" + (player.getMoney() - buyableGood.getCurrentPriceEach() * Float.parseFloat(buyQuantity.getText())));
+        updateBuyableItem();
     }
-    
+
     @FXML
     private void selectSellableItem() {
         sellableGood = (TradeGood) (playerInventory.getSelectionModel().selectedItemProperty().get());
-        sellDetails.setText("Cash: $" + player.getMoney()
-                          + "\nValue: $" + sellableGood.getCurrentPriceEach());
-        sellSum.setText("Sum: $" + (player.getMoney() + sellableGood.getCurrentPriceEach() * Float.parseFloat(sellQuantity.getText())));
+        updateSellableItem();
+    }
+
+    private void updateBuyableItem() {
+        try {
+            buyDetails.setText("Cash: $" + player.getMoney()
+                    + "\nCost: $" + buyableGood.getCurrentPriceEach());
+            buySum.setText("Sum: $" + (player.getMoney() - buyableGood.getCurrentPriceEach() * Integer.parseInt(buyQuantity.getText())));
+        } catch (Exception e) {
+
+        }
+    }
+
+    private void updateSellableItem() {
+        if (sellableGood != null) {
+            sellDetails.setText("Cash: $" + player.getMoney()
+                    + "\nValue: $" + sellableGood.getCurrentPriceEach()
+                    + "\n\n\nSum: $" + (player.getMoney() + sellableGood.getCurrentPriceEach() * Integer.parseInt(sellQuantity.getText())));
+        }
+    }
+
+    @FXML
+    private void handleBuyAction() {
+        if (buyableGood != null) {
+            boolean success = market.buy(player, buyableGood, Integer.parseInt(buyQuantity.getText()));
+            System.out.println(success);
+            generateBuyList();
+            generateSellList();
+            updateBuyableItem();
+        }
+    }
+
+    @FXML
+    private void handleSellAction() {
+        System.out.println(sellableGood);
+        if (sellableGood != null) {
+            TradeGood temp = new TradeGood(sellableGood);
+            temp.setPrice(sellableGood.getCurrentPriceEach());
+            boolean success = market.sell(player, temp, Integer.parseInt(sellQuantity.getText()));
+            System.out.println(success);
+            generateSellList();
+            updateSellableItem();
+        }
     }
 }

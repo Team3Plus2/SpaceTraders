@@ -54,14 +54,27 @@ public class MarketPlace {
      * @return true if buying was successful, false otherwise.
      */
     public boolean buy(Player p, TradeGood tg, int amount) {
-        if (tradeGoods.get(tg) == null || tradeGoods.get(tg).getAmount() < amount) {
-            return false;
-        }
-        float cost = tradeGoods.get(tg).getCurrentPriceEach() * amount;
-        tg.setAmount(amount);
-        if (cost < p.getMoney() && p.getShip().getCargo().addTradeGood(tg)) {
+//        System.out.println(tradeGoods.get(tg));
+//        if (tradeGoods.get(tg) == null || tradeGoods.get(tg).getAmount() < amount) {
+//            return false;
+//        }
+//        
+//        System.out.println("here");
+//        float cost = tradeGoods.get(tg).getCurrentPriceEach() * amount;
+//        tg.setAmount(amount);
+//        if (cost < p.getMoney() && p.getShip().getCargo().addTradeGood(tg)) {
+//            p.setMoney(p.getMoney() - cost);
+//            tradeGoods.get(tg).setAmount(tradeGoods.get(tg).getAmount() - amount);
+//            return true;
+//        }
+//        return false;
+        float cost = tg.getCurrentPriceEach() * amount;
+        TradeGood temp = new TradeGood(tg);
+        temp.setPrice(tg.getCurrentPriceEach());
+        temp.setAmount(amount);
+        if (cost < p.getMoney() && p.getShip().getCargo().addTradeGood(temp)) {
             p.setMoney(p.getMoney() - cost);
-            tradeGoods.get(tg).setAmount(tradeGoods.get(tg).getAmount() - amount);
+            tg.setAmount(tg.getAmount() - amount);
             return true;
         }
         return false;
@@ -76,14 +89,20 @@ public class MarketPlace {
      * @return true if selling was successful, false otherwise.
      */
     public boolean sell(Player p, TradeGood tg, int amount) {
-        if (tradeGoods.get(tg) == null) { //this planet cannot use this TradeGood
-            return false;
-        }
+//        if (tradeGoods.get(tg) == null) { //this planet cannot use this TradeGood
+//            return false;
+//        }
+//        tg.setAmount(amount);
+//        if (p.getShip().getCargo().removeTradeGood(tg)) {
+//            tradeGoods.get(tg).setAmount(tradeGoods.get(tg).getAmount() + amount);
+//            p.setMoney(p.getMoney() + (tradeGoods.get(tg).getCurrentPriceEach() * amount));
+//            return true;
+//        }
+//        return false;
         tg.setAmount(amount);
-        if (p.getShip().getCargo().removeTradeGood(tg)) {
-            tradeGoods.get(tg).setAmount(tradeGoods.get(tg).getAmount() + amount);
-            p.setMoney(p.getMoney() + (tradeGoods.get(tg).getCurrentPriceEach() * amount));
-            return true;
+        if(p.getShip().getCargo().removeTradeGood(tg)) {
+            p.setMoney(p.getMoney() + (tg.getCurrentPriceEach() * amount));
+            System.out.println("FJLKSD");
         }
         return false;
     }
@@ -106,7 +125,12 @@ public class MarketPlace {
      * @return the price of the TradeGood.
      */
     public float priceOfGood(TradeGood tg) {
-        return tg.getCurrentPriceEach();
+        for (TradeGood good: tradeGoods.values()) {
+            if (tg.getName().equals(good.getName())) {
+                return good.getCurrentPriceEach();
+            }
+        }
+        return 0;
     }
     
     /**

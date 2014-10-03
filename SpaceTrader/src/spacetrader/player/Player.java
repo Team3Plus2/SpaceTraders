@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package spacetrader.player;
 
 import java.util.Iterator;
@@ -21,7 +15,7 @@ import spacetrader.turns.TurnEvent;
  * @author Aaron McAnally
  */
 public class Player {
-    private static final float FUEL_PER_PLANET_MOVEMENT = 10;
+    private static final float FUEL_PER_PLANET_MOVEMENT = 0.5f;
     
     private String name;
     private int pilotSkill, fighterSkill, traderSkill, engineerSkill, investorSkill;
@@ -48,9 +42,11 @@ public class Player {
      * 
      * @param system target solar system
      * @param planet target planet
-     * @return true if player has enough fuel to travel
+     * @return true if player has enough fuel to travel and system != currentSolarSystem and planet != currentPlanet
      */
     public boolean movePlayer(SolarSystem system, Planet planet) {
+        if(system == currentSolarSystem && planet == currentPlanet)
+            return false;
         double distance = FUEL_PER_PLANET_MOVEMENT;
         if(system != currentSolarSystem)
             distance = Math.sqrt(Math.pow(system.getX() - currentSolarSystem.getX(), 2) + Math.pow(system.getY() - currentSolarSystem.getY(), 2));

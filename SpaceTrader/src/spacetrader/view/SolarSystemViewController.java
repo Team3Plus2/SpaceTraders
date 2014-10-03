@@ -434,7 +434,7 @@ public class SolarSystemViewController implements Initializable {
 
     private void generateSellList() {
         ArrayList<TradeGood> goods = player.getShip().getCargo().getNonEmptyCargoList();
-        for(TradeGood tg : goods) {
+        for (TradeGood tg : goods) {
             tg.setPrice(market.priceOfGood(tg));
         }
         ObservableList<TradeGood> list = FXCollections.observableArrayList(goods);
@@ -470,10 +470,14 @@ public class SolarSystemViewController implements Initializable {
     }
 
     private void updateSellableItem() {
-        if (sellableGood != null) {
-            sellDetails.setText("Cash: $" + player.getMoney()
-                    + "\nValue: $" + sellableGood.getCurrentPriceEach()
-                    + "\n\n\nSum: $" + (player.getMoney() + sellableGood.getCurrentPriceEach() * Integer.parseInt(sellQuantity.getText())));
+        try {
+            if (sellableGood != null) {
+                sellDetails.setText("Cash: $" + player.getMoney()
+                        + "\nValue: $" + sellableGood.getCurrentPriceEach()
+                        + "\n\n\nSum: $" + (player.getMoney() + sellableGood.getCurrentPriceEach() * Integer.parseInt(sellQuantity.getText())));
+            }
+        } catch (Exception e) {
+
         }
     }
 

@@ -45,7 +45,7 @@ import spacetrader.economy.MarketPlace;
 import spacetrader.economy.TradeGood;
 import spacetrader.main.SpaceTrader;
 import spacetrader.player.Player;
-import spacetrader.utility.Utility;
+import spacetrader.global.Utility;
 
 /**
  * FXML Controller class

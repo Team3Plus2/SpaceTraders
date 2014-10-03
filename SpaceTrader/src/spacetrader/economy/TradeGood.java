@@ -7,7 +7,7 @@ import spacetrader.xml.LoadedType;
 import spacetrader.xml.FromXML;
 import spacetrader.cosmos.system.TechLevel;
 import spacetrader.cosmos.system.Resource;
-import spacetrader.utility.Utility;
+import spacetrader.global.Utility;
 
 /**
  * TradeGood defines the various types of TradeGoods that players can buy or sell.

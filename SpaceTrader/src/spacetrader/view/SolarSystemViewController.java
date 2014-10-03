@@ -479,9 +479,12 @@ public class SolarSystemViewController implements Initializable {
 
     private void updateBuyableItem() {
         try {
-            buyDetails.setText("Cash: " + Utility.currencyFormat().format(player.getMoney())
-                    + "\nCost: " + Utility.currencyFormat().format(buyableGood.getCurrentPriceEach()));
-            buySum.setText("Sum: " + Utility.currencyFormat().format(player.getMoney() - buyableGood.getCurrentPriceEach() * Integer.parseInt(buyQuantity.getText())));
+            buyDetails.setText("Cash: " + Utility.currencyFormat(player.getMoney())
+                    + "\nCost: " + Utility.currencyFormat(buyableGood.getCurrentPriceEach()));
+            buySum.setText("Sum: " + Utility.currencyFormat(player.getMoney() - buyableGood.getCurrentPriceEach() * Integer.parseInt(buyQuantity.getText())));
+            if (player.getMoney() - buyableGood.getCurrentPriceEach() * Integer.parseInt(buyQuantity.getText()) < 0) {
+                
+            }
         } catch (Exception e) {
 
         }
@@ -490,9 +493,9 @@ public class SolarSystemViewController implements Initializable {
     private void updateSellableItem() {
         try {
             if (sellableGood != null) {
-                sellDetails.setText("Cash: " + Utility.currencyFormat().format(player.getMoney())
-                        + "\nValue: " + Utility.currencyFormat().format(sellableGood.getCurrentPriceEach())
-                        + "\n\n\nSum: " + Utility.currencyFormat().format(player.getMoney() + sellableGood.getCurrentPriceEach() * Integer.parseInt(sellQuantity.getText())));
+                sellDetails.setText("Cash: " + Utility.currencyFormat(player.getMoney())
+                        + "\nValue: " + Utility.currencyFormat(sellableGood.getCurrentPriceEach())
+                        + "\n\n\n\nSum: " + Utility.currencyFormat(player.getMoney() + sellableGood.getCurrentPriceEach() * Integer.parseInt(sellQuantity.getText())));
             }
         } catch (Exception e) {
 

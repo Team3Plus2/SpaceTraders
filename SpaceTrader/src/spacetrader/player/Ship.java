@@ -158,6 +158,18 @@ public class Ship {
         return cargo;
     }
 
+    /**
+     * Moves the ship the given distance if the player has enough fuel
+     * @return true if the movement occured, false if ship doesn't have enough fuel
+     */
+    public boolean moveDistance(double dist) {
+        if(dist <= fuel) {
+            fuel -= dist;
+            return true;
+        }
+        return false;
+    }
+    
     public float getFuel() {
         return fuel;
     }

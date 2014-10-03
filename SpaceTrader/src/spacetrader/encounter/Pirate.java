@@ -15,7 +15,7 @@ import spacetrader.player.ShipType;
  *
  * @author Aaron McAnally
  */
-public class Pirate implements Encounter {
+public class Pirate extends Encounter {
     private Player pirate;
     
     public Pirate() {

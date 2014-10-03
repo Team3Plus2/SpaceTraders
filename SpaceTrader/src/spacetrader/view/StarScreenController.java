@@ -97,7 +97,7 @@ public class StarScreenController implements Initializable {
         zoomSlider.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                zoom = (float)zoomSlider.getValue() + 1;
+                zoom = (float)zoomSlider.getValue();
                 dragFinished = true;
                 drawUniverse();
             }
@@ -186,8 +186,8 @@ public class StarScreenController implements Initializable {
         double tempX = event.getX();
         double tempY = event.getY();
         //System.out.println("tempX: " + tempX + ", " + tempY);
-        dragOffsetX = (preDragX - tempX)/zoom;
-        dragOffsetY = (preDragY - tempY)/zoom;
+        dragOffsetX = (preDragX - tempX)/10;
+        dragOffsetY = (preDragY - tempY)/10;
         //System.out.println("Drag Offset: " + dragOffsetX + ", " + dragOffsetY);
         drawUniverse();
     }
@@ -253,6 +253,8 @@ public class StarScreenController implements Initializable {
         //sets scale of star backdrop
         starBackdrop.setScaleX(zoom/5);
         starBackdrop.setScaleY(zoom/5);
+        gameCanvas.setScaleX(zoom/10);
+        gameCanvas.setScaleY(zoom/10);
         //makes sure that solar systems are being drawn depending on it being dragged
         //clears before drawing
         g.clearRect(0, 0, gameCanvas.getWidth(), gameCanvas.getHeight());
@@ -275,14 +277,14 @@ public class StarScreenController implements Initializable {
                 }
                 
                 if(!dragging) {
-                    double size = zoom * 2 + a.Planets().length;
-                    double xPosition = ((x - mapOffsetX) * zoom) + (512 - mapOffsetX) - (size / 2);
-                    double yPosition = ((y - mapOffsetY) * zoom) + (288 - mapOffsetY) - (size / 2);
+                    double size = 20 + a.Planets().length * 2;
+                    double xPosition = ((x - mapOffsetX) * 10) + (512 - mapOffsetX) - (size / 2);
+                    double yPosition = ((y - mapOffsetY) * 10) + (288 - mapOffsetY) - (size / 2);
                     if(dragFinished) {
                         solarSystemLocations.put(new Point((int) (xPosition + (size/2)), (int) (yPosition + (size/2))), a);
                     }
                     if(starImage == null) {
-                        g.fillOval(((x - mapOffsetX) * zoom) + (512 - mapOffsetX), ((y - mapOffsetY) * zoom) + (288 - mapOffsetY), (zoom / 2) + a.Planets().length, (zoom / 2) + a.Planets().length);
+                        g.fillOval(((x - mapOffsetX) * 10) + (512 - mapOffsetX), ((y - mapOffsetY) * 10) + (288 - mapOffsetY), 5 + a.Planets().length * 2, 5 + a.Planets().length * 2);
                     } else {
                         Affine old = g.getTransform();
                         double angle = r.nextDouble() * 360;
@@ -292,30 +294,30 @@ public class StarScreenController implements Initializable {
                     }
                     g.setFill(Color.WHITE);
                     if(a.equals(selectedSolarSystem)) {
-                        tempSelectedX = (int) (((x - mapOffsetX) * zoom) + (512 - mapOffsetX));
-                        tempSelectedY = (int) (((y - mapOffsetY) * zoom) + (288 - mapOffsetY));
-                        goToPlanet.setTranslateX((int) (((x - mapOffsetX) * zoom) + (512 - mapOffsetX)));
-                        goToPlanet.setTranslateY((int) (((y - mapOffsetY) * zoom) + (288 - mapOffsetY)) + 10);
+                        tempSelectedX = (int) (((x - mapOffsetX) * 10) + (512 - mapOffsetX));
+                        tempSelectedY = (int) (((y - mapOffsetY) * 10) + (288 - mapOffsetY));
+                        goToPlanet.setTranslateX((int) (((x - mapOffsetX) * 10) + (512 - mapOffsetX)));
+                        goToPlanet.setTranslateY((int) (((y - mapOffsetY) * 10) + (288 - mapOffsetY)) + 10);
                     }
                 } else {
                     if(starImage == null) {
-                        g.fillOval(((x - mapOffsetX - dragOffsetX) * zoom) + (512 - dragOffsetX - mapOffsetX), ((y - mapOffsetY - dragOffsetY) * zoom) + (288 - dragOffsetY - mapOffsetY), (zoom / 2) + a.Planets().length, (zoom / 2) + a.Planets().length);
+                        g.fillOval(((x - mapOffsetX - dragOffsetX) * 10) + (512 - dragOffsetX - mapOffsetX), ((y - mapOffsetY - dragOffsetY) * 10) + (288 - dragOffsetY - mapOffsetY), 5 + a.Planets().length * 2, 5 + a.Planets().length * 2);
                     } else {
                         Affine old = g.getTransform();
                         double angle = r.nextDouble() * 360;
-                        double size = zoom * 2 + a.Planets().length;
-                        double xPosition = ((x - mapOffsetX - dragOffsetX) * zoom) + (512 - mapOffsetX - dragOffsetX) - (size/2);
-                        double yPosition = ((y - mapOffsetY - dragOffsetY) * zoom) + (288 - mapOffsetY - dragOffsetY) - (size/2);
+                        double size = 20 + a.Planets().length * 2;
+                        double xPosition = ((x - mapOffsetX - dragOffsetX) * 10) + (512 - mapOffsetX - dragOffsetX) - (size/2);
+                        double yPosition = ((y - mapOffsetY - dragOffsetY) * 10) + (288 - mapOffsetY - dragOffsetY) - (size/2);
                         rotate(angle, xPosition + size/2, yPosition + size/2);
                         g.drawImage(starImage, xPosition, yPosition, size, size);
                         g.setTransform(old);
                     }
                     g.setFill(Color.WHITE);
                     if(a.equals(selectedSolarSystem)) {
-                        tempSelectedX = (int) (((x - dragOffsetX - mapOffsetX) * zoom) + (512 - dragOffsetX - mapOffsetX));
-                        tempSelectedY = (int) (((y - dragOffsetY - mapOffsetY) * zoom) + (288 - dragOffsetY - mapOffsetY));
-                        goToPlanet.setTranslateX((int) (((x - dragOffsetX - mapOffsetX) * zoom) + (512 - dragOffsetX - mapOffsetX)));
-                        goToPlanet.setTranslateY((int) (((y - dragOffsetY - mapOffsetY) * zoom) + (288 - dragOffsetY - mapOffsetY)) + 10);
+                        tempSelectedX = (int) (((x - dragOffsetX - mapOffsetX) * 10) + (512 - dragOffsetX - mapOffsetX));
+                        tempSelectedY = (int) (((y - dragOffsetY - mapOffsetY) * 10) + (288 - dragOffsetY - mapOffsetY));
+                        goToPlanet.setTranslateX((int) (((x - dragOffsetX - mapOffsetX) * 10) + (512 - dragOffsetX - mapOffsetX)));
+                        goToPlanet.setTranslateY((int) (((y - dragOffsetY - mapOffsetY) * 10) + (288 - dragOffsetY - mapOffsetY)) + 10);
                     }
                 }
             }
@@ -349,11 +351,11 @@ public class StarScreenController implements Initializable {
         int lowerX;
         int lowerY;
         if(!dragging) {//using Kartik's method
-            lowerY = (int)(((mapOffsetY - gameCanvas.getHeight()/2))/zoom + mapOffsetY);
-            lowerX = (int)(((mapOffsetX - gameCanvas.getWidth()/2))/zoom + mapOffsetX);
+            lowerY = (int)(((mapOffsetY - gameCanvas.getHeight()/2))/10 + mapOffsetY);
+            lowerX = (int)(((mapOffsetX - gameCanvas.getWidth()/2))/10 + mapOffsetX);
         } else {
-            lowerY = (int)(((mapOffsetY + dragOffsetY - gameCanvas.getHeight()/2))/zoom + mapOffsetY + dragOffsetY);
-            lowerX = (int)(((mapOffsetX + dragOffsetX - gameCanvas.getWidth()/2))/zoom + mapOffsetX + dragOffsetX);
+            lowerY = (int)(((mapOffsetY + dragOffsetY - gameCanvas.getHeight()/2))/10 + mapOffsetY + dragOffsetY);
+            lowerX = (int)(((mapOffsetX + dragOffsetX - gameCanvas.getWidth()/2))/10 + mapOffsetX + dragOffsetX);
         }
 
         return new Point(lowerX, lowerY);
@@ -363,11 +365,11 @@ public class StarScreenController implements Initializable {
         int upperX;
         int upperY;
         if(!dragging) {//using Kartik's method
-            upperY = (int)(((mapOffsetY + gameCanvas.getHeight()/2))/zoom + mapOffsetY);
-            upperX = (int)(((mapOffsetX + gameCanvas.getWidth()/2))/zoom + mapOffsetX);
+            upperY = (int)(((mapOffsetY + gameCanvas.getHeight()/2))/10 + mapOffsetY);
+            upperX = (int)(((mapOffsetX + gameCanvas.getWidth()/2))/10 + mapOffsetX);
         } else {
-            upperY = (int)(((mapOffsetY + dragOffsetY + gameCanvas.getHeight()/2))/zoom + mapOffsetY + dragOffsetY);
-            upperX = (int)(((mapOffsetX + dragOffsetX + gameCanvas.getWidth()/2))/zoom + mapOffsetX + dragOffsetX);
+            upperY = (int)(((mapOffsetY + dragOffsetY + gameCanvas.getHeight()/2))/10 + mapOffsetY + dragOffsetY);
+            upperX = (int)(((mapOffsetX + dragOffsetX + gameCanvas.getWidth()/2))/10 + mapOffsetX + dragOffsetX);
         }
         
         return new Point(upperX, upperY);

@@ -154,17 +154,22 @@ public class TradeGood extends LoadedType {
      * @return tradeGoodTypes
      */
     public static ArrayList<TradeGood> getTradeGoodTypes() {
-        return (ArrayList<TradeGood>)TradeGood.getList(TradeGood.class);
+        ArrayList<TradeGood> list = (ArrayList<TradeGood>)TradeGood.getList(TradeGood.class);
+        ArrayList<TradeGood> list2 = new ArrayList<TradeGood>();
+        for (TradeGood tg : list) {
+            list2.add(new TradeGood(tg));
+        }
+        return list2;
     }
     
-    public static HashMap<TradeGood, TradeGood> getEmptyGoodMap() {
+    /*public static HashMap<TradeGood, TradeGood> getEmptyGoodMap() {
         HashMap<TradeGood, TradeGood> goods = new HashMap<TradeGood, TradeGood>();
         ArrayList<TradeGood> types = getTradeGoodTypes();
         for (TradeGood type: types) {
             goods.put(type, new TradeGood(type));
         }
         return goods;
-    }
+    }*/
 
     /**
      * Getter for minRandPrice.
@@ -219,5 +224,16 @@ public class TradeGood extends LoadedType {
     @Override
     public int hashCode() {
         return getName().hashCode();
+    }
+    
+    @Override
+    public boolean equals(Object other) {
+        if (other == null) return false;
+        if (other instanceof TradeGood) {
+            if (((TradeGood) other).getName().equals(this.getName())) {
+                return true;
+            }
+        }
+        return false;
     }
 }

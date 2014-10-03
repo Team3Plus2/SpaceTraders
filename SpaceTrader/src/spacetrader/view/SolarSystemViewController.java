@@ -498,6 +498,7 @@ public class SolarSystemViewController implements Initializable {
             temp.setPrice(sellableGood.getCurrentPriceEach());
             boolean success = market.sell(player, temp, Integer.parseInt(sellQuantity.getText()));
             generateSellList();
+            generateBuyList();
             updateSellableItem();
         }
     }

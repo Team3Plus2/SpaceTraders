@@ -7,6 +7,7 @@ package spacetrader.view;
 
 import java.awt.Point;
 import java.net.URL;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
@@ -44,6 +45,7 @@ import spacetrader.economy.MarketPlace;
 import spacetrader.economy.TradeGood;
 import spacetrader.main.SpaceTrader;
 import spacetrader.player.Player;
+import spacetrader.utility.Utility;
 
 /**
  * FXML Controller class
@@ -461,9 +463,9 @@ public class SolarSystemViewController implements Initializable {
 
     private void updateBuyableItem() {
         try {
-            buyDetails.setText("Cash: $" + player.getMoney()
-                    + "\nCost: $" + buyableGood.getCurrentPriceEach());
-            buySum.setText("Sum: $" + (player.getMoney() - buyableGood.getCurrentPriceEach() * Integer.parseInt(buyQuantity.getText())));
+            buyDetails.setText("Cash: " + Utility.currencyFormat().format(player.getMoney())
+                    + "\nCost: " + Utility.currencyFormat().format(buyableGood.getCurrentPriceEach()));
+            buySum.setText("Sum: " + Utility.currencyFormat().format(player.getMoney() - buyableGood.getCurrentPriceEach() * Integer.parseInt(buyQuantity.getText())));
         } catch (Exception e) {
 
         }
@@ -472,9 +474,9 @@ public class SolarSystemViewController implements Initializable {
     private void updateSellableItem() {
         try {
             if (sellableGood != null) {
-                sellDetails.setText("Cash: $" + player.getMoney()
-                        + "\nValue: $" + sellableGood.getCurrentPriceEach()
-                        + "\n\n\nSum: $" + (player.getMoney() + sellableGood.getCurrentPriceEach() * Integer.parseInt(sellQuantity.getText())));
+                sellDetails.setText("Cash: " + Utility.currencyFormat().format(player.getMoney())
+                        + "\nValue: " + Utility.currencyFormat().format(sellableGood.getCurrentPriceEach())
+                        + "\n\n\nSum: " + Utility.currencyFormat().format(player.getMoney() + sellableGood.getCurrentPriceEach() * Integer.parseInt(sellQuantity.getText())));
             }
         } catch (Exception e) {
 

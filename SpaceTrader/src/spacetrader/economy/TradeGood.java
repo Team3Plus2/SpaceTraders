@@ -7,6 +7,7 @@ import spacetrader.xml.LoadedType;
 import spacetrader.xml.FromXML;
 import spacetrader.cosmos.system.TechLevel;
 import spacetrader.cosmos.system.Resource;
+import spacetrader.global.Utility;
 
 /**
  * TradeGood defines the various types of TradeGoods that players can buy or sell.
@@ -210,7 +211,7 @@ public class TradeGood extends LoadedType {
 
     @Override
     public String toString() {
-        return getName() + " - $" + getCurrentPriceEach() + " - Amount: " + getAmount();
+        return getName() + " - " + Utility.currencyFormat().format(getCurrentPriceEach()) + " - Amount: " + getAmount();
     }
     
     @Override

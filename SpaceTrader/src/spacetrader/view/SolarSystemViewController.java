@@ -7,6 +7,7 @@ package spacetrader.view;
 
 import java.awt.Point;
 import java.net.URL;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
@@ -17,6 +18,7 @@ import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -44,6 +46,7 @@ import spacetrader.economy.MarketPlace;
 import spacetrader.economy.TradeGood;
 import spacetrader.main.SpaceTrader;
 import spacetrader.player.Player;
+import spacetrader.global.Utility;
 
 /**
  * FXML Controller class
@@ -118,6 +121,21 @@ public class SolarSystemViewController implements Initializable {
                 draw();
             }
 
+        });
+        
+        planetInventory.getSelectionModel().getSelectedItems().addListener(new ListChangeListener() {
+            @Override
+            public void onChanged(ListChangeListener.Change c) {
+                selectBuyableItem();
+            }
+        });
+        
+        playerInventory.getSelectionModel().getSelectedItems().addListener(new ListChangeListener() {
+
+            @Override
+            public void onChanged(ListChangeListener.Change c) {
+                selectSellableItem();
+            }
         });
 
         //draw initial view
@@ -434,7 +452,7 @@ public class SolarSystemViewController implements Initializable {
 
     private void generateSellList() {
         ArrayList<TradeGood> goods = player.getShip().getCargo().getNonEmptyCargoList();
-        for(TradeGood tg : goods) {
+        for (TradeGood tg : goods) {
             tg.setPrice(market.priceOfGood(tg));
         }
         ObservableList<TradeGood> list = FXCollections.observableArrayList(goods);
@@ -443,7 +461,7 @@ public class SolarSystemViewController implements Initializable {
 
     @FXML
     private void selectBuyableItem() {
-        TradeGood selected = (TradeGood) (planetInventory.getSelectionModel().selectedItemProperty().get());
+        TradeGood selected = (TradeGood) (planetInventory.getSelectionModel().getSelectedItem());
         if (selected != null) {
             buyableGood = selected;
         }
@@ -461,19 +479,23 @@ public class SolarSystemViewController implements Initializable {
 
     private void updateBuyableItem() {
         try {
-            buyDetails.setText("Cash: $" + player.getMoney()
-                    + "\nCost: $" + buyableGood.getCurrentPriceEach());
-            buySum.setText("Sum: $" + (player.getMoney() - buyableGood.getCurrentPriceEach() * Integer.parseInt(buyQuantity.getText())));
+            buyDetails.setText("Cash: " + Utility.currencyFormat().format(player.getMoney())
+                    + "\nCost: " + Utility.currencyFormat().format(buyableGood.getCurrentPriceEach()));
+            buySum.setText("Sum: " + Utility.currencyFormat().format(player.getMoney() - buyableGood.getCurrentPriceEach() * Integer.parseInt(buyQuantity.getText())));
         } catch (Exception e) {
 
         }
     }
 
     private void updateSellableItem() {
-        if (sellableGood != null) {
-            sellDetails.setText("Cash: $" + player.getMoney()
-                    + "\nValue: $" + sellableGood.getCurrentPriceEach()
-                    + "\n\n\nSum: $" + (player.getMoney() + sellableGood.getCurrentPriceEach() * Integer.parseInt(sellQuantity.getText())));
+        try {
+            if (sellableGood != null) {
+                sellDetails.setText("Cash: " + Utility.currencyFormat().format(player.getMoney())
+                        + "\nValue: " + Utility.currencyFormat().format(sellableGood.getCurrentPriceEach())
+                        + "\n\n\nSum: " + Utility.currencyFormat().format(player.getMoney() + sellableGood.getCurrentPriceEach() * Integer.parseInt(sellQuantity.getText())));
+            }
+        } catch (Exception e) {
+
         }
     }
 

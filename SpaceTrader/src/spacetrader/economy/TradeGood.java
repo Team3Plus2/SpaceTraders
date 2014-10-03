@@ -1,11 +1,9 @@
 package spacetrader.economy;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Random;
 
 import spacetrader.xml.LoadedType;
-import spacetrader.xml.XMLReader;
 import spacetrader.xml.FromXML;
 import spacetrader.cosmos.system.TechLevel;
 import spacetrader.cosmos.system.Resource;
@@ -92,6 +90,9 @@ public class TradeGood extends LoadedType {
                         - TechLevel.getIndex(minLevelProduce))) + (basePrice * ((float) variance2/100));
             }
         }
+        if (currentPriceEach <= 0) {
+            currentPriceEach = basePrice;
+        }
     }
     
     /**
@@ -154,16 +155,12 @@ public class TradeGood extends LoadedType {
      * @return tradeGoodTypes
      */
     public static ArrayList<TradeGood> getTradeGoodTypes() {
-        return (ArrayList<TradeGood>)TradeGood.getList(TradeGood.class);
-    }
-    
-    public static HashMap<TradeGood, TradeGood> getEmptyGoodMap() {
-        HashMap<TradeGood, TradeGood> goods = new HashMap<TradeGood, TradeGood>();
-        ArrayList<TradeGood> types = getTradeGoodTypes();
-        for (TradeGood type: types) {
-            goods.put(type, new TradeGood(type));
+        ArrayList<TradeGood> list = (ArrayList<TradeGood>)TradeGood.getList(TradeGood.class);
+        ArrayList<TradeGood> list2 = new ArrayList<TradeGood>();
+        for (TradeGood tg : list) {
+            list2.add(new TradeGood(tg));
         }
-        return goods;
+        return list2;
     }
 
     /**
@@ -219,5 +216,16 @@ public class TradeGood extends LoadedType {
     @Override
     public int hashCode() {
         return getName().hashCode();
+    }
+    
+    @Override
+    public boolean equals(Object other) {
+        if (other == null) return false;
+        if (other instanceof TradeGood) {
+            if (((TradeGood) other).getName().equals(this.getName())) {
+                return true;
+            }
+        }
+        return false;
     }
 }

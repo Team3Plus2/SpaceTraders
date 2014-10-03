@@ -1,7 +1,6 @@
 package spacetrader.economy;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Random;
 import spacetrader.player.Player;
 import spacetrader.cosmos.system.TechLevel;
@@ -15,7 +14,8 @@ import spacetrader.cosmos.system.Resource;
  * @author Carey MacDonald
  */
 public class MarketPlace {
-    private HashMap<TradeGood, TradeGood> tradeGoods;
+    //private HashMap<TradeGood, TradeGood> tradeGoods;
+    private ArrayList<TradeGood> tradeGoods;
     private Random rand;
     
     /**
@@ -27,20 +27,19 @@ public class MarketPlace {
      */
     public MarketPlace(TechLevel techLevel, Resource resource) {
         rand = new Random();
-        //ArrayList<TradeGood> tradeGoodTypes = TradeGood.getTradeGoodTypes();
-        tradeGoods = TradeGood.getEmptyGoodMap();
-        for (TradeGood good : tradeGoods.values()) {
-            //TradeGood good = new TradeGood(type);
+        tradeGoods = new ArrayList<TradeGood>();
+        ArrayList<TradeGood> list = TradeGood.getTradeGoodTypes();
+        for (TradeGood good : list) {
             if (TechLevel.getIndex(good.getMinLevelUse()) <= TechLevel.getIndex(techLevel)) {
                 if (TechLevel.getIndex(good.getMinLevelProduce()) <= TechLevel.getIndex(techLevel)) {
                     if (TechLevel.getIndex(good.getLevelProduceMost()) == TechLevel.getIndex(techLevel)) {
-                        good.setAmount(rand.nextInt(100) + 100);
+                        good.setAmount(rand.nextInt(20) + 20);
                     } else {
-                        good.setAmount(rand.nextInt(100));
+                        good.setAmount(rand.nextInt(20));
                     }
-                    good.computeCurrentPriceEach(techLevel, resource);
                 }
-                //tradeGoods.put(type, good);
+                good.computeCurrentPriceEach(techLevel, resource);
+                tradeGoods.add(good);
             }
         }
     }
@@ -54,28 +53,21 @@ public class MarketPlace {
      * @return true if buying was successful, false otherwise.
      */
     public boolean buy(Player p, TradeGood tg, int amount) {
-//        System.out.println(tradeGoods.get(tg));
-//        if (tradeGoods.get(tg) == null || tradeGoods.get(tg).getAmount() < amount) {
-//            return false;
-//        }
-//        
-//        System.out.println("here");
-//        float cost = tradeGoods.get(tg).getCurrentPriceEach() * amount;
-//        tg.setAmount(amount);
-//        if (cost < p.getMoney() && p.getShip().getCargo().addTradeGood(tg)) {
-//            p.setMoney(p.getMoney() - cost);
-//            tradeGoods.get(tg).setAmount(tradeGoods.get(tg).getAmount() - amount);
-//            return true;
-//        }
-//        return false;
-        float cost = tg.getCurrentPriceEach() * amount;
-        TradeGood temp = new TradeGood(tg);
-        temp.setPrice(tg.getCurrentPriceEach());
-        temp.setAmount(amount);
-        if (cost < p.getMoney() && p.getShip().getCargo().addTradeGood(temp)) {
-            p.setMoney(p.getMoney() - cost);
-            tg.setAmount(tg.getAmount() - amount);
-            return true;
+        for(TradeGood t : tradeGoods) {
+            if (tg.equals(t)) {
+                if (t.getAmount() < amount) { //not enough in inventory
+                    return false;
+                }
+                float cost = t.getCurrentPriceEach() * amount;
+                TradeGood temp = new TradeGood(t);
+                temp.setPrice(t.getCurrentPriceEach());
+                temp.setAmount(amount);
+                if (cost < p.getMoney() && p.getShip().getCargo().addTradeGood(temp)) {
+                    p.setMoney(p.getMoney() - cost);
+                    t.setAmount(t.getAmount() - amount);
+                    return true;
+                }
+            }
         }
         return false;
     }
@@ -89,19 +81,15 @@ public class MarketPlace {
      * @return true if selling was successful, false otherwise.
      */
     public boolean sell(Player p, TradeGood tg, int amount) {
-//        if (tradeGoods.get(tg) == null) { //this planet cannot use this TradeGood
-//            return false;
-//        }
-//        tg.setAmount(amount);
-//        if (p.getShip().getCargo().removeTradeGood(tg)) {
-//            tradeGoods.get(tg).setAmount(tradeGoods.get(tg).getAmount() + amount);
-//            p.setMoney(p.getMoney() + (tradeGoods.get(tg).getCurrentPriceEach() * amount));
-//            return true;
-//        }
-//        return false;
-        tg.setAmount(amount);
-        if(p.getShip().getCargo().removeTradeGood(tg)) {
-            p.setMoney(p.getMoney() + (tg.getCurrentPriceEach() * amount));
+        for (TradeGood t : tradeGoods) {
+            if (tg.equals(t)) {
+                tg.setAmount(amount);
+                if(p.getShip().getCargo().removeTradeGood(tg)) {
+                    p.setMoney(p.getMoney() + (tg.getCurrentPriceEach() * amount));
+                    t.setAmount(t.getAmount() + amount);
+                    return true;
+                }
+            }
         }
         return false;
     }
@@ -114,7 +102,12 @@ public class MarketPlace {
      * @return the amount of that TradeGood currently available.
      */
     public int amountOfGood(TradeGood tg) {
-        return tradeGoods.get(tg).getAmount();
+        for (TradeGood t : tradeGoods) {
+            if (tg.equals(t)) {
+                return t.getAmount();
+            }
+        }
+        return 0;
     }
     
     /**
@@ -124,9 +117,9 @@ public class MarketPlace {
      * @return the price of the TradeGood.
      */
     public float priceOfGood(TradeGood tg) {
-        for (TradeGood good: tradeGoods.values()) {
-            if (tg.getName().equals(good.getName())) {
-                return good.getCurrentPriceEach();
+        for (TradeGood t: tradeGoods) {
+            if (tg.equals(t)) {
+                return t.getCurrentPriceEach();
             }
         }
         return 0;
@@ -136,13 +129,7 @@ public class MarketPlace {
      * @return a list of the goods in the marketplace
      */
     public ArrayList<TradeGood> getListOfGoods() {
-        ArrayList<TradeGood> goods = new ArrayList<TradeGood>();
-        for (TradeGood good: tradeGoods.values()) {
-            if (good.getAmount() > 0) {
-                goods.add(good);
-            }
-        }
-        return goods;
+        return tradeGoods;
     }
     
     //TODO Implement method to update MarketPlace prices/amounts/items across turns

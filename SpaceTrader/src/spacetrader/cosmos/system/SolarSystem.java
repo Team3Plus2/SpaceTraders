@@ -2,13 +2,15 @@ package spacetrader.cosmos.system;
 
 import java.util.Random;
 import spacetrader.cosmos.Universe;
+import spacetrader.turns.TurnEvent;
+import spacetrader.turns.TurnListener;
 
 /**
  * This is a solar system, it stores planets and some system wide social information
  *
  * @author Alex
  */
-public class SolarSystem {
+public class SolarSystem implements TurnListener {
     
     private static final int DEFAULT_MAX_PLANETS = 10;
 
@@ -29,11 +31,13 @@ public class SolarSystem {
         techLevel = TechLevel.random(rand);
         government = Government.random(rand, techLevel);
         relativeWealth = rand.nextFloat() * 2.0f - 1.0f;
-        planets = new Planet[rand.nextInt(DEFAULT_MAX_PLANETS)];
+        planets = new Planet[rand.nextInt(DEFAULT_MAX_PLANETS) + 5];
         
         for(int i = 0; i < planets.length; i ++) {
             planets[i] = new Planet(rand);
         }
+        
+        TurnEvent.RegisterListener(this);
     }
     
     public SolarSystem() {
@@ -83,6 +87,11 @@ public class SolarSystem {
     
     public int getY() {
         return y;
+    }
+    
+    @Override
+    public void handleNextTurn() {
+        relativeWealth += rand.nextFloat() * 0.2f - 0.1f;
     }
     
     @Override

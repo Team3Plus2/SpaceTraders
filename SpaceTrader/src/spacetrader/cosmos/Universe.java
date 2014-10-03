@@ -3,6 +3,7 @@ package spacetrader.cosmos;
 import java.awt.Point;
 import java.lang.Iterable;
 import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Random;
@@ -136,6 +137,7 @@ public class Universe implements Iterable<SolarSystem>, TurnListener{
         rand = new Random();
         Space = new SparseSpace();
         this.spread = spread;
+        TurnEvent.RegisterListener(this);
         generateInPosXDirection(0,0, width/2, width/2);
         generateinNegXDirection(0,-1, width/2, width/2);
     }
@@ -157,12 +159,14 @@ public class Universe implements Iterable<SolarSystem>, TurnListener{
      * @param y1 The y1 coordinate
      */
     public void generateFrom(int x0, int y0, int x1, int y1) {
+        ArrayList<SolarSystem> systems = new ArrayList<>();
         for(int i = x0; i < x1; i++) {
             for(int j = y0; j < y1; j++) {
                if(!isPointGenerated(i,j))
-                    generatePoint(i,j);
+                    systems.add(generatePoint(i,j));
             }
         }
+        UniverseGenerationEvent.universeGenerated(systems);
     }
     
     /**
@@ -174,12 +178,14 @@ public class Universe implements Iterable<SolarSystem>, TurnListener{
      * @param length The length of the area to generate
      */
     public void generateInPosXDirection(int x, int y, int height, int length) {
+        ArrayList<SolarSystem> systems = new ArrayList<>();
         for(int i = x; i <= x + length; i++) {
             for(int j = y - height/2; j <= y + height/2; j++) {
                 if(!isPointGenerated(i,j))
-                    generatePoint(i,j);
+                    systems.add(generatePoint(i,j));
             }
         }
+        UniverseGenerationEvent.universeGenerated(systems);
     }
     
     /**
@@ -191,12 +197,14 @@ public class Universe implements Iterable<SolarSystem>, TurnListener{
      * @param length The length of the area to generate
      */
     public void generateinPosYDirection(int x, int y, int width, int length) {
+        ArrayList<SolarSystem> systems = new ArrayList<>();
         for(int i = y; i <= y + length; i++) {
             for(int j = x - width/2; j <= x + width/2; j++) {
                 if(!isPointGenerated(i,j))
-                    generatePoint(i,j);
+                    systems.add(generatePoint(i,j));
             }
         }
+        UniverseGenerationEvent.universeGenerated(systems);
     }
     
     /**
@@ -208,12 +216,14 @@ public class Universe implements Iterable<SolarSystem>, TurnListener{
      * @param length The length of the area to generate
      */
     public void generateinNegXDirection(int x, int y, int width, int length) {
+        ArrayList<SolarSystem> systems = new ArrayList<>();
         for(int i = y; i >= y - length; i--) {
             for(int j = x - width/2; j <= x + width/2; j++) {
                 if(!isPointGenerated(i,j))
-                    generatePoint(i,j);
+                    systems.add(generatePoint(i,j));
             }
         }
+        UniverseGenerationEvent.universeGenerated(systems);
     }
     
     /**
@@ -225,18 +235,22 @@ public class Universe implements Iterable<SolarSystem>, TurnListener{
      * @param length The length of the area to generate
      */
     public void generateinNegYDirection(int x, int y, int width, int length) {
+        ArrayList<SolarSystem> systems = new ArrayList<>();
         for(int i = y; i >= y - length; i--) {
             for(int j = x - width/2; j <= x + width/2; j++) {
                 if(!isPointGenerated(i,j))
-                    generatePoint(i,j);
+                    systems.add(generatePoint(i,j));
             }
         }
+        UniverseGenerationEvent.universeGenerated(systems);
     }
     
-    private void generatePoint(int x, int y) {
+    private SolarSystem generatePoint(int x, int y) {
+        SolarSystem sys = new SolarSystem(rand);
         if(canPlaceSystemAt(x,y) && rand.nextFloat() < spread)
-            Space.insert(x, y, new SolarSystem(rand));
+            Space.insert(x, y, sys);
         generated.add(new Point(x,y));
+        return sys;
     }
     
     private boolean isPointGenerated(int x, int y) {
@@ -302,6 +316,10 @@ public class Universe implements Iterable<SolarSystem>, TurnListener{
             }
         }
         return found;
+    }
+    
+    public void NextTurn() {
+        TurnEvent.NextTurn();
     }
     
     @Override

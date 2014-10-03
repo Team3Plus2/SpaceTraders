@@ -4,13 +4,15 @@ import java.awt.Point;
 import java.util.Random;
 import spacetrader.cosmos.Universe;
 import spacetrader.economy.MarketPlace;
+import spacetrader.turns.TurnEvent;
+import spacetrader.turns.TurnListener;
 
 /**
  * This is a planet, it stores planet specific resources and social information
  * 
  * @author Alex
  */
-public class Planet {
+public class Planet implements TurnListener {
     
     private Random rand;
     private String name;
@@ -33,6 +35,8 @@ public class Planet {
         int radius = (r.nextInt(400)) + 100;
         location = new Point(angle, radius);
         orbitEllipse = new Point(r.nextInt(10), r.nextInt(10));
+        
+        TurnEvent.RegisterListener(this);
     }
     
     public Planet() {
@@ -82,5 +86,10 @@ public class Planet {
 
     public void setMarket(MarketPlace market) {
         this.market = market;
+    }
+    
+    @Override
+    public void handleNextTurn() {
+        relativeWealth += rand.nextFloat() * 0.2f - 0.1f;
     }
 }

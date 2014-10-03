@@ -1,11 +1,9 @@
 package spacetrader.economy;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Random;
 
 import spacetrader.xml.LoadedType;
-import spacetrader.xml.XMLReader;
 import spacetrader.xml.FromXML;
 import spacetrader.cosmos.system.TechLevel;
 import spacetrader.cosmos.system.Resource;
@@ -93,6 +91,9 @@ public class TradeGood extends LoadedType {
                         - TechLevel.getIndex(minLevelProduce))) + (basePrice * ((float) variance2/100));
             }
         }
+        if (currentPriceEach <= 0) {
+            currentPriceEach = basePrice;
+        }
     }
     
     /**
@@ -162,15 +163,6 @@ public class TradeGood extends LoadedType {
         }
         return list2;
     }
-    
-    /*public static HashMap<TradeGood, TradeGood> getEmptyGoodMap() {
-        HashMap<TradeGood, TradeGood> goods = new HashMap<TradeGood, TradeGood>();
-        ArrayList<TradeGood> types = getTradeGoodTypes();
-        for (TradeGood type: types) {
-            goods.put(type, new TradeGood(type));
-        }
-        return goods;
-    }*/
 
     /**
      * Getter for minRandPrice.

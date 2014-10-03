@@ -1,7 +1,6 @@
 package spacetrader.economy;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Random;
 import spacetrader.player.Player;
 import spacetrader.cosmos.system.TechLevel;
@@ -28,17 +27,19 @@ public class MarketPlace {
      */
     public MarketPlace(TechLevel techLevel, Resource resource) {
         rand = new Random();
-        tradeGoods = TradeGood.getTradeGoodTypes();
-        for (TradeGood good : tradeGoods) {
+        tradeGoods = new ArrayList<TradeGood>();
+        ArrayList<TradeGood> list = TradeGood.getTradeGoodTypes();
+        for (TradeGood good : list) {
             if (TechLevel.getIndex(good.getMinLevelUse()) <= TechLevel.getIndex(techLevel)) {
                 if (TechLevel.getIndex(good.getMinLevelProduce()) <= TechLevel.getIndex(techLevel)) {
                     if (TechLevel.getIndex(good.getLevelProduceMost()) == TechLevel.getIndex(techLevel)) {
-                        good.setAmount(rand.nextInt(100) + 100);
+                        good.setAmount(rand.nextInt(20) + 20);
                     } else {
-                        good.setAmount(rand.nextInt(100));
+                        good.setAmount(rand.nextInt(20));
                     }
-                    good.computeCurrentPriceEach(techLevel, resource);
                 }
+                good.computeCurrentPriceEach(techLevel, resource);
+                tradeGoods.add(good);
             }
         }
     }
@@ -80,17 +81,6 @@ public class MarketPlace {
      * @return true if selling was successful, false otherwise.
      */
     public boolean sell(Player p, TradeGood tg, int amount) {
-//        if (tradeGoods.get(tg) == null) { //this planet cannot use this TradeGood
-//            return false;
-//        }
-//        tg.setAmount(amount);
-//        if (p.getShip().getCargo().removeTradeGood(tg)) {
-//            tradeGoods.get(tg).setAmount(tradeGoods.get(tg).getAmount() + amount);
-//            p.setMoney(p.getMoney() + (tradeGoods.get(tg).getCurrentPriceEach() * amount));
-//            return true;
-//        }
-//        return false;
-        //TODO shouldn't be able to sell to planets with certain TechLevels
         for (TradeGood t : tradeGoods) {
             if (tg.equals(t)) {
                 tg.setAmount(amount);

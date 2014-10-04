@@ -211,7 +211,7 @@ public class TradeGood extends LoadedType {
 
     @Override
     public String toString() {
-        return getName() + " - " + Utility.currencyFormat().format(getCurrentPriceEach()) + " - Amount: " + getAmount();
+        return getName() + " - " + Utility.currencyFormat(getCurrentPriceEach()) + " - Amount: " + getAmount();
     }
     
     @Override

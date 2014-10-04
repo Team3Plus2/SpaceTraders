@@ -15,9 +15,26 @@ import java.text.NumberFormat;
 public class Utility {
     
     /**
-     * @return a NumberFormat that formats a number to dollar (2 decimal) format
+     * formats a number by giving it the following form:
+     *      $#.## if positive
+     *      -$#.## if negative
+     * 
+     * @param o the input that must be formatted;
+     *          can be any number primitive type or
+     *          any object where toString() returns numbers and may have a decimal
+     * @return the currency formatted string
      */
-    public static NumberFormat currencyFormat() {
-        return NumberFormat.getCurrencyInstance();
+    public static String currencyFormat(Object o) {
+        Float num = Float.parseFloat(o.toString());
+        boolean negative = false;
+        if (num < 0) {
+            negative = true;
+            num = Math.abs(num);
+        }
+        String s = NumberFormat.getCurrencyInstance().format(num);
+        if (negative) {
+            s = "-" + s;
+        }
+        return s;
     }
 }

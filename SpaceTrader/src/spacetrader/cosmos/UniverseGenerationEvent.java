@@ -19,6 +19,8 @@ public class UniverseGenerationEvent {
     }
     
     public static void universeGenerated(ArrayList<SolarSystem> systems) {
+        if(registeredListeners == null)
+            return;
         UniverseGenerationEvent event = new UniverseGenerationEvent(systems);
         for(UniverseGenerationListener listener : registeredListeners) {
             listener.onGeneration(event);

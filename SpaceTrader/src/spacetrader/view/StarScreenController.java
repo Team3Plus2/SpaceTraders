@@ -6,16 +6,13 @@
 package spacetrader.view;
 
 import java.awt.Point;
-import java.awt.geom.AffineTransform;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.ResourceBundle;
-import java.util.Set;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
@@ -250,25 +247,31 @@ public class StarScreenController implements Initializable {
         universe.generateFrom(lower.x, lower.y, upper.x, upper.y );
         
         int tempSelectedX = 0, tempSelectedY = 0;
+        
         //sets scale of star backdrop
         starBackdrop.setScaleX(zoom/5);
         starBackdrop.setScaleY(zoom/5);
         gameCanvas.setScaleX(zoom/10);
         gameCanvas.setScaleY(zoom/10);
+        
         //makes sure that solar systems are being drawn depending on it being dragged
         //clears before drawing
         g.clearRect(0, 0, gameCanvas.getWidth(), gameCanvas.getHeight());
+        
         //int x = universe.xMin(), y = universe.yMin();
         starBackdrop.setTranslateX((-mapOffsetX - dragOffsetX)*2);
         starBackdrop.setTranslateY((-mapOffsetY - dragOffsetY)*2);
+        
+        //draw solar systems
         for (SparseSpace.SparseIterator iter = universe.iterateFrom(lower.x, lower.y, upper.x, upper.y); iter.hasNext();) {
             SolarSystem a = iter.next();
             Image starImage = null;
-            int x = iter.getX() * universeScale;
-            int y = iter.getY() * universeScale;
             if(a != null) {
+                int x = a.getX() * universeScale;
+                int y = a.getY() * universeScale;
                 Random r = new Random();
                 r.setSeed(a.Name().hashCode());
+                
                 //set color of star based on suntype
                 if(a.SunType().usesColor()) {
                     g.setFill(a.SunType().getColor());
@@ -322,7 +325,11 @@ public class StarScreenController implements Initializable {
                 }
             }
         }
-       
+//        if (dragging) {
+//            g.strokeOval((player.getCurrentSolarSystem().getX() * universeScale) - dragOffsetX - mapOffsetX, (player.getCurrentSolarSystem().getY() * universeScale) - dragOffsetY - mapOffsetY, 10, 10);
+//        } else {
+//            g.strokeOval(player.getCurrentSolarSystem().getX() * universeScale - mapOffsetX, (player.getCurrentSolarSystem().getY() * universeScale) - dragOffsetY - mapOffsetY, 10, 10);
+//        }
         if(selectedSolarSystem != null) {
             g.setFill(Color.BLACK);
             g.fillRect(tempSelectedX + 4, tempSelectedY - 10, longestLine(selectedSolarSystem.toString()) * 8, selectedSolarSystem.toString().split("\n").length * 15);

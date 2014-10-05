@@ -152,4 +152,12 @@ public class Player {
         }
         return systems;
     }
+    
+    /**
+     * Gets the players current travel radius based on the ship's fuel
+     * @return the player's travel radius (obtained from the ship)
+     */
+    public float getTravelRadius() {
+        return ship.getFuel();
+    }
 }

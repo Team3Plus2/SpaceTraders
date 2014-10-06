@@ -52,7 +52,10 @@ public class Player {
         if(!ship.moveDistance(distance))
             return false;
         currentSolarSystem = system;
-        currentPlanet = null;
+        if(system.Planets().length >= 1)
+            currentPlanet = system.Planets()[0];
+        else
+            currentPlanet = null;
         TurnEvent.NextTurn();
         return true;
     }

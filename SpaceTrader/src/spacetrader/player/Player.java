@@ -170,7 +170,7 @@ public class Player {
         int y = currentSolarSystem.getY();
         SparseIterator iter = universe.iterateFrom(x - travelRadius, y - travelRadius, x + travelRadius, y + travelRadius);
         for(SolarSystem i = iter.next();iter.hasNext(); i = iter.next()) {
-            if(i != null && Math.sqrt(Math.pow(iter.getX() - x, 2) + Math.pow(iter.getY() - y, 2)) < travelRadius)
+            if(i != null && Math.sqrt(Math.pow(iter.getX() - x, 2) + Math.pow(iter.getY() - y, 2)) <= travelRadius)
                 systems.add(i);
         }
         return systems;

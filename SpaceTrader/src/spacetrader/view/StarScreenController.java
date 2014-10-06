@@ -432,7 +432,9 @@ public class StarScreenController implements Initializable {
      */
     public void setScene(Scene scene) {
         scene.getWindow().setOnCloseRequest((WindowEvent event) -> {
-            timer.cancel();
+            if(timer != null) {
+                timer.cancel();
+            }
         });
     }
     

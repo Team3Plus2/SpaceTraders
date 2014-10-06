@@ -8,7 +8,7 @@ package spacetrader.global;
 import java.text.NumberFormat;
 
 /**
- * A class for any utility objects we may need.
+ * A class for any utility/function we may need.
  * 
  * @author Aaron McAnally
  */

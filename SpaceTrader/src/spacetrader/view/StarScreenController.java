@@ -256,7 +256,6 @@ public class StarScreenController implements Initializable {
             solarSystemName.setText(mouseOver.Name());
             drawUniverse();
         } else {
-            selectedSolarSystem = null;
             drawUniverse();
         }
     }

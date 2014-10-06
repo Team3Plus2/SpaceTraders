@@ -1,8 +1,8 @@
 package spacetrader.player;
 
-import java.util.Iterator;
 import java.util.ArrayList;
 
+import spacetrader.cosmos.SparseSpace.SparseIterator;
 import spacetrader.cosmos.Universe;
 import spacetrader.cosmos.system.Planet;
 import spacetrader.cosmos.system.SolarSystem;
@@ -36,6 +36,29 @@ public class Player {
         this.investorSkill = investorSkill;
         this.ship = new Ship();
     }
+
+    /**
+     * Move the player to the given solar system
+     * 
+     * @param system target solar system
+     * @return true if player has enough fuel to travel and system != currentSolarSystem and planet != currentPlanet
+     */
+    public boolean move(SolarSystem system) {
+        if(system == currentSolarSystem)
+            return false;
+        double distance = FUEL_PER_PLANET_MOVEMENT;
+        if(system != currentSolarSystem)
+            distance = Math.sqrt(Math.pow(system.getX() - currentSolarSystem.getX(), 2) + Math.pow(system.getY() - currentSolarSystem.getY(), 2));
+        if(!ship.moveDistance(distance))
+            return false;
+        currentSolarSystem = system;
+        if(system.Planets().length >= 1)
+            currentPlanet = system.Planets()[0];
+        else
+            currentPlanet = null;
+        TurnEvent.NextTurn();
+        return true;
+    }
     
     /**
      * Move the player to the given planet and solar system
@@ -44,7 +67,7 @@ public class Player {
      * @param planet target planet
      * @return true if player has enough fuel to travel and system != currentSolarSystem and planet != currentPlanet
      */
-    public boolean movePlayer(SolarSystem system, Planet planet) {
+    public boolean move(SolarSystem system, Planet planet) {
         if(system == currentSolarSystem && planet == currentPlanet)
             return false;
         double distance = FUEL_PER_PLANET_MOVEMENT;
@@ -64,8 +87,8 @@ public class Player {
      * @param planet target planet
      * @return true if player has enough fuel to travel to the planet
      */
-    public boolean movePlayer(Planet planet) {
-        return movePlayer(currentSolarSystem, planet);
+    public boolean move(Planet planet) {
+        return Player.this.move(currentSolarSystem, planet);
     }
     
     public String getName() {
@@ -145,9 +168,9 @@ public class Player {
         ArrayList<SolarSystem> systems = new ArrayList<>();
         int x = currentSolarSystem.getX();
         int y = currentSolarSystem.getY();
-        Iterator<SolarSystem> iter = universe.iterateFrom(x - travelRadius, y - travelRadius, x + travelRadius, y + travelRadius);
+        SparseIterator iter = universe.iterateFrom(x - travelRadius, y - travelRadius, x + travelRadius, y + travelRadius);
         for(SolarSystem i = iter.next();iter.hasNext(); i = iter.next()) {
-            if(i != null)
+            if(i != null && Math.sqrt(Math.pow(iter.getX() - x, 2) + Math.pow(iter.getY() - y, 2)) < travelRadius)
                 systems.add(i);
         }
         return systems;

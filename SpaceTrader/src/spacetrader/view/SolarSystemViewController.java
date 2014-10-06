@@ -104,8 +104,16 @@ public class SolarSystemViewController implements Initializable {
         g = viewCanvas.getGraphicsContext2D();
         flareG = flareLayer.getGraphicsContext2D();
         selectionG = selectionLayer.getGraphicsContext2D();
-        starImage = new Image("/visuals/Stars/Sol_big.png");
-        flareImage = new Image("/visuals/Stars/SolFlareSheet.png");
+        if(curSystem.SunType().usesImage() && curSystem.SunType().getImage().contains("RedGiant")) {
+            starImage = new Image("/visuals/Stars/RedGiant_big.png");
+            flareImage = new Image("/visuals/Stars/RedGiantFlareSheet.png");
+        } else if(curSystem.SunType().usesImage() && curSystem.SunType().getImage().contains("Binary")) {
+            starImage = new Image("/visuals/Stars/Binary_big.png");
+            flareImage = new Image("/visuals/Stars/BinaryFlareSheet.png");
+        } else {
+            starImage = new Image("/visuals/Stars/Sol_big.png");
+            flareImage = new Image("/visuals/Stars/SolFlareSheet.png");
+        }
         Random r = new Random();
         screenSpace = new HashMap<>();
 
@@ -248,16 +256,16 @@ public class SolarSystemViewController implements Initializable {
         size *= 4;
         posx = 512 - (size / 2) - dragOffsetX - mapOffsetX;
         posy = 288 - (size / 2) - dragOffsetY - mapOffsetY;
-        flareG.drawImage(flareImage, 0, 0, flareImage.getWidth() / 2.0, flareImage.getHeight() / 2.0, posx, posy, size, size);
+        flareG.drawImage(flareImage, 0, 0, flareImage.getWidth() / 2.0, flareImage.getHeight() / 2.0, posx, posy-10, size, size);
         size /= 3;
         posx = 512 - (size / 2) - dragOffsetX - mapOffsetX;
         posy = 288 - (size / 2) - dragOffsetY - mapOffsetY;
-        flareG.drawImage(flareImage, flareImage.getWidth() / 2.0, flareImage.getWidth() / 2.0, flareImage.getWidth() / 2.0, flareImage.getHeight() / 2.0, posx + ((dragOffsetX + mapOffsetX) * 3.5), posy + ((dragOffsetY + mapOffsetY) * 3.5), size, size);
+        flareG.drawImage(flareImage, flareImage.getWidth() / 2.0, 0, flareImage.getWidth() / 2.0, flareImage.getHeight() / 2.0, posx + ((dragOffsetX + mapOffsetX) * 3.5), posy + ((dragOffsetY + mapOffsetY) * 3.5), size, size);
         flareG.drawImage(flareImage, flareImage.getWidth() / 2.0, flareImage.getWidth() / 2.0, flareImage.getWidth() / 2.0, flareImage.getHeight() / 2.0, posx + ((dragOffsetX + mapOffsetX) * 2.5), posy + ((dragOffsetY + mapOffsetY) * 2.5), size, size);
         size /= 4;
         posx = 512 - (size / 2) - dragOffsetX - mapOffsetX;
         posy = 288 - (size / 2) - dragOffsetY - mapOffsetY;
-        flareG.drawImage(flareImage, flareImage.getWidth() / 2.0, flareImage.getWidth() / 2.0, flareImage.getWidth() / 2.0, flareImage.getHeight() / 2.0, posx + ((dragOffsetX + mapOffsetX) * 3), posy + ((dragOffsetY + mapOffsetY) * 3), size, size);
+        flareG.drawImage(flareImage, flareImage.getWidth() / 2.0, 0, flareImage.getWidth() / 2.0, flareImage.getHeight() / 2.0, posx + ((dragOffsetX + mapOffsetX) * 3), posy + ((dragOffsetY + mapOffsetY) * 3), size, size);
         flareG.drawImage(flareImage, flareImage.getWidth() / 2.0, flareImage.getWidth() / 2.0, flareImage.getWidth() / 2.0, flareImage.getHeight() / 2.0, posx + ((dragOffsetX + mapOffsetX) * 1.5), posy + ((dragOffsetY + mapOffsetY) * 1.5), size, size);
         size /= 4;
         posx = 512 - (size / 2) - dragOffsetX - mapOffsetX;

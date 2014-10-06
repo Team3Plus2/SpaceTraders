@@ -160,6 +160,9 @@ public class StarScreenController implements Initializable {
     @FXML
     private void goToSolarSystem() {
         player.move(selectedSolarSystem);
+        if(timer != null) {
+            timer.cancel();
+        }
         SpaceTrader.getInstance().goToSolarSystemView();
     }
     
@@ -433,6 +436,7 @@ public class StarScreenController implements Initializable {
     public void setScene(Scene scene) {
         scene.getWindow().setOnCloseRequest((WindowEvent event) -> {
             if(timer != null) {
+                System.out.println("here");
                 timer.cancel();
             }
         });

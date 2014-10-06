@@ -48,7 +48,10 @@ public class Player {
             return false;
         double distance = FUEL_PER_PLANET_MOVEMENT;
         if(system != currentSolarSystem)
-            distance = Math.sqrt(Math.pow(system.getX() - currentSolarSystem.getX(), 2) + Math.pow(system.getY() - currentSolarSystem.getY(), 2));
+            //TODO uncoment this so that fuel is reduced
+            //distance = Math.sqrt(Math.pow(system.getX() - currentSolarSystem.getX(), 2) + Math.pow(system.getY() - currentSolarSystem.getY(), 2));
+            //TODO remove this line once the above line is uncomented
+            distance = 0;
         if(!ship.moveDistance(distance))
             return false;
         currentSolarSystem = system;

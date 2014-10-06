@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.canvas.*?>
 <?import javafx.scene.shape.*?>
@@ -19,7 +20,52 @@
       <Canvas fx:id="gameCanvas" height="576.0" onMouseClicked="#mouseClicked" onMouseDragged="#mouseDrag" onMouseMoved="#mouseMove" onMousePressed="#mouseDown" onMouseReleased="#mouseReleased" width="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
       <Pane id="GameBackground" mouseTransparent="true" prefHeight="576.0" prefWidth="1024.0" styleClass="starbackdrop" stylesheets="@SpaceTraderStylesheet.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
       <Slider fx:id="zoomSlider" layoutX="980.0" layoutY="112.0" max="15.0" min="10.0" orientation="VERTICAL" prefHeight="305.0" prefWidth="15.0" stylesheets="@SpaceTraderStylesheet.css" value="10.0" />
-      <Label fx:id="label" layoutX="7.0" layoutY="7.0" prefHeight="92.0" prefWidth="149.0" style="-fx-font-size: 10;" stylesheets="@SpaceTraderStylesheet.css" />
-      <Button fx:id="goToPlanet" layoutX="200.0" layoutY="100.0" mnemonicParsing="false" onAction="#goToSolarSystem" stylesheets="@SpaceTraderStylesheet.css" text="Button" visible="false" />
+      <Label fx:id="playerInfo" alignment="TOP_LEFT" layoutX="7.0" layoutY="7.0" prefHeight="58.0" prefWidth="176.0" style="-fx-font-size: 20;" stylesheets="@SpaceTraderStylesheet.css" text="Bob Waters" />
+      <BorderPane fx:id="solarSystemInfo" prefHeight="200.0" prefWidth="200.0" scaleY="0.0" styleClass="gridpane" AnchorPane.bottomAnchor="90.0" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="600.0" AnchorPane.topAnchor="80.0">
+         <bottom>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Button fx:id="closeInfoPane" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#closeInfoPane" stylesheets="@SpaceTraderStylesheet.css" text="Close">
+                     <HBox.margin>
+                        <Insets right="20.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="goToPlanet" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#goToSolarSystem" stylesheets="@SpaceTraderStylesheet.css" text="Travel">
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+         </bottom>
+         <top>
+            <Label fx:id="solarSystemName" alignment="CENTER" prefHeight="32.0" prefWidth="302.0" text="Solar System Name" textAlignment="CENTER" textOverrun="CLIP" underline="true" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets top="20.0" />
+               </BorderPane.margin></Label>
+         </top>
+         <center>
+            <ListView fx:id="planetList" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets right="20.0" top="20.0" />
+               </BorderPane.margin>
+            </ListView>
+         </center>
+         <left>
+            <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets left="20.0" right="20.0" top="20.0" />
+               </BorderPane.margin>
+               <children>
+                  <Label alignment="CENTER" text="Fuel" textAlignment="CENTER" VBox.vgrow="NEVER">
+                     <VBox.margin>
+                        <Insets left="20.0" />
+                     </VBox.margin>
+                  </Label>
+                  <Label fx:id="fuelInfo" style="-fx-font-size: 20;" text="Label" />
+               </children>
+            </VBox>
+         </left>
+      </BorderPane>
    </children>
 </AnchorPane>

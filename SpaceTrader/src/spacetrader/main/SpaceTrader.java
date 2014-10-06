@@ -36,6 +36,7 @@ import java.util.Scanner;
 import java.util.Random;
 import spacetrader.cosmos.system.TechLevel;
 import spacetrader.view.SolarSystemViewController;
+import spacetrader.view.StarScreenController;
 
 /**
  *
@@ -131,6 +132,9 @@ public class SpaceTrader extends Application {
         stackPane.getChildren().add(root);
         if(FXML.equals("/spacetrader/view/SolarSystemView.fxml")) {
             SolarSystemViewController controller = (SolarSystemViewController)loader.getController();
+            controller.setScene(stage.getScene());
+        } else if(FXML.equals("/spacetrader/view/StarScreen.fxml")) {
+            StarScreenController controller = (StarScreenController)loader.getController();
             controller.setScene(stage.getScene());
         }
         EventHandler<ActionEvent> finished = new EventHandler<ActionEvent>() {

@@ -11,10 +11,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
@@ -22,12 +26,16 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Affine;
 import javafx.scene.transform.Rotate;
+import javafx.stage.WindowEvent;
+import javax.sound.midi.SysexMessage;
 import spacetrader.cosmos.SparseSpace;
 import spacetrader.cosmos.Universe;
+import spacetrader.cosmos.system.Planet;
 import spacetrader.player.Player;
 import spacetrader.cosmos.system.SolarSystem;
 import spacetrader.cosmos.system.SunType;
@@ -43,7 +51,7 @@ public class StarScreenController implements Initializable {
     private static final int GENERATION_BUFFER = 10;
     
     @FXML
-    private Label label;
+    private Label playerInfo;
     
     @FXML
     private Pane starBackdrop;
@@ -77,11 +85,28 @@ public class StarScreenController implements Initializable {
     @FXML
     private Button goToPlanet;
     
+    private ArrayList<SolarSystem> travelable;
+    
+    private final int universeScale = 2;
+    
+    @FXML
+    private BorderPane solarSystemInfo;
+    
+    @FXML
+    private Label solarSystemName;
+    
+    private Timer timer;
+    
+    int tempSelectedX = 0, tempSelectedY = 0;
+    
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        universe = SpaceTrader.getInstance().getUniverse();
+        player = SpaceTrader.getInstance().getPlayer();
+        travelable = player.getTravelable(universe);
         solarSystemLocations = new HashMap<>();
         sunImages = new HashMap<>();
         
@@ -100,15 +125,13 @@ public class StarScreenController implements Initializable {
             }
         
         });
-        // gets player and prints label
-        player = SpaceTrader.getInstance().getPlayer();
-        label.setText(player.getName() + "\n"
+        
+        playerInfo.setText(player.getName() + "\n"
                 + "Pilot Skill: " + player.getPilotSkill() + "\n"
                 + "Fighter Skill: " + player.getFighterSkill() + "\n"
                 + "Trader Skill: " + player.getTraderSkill() + "\n"
                 + "Engineer Skill: " + player.getEngineerSkill() + "\n"
                 + "Investor Skill: " + player.getInvestorSkill());
-        universe = SpaceTrader.getInstance().getUniverse();
         // gets graphic object and draws universe to begin
         g = gameCanvas.getGraphicsContext2D();
         g.setFill(Color.WHITE);
@@ -136,7 +159,7 @@ public class StarScreenController implements Initializable {
     
     @FXML
     private void goToSolarSystem() {
-        player.setCurrentSolarSystem(selectedSolarSystem);
+        player.movePlayer(selectedSolarSystem);
         SpaceTrader.getInstance().goToSolarSystemView();
     }
     
@@ -163,10 +186,15 @@ public class StarScreenController implements Initializable {
         SolarSystem mouseOver = findClosestSolarSystem(new Point((int) event.getX() - 5, (int) event.getY() - 5));
         if(mouseOver != null) {
             drawUniverse();
-            //Point p = getSolarSystemCoords(mouseOver);
             g.setStroke(Color.WHITE);
+            g.setFill(Color.WHITE);
             g.strokeOval(event.getX() - 15, event.getY() - 15, 30, 30);
             g.fillText(mouseOver.Name(), event.getX(), event.getY());
+            if(travelable.contains(mouseOver)) {
+                double radx = (((player.getCurrentSolarSystem().getX() * universeScale) - mapOffsetX - dragOffsetX) * 10) + (512 - mapOffsetX - dragOffsetX);
+                double rady = (((player.getCurrentSolarSystem().getY() * universeScale) - mapOffsetY - dragOffsetY) * 10) + (288 - mapOffsetY - dragOffsetY);
+                g.strokeLine(radx, rady, event.getX(), event.getY());
+            }
         } else {
             drawUniverse();
         }
@@ -179,13 +207,10 @@ public class StarScreenController implements Initializable {
     @FXML
     private void mouseDrag(MouseEvent event) {
         dragging = true;
-        //System.out.println("preDragOffset: " + preDragX + ", " + preDragY);
         double tempX = event.getX();
         double tempY = event.getY();
-        //System.out.println("tempX: " + tempX + ", " + tempY);
         dragOffsetX = (preDragX - tempX)/10;
         dragOffsetY = (preDragY - tempY)/10;
-        //System.out.println("Drag Offset: " + dragOffsetX + ", " + dragOffsetY);
         drawUniverse();
     }
     
@@ -222,15 +247,14 @@ public class StarScreenController implements Initializable {
      */
     private void checkClick(MouseEvent event) {
         SolarSystem mouseOver = findClosestSolarSystem(new Point((int) event.getX() - 5, (int) event.getY() - 5));
-        if(mouseOver != null) {
+        if(mouseOver != null && travelable.contains(mouseOver)) {
             selectedSolarSystem = mouseOver;
+            animateInfoScreen(true);
+            solarSystemName.setText(mouseOver.Name());
             drawUniverse();
-            goToPlanet.setVisible(true);
-            goToPlanet.setText(mouseOver.Name());
         } else {
             selectedSolarSystem = null;
             drawUniverse();
-            goToPlanet.setVisible(false);
         }
     }
     
@@ -238,15 +262,13 @@ public class StarScreenController implements Initializable {
      * Helper method that draws universe based on map offset and scale
      */
     private void drawUniverse() {
-        int universeScale = 2;
+        Random r = new Random();
         Point lower = getLower();
         Point upper = getUpper();
         lower = new Point(lower.x / (universeScale), lower.y / (universeScale));
         upper = new Point(upper.x / (universeScale), upper.y / (universeScale));
 
         universe.generateFrom(lower.x, lower.y, upper.x, upper.y );
-        
-        int tempSelectedX = 0, tempSelectedY = 0;
         
         //sets scale of star backdrop
         starBackdrop.setScaleX(zoom/5);
@@ -266,10 +288,9 @@ public class StarScreenController implements Initializable {
         for (SparseSpace.SparseIterator iter = universe.iterateFrom(lower.x, lower.y, upper.x, upper.y); iter.hasNext();) {
             SolarSystem a = iter.next();
             Image starImage = null;
-            if(a != null) {
+            if(a != null && !travelable.contains(a)) {
                 int x = a.getX() * universeScale;
                 int y = a.getY() * universeScale;
-                Random r = new Random();
                 r.setSeed(a.Name().hashCode());
                 
                 //set color of star based on suntype
@@ -278,80 +299,74 @@ public class StarScreenController implements Initializable {
                 } else {
                     starImage = sunImages.get(a.SunType().getName());
                 }
-                
-                if(!dragging) {
-                    double size = 20 + a.Planets().length * 2;
-                    double xPosition = ((x - mapOffsetX) * 10) + (512 - mapOffsetX) - (size / 2);
-                    double yPosition = ((y - mapOffsetY) * 10) + (288 - mapOffsetY) - (size / 2);
-                    if(dragFinished) {
-                        solarSystemLocations.put(new Point((int) (xPosition + (size/2)), (int) (yPosition + (size/2))), a);
-                    }
-                    if(starImage == null) {
-                        g.fillOval(((x - mapOffsetX) * 10) + (512 - mapOffsetX), ((y - mapOffsetY) * 10) + (288 - mapOffsetY), 5 + a.Planets().length * 2, 5 + a.Planets().length * 2);
-                    } else {
-                        Affine old = g.getTransform();
-                        double angle = r.nextDouble() * 360;
-                        rotate(angle, xPosition + size/2, yPosition + size/2);
-                        g.drawImage(starImage, xPosition, yPosition, size, size);
-                        g.setTransform(old);
-                    }
-                    g.setFill(Color.WHITE);
-                    if(a.equals(selectedSolarSystem)) {
-                        tempSelectedX = (int) (((x - mapOffsetX) * 10) + (512 - mapOffsetX));
-                        tempSelectedY = (int) (((y - mapOffsetY) * 10) + (288 - mapOffsetY));
-                        goToPlanet.setTranslateX((int) (((x - mapOffsetX) * 10) + (512 - mapOffsetX)));
-                        goToPlanet.setTranslateY((int) (((y - mapOffsetY) * 10) + (288 - mapOffsetY)) + 10);
-                    }
-                } else {
-                    if(starImage == null) {
-                        g.fillOval(((x - mapOffsetX - dragOffsetX) * 10) + (512 - dragOffsetX - mapOffsetX), ((y - mapOffsetY - dragOffsetY) * 10) + (288 - dragOffsetY - mapOffsetY), 5 + a.Planets().length * 2, 5 + a.Planets().length * 2);
-                    } else {
-                        Affine old = g.getTransform();
-                        double angle = r.nextDouble() * 360;
-                        double size = 20 + a.Planets().length * 2;
-                        double xPosition = ((x - mapOffsetX - dragOffsetX) * 10) + (512 - mapOffsetX - dragOffsetX) - (size/2);
-                        double yPosition = ((y - mapOffsetY - dragOffsetY) * 10) + (288 - mapOffsetY - dragOffsetY) - (size/2);
-                        rotate(angle, xPosition + size/2, yPosition + size/2);
-                        g.drawImage(starImage, xPosition, yPosition, size, size);
-                        g.setTransform(old);
-                    }
-                    g.setFill(Color.WHITE);
-                    if(a.equals(selectedSolarSystem)) {
-                        tempSelectedX = (int) (((x - dragOffsetX - mapOffsetX) * 10) + (512 - dragOffsetX - mapOffsetX));
-                        tempSelectedY = (int) (((y - dragOffsetY - mapOffsetY) * 10) + (288 - dragOffsetY - mapOffsetY));
-                        goToPlanet.setTranslateX((int) (((x - dragOffsetX - mapOffsetX) * 10) + (512 - dragOffsetX - mapOffsetX)));
-                        goToPlanet.setTranslateY((int) (((y - dragOffsetY - mapOffsetY) * 10) + (288 - dragOffsetY - mapOffsetY)) + 10);
-                    }
+                double size = 20 + a.Planets().length * 2;
+                double xPosition = ((x - mapOffsetX - dragOffsetX) * 10) + (512 - mapOffsetX - dragOffsetX) - (size/2);
+                double yPosition = ((y - mapOffsetY - dragOffsetY) * 10) + (288 - mapOffsetY - dragOffsetY) - (size/2);
+                if(dragFinished) {
+                    solarSystemLocations.put(new Point((int) (xPosition + (size/2)), (int) (yPosition + (size/2))), a);
                 }
+                if(starImage == null) {
+                    g.fillOval(((x - mapOffsetX - dragOffsetX) * 10) + (512 - dragOffsetX - mapOffsetX), ((y - mapOffsetY - dragOffsetY) * 10) + (288 - dragOffsetY - mapOffsetY), 5 + a.Planets().length * 2, 5 + a.Planets().length * 2);
+                } else {
+                    Affine old = g.getTransform();
+                    double angle = r.nextDouble() * 360;
+                    rotate(angle, xPosition + size/2, yPosition + size/2);
+                    g.drawImage(starImage, xPosition, yPosition, size, size);
+                    g.setTransform(old);
+                }
+                g.setFill(Color.WHITE);
             }
         }
-//        if (dragging) {
-//            g.strokeOval((player.getCurrentSolarSystem().getX() * universeScale) - dragOffsetX - mapOffsetX, (player.getCurrentSolarSystem().getY() * universeScale) - dragOffsetY - mapOffsetY, 10, 10);
-//        } else {
-//            g.strokeOval(player.getCurrentSolarSystem().getX() * universeScale - mapOffsetX, (player.getCurrentSolarSystem().getY() * universeScale) - dragOffsetY - mapOffsetY, 10, 10);
-//        }
-        if(selectedSolarSystem != null) {
-            g.setFill(Color.BLACK);
-            g.fillRect(tempSelectedX + 4, tempSelectedY - 10, longestLine(selectedSolarSystem.toString()) * 8, selectedSolarSystem.toString().split("\n").length * 15);
-            g.setFill(Color.WHITE);
-            g.fillText(selectedSolarSystem.toString(), tempSelectedX + 5, tempSelectedY);
+        
+        g.setFill(new Color(0, 0, 0, 0.7));
+        g.fillRect(0, 0, 1024, 512);
+        
+        double radsize = player.getTravelRadius()*universeScale*20;
+        double radx = (((player.getCurrentSolarSystem().getX() * universeScale) - mapOffsetX - dragOffsetX) * 10) + (512 - mapOffsetX - dragOffsetX) - (radsize/2f);
+        double rady = (((player.getCurrentSolarSystem().getY() * universeScale) - mapOffsetY - dragOffsetY) * 10) + (288 - mapOffsetY - dragOffsetY) - (radsize/2f);
+        g.strokeOval(radx, rady, radsize, radsize);
+        g.setFill(new Color(0, 0, 1, 0.1));
+        g.fillOval(radx, rady, radsize, radsize);
+        
+        g.setStroke(Color.WHITE);
+        g.setFill(Color.WHITE);
+        for(SolarSystem a : travelable) {
+            r.setSeed(a.Name().hashCode());
+            int x = a.getX() * universeScale;
+            int y = a.getY() * universeScale;
+            Image starImage = null;
+            if(a.SunType().usesColor()) {
+                g.setFill(a.SunType().getColor());
+            } else {
+                starImage = sunImages.get(a.SunType().getName());
+            }
+            double size = 20 + a.Planets().length * 2;
+            double xPosition = ((x - mapOffsetX - dragOffsetX) * 10) + (512 - mapOffsetX - dragOffsetX) - (size/2);
+            double yPosition = ((y - mapOffsetY - dragOffsetY) * 10) + (288 - mapOffsetY - dragOffsetY) - (size/2);
+            if(dragFinished) {
+                solarSystemLocations.put(new Point((int) (xPosition + (size/2)), (int) (yPosition + (size/2))), a);
+            }
+            if(starImage == null) {
+                g.fillOval(((x - mapOffsetX - dragOffsetX) * 10) + (512 - dragOffsetX - mapOffsetX), ((y - mapOffsetY - dragOffsetY) * 10) + (288 - dragOffsetY - mapOffsetY), 5 + a.Planets().length * 2, 5 + a.Planets().length * 2);
+            } else {
+                Affine old = g.getTransform();
+                double angle = r.nextDouble() * 360;
+                rotate(angle, xPosition + size/2, yPosition + size/2);
+                g.drawImage(starImage, xPosition, yPosition, size, size);
+                g.setTransform(old);
+            }
+            
+            if(a.equals(selectedSolarSystem)) {
+                tempSelectedX = (int) (((x - dragOffsetX - mapOffsetX) * 10) + (dragOffsetX - mapOffsetX));
+                tempSelectedY = (int) (((y - dragOffsetY - mapOffsetY) * 10) + (dragOffsetY - mapOffsetY));
+            }
         }
+        
     }
     
     private void rotate(double angle, double px, double py) {
         Rotate r = new Rotate(angle, px, py);
         g.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx(), r.getTy());
-    }
-    
-    private int longestLine(String s) {
-        String[] strings = s.split("\n");
-        int longest = strings[0].length();
-        for (int i = 0; i < strings.length; i++) {
-            if(strings[i].length() > longest) {
-                longest = strings[i].length();
-            }
-        }
-        return longest;
     }
     
     private Point getLower() {
@@ -380,5 +395,49 @@ public class StarScreenController implements Initializable {
         }
         
         return new Point(upperX, upperY);
+    }
+    
+    private void animateInfoScreen(boolean appear) {
+        timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                Platform.runLater(() -> {
+                    if(appear) {
+                        dragging = true;
+                        if (solarSystemInfo.getScaleY() < 1) {
+                            solarSystemInfo.setScaleY(solarSystemInfo.getScaleY() + 0.1);
+                        } else {
+                            solarSystemInfo.setScaleY(1);
+                            this.cancel();
+                        }
+                    } else {
+                        if(solarSystemInfo.getScaleY() > 0) {
+                            solarSystemInfo.setScaleY(solarSystemInfo.getScaleY() - 0.1);
+                        } else {
+                            solarSystemInfo.setScaleY(0);
+                            this.cancel();
+                        }
+                    }
+                    drawUniverse();
+                });
+            }
+        }, 0, 10);
+    }
+    
+    /**
+     * Used to set the scene so that timer thread can exit
+     *
+     * @param scene the scene to set
+     */
+    public void setScene(Scene scene) {
+        scene.getWindow().setOnCloseRequest((WindowEvent event) -> {
+            timer.cancel();
+        });
+    }
+    
+    @FXML
+    private void closeInfoPane() {
+        animateInfoScreen(false);
     }
 }

@@ -159,7 +159,7 @@ public class StarScreenController implements Initializable {
     
     @FXML
     private void goToSolarSystem() {
-        player.movePlayer(selectedSolarSystem);
+        player.move(selectedSolarSystem);
         SpaceTrader.getInstance().goToSolarSystemView();
     }
     

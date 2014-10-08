@@ -90,7 +90,7 @@ public class StarScreenController implements Initializable {
     
     private ArrayList<SolarSystem> travelable;
     
-    private final int universeScale = 2;
+    private final int universeScale = 20;
     
     @FXML
     private BorderPane solarSystemInfo;
@@ -98,7 +98,11 @@ public class StarScreenController implements Initializable {
     @FXML
     private Label solarSystemName;
     
-    @FXML ListView planetList;
+    @FXML
+    private ListView planetList;
+    
+    @FXML
+    private Label fuelInfo;
     
     private Timer timer;
     
@@ -144,7 +148,7 @@ public class StarScreenController implements Initializable {
     }
     
     /**
-     * 
+     * Happens any time mouse is clicked
      * @param event 
      */
     @FXML
@@ -153,7 +157,7 @@ public class StarScreenController implements Initializable {
     }
     
     /**
-     * 
+     * Occurs any time the mouse is clicked
      * @param event 
      */
     @FXML
@@ -162,6 +166,9 @@ public class StarScreenController implements Initializable {
         preDragY = event.getY();
     }
     
+    /**
+     * Moves player to selected solar system
+     */
     @FXML
     private void goToSolarSystem() {
         player.move(selectedSolarSystem);
@@ -171,6 +178,11 @@ public class StarScreenController implements Initializable {
         SpaceTrader.getInstance().goToSolarSystemView();
     }
     
+    /**
+     * Helper method that finds solar system closest to a point
+     * @param p
+     * @return SolarSystem closest
+     */
     private SolarSystem findClosestSolarSystem(Point p) {
         SolarSystem forreturn = solarSystemLocations.get(p);
         if(forreturn == null) {
@@ -199,8 +211,8 @@ public class StarScreenController implements Initializable {
             g.strokeOval(event.getX() - 15, event.getY() - 15, 30, 30);
             g.fillText(mouseOver.Name(), event.getX(), event.getY());
             if(travelable.contains(mouseOver)) {
-                double radx = (((player.getCurrentSolarSystem().getX() * universeScale) - mapOffsetX - dragOffsetX) * 10) + (512 - mapOffsetX - dragOffsetX);
-                double rady = (((player.getCurrentSolarSystem().getY() * universeScale) - mapOffsetY - dragOffsetY) * 10) + (288 - mapOffsetY - dragOffsetY);
+                double radx = ((player.getCurrentSolarSystem().getX() * universeScale) - mapOffsetX - dragOffsetX) + (512 - mapOffsetX - dragOffsetX);
+                double rady = ((player.getCurrentSolarSystem().getY() * universeScale) - mapOffsetY - dragOffsetY) + (288 - mapOffsetY - dragOffsetY);
                 g.strokeLine(radx, rady, event.getX(), event.getY());
             }
         } else {
@@ -217,8 +229,8 @@ public class StarScreenController implements Initializable {
         dragging = true;
         double tempX = event.getX();
         double tempY = event.getY();
-        dragOffsetX = (preDragX - tempX)/10;
-        dragOffsetY = (preDragY - tempY)/10;
+        dragOffsetX = (preDragX - tempX)/2;
+        dragOffsetY = (preDragY - tempY)/2;
         drawUniverse();
     }
     
@@ -261,6 +273,7 @@ public class StarScreenController implements Initializable {
             solarSystemName.setText(mouseOver.Name());
             ObservableList<Planet> planets = FXCollections.observableArrayList(mouseOver.Planets());
             planetList.setItems(planets);
+            fuelInfo.setText("Current:\n" + player.getShip().getFuel() + "\n\nCost:\n" + player.distanceToSolarSystem(mouseOver) + "\n\nSum:\n" + (player.getShip().getFuel() - player.distanceToSolarSystem(mouseOver)));
             drawUniverse();
         } else {
             drawUniverse();
@@ -285,7 +298,6 @@ public class StarScreenController implements Initializable {
         gameCanvas.setScaleX(zoom/10);
         gameCanvas.setScaleY(zoom/10);
         
-        //makes sure that solar systems are being drawn depending on it being dragged
         //clears before drawing
         g.clearRect(0, 0, gameCanvas.getWidth(), gameCanvas.getHeight());
         
@@ -293,7 +305,7 @@ public class StarScreenController implements Initializable {
         starBackdrop.setTranslateX((-mapOffsetX - dragOffsetX)*2);
         starBackdrop.setTranslateY((-mapOffsetY - dragOffsetY)*2);
         
-        //draw solar systems
+        //draw non travelable solar systems
         for (SparseSpace.SparseIterator iter = universe.iterateFrom(lower.x, lower.y, upper.x, upper.y); iter.hasNext();) {
             SolarSystem a = iter.next();
             Image starImage = null;
@@ -308,14 +320,16 @@ public class StarScreenController implements Initializable {
                 } else {
                     starImage = sunImages.get(a.SunType().getName());
                 }
+                
+                //initializes size and position variables
                 double size = 20 + a.Planets().length * 2;
-                double xPosition = ((x - mapOffsetX - dragOffsetX) * 10) + (512 - mapOffsetX - dragOffsetX) - (size/2);
-                double yPosition = ((y - mapOffsetY - dragOffsetY) * 10) + (288 - mapOffsetY - dragOffsetY) - (size/2);
+                double xPosition = (x - mapOffsetX - dragOffsetX) + (512 - mapOffsetX - dragOffsetX) - (size/2);
+                double yPosition = (y - mapOffsetY - dragOffsetY) + (288 - mapOffsetY - dragOffsetY) - (size/2);
                 if(dragFinished) {
                     solarSystemLocations.put(new Point((int) (xPosition + (size/2)), (int) (yPosition + (size/2))), a);
                 }
                 if(starImage == null) {
-                    g.fillOval(((x - mapOffsetX - dragOffsetX) * 10) + (512 - dragOffsetX - mapOffsetX), ((y - mapOffsetY - dragOffsetY) * 10) + (288 - dragOffsetY - mapOffsetY), 5 + a.Planets().length * 2, 5 + a.Planets().length * 2);
+                    g.fillOval(xPosition, yPosition, size, size);
                 } else {
                     Affine old = g.getTransform();
                     double angle = r.nextDouble() * 360;
@@ -327,16 +341,19 @@ public class StarScreenController implements Initializable {
             }
         }
         
+        //darken non-travelable planets
         g.setFill(new Color(0, 0, 0, 0.7));
         g.fillRect(0, 0, 1024, 512);
         
-        double radsize = player.getTravelRadius()*universeScale*20;
-        double radx = (((player.getCurrentSolarSystem().getX() * universeScale) - mapOffsetX - dragOffsetX) * 10) + (512 - mapOffsetX - dragOffsetX) - (radsize/2f);
-        double rady = (((player.getCurrentSolarSystem().getY() * universeScale) - mapOffsetY - dragOffsetY) * 10) + (288 - mapOffsetY - dragOffsetY) - (radsize/2f);
+        //draw travel radius
+        double radsize = player.getTravelRadius()*universeScale*2;
+        double radx = (((player.getCurrentSolarSystem().getX() * universeScale) - mapOffsetX - dragOffsetX)) + (512 - mapOffsetX - dragOffsetX) - (radsize/2f);
+        double rady = (((player.getCurrentSolarSystem().getY() * universeScale) - mapOffsetY - dragOffsetY)) + (288 - mapOffsetY - dragOffsetY) - (radsize/2f);
         g.strokeOval(radx, rady, radsize, radsize);
         g.setFill(new Color(0, 0, 1, 0.1));
         g.fillOval(radx, rady, radsize, radsize);
         
+        //draw travelable planets
         g.setStroke(Color.WHITE);
         g.setFill(Color.WHITE);
         for(SolarSystem a : travelable) {
@@ -350,13 +367,14 @@ public class StarScreenController implements Initializable {
                 starImage = sunImages.get(a.SunType().getName());
             }
             double size = 20 + a.Planets().length * 2;
-            double xPosition = ((x - mapOffsetX - dragOffsetX) * 10) + (512 - mapOffsetX - dragOffsetX) - (size/2);
-            double yPosition = ((y - mapOffsetY - dragOffsetY) * 10) + (288 - mapOffsetY - dragOffsetY) - (size/2);
+            double xPosition = (x - mapOffsetX - dragOffsetX) + (512 - mapOffsetX - dragOffsetX) - (size/2);
+            double yPosition = (y - mapOffsetY - dragOffsetY) + (288 - mapOffsetY - dragOffsetY) - (size/2);
+
             if(dragFinished) {
                 solarSystemLocations.put(new Point((int) (xPosition + (size/2)), (int) (yPosition + (size/2))), a);
             }
             if(starImage == null) {
-                g.fillOval(((x - mapOffsetX - dragOffsetX) * 10) + (512 - dragOffsetX - mapOffsetX), ((y - mapOffsetY - dragOffsetY) * 10) + (288 - dragOffsetY - mapOffsetY), 5 + a.Planets().length * 2, 5 + a.Planets().length * 2);
+                g.fillOval(xPosition,yPosition, size, size);
             } else {
                 Affine old = g.getTransform();
                 double angle = r.nextDouble() * 360;
@@ -366,8 +384,8 @@ public class StarScreenController implements Initializable {
             }
             
             if(a.equals(selectedSolarSystem)) {
-                tempSelectedX = (int) (((x - dragOffsetX - mapOffsetX) * 10) + (dragOffsetX - mapOffsetX));
-                tempSelectedY = (int) (((y - dragOffsetY - mapOffsetY) * 10) + (dragOffsetY - mapOffsetY));
+                tempSelectedX = (int) ((x - dragOffsetX - mapOffsetX) + (dragOffsetX - mapOffsetX));
+                tempSelectedY = (int) ((y - dragOffsetY - mapOffsetY) + (dragOffsetY - mapOffsetY));
             }
         }
         
@@ -381,28 +399,16 @@ public class StarScreenController implements Initializable {
     private Point getLower() {
         int lowerX;
         int lowerY;
-        if(!dragging) {//using Kartik's method
-            lowerY = (int)(((mapOffsetY - gameCanvas.getHeight()/2))/10 + mapOffsetY);
-            lowerX = (int)(((mapOffsetX - gameCanvas.getWidth()/2))/10 + mapOffsetX);
-        } else {
-            lowerY = (int)(((mapOffsetY + dragOffsetY - gameCanvas.getHeight()/2))/10 + mapOffsetY + dragOffsetY);
-            lowerX = (int)(((mapOffsetX + dragOffsetX - gameCanvas.getWidth()/2))/10 + mapOffsetX + dragOffsetX);
-        }
-
+        lowerY = (int)(-gameCanvas.getHeight() + mapOffsetY*2);
+        lowerX = (int)(-gameCanvas.getWidth() + mapOffsetX*2);
         return new Point(lowerX, lowerY);
     }
     
     private Point getUpper() {
         int upperX;
         int upperY;
-        if(!dragging) {//using Kartik's method
-            upperY = (int)(((mapOffsetY + gameCanvas.getHeight()/2))/10 + mapOffsetY);
-            upperX = (int)(((mapOffsetX + gameCanvas.getWidth()/2))/10 + mapOffsetX);
-        } else {
-            upperY = (int)(((mapOffsetY + dragOffsetY + gameCanvas.getHeight()/2))/10 + mapOffsetY + dragOffsetY);
-            upperX = (int)(((mapOffsetX + dragOffsetX + gameCanvas.getWidth()/2))/10 + mapOffsetX + dragOffsetX);
-        }
-        
+        upperY = (int)(gameCanvas.getHeight() + mapOffsetY*2);
+        upperX = (int)(gameCanvas.getWidth() + mapOffsetX*2);
         return new Point(upperX, upperY);
     }
     

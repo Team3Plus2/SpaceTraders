@@ -91,6 +91,17 @@ public class Player {
         return Player.this.move(currentSolarSystem, planet);
     }
     
+    /**
+     * Returns distance to solar system
+     * @param system the solar system to check distance of
+     * @return 
+     */
+    public float distanceToSolarSystem(SolarSystem system) {
+        float distance;
+        distance = (float) Math.sqrt(Math.pow(system.getX() - currentSolarSystem.getX(), 2) + Math.pow(system.getY() - currentSolarSystem.getY(), 2));
+        return distance;
+    }
+    
     public String getName() {
         return name;
     }
@@ -170,7 +181,7 @@ public class Player {
         int y = currentSolarSystem.getY();
         SparseIterator iter = universe.iterateFrom(x - travelRadius, y - travelRadius, x + travelRadius, y + travelRadius);
         for(SolarSystem i = iter.next();iter.hasNext(); i = iter.next()) {
-            if(i != null && Math.sqrt(Math.pow(iter.getX() - x, 2) + Math.pow(iter.getY() - y, 2)) <= travelRadius)
+            if(i != null && ship.getFuel() - distanceToSolarSystem(i) >= 0)
                 systems.add(i);
         }
         return systems;

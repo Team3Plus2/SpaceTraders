@@ -5,6 +5,8 @@ import java.util.Random;
 import spacetrader.player.Player;
 import spacetrader.cosmos.system.TechLevel;
 import spacetrader.cosmos.system.Resource;
+import spacetrader.turns.TurnListener;
+import spacetrader.turns.TurnEvent;
 
 /**
  * The Marketplace class allows players to buy and sell TradeGoods at each Planet.
@@ -13,10 +15,12 @@ import spacetrader.cosmos.system.Resource;
  * 
  * @author Carey MacDonald
  */
-public class MarketPlace {
+public class MarketPlace implements TurnListener {
     //private HashMap<TradeGood, TradeGood> tradeGoods;
     private ArrayList<TradeGood> tradeGoods;
     private Random rand;
+    private TechLevel techLevel;
+    private Resource resource;
     
     /**
      * Creates a new MarketPlace object based on the current techLevel and 
@@ -42,6 +46,9 @@ public class MarketPlace {
                 tradeGoods.add(good);
             }
         }
+        this.techLevel = techLevel;
+        this.resource = resource;
+        TurnEvent.RegisterListener(this);
     }
     
     /**
@@ -132,6 +139,11 @@ public class MarketPlace {
         return tradeGoods;
     }
     
-    //TODO Implement method to update MarketPlace prices/amounts/items across turns
+    @Override
+    public void handleNextTurn() {
+        for(TradeGood tg : tradeGoods) {
+            tg.computeCurrentPriceEach(techLevel, resource);
+        }
+    }
    
 }

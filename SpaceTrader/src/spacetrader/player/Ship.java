@@ -5,10 +5,6 @@
  */
 package spacetrader.player;
 
-import spacetrader.economy.TradeGood;
-import spacetrader.xml.LoadedType;
-import spacetrader.xml.FromXML;
-
 import java.util.ArrayList;
 
 /**
@@ -160,6 +156,7 @@ public class Ship {
 
     /**
      * Moves the ship the given distance if the player has enough fuel
+     * @param dist
      * @return true if the movement occured, false if ship doesn't have enough fuel
      */
     public boolean moveDistance(double dist) {

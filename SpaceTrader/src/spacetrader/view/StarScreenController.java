@@ -16,6 +16,8 @@ import java.util.TimerTask;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
@@ -23,6 +25,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
@@ -94,6 +97,8 @@ public class StarScreenController implements Initializable {
     
     @FXML
     private Label solarSystemName;
+    
+    @FXML ListView planetList;
     
     private Timer timer;
     
@@ -254,6 +259,8 @@ public class StarScreenController implements Initializable {
             selectedSolarSystem = mouseOver;
             animateInfoScreen(true);
             solarSystemName.setText(mouseOver.Name());
+            ObservableList<Planet> planets = FXCollections.observableArrayList(mouseOver.Planets());
+            planetList.setItems(planets);
             drawUniverse();
         } else {
             drawUniverse();

@@ -21,6 +21,11 @@ and open the template in the editor.
     -fx-effect: innershadow(three-pass-box , rgba(0,0,0,0.7), 5, 0.0 , 0 , 0);
 }
 
+.list-view {
+    -fx-font-family: "LVDC Common2";
+    -fx-font-size: 20px;
+}
+
 .progressbar .bar {
     -fx-background-color: #0099cc;
 }
@@ -50,6 +55,23 @@ and open the template in the editor.
     -fx-background-color: transparent;
 }
 
+.list-view .virtual-flow .scroll-bar:vertical .thumb{
+    -fx-scale-y: 1.0;
+    -fx-scale-x: 0.5;
+}
+
+.list-view .virtual-flow .scroll-bar:vertical .track{
+    -fx-scale-x: 0.5;
+}
+
+.list-view .virtual-flow .scroll-bar:vertical .increment-button {
+    -fx-scale-y: 0;
+}
+
+.list-view .virtual-flow .scroll-bar:vertical .decrement-button {
+    -fx-scale-y: 0;
+}
+
 .list-view .virtual-flow .scroll-bar:vertical .increment-button .increment-arrow {
     -fx-background-color: transparent;
 }
@@ -73,6 +95,18 @@ and open the template in the editor.
     -fx-background-color: rgba(52, 106, 181, 0.7);
 }
 
+.list-view .virtual-flow .scroll-bar:horizontal {
+    -fx-scale-y: 1;
+}
+
+.list-view .virtual-flow .clipped-container .sheet .list-cell:filled .text {
+    -fx-text-origin: top;
+}
+
+.list-view .virtual-flow .clipped-container .sheet .list-cell:filled {
+    -fx-padding: 0.0em 0.0em 0.0em 0.0em;
+}
+
 .list-cell {
     -fx-background-insets: 0.0em 0.0em 0.0em 0.0em;
 }
@@ -89,15 +123,38 @@ and open the template in the editor.
     -fx-background-color: rgba(52, 106, 181, 1);
 }
 
-.tab-pane .tab {
-    -fx-background-color: #678a96;
+.tab-pane {
+    -fx-background-image: url('../../visuals/GridLayoutBG.png');
+    -fx-background-size: stretch;
+}
+
+.tab-pane .tab-header-area .headers-region {
+    -fx-translate-x: 15;
+    -fx-translate-y: 1.7;
+    -fx-scale-x: 1.032;
+    -fx-scale-y: 1.08;
+}
+
+.tab-pane .tab-header-area .headers-region .tab:selected:top {
+    -fx-background-color: #005d7f;
     -fx-padding: 0.0em 0.0em 0.0em 0.0em;
 }
 
-.tab-pane .tab:selected {
-    -fx-background-color: #005d7f;
+.tab-pane .tab-header-area .headers-region .tab:selected:top .tab-container .tab-label .text {
+    -fx-font-family: "LVDC Common2";
+    -fx-fill: white;
+    -fx-font-size: 30px;
+}
+
+.tab-pane .tab-header-area .headers-region .tab:top .tab-container .tab-label .text {
+    -fx-font-family: "LVDC Common2";
+    -fx-text-fill: gray;
+    -fx-font-size: 20px;
+}
+
+.tab-pane .tab-header-area .headers-region .tab:top {
+    -fx-background-color: #678a96;
     -fx-padding: 0.0em 0.0em 0.0em 0.0em;
-    -fx-background-insets: 0 0 0 0,0,0;
 }
 
 .tab-pane .tab-header-area .tab-header-background {

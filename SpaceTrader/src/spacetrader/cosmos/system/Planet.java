@@ -69,7 +69,7 @@ public class Planet implements TurnListener {
     }
     
     public String toString() {
-        return "\n" + name + ": " + resources;
+        return name;
     }
 
     public Point getOrbitEllipse() {

@@ -69,7 +69,7 @@ public class MarketPlace implements TurnListener {
                 TradeGood temp = new TradeGood(t);
                 temp.setPrice(t.getCurrentPriceEach());
                 temp.setAmount(amount);
-                if (cost < p.getMoney() && p.getShip().getCargo().addTradeGood(temp)) {
+                if (cost < p.getMoney() && p.addTradeGood(temp)) {
                     p.setMoney(p.getMoney() - cost);
                     t.setAmount(t.getAmount() - amount);
                     return true;
@@ -91,7 +91,7 @@ public class MarketPlace implements TurnListener {
         for (TradeGood t : tradeGoods) {
             if (tg.equals(t)) {
                 tg.setAmount(amount);
-                if(p.getShip().getCargo().removeTradeGood(tg)) {
+                if(p.removeTradeGood(tg)) {
                     p.setMoney(p.getMoney() + (tg.getCurrentPriceEach() * amount));
                     t.setAmount(t.getAmount() + amount);
                     return true;

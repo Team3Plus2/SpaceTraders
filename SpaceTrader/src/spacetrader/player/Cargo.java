@@ -84,6 +84,12 @@ public class Cargo {
         }
     }
     
+    /**
+     * Removes a trade good from the cargo hold if the proper amount exists.
+     * 
+     * @param good the trade good to be removed
+     * @return true if successful; false if improper amount of good type in cargo hold
+     */
     public boolean removeTradeGood(TradeGood good) {
         boolean success = false;
         for (int i = 0; i < 10; i++) {

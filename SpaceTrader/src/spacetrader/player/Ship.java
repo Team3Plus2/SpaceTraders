@@ -6,6 +6,7 @@
 package spacetrader.player;
 
 import java.util.ArrayList;
+import spacetrader.economy.TradeGood;
 
 /**
  * Represents the generic ship that the player owns.
@@ -174,6 +175,28 @@ public class Ship {
     public void setFuel(float fuel) {
         this.fuel = fuel;
     }
+    
+    /*****************************************
+     *  Cargo Accessor Methods
+     *****************************************/
+    
+    /**
+     * Adds a trade good to the cargo hold if space is available.
+     * 
+     * @param good the good to be added to the cargo hold
+     * @return true if successful; false if no more room for cargo
+     */
+    public boolean addTradeGood(TradeGood good) {
+        return cargo.addTradeGood(good);
+    }
+    
+    /**
+     * Removes a trade good from the cargo hold if the proper amount exists.
+     * 
+     * @param good the trade good to be removed
+     * @return true if successful; false if improper amount of good type in cargo hold
+     */
+    public boolean removeTradeGood(TradeGood good) {
+        return cargo.removeTradeGood(good);
+    }
 }
-
-

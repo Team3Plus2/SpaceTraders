@@ -6,6 +6,7 @@ import spacetrader.cosmos.SparseSpace.SparseIterator;
 import spacetrader.cosmos.Universe;
 import spacetrader.cosmos.system.Planet;
 import spacetrader.cosmos.system.SolarSystem;
+import spacetrader.economy.TradeGood;
 import spacetrader.turns.TurnEvent;
 
 /**
@@ -193,5 +194,29 @@ public class Player {
      */
     public float getTravelRadius() {
         return ship.getFuel();
+    }
+    
+    /*****************************************
+     *  Cargo Accessor Methods
+     *****************************************/
+    
+    /**
+     * Adds a trade good to the cargo hold if space is available.
+     * 
+     * @param good the good to be added to the cargo hold
+     * @return true if successful; false if no more room for cargo
+     */
+    public boolean addTradeGood(TradeGood good) {
+        return ship.addTradeGood(good);
+    }
+    
+    /**
+     * Removes a trade good from the cargo hold if the proper amount exists.
+     * 
+     * @param good the trade good to be removed
+     * @return true if successful; false if improper amount of good type in cargo hold
+     */
+    public boolean removeTradeGood(TradeGood good) {
+        return ship.removeTradeGood(good);
     }
 }

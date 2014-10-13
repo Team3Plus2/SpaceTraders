@@ -1,11 +1,8 @@
 package spacetrader.cosmos.system;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.Random;
 import spacetrader.xml.LoadedType;
-import spacetrader.xml.FromXML;
-import spacetrader.xml.LoadedType;
-import spacetrader.xml.XMLReader;
 
 /**
  * 
@@ -13,7 +10,7 @@ import spacetrader.xml.XMLReader;
  * 
  * @author Alex
  */
-public class Resource extends LoadedType {
+public class Resource extends LoadedType implements Serializable {
     
     private static float DEFAULT_RESOURCE_CHANCE = 0.25f;
     

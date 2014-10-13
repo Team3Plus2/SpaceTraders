@@ -1,5 +1,6 @@
 package spacetrader.economy;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 import spacetrader.player.Player;
@@ -15,7 +16,7 @@ import spacetrader.turns.TurnEvent;
  * 
  * @author Carey MacDonald
  */
-public class MarketPlace implements TurnListener {
+public class MarketPlace implements TurnListener, Serializable {
     //private HashMap<TradeGood, TradeGood> tradeGoods;
     private ArrayList<TradeGood> tradeGoods;
     private Random rand;

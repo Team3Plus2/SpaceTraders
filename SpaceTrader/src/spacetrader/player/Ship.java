@@ -5,6 +5,7 @@
  */
 package spacetrader.player;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import spacetrader.economy.TradeGood;
 
@@ -13,7 +14,7 @@ import spacetrader.economy.TradeGood;
  * 
  * @author Aaron McAnally
  */
-public class Ship {
+public class Ship implements Serializable {
     
     public static void Load() {
         ShipType.Load();

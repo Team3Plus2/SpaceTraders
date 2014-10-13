@@ -1,5 +1,6 @@
 package spacetrader.cosmos;
 
+import java.io.Serializable;
 import spacetrader.cosmos.system.SolarSystem;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -16,7 +17,7 @@ import java.util.NoSuchElementException;
  * 
  * @author Alex
  */
-public class SparseSpace implements Iterable<SolarSystem> {
+public class SparseSpace implements Iterable<SolarSystem>, Serializable {
     private HashMap<Integer, HashMap<Integer, SolarSystem>> spaceMap;
     private int xMin, yMin, xMax, yMax;
     

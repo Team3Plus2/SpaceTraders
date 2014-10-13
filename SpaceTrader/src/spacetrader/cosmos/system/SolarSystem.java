@@ -1,5 +1,6 @@
 package spacetrader.cosmos.system;
 
+import java.io.Serializable;
 import java.util.Random;
 import spacetrader.cosmos.Universe;
 import spacetrader.turns.TurnEvent;
@@ -10,7 +11,7 @@ import spacetrader.turns.TurnListener;
  *
  * @author Alex
  */
-public class SolarSystem implements TurnListener {
+public class SolarSystem implements TurnListener, Serializable {
     
     private static final int DEFAULT_MAX_PLANETS = 10;
 

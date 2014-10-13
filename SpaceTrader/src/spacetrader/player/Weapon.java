@@ -1,5 +1,6 @@
 package spacetrader.player;
 
+import java.io.Serializable;
 import spacetrader.xml.LoadedType;
 import spacetrader.xml.FromXML;
 
@@ -9,7 +10,7 @@ import spacetrader.xml.FromXML;
  * 
  * @author Aaron McAnally
  */
-public class Weapon {
+public class Weapon implements Serializable {
     
     public static void Load() {
         LaserType.Load();
@@ -35,7 +36,7 @@ public class Weapon {
  * LaserType(2) = beam laser
  * LaserType(3) = military laser
  */
-class LaserType extends LoadedType {
+class LaserType extends LoadedType implements Serializable {
     private static String WeaponFileLocation = "objects/Weapons.xml";
     
     public static void Load() {

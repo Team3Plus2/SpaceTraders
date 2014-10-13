@@ -5,6 +5,7 @@
  */
 package spacetrader.player;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import spacetrader.economy.TradeGood;
 
@@ -13,7 +14,7 @@ import spacetrader.economy.TradeGood;
  * 
  * @author Aaron McAnally
  */
-public class Cargo {
+public class Cargo implements Serializable {
     private int maxCargo;
     private ArrayList<TradeGood> goods;
     

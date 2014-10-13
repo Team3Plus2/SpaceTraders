@@ -1,5 +1,6 @@
 package spacetrader.player;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import spacetrader.cosmos.SparseSpace.SparseIterator;
@@ -15,7 +16,7 @@ import spacetrader.turns.TurnEvent;
  * @author Carey MacDonald
  * @author Aaron McAnally
  */
-public class Player {
+public class Player implements Serializable{
     private static final float FUEL_PER_PLANET_MOVEMENT = 0.5f;
     
     private String name;

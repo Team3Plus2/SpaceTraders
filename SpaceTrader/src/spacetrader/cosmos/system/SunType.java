@@ -1,5 +1,6 @@
 package spacetrader.cosmos.system;
 
+import java.io.Serializable;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ import spacetrader.xml.LoadedType;
  *
  * @author Alex
  */
-public class SunType extends LoadedType {
+public class SunType extends LoadedType implements Serializable {
     
     private static final String sunTypeFileLocation = "objects/SunTypes.xml";
     

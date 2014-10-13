@@ -246,4 +246,12 @@ public class SpaceTrader extends Application {
         } while(finalCommand != "stop");
     }
     
+    public void setPlayer(Player p) {
+        this.newPlayer = p;
+    }
+    
+    public void setUniverse(Universe u) {
+        this.universe = u;
+    }
+    
 }

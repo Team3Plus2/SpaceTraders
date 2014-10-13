@@ -1,17 +1,16 @@
 package spacetrader.cosmos.system;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.Random;
 import spacetrader.xml.LoadedType;
 import spacetrader.xml.FromXML;
-import spacetrader.xml.XMLReader;
 
 /**
  * Different types of government for solar systems
  * 
  * @author Alex
  */
-public class Government extends LoadedType {
+public class Government extends LoadedType implements Serializable {
     
     private static final String governmentsFile = "objects/Governments.xml";
     

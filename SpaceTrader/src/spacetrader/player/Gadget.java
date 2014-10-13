@@ -2,6 +2,7 @@ package spacetrader.player;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.io.Serializable;
 import spacetrader.xml.LoadedType;
 
 /**
@@ -9,7 +10,7 @@ import spacetrader.xml.LoadedType;
  * 
  * @author Aaron McAnally
  */
-public class Gadget {
+public class Gadget implements Serializable {
 
     private GadgetType gadgetType;
     
@@ -37,7 +38,7 @@ public class Gadget {
     
 }
 
-class GadgetType extends LoadedType {
+class GadgetType extends LoadedType implements Serializable {
 
     private static final String GadgetFileLocation = "objects/Gadgets.xml";
 

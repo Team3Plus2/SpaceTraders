@@ -1,6 +1,7 @@
 package spacetrader.cosmos.system;
 
 import java.awt.Point;
+import java.io.Serializable;
 import java.util.Random;
 import spacetrader.cosmos.Universe;
 import spacetrader.economy.MarketPlace;
@@ -12,7 +13,7 @@ import spacetrader.turns.TurnListener;
  * 
  * @author Alex
  */
-public class Planet implements TurnListener {
+public class Planet implements TurnListener, Serializable {
     
     private Random rand;
     private String name;
@@ -69,7 +70,7 @@ public class Planet implements TurnListener {
     }
     
     public String toString() {
-        return "\n" + name + ": " + resources;
+        return name;
     }
 
     public Point getOrbitEllipse() {

@@ -1,10 +1,13 @@
 package spacetrader.economy;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 import spacetrader.player.Player;
 import spacetrader.cosmos.system.TechLevel;
 import spacetrader.cosmos.system.Resource;
+import spacetrader.turns.TurnListener;
+import spacetrader.turns.TurnEvent;
 
 /**
  * The Marketplace class allows players to buy and sell TradeGoods at each Planet.
@@ -13,10 +16,12 @@ import spacetrader.cosmos.system.Resource;
  * 
  * @author Carey MacDonald
  */
-public class MarketPlace {
+public class MarketPlace implements TurnListener, Serializable {
     //private HashMap<TradeGood, TradeGood> tradeGoods;
     private ArrayList<TradeGood> tradeGoods;
     private Random rand;
+    private TechLevel techLevel;
+    private Resource resource;
     
     /**
      * Creates a new MarketPlace object based on the current techLevel and 
@@ -42,6 +47,9 @@ public class MarketPlace {
                 tradeGoods.add(good);
             }
         }
+        this.techLevel = techLevel;
+        this.resource = resource;
+        TurnEvent.RegisterListener(this);
     }
     
     /**
@@ -62,7 +70,7 @@ public class MarketPlace {
                 TradeGood temp = new TradeGood(t);
                 temp.setPrice(t.getCurrentPriceEach());
                 temp.setAmount(amount);
-                if (cost < p.getMoney() && p.getShip().getCargo().addTradeGood(temp)) {
+                if (cost < p.getMoney() && p.addTradeGood(temp)) {
                     p.setMoney(p.getMoney() - cost);
                     t.setAmount(t.getAmount() - amount);
                     return true;
@@ -84,7 +92,7 @@ public class MarketPlace {
         for (TradeGood t : tradeGoods) {
             if (tg.equals(t)) {
                 tg.setAmount(amount);
-                if(p.getShip().getCargo().removeTradeGood(tg)) {
+                if(p.removeTradeGood(tg)) {
                     p.setMoney(p.getMoney() + (tg.getCurrentPriceEach() * amount));
                     t.setAmount(t.getAmount() + amount);
                     return true;
@@ -132,6 +140,11 @@ public class MarketPlace {
         return tradeGoods;
     }
     
-    //TODO Implement method to update MarketPlace prices/amounts/items across turns
+    @Override
+    public void handleNextTurn() {
+        for(TradeGood tg : tradeGoods) {
+            tg.computeCurrentPriceEach(techLevel, resource);
+        }
+    }
    
 }

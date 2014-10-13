@@ -1,5 +1,6 @@
 package spacetrader.player;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 import spacetrader.xml.LoadedType;
@@ -10,7 +11,7 @@ import spacetrader.xml.FromXML;
  * 
  * @author Aaron McAnally
  */
-public class Shield {
+public class Shield implements Serializable {
     
     public static void Load() {
         ShieldType.Load();
@@ -52,7 +53,7 @@ public class Shield {
  * ShieldType(1): energy shield
  * ShieldType(2): reflective shield
  */
-class ShieldType extends LoadedType {
+class ShieldType extends LoadedType implements Serializable {
 
     private static final String ShieldFileLocation = "objects/Shields.xml";
 

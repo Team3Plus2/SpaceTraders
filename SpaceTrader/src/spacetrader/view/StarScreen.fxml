@@ -11,12 +11,12 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="576.0" prefWidth="1024.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="spacetrader.view.StarScreenController">
+<AnchorPane maxHeight="576.0" maxWidth="1024.0" minHeight="576.0" minWidth="1024.0" prefHeight="576.0" prefWidth="1024.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="spacetrader.view.StarScreenController">
     <stylesheets>
         <URL value="@SpaceTraderStylesheet.css" />
     </stylesheets>
    <children>
-      <Pane id="StarBackdrop" fx:id="starBackdrop" prefHeight="576.0" prefWidth="1024.0" scaleX="2.0" scaleY="2.0" stylesheets="@SpaceTraderStylesheet.css" />
+      <Pane id="StarBackdrop" fx:id="starBackdrop" layoutX="16.0" layoutY="103.0" prefHeight="576.0" prefWidth="1024.0" scaleX="2.0" scaleY="2.0" stylesheets="@SpaceTraderStylesheet.css" />
       <Canvas fx:id="gameCanvas" height="576.0" onMouseClicked="#mouseClicked" onMouseDragged="#mouseDrag" onMouseMoved="#mouseMove" onMousePressed="#mouseDown" onMouseReleased="#mouseReleased" width="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
       <Pane id="GameBackground" mouseTransparent="true" prefHeight="576.0" prefWidth="1024.0" styleClass="starbackdrop" stylesheets="@SpaceTraderStylesheet.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
       <Slider fx:id="zoomSlider" layoutX="980.0" layoutY="112.0" max="15.0" min="10.0" orientation="VERTICAL" prefHeight="305.0" prefWidth="15.0" stylesheets="@SpaceTraderStylesheet.css" value="10.0" />

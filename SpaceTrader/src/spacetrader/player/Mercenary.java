@@ -1,5 +1,6 @@
 package spacetrader.player;
 
+import java.io.Serializable;
 import spacetrader.xml.LoadedType;
 
 /**
@@ -7,7 +8,7 @@ import spacetrader.xml.LoadedType;
  * 
  * @author Aaron McAnally
  */
-public class Mercenary {
+public class Mercenary implements Serializable {
     
     private MercenaryType mercenaryType;
     
@@ -23,7 +24,7 @@ public class Mercenary {
 /*
  *PILOT, FIGHTER, TRADER, ENGINEER, INVESTOR;
  */
-class MercenaryType extends LoadedType {
+class MercenaryType extends LoadedType implements Serializable {
 
     private static final String MercenaryFileLocation = "objects/Mercenaries.xml";
 

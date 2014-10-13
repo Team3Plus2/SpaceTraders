@@ -5,6 +5,7 @@
  */
 package spacetrader.player;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import spacetrader.economy.TradeGood;
 
@@ -13,7 +14,7 @@ import spacetrader.economy.TradeGood;
  * 
  * @author Aaron McAnally
  */
-public class Cargo {
+public class Cargo implements Serializable {
     private int maxCargo;
     private ArrayList<TradeGood> goods;
     
@@ -85,9 +86,10 @@ public class Cargo {
     }
     
     /**
-     * Remove the given trade good from the cargohold
-     * @param good good to remove, if amount is -1, will remove all
-     * @return true if a good is removed
+     * Removes a trade good from the cargo hold if the proper amount exists.
+     * 
+     * @param good the trade good to be removed
+     * @return true if successful; false if improper amount of good type in cargo hold
      */
     public boolean removeTradeGood(TradeGood good) {
         boolean success = false;

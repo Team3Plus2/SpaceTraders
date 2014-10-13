@@ -6,15 +6,17 @@
 package spacetrader.player;
 
 import java.util.Random;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
+import spacetrader.economy.TradeGood;
 
 /**
  * Represents the generic ship that the player owns.
  * 
  * @author Aaron McAnally
  */
-public class Ship {
+public class Ship implements Serializable {
     
     public static void Load() {
         ShipType.Load();
@@ -174,6 +176,7 @@ public class Ship {
 
     /**
      * Moves the ship the given distance if the player has enough fuel
+     * @param dist
      * @return true if the movement occured, false if ship doesn't have enough fuel
      */
     public boolean moveDistance(double dist) {
@@ -313,6 +316,29 @@ public class Ship {
         this.fuel = fuel;
     }
     
+    /*****************************************
+     *  Cargo Accessor Methods
+     *****************************************/
+    
+    /**
+     * Adds a trade good to the cargo hold if space is available.
+     * 
+     * @param good the good to be added to the cargo hold
+     * @return true if successful; false if no more room for cargo
+     */
+    public boolean addTradeGood(TradeGood good) {
+        return cargo.addTradeGood(good);
+    }
+    
+    /**
+     * Removes a trade good from the cargo hold if the proper amount exists.
+     * 
+     * @param good the trade good to be removed
+     * @return true if successful; false if improper amount of good type in cargo hold
+     */
+    public boolean removeTradeGood(TradeGood good) {
+        return cargo.removeTradeGood(good);
+    }
     
     /**
      * Calculates the ships power. A.K.A.
@@ -349,5 +375,3 @@ public class Ship {
     
     
 }
-
-

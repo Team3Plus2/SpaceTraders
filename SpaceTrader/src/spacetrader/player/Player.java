@@ -230,6 +230,8 @@ public class Player implements Serializable{
      */
     public boolean removeTradeGood(TradeGood good) {
         return ship.removeTradeGood(good);
+    }
+        
     /**
      * gets all the trade goods of the given type owned by the player
      * @param types types of tradegoods to get

@@ -9,8 +9,8 @@ package spacetrader.encounter;
  *
  * @author Aaron McAnally
  */
-public class Police extends Encounter {
+/*public class Police extends Encounter {
     public void handleEncounter() {
         
     }
-}
+}*/

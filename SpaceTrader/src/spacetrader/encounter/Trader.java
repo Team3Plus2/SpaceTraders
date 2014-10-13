@@ -16,7 +16,7 @@ import spacetrader.player.ShipType;
  * 
  * @author Aaron McAnally
  */
-public class Trader extends Encounter {
+/*public class Trader extends Encounter {
     
     private Player trader;
     
@@ -36,3 +36,4 @@ public class Trader extends Encounter {
         Player player = SpaceTrader.getInstance().getPlayer();
     }
 }
+*/

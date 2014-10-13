@@ -1,5 +1,7 @@
 package spacetrader.player;
 
+import java.util.ArrayList;
+import java.util.Random;
 import spacetrader.xml.LoadedType;
 import spacetrader.xml.FromXML;
 
@@ -14,6 +16,13 @@ public class Shield {
         ShieldType.Load();
     }
     
+    public static Shield Random() {
+        ArrayList<ShieldType> rList = (ArrayList<ShieldType>) ShieldType.getList(ShieldType.class);
+        Random rand = new Random();
+        int index = rand.nextInt(rList.size());
+        return new Shield(rList.get(index));
+    }
+    
     private ShieldType shieldType;
     
     /**
@@ -22,6 +31,19 @@ public class Shield {
     public Shield(ShieldType shieldType) {
         this.shieldType = shieldType;
     }
+    
+    /**
+     * try to absorb the given amount of damage
+     * 
+     * @param amount amount of damage to try to absorb
+     * @return negative the amount the shield absorbed if the shield was destroyed, otherwise just the maount absorbed
+     */
+    public int absorbDamage(int amount) {
+        if(amount >= shieldType.getStrength())
+            return -shieldType.getStrength();
+        return amount;
+    }
+    
 }
 
 
@@ -47,6 +69,10 @@ class ShieldType extends LoadedType {
     
     ShieldType(int strength) {
         this.strength = strength;
+    }
+    
+    public int getStrength() {
+        return strength;
     }
 }
 

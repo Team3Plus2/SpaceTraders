@@ -84,14 +84,22 @@ public class Cargo {
         }
     }
     
+    /**
+     * Remove the given trade good from the cargohold
+     * @param good good to remove, if amount is -1, will remove all
+     * @return true if a good is removed
+     */
     public boolean removeTradeGood(TradeGood good) {
         boolean success = false;
         for (int i = 0; i < 10; i++) {
             if (goods.get(i).getName().equals(good.getName())) {
-                 if (goods.get(i).getAmount() >= good.getAmount()) {
-                     goods.get(i).setAmount(goods.get(i).getAmount() - good.getAmount());
-                     success = true;
-                 }
+                if (goods.get(i).getAmount() >= good.getAmount()) {
+                    goods.get(i).setAmount(goods.get(i).getAmount() - good.getAmount());
+                    success = true;
+                } else if(good.getAmount() == -1) {
+                    goods.get(i).setAmount(0);
+                    success = true;
+                }
             }
         }
         return success;

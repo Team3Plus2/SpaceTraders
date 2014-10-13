@@ -2,7 +2,6 @@ package spacetrader.xml;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 
 import javafx.scene.paint.Color;
 import javafx.scene.image.Image;
@@ -21,6 +20,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import spacetrader.cosmos.system.*;
+import spacetrader.player.ShipType;
 
 /**
  * This class reads data from an XML file into an array of Class type
@@ -157,6 +157,8 @@ public class XMLReader<T> {
                             field.set(item, Double.valueOf(rawValue));
                         } else if(field.getType().equals(Float.TYPE)) {
                             field.set(item, Float.valueOf(rawValue));
+                        } else if(field.getType().equals(Boolean.TYPE)) {
+                          field.set(item, Boolean.valueOf(rawValue));
                         } else if(field.getType().equals(TechLevel.class)) {
                             try {
                                 TechLevel level = (TechLevel)TechLevel.get(rawValue);
@@ -189,6 +191,13 @@ public class XMLReader<T> {
                             } catch(IllegalArgumentException excep) {
                                 DefaultWarning(rawValue, "");
                                 field.set(item, Government.get(""));
+                            }
+                        } else if(field.getType().equals(ShipType.class)) {
+                            try {
+                                field.set(item, ShipType.get(rawValue));
+                            } catch(IllegalArgumentException excep) {
+                                DefaultWarning(rawValue, "");
+                                field.set(item, ShipType.Default());
                             }
                         } else if(field.getType().equals(Color.class)) {
                             try {

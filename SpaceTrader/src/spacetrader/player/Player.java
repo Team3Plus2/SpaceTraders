@@ -6,6 +6,7 @@ import spacetrader.cosmos.SparseSpace.SparseIterator;
 import spacetrader.cosmos.Universe;
 import spacetrader.cosmos.system.Planet;
 import spacetrader.cosmos.system.SolarSystem;
+import spacetrader.economy.TradeGood;
 import spacetrader.turns.TurnEvent;
 
 /**
@@ -37,6 +38,17 @@ public class Player {
         this.ship = new Ship();
     }
 
+    /**
+     * Simulates a single round of attack on the given player
+     * @param other player to attack
+     * @param targets parts of ship to target, if null, targets at random
+     * @return true if the enemy ship is destroyed
+     */
+    public boolean attack(Player other, ArrayList targets) {
+        int advantage = other.fighterSkill - this.fighterSkill;//damage modifier based on relitave skill
+        return ship.attack(other.ship, advantage, targets);
+    }
+    
     /**
      * Move the player to the given solar system
      * 
@@ -182,5 +194,20 @@ public class Player {
      */
     public float getTravelRadius() {
         return ship.getFuel();
+    }
+    
+    /**
+     * gets all the trade goods of the given type owned by the player
+     * @param types types of tradegoods to get
+     * @return true if any goods were removed
+     */
+    public boolean removeTradeGoodsByType(ArrayList<TradeGood> types) {
+        boolean removedSome = false;
+        for(TradeGood a : types) {
+            a.setAmount(-1);
+            if(ship.getCargo().removeTradeGood(a))
+                removedSome = true;
+        }
+        return removedSome;
     }
 }

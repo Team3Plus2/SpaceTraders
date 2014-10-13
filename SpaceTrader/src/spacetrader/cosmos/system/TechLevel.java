@@ -22,9 +22,6 @@ public class TechLevel extends LoadedType {
         return (TechLevel)TechLevel.Default(TechLevel.class);
     }
     
-    @FromXML
-    private String name;
-    
     /*PRE_AGRICULTURE,
     AGRICULTURE,
     MEDIEVAL,

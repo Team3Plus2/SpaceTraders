@@ -23,6 +23,7 @@ public class SolarSystem implements TurnListener {
     private TechLevel techLevel;
     private Government government;
     private float relativeWealth;//-1.0f pays less for goods, 0.0f normal, 1.0f pays more for goods
+    private float relation;//0- normal, -1.0f- attack on sight, 1.0f will not search
     
     private void init(Random rand) {
         this.rand = rand;
@@ -60,6 +61,14 @@ public class SolarSystem implements TurnListener {
     public Government Government() {
         return government;
     } 
+    
+    public boolean shouldAttack() {
+        return relation == -1.0f;
+    }
+    
+    public boolean shouldSearch() {
+        return relation != 1.0f;
+    }
     
     public float Wealth() {
         return relativeWealth;

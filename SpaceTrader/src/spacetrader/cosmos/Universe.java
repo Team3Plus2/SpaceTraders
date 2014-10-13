@@ -32,7 +32,7 @@ public class Universe implements Iterable<SolarSystem>, TurnListener{
     private static final float DEFAULT_DOUBLE_LETER_CHANCE = 0.2f;
     
     private SparseSpace Space;
-    private HashSet<Point> generated;//stores all 
+    private HashSet<Point> generated;//stores all the currently generated points, used to make generation more effecient
     @FromXML
     private float spread;
     @FromXML

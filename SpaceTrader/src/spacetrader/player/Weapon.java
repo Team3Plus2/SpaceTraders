@@ -3,6 +3,9 @@ package spacetrader.player;
 import spacetrader.xml.LoadedType;
 import spacetrader.xml.FromXML;
 
+import java.util.Random;
+import java.util.ArrayList;
+
 
 /**
  * A weapon may be stored on a ship.
@@ -13,6 +16,13 @@ public class Weapon {
     
     public static void Load() {
         LaserType.Load();
+    }
+    
+    public static Weapon Random() {
+        ArrayList<LaserType> rList = (ArrayList<LaserType>) LaserType.getList(LaserType.class);
+        Random rand = new Random();
+        int index = rand.nextInt(rList.size());
+        return new Weapon(rList.get(index));
     }
     
     private LaserType laserType;
@@ -27,6 +37,11 @@ public class Weapon {
     public LaserType getLaserType() {
         return laserType;
     }
+    
+    public int getStrength() {
+        return laserType.getStrength();
+    }
+
 }
 
 /**
@@ -54,5 +69,9 @@ class LaserType extends LoadedType {
     
     LaserType(int strength) {
         this.strength = strength;
+    }
+    
+    public int getStrength() {
+        return strength;
     }
 }

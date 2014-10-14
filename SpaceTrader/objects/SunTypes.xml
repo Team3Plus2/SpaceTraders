@@ -28,8 +28,11 @@ and open the template in the editor.
         <chance>.05</chance>
     </WHITE_DWARF>
     <BLACK_HOLE>
-        <color>black</color>
+        <r>0</r>
+        <g>0</g>
+        <b>0</b>
         <chance>.005</chance>
+        <!--<clearSpaceAround>5</clearSpaceAround>-->
     </BLACK_HOLE>
     <!--<SUPER_STAR>
         <color>orange</color>

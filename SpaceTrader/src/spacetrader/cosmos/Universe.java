@@ -2,7 +2,6 @@ package spacetrader.cosmos;
 
 import java.awt.Point;
 import java.io.Serializable;
-import java.lang.Iterable;
 import java.util.HashSet;
 import java.util.ArrayList;
 import java.util.Random;

@@ -316,7 +316,7 @@ public class StarScreenController implements Initializable {
                 
                 //set color of star based on suntype
                 if(a.SunType().usesColor()) {
-                    g.setFill(a.SunType().getColor());
+                    g.setFill(new Color(a.SunType().getR(), a.SunType().getG(), a.SunType().getB(), 1.0));
                 } else {
                     starImage = sunImages.get(a.SunType().getName());
                 }
@@ -362,7 +362,7 @@ public class StarScreenController implements Initializable {
             int y = a.getY() * universeScale;
             Image starImage = null;
             if(a.SunType().usesColor()) {
-                g.setFill(a.SunType().getColor());
+                g.setFill(new Color(a.SunType().getR(), a.SunType().getG(), a.SunType().getB(), 1.0));
             } else {
                 starImage = sunImages.get(a.SunType().getName());
             }

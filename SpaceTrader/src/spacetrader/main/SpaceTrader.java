@@ -175,68 +175,6 @@ public class SpaceTrader extends Application {
      */
     public static void main(String[] args) {
         ObjectLoader.LoadAllObjects();
-        
-        //commandline encounter!
-        /*Player dummy = new Player("lol", 4,4,4,4,4);
-        dummy.setShip(new Ship((ShipType)ShipType.get("TERMITE")));
-        dummy.getShip().addShield(Shield.Random());
-        dummy.getShip().addShield(Shield.Random());
-        dummy.getShip().addWeapon(Weapon.Random());
-        dummy.getShip().addWeapon(Weapon.Random());
-        dummy.getShip().addWeapon(Weapon.Random());
-        dummy.getShip().addGadget(Gadget.Random());
-        dummy.getShip().addGadget(Gadget.Random());
-        TradeGood illegals = new TradeGood((TradeGood)TradeGood.get("narcotics"));
-        TradeGood legals = new TradeGood((TradeGood)TradeGood.get("water"));
-        illegals.setAmount(10);
-        legals.setAmount(8);
-        dummy.addTradeGood(illegals);
-        dummy.addTradeGood(legals);
-
-        Encounter other = new Encounter(null, dummy);
-        System.out.println(other.getGreeting());
-        if(other.willAttack()) {
-            System.out.println("blah blah blah die!");
-
-        } else if(other.willRequestTrade()) {
-            System.out.println("Lol wanna trade?");
-        } else if(other.willRequestSearch()) {
-            System.out.println("KImma serch u now for bad stuff k?");
-            if(other.search(dummy)) {
-                System.out.println("Lol, toke ur bad stf, now Imma get hih wit it, :p");
-            } else {
-                System.out.println("k, u don haf bad stf, so I cannt gt hi, scrw u!");
-            }
-        } else {
-            Scanner in = new Scanner(System.in);
-            String reaction = in.nextLine();
-            if(reaction.equals("a")) {
-                int result = 0;
-                while(result == 0) {
-                    result = other.roundOfCombat(dummy, null);
-                    if(result == -2) {
-                        reaction = in.nextLine();
-                        if(reaction.equals("c")) {
-                            result = 0;
-                        }
-                    }
-                }
-
-                if(result == 1) {
-                    System.out.println("ur ded");
-                } else if(result == -1) {
-                    System.out.println("noooo!!!...bleghghsfdadf");
-                } else if(result == -2) {
-                    System.out.println("okay... you win");
-                }
-            } else if(reaction.equals("t")) {
-                System.out.println("Other:");
-                for(TradeGood good : other.getGoods()) {
-                    System.out.println("\t" + good.getName() + " : " + good.getAmount() + " : " + good.getCurrentPriceEach());
-                }
-            }
-        }*/
-        
         launch(args);
     }
     

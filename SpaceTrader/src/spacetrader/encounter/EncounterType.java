@@ -57,11 +57,11 @@ public class EncounterType extends LoadedType {
     private int maxCargoUsed;
     
     @FromXML (required = false)
-    private ArrayList<TradeGood> lookingFor;
+    private TradeGood[] lookingFor;
     
     @FromXML
     private boolean associatedWithSystem;
-
+    
     public String getGreeting() {
         return greeting;
     }
@@ -74,7 +74,7 @@ public class EncounterType extends LoadedType {
         return ship;
     }
 
-    public ArrayList<TradeGood> getLookingFor() {
+    public TradeGood[] getLookingFor() {
         return lookingFor;
     }
 

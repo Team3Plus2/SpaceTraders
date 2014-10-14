@@ -237,7 +237,7 @@ public class Player implements Serializable{
      * @param types types of tradegoods to get
      * @return true if any goods were removed
      */
-    public boolean removeTradeGoodsByType(ArrayList<TradeGood> types) {
+    public boolean removeTradeGoodsByType(TradeGood[] types) {
         boolean removedSome = false;
         for(TradeGood a : types) {
             a.setAmount(-1);
@@ -245,5 +245,16 @@ public class Player implements Serializable{
                 removedSome = true;
         }
         return removedSome;
+    }
+    
+    /**
+     * Get a list of cargo held by the player (null if player has no ship)
+     * 
+     * @return player's current cargo
+     */
+    public ArrayList<TradeGood> getCargoList() {
+        if(ship == null)
+            return null;
+        return ship.getCargoList();
     }
 }

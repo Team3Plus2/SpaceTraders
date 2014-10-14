@@ -186,8 +186,12 @@ public class SpaceTrader extends Application {
         dummy.getShip().addWeapon(Weapon.Random());
         dummy.getShip().addGadget(Gadget.Random());
         dummy.getShip().addGadget(Gadget.Random());
-        //dummy.
-
+        TradeGood illegals = new TradeGood((TradeGood)TradeGood.get("narcotics"));
+        TradeGood legals = new TradeGood((TradeGood)TradeGood.get("water"));
+        illegals.setAmount(10);
+        legals.setAmount(8);
+        dummy.addTradeGood(illegals);
+        dummy.addTradeGood(legals);
 
         Encounter other = new Encounter(null, dummy);
         System.out.println(other.getGreeting());
@@ -201,7 +205,7 @@ public class SpaceTrader extends Application {
             if(other.search(dummy)) {
                 System.out.println("Lol, toke ur bad stf, now Imma get hih wit it, :p");
             } else {
-                System.out.println("k, u don haf bad stf, so I cannt hi, scrw u!");
+                System.out.println("k, u don haf bad stf, so I cannt gt hi, scrw u!");
             }
         } else {
             Scanner in = new Scanner(System.in);

@@ -1,8 +1,11 @@
 package spacetrader.encounter;
 
 import java.util.ArrayList;
+import spacetrader.cosmos.system.Resource;
 
 import spacetrader.cosmos.system.SolarSystem;
+import spacetrader.cosmos.system.TechLevel;
+import spacetrader.economy.MarketPlace;
 import spacetrader.economy.TradeGood;
 import spacetrader.player.Gadget;
 import spacetrader.player.Player;
@@ -29,7 +32,7 @@ public class Encounter{
     private EncounterType type;
     private boolean willAttack;
     private boolean willTrade;
-    private ArrayList<TradeGood> searchFor;
+    private TradeGood[] searchFor;
 
     
     public Encounter(SolarSystem system, Player player) {
@@ -64,7 +67,7 @@ public class Encounter{
         
         int cargoFilled = (int) (Math.random() * type.getMaxCargoUsed() + 1);
         for (int i = 0; i < cargoFilled; i++) {
-            captain.getShip().getCargo().addTradeGood(new TradeGood());
+            captain.getShip().getCargo().addTradeGood(TradeGood.RandomSingleInstance());
         }
         
         if(type.isAssociatedWithSystem()) {
@@ -72,10 +75,13 @@ public class Encounter{
             if(system.shouldAttack()) {
                 willAttack = true;
             } else if(system.shouldSearch()) {
-                searchFor = new ArrayList<TradeGood>(type.getLookingFor());
+                searchFor = type.getLookingFor();
             }
         } else {
-            searchFor = null;
+            if(type.getLookingFor() != null)
+                searchFor = type.getLookingFor();
+            else
+                searchFor = null;
             willAttack = type.getAggression() > Math.random();
             willTrade = type.getTrade() > Math.random();
         }
@@ -99,7 +105,7 @@ public class Encounter{
     } 
     
     public boolean willRequestSearch() {
-        return !searchFor.isEmpty();
+        return searchFor != null;
     }
     
     public boolean willSurrender() {
@@ -137,6 +143,14 @@ public class Encounter{
      */
     public boolean search(Player other) {
         return other.removeTradeGoodsByType(searchFor);
+    }
+    
+    public MarketPlace getMarketPlace() {
+        return new MarketPlace(captain.getCargoList());
+    }
+    
+    public MarketPlace getLootingExchange() {
+        return new MarketPlace(captain.getCargoList(), true);
     }
     
     //public abstract void handleEncounter();

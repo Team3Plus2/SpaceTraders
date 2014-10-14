@@ -143,6 +143,10 @@ public class Ship implements Serializable {
         return gadgets;
     }
     
+    public ArrayList<TradeGood> getCargoList() {
+        return cargo.getCargoList();
+    }
+    
     /**
      * Hires a mercenary in an open mercenary slot if one is available.
      * 

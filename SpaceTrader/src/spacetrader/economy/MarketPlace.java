@@ -22,6 +22,7 @@ public class MarketPlace implements TurnListener, Serializable {
     private Random rand;
     private TechLevel techLevel;
     private Resource resource;
+    private boolean lootingExchange;//if true, then this "marketplace" is a forced exchange from a ship a player has beaten
     
     /**
      * Creates a new MarketPlace object based on the current techLevel and 
@@ -31,6 +32,7 @@ public class MarketPlace implements TurnListener, Serializable {
      * @param resource the resource of the planet
      */
     public MarketPlace(TechLevel techLevel, Resource resource) {
+        lootingExchange = false;
         rand = new Random();
         tradeGoods = new ArrayList<TradeGood>();
         ArrayList<TradeGood> list = TradeGood.getTradeGoodTypes();
@@ -53,6 +55,28 @@ public class MarketPlace implements TurnListener, Serializable {
     }
     
     /**
+     * Takes in an already initialized list of goods for a singular turn marketplace.
+     * 
+     * @param goods goods to put in the marketplace
+     */
+    public MarketPlace(ArrayList<TradeGood> goods) {
+        lootingExchange = false;
+        tradeGoods = goods;
+    }
+    
+    /**
+     * Takes in an already initialized list of goods for a singular turn marketplace
+     * or looting exchange
+     * 
+     * @param goods goods to put in the marketplace
+     * @param looting if true, then the marketplace is instead a looting exchange
+     */
+    public MarketPlace(ArrayList<TradeGood> goods, boolean looting) {
+        lootingExchange = looting;
+        tradeGoods = goods;
+    }
+    
+    /**
      * Allows a Player to buy TradeGoods from this MarketPlace.
      * 
      * @param p the Player trying to buy TradeGoods from this MarketPlace
@@ -66,7 +90,8 @@ public class MarketPlace implements TurnListener, Serializable {
                 if (t.getAmount() < amount) { //not enough in inventory
                     return false;
                 }
-                float cost = t.getCurrentPriceEach() * amount;
+                float cost = computeCost(t, amount);
+                
                 TradeGood temp = new TradeGood(t);
                 temp.setPrice(t.getCurrentPriceEach());
                 temp.setAmount(amount);
@@ -93,7 +118,7 @@ public class MarketPlace implements TurnListener, Serializable {
             if (tg.equals(t)) {
                 tg.setAmount(amount);
                 if(p.removeTradeGood(tg)) {
-                    p.setMoney(p.getMoney() + (tg.getCurrentPriceEach() * amount));
+                    p.setMoney(p.getMoney() + computeCost(tg, amount));
                     t.setAmount(t.getAmount() + amount);
                     return true;
                 }
@@ -125,6 +150,9 @@ public class MarketPlace implements TurnListener, Serializable {
      * @return the price of the TradeGood.
      */
     public float priceOfGood(TradeGood tg) {
+        if(lootingExchange)
+            return 0;
+        
         for (TradeGood t: tradeGoods) {
             if (tg.equals(t)) {
                 return t.getCurrentPriceEach();
@@ -145,6 +173,23 @@ public class MarketPlace implements TurnListener, Serializable {
         for(TradeGood tg : tradeGoods) {
             tg.computeCurrentPriceEach(techLevel, resource);
         }
+    }
+    
+    /**
+     * Helper methods
+     */
+    
+    /**
+     * Compute the complete cost of the given amount of tradegoods
+     * @param good goods to check
+     * @param amount amount of goods to check
+     * @return complete cost of given goods
+     */
+    private float computeCost(TradeGood good, int amount) {
+        float cost = good.getCurrentPriceEach() * amount;
+        if(lootingExchange)
+            cost = 0;
+        return cost;
     }
    
 }

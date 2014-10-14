@@ -177,7 +177,7 @@ public class SpaceTrader extends Application {
         ObjectLoader.LoadAllObjects();
         
         //commandline encounter!
-        Player dummy = new Player("lol", 4,4,4,4,4);
+        /*Player dummy = new Player("lol", 4,4,4,4,4);
         dummy.setShip(new Ship((ShipType)ShipType.get("TERMITE")));
         dummy.getShip().addShield(Shield.Random());
         dummy.getShip().addShield(Shield.Random());
@@ -198,8 +198,8 @@ public class SpaceTrader extends Application {
         if(other.willAttack()) {
             System.out.println("blah blah blah die!");
 
-        /*} else if(other.willRequestTrade()) {
-            System.out.println("Lol wanna trade?");*/
+        } else if(other.willRequestTrade()) {
+            System.out.println("Lol wanna trade?");
         } else if(other.willRequestSearch()) {
             System.out.println("KImma serch u now for bad stuff k?");
             if(other.search(dummy)) {
@@ -235,7 +235,7 @@ public class SpaceTrader extends Application {
                     System.out.println("\t" + good.getName() + " : " + good.getAmount() + " : " + good.getCurrentPriceEach());
                 }
             }
-        }
+        }*/
         
         launch(args);
     }

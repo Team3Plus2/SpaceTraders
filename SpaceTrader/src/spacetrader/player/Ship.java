@@ -30,6 +30,7 @@ public class Ship implements Serializable {
     private ArrayList<Mercenary> mercenaries;
     private Cargo cargo;
     private int damageToShields;
+    private String name;
     
     /**
      * Creates a new ship with basic stats.
@@ -37,6 +38,7 @@ public class Ship implements Serializable {
      * @param ship the ShipType enum that stores the basic stats of the ship.
      */
     public Ship(ShipType ship) {
+        name = ship.getName();
         fuel = ship.getMaxFuel();
         weapons = new ArrayList<Weapon>(ship.getMaxWeapons());
         shields = new ArrayList<Shield>(ship.getMaxShields());
@@ -375,6 +377,11 @@ public class Ship implements Serializable {
 
     public int getMaxGadgets() {
         return maxGadgets;
+    }
+    
+    public String toString() {
+        return name + "\nGadgets: " + getGadgets().toString()
+                + "\nWeapons: " + getWeapons().toString();
     }
     
     

@@ -59,4 +59,42 @@ public class LoadGame {
         }
         return true;
     }
+    
+    /**
+     * Method for loading the game.  Loads the given Player object and Universe
+     * object in a file at the given fileName.
+     * 
+     * @param fileName the name of the file we are loading
+     * @return true if the save was successful.
+     */
+    public static Player loadPlayer(String fileName) {
+        FileInputStream inputFile;
+        try {
+            inputFile = new FileInputStream(fileName);
+        } catch (FileNotFoundException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+        ObjectInputStream objectReader;
+        try {
+            objectReader = new ObjectInputStream(inputFile);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+        Player p = null;
+        Universe u = null;
+        try {
+            p = (Player) objectReader.readObject();
+            u = (Universe) objectReader.readObject();
+            objectReader.close();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            return null;
+        } catch (ClassNotFoundException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+        return p;
+    }
 }

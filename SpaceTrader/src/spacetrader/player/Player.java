@@ -257,4 +257,14 @@ public class Player implements Serializable{
             return null;
         return ship.getCargoList();
     }
+    
+    public String toString() {
+        if(pilotSkill == 0 && fighterSkill == 0 &&
+                traderSkill == 0 && engineerSkill == 0 &&
+                investorSkill == 0) {
+            return name;
+        } else {
+            return name + "\nMoney: $" + getMoney();
+        }
+    }
 }

@@ -27,8 +27,9 @@ public class SavingDriver {
             System.out.println("Saving failed");
         } else {
             SpaceTrader s = new SpaceTrader();
-             System.out.println("Unloaded name: " + s.getPlayer().getName());
-             System.out.println("Unloaded skills: " + s.getPlayer().getPilotSkill()
+            s.setPlayer(new Player("", 0, 0, 0, 0, 0));
+            System.out.println("Unloaded name: " + s.getPlayer().getName());
+            System.out.println("Unloaded skills: " + s.getPlayer().getPilotSkill()
                                                      + s.getPlayer().getFighterSkill()
                                                      + s.getPlayer().getTraderSkill()
                                                      + s.getPlayer().getEngineerSkill()

@@ -1,5 +1,7 @@
 package spacetrader.xml;
 
+import java.io.Serializable;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -14,7 +16,7 @@ import java.util.HashMap;
  * 
  * @author Alex
  */
-public class LoadedType implements Comparable{
+public class LoadedType implements Comparable, Serializable{
     
     private static HashMap<String, TypeWrapper> types;
     private static HashMap<Integer, HashMap<Class, LoadedType>> indexes;

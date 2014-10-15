@@ -43,6 +43,7 @@ import spacetrader.player.Player;
 import spacetrader.cosmos.system.SolarSystem;
 import spacetrader.cosmos.system.SunType;
 import spacetrader.main.SpaceTrader;
+import spacetrader.save.SaveGame;
 
 /**
  * FXML Controller class
@@ -144,6 +145,9 @@ public class StarScreenController implements Initializable {
         // gets graphic object and draws universe to begin
         g = gameCanvas.getGraphicsContext2D();
         g.setFill(Color.WHITE);
+        
+        SaveGame.save(player.getName() + ".sav", player, universe);
+        
         drawUniverse();
     }
     

@@ -1,20 +1,15 @@
 package spacetrader.encounter;
 
 import java.util.ArrayList;
-import spacetrader.cosmos.system.Resource;
 
 import spacetrader.cosmos.system.SolarSystem;
-import spacetrader.cosmos.system.TechLevel;
 import spacetrader.economy.MarketPlace;
 import spacetrader.economy.TradeGood;
 import spacetrader.player.Gadget;
 import spacetrader.player.Player;
 import spacetrader.player.Shield;
 import spacetrader.player.Ship;
-import spacetrader.player.ShipType;
 import spacetrader.player.Weapon;
-import spacetrader.xml.LoadedType;
-import spacetrader.xml.FromXML;
 
 /**
  * An interface for the trader, pirate, and police encounters

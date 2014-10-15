@@ -6,6 +6,8 @@
 
 package spacetrader.main;
 
+import spacetrader.economy.TradeGood;
+import spacetrader.encounter.Encounter;
 import spacetrader.economy.MarketPlace;
 import spacetrader.player.Player;
 import spacetrader.xml.XMLReader;
@@ -35,8 +37,14 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Random;
 import spacetrader.cosmos.system.TechLevel;
+import spacetrader.player.Ship;
+import spacetrader.player.ShipType;
+import spacetrader.player.Shield;
+import spacetrader.player.Weapon;
+import spacetrader.player.Gadget;
 import spacetrader.view.SolarSystemViewController;
 import spacetrader.view.StarScreenController;
+import spacetrader.xml.LoadedType;
 
 /**
  *
@@ -85,6 +93,14 @@ public class SpaceTrader extends Application {
     public void goToCharacterConfig() {
         try {
             loadNewScreen("/spacetrader/view/CharacterConfigurationScreen.fxml");
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void goToLoadGame() {
+        try {
+            loadNewScreen("/spacetrader/view/NewLoadGame.fxml");
         } catch(IOException e) {
             e.printStackTrace();
         }
@@ -244,6 +260,14 @@ public class SpaceTrader extends Application {
             System.out.println("Query again?");  
             finalCommand = in.nextLine();
         } while(finalCommand != "stop");
+    }
+    
+    public void setPlayer(Player p) {
+        this.newPlayer = p;
+    }
+    
+    public void setUniverse(Universe u) {
+        this.universe = u;
     }
     
 }

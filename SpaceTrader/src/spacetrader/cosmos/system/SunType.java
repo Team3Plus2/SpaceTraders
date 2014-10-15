@@ -1,6 +1,7 @@
 package spacetrader.cosmos.system;
 
-import javafx.scene.paint.Color;
+import java.io.Serializable;
+//import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -12,7 +13,7 @@ import spacetrader.xml.LoadedType;
  *
  * @author Alex
  */
-public class SunType extends LoadedType {
+public class SunType extends LoadedType implements Serializable {
     
     private static final String sunTypeFileLocation = "objects/SunTypes.xml";
     
@@ -52,10 +53,13 @@ public class SunType extends LoadedType {
     private float chance;
     
     @FromXML (required = false)
-    private Color color;
+    private float r, g, b;
     
     @FromXML (required = false)
     private String image;
+    
+    /*@FromXML (required = false)
+    private int clearSpaceAround;*/
     
     public boolean usesColor() {
         return image == null;
@@ -65,12 +69,24 @@ public class SunType extends LoadedType {
         return image != null;
     }
     
-    public Color getColor() {
-        return color;
+    public float getR() {
+        return r;
+    }
+    
+    public float getG() {
+        return g;
+    }
+    
+    public float getB() {
+        return b;
     }
     
     public String getImage() {
         return image;
     }
+    
+    /*public int getSpaceAround() {
+        return clearSpaceAround;
+    }*/
     
 }

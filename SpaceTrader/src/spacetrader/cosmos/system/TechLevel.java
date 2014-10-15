@@ -1,16 +1,15 @@
 package spacetrader.cosmos.system;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.Random;
 import spacetrader.xml.LoadedType;
-import spacetrader.xml.XMLReader;
 import spacetrader.xml.FromXML;
 
 /**
  *
  * @author Alex
  */
-public class TechLevel extends LoadedType {
+public class TechLevel extends LoadedType implements Serializable {
     
     private static final String techLevelFile = "objects/TechLevels.xml";
 
@@ -21,9 +20,6 @@ public class TechLevel extends LoadedType {
     public static TechLevel Default() {
         return (TechLevel)TechLevel.Default(TechLevel.class);
     }
-    
-    @FromXML
-    private String name;
     
     /*PRE_AGRICULTURE,
     AGRICULTURE,

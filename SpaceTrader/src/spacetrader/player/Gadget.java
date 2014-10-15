@@ -1,5 +1,8 @@
 package spacetrader.player;
 
+import java.util.ArrayList;
+import java.util.Random;
+import java.io.Serializable;
 import spacetrader.xml.LoadedType;
 
 /**
@@ -7,12 +10,19 @@ import spacetrader.xml.LoadedType;
  * 
  * @author Aaron McAnally
  */
-public class Gadget {
+public class Gadget implements Serializable {
 
     private GadgetType gadgetType;
     
     public static void Load() {
         GadgetType.Load();
+    }
+    
+    public static Gadget Random() {
+        ArrayList<GadgetType> rList = (ArrayList<GadgetType>) GadgetType.getList(GadgetType.class);
+        Random rand = new Random();
+        int index = rand.nextInt(rList.size());
+        return new Gadget(rList.get(index));
     }
     
     /**
@@ -21,9 +31,14 @@ public class Gadget {
     public Gadget(GadgetType gadgetType) {
         this.gadgetType = gadgetType;
     }
+    
+    public GadgetType getType() {
+        return this.gadgetType;
+    }
+    
 }
 
-class GadgetType extends LoadedType {
+class GadgetType extends LoadedType implements Serializable {
 
     private static final String GadgetFileLocation = "objects/Gadgets.xml";
 

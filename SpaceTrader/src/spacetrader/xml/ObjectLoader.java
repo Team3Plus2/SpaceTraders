@@ -12,6 +12,7 @@ import spacetrader.player.Mercenary;
 import spacetrader.player.Shield;
 import spacetrader.player.Ship;
 import spacetrader.player.Weapon;
+import spacetrader.encounter.Encounter;
 
 /**
  * 
@@ -33,6 +34,7 @@ public class ObjectLoader {
         Shield.Load();
         Ship.Load();
         Weapon.Load();
+        Encounter.Load();
     }
     
 }

@@ -1,11 +1,9 @@
 package spacetrader.cosmos;
 
 import java.awt.Point;
-import java.lang.Iterable;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
 import java.util.Random;
 import spacetrader.cosmos.system.SolarSystem;
 import spacetrader.turns.TurnListener;
@@ -21,7 +19,7 @@ import spacetrader.cosmos.SparseSpace.SparseIterator;
  * 
  * @author Alex
  */
-public class Universe implements Iterable<SolarSystem>, TurnListener{
+public class Universe implements Iterable<SolarSystem>, TurnListener, Serializable {
     
     private static final int MEANING = 42;//Also applies to life and everything
     private static final int DEFAULT_INIT_WIDTH = 100;
@@ -32,7 +30,7 @@ public class Universe implements Iterable<SolarSystem>, TurnListener{
     private static final float DEFAULT_DOUBLE_LETER_CHANCE = 0.2f;
     
     private SparseSpace Space;
-    private HashSet<Point> generated;//stores all 
+    private HashSet<Point> generated;//stores all the currently generated points, used to make generation more effecient
     @FromXML
     private float spread;
     @FromXML

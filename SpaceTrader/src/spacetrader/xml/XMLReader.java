@@ -2,7 +2,9 @@ package spacetrader.xml;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Array;
+import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
 
 import javafx.scene.paint.Color;
 import javafx.scene.image.Image;
@@ -11,6 +13,8 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -21,6 +25,8 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import spacetrader.cosmos.system.*;
+import spacetrader.player.ShipType;
+import spacetrader.economy.TradeGood;
 
 /**
  * This class reads data from an XML file into an array of Class type
@@ -142,72 +148,7 @@ public class XMLReader<T> {
                         field.setAccessible(true);
                         String rawValue = elem.getElementsByTagName(field.getName()).item(0).getChildNodes().item(0).getNodeValue();
                         
-                        /*
-                        
-                        If you want to handle custom datatypes or I forgot to handle some other datatype,
-                        then add the code for that here (should be really straightforward).  Also, if you can come up
-                        with a better way to do this feel free to either tell me to implement it or implement it yourself.
-                        -Alex
-                       
-                        */
-                        
-                        if(field.getType().equals(Integer.TYPE)) {
-                            field.set(item, Integer.valueOf(rawValue));
-                        } else if(field.getType().equals(Double.TYPE)) {
-                            field.set(item, Double.valueOf(rawValue));
-                        } else if(field.getType().equals(Float.TYPE)) {
-                            field.set(item, Float.valueOf(rawValue));
-                        } else if(field.getType().equals(TechLevel.class)) {
-                            try {
-                                TechLevel level = (TechLevel)TechLevel.get(rawValue);
-                                if(level == null)
-                                    level = (TechLevel)TechLevel.get(Integer.valueOf(rawValue), TechLevel.class);
-                                if(level == null)//if the level is still null, the xml value is invalid
-                                    System.err.println("The value " + rawValue + " for the element " + elem.getTagName() + " is not a valid techLevel");
-                                field.set(item, level);
-                            } catch(IllegalArgumentException excep) {
-                                DefaultWarning(rawValue, TechLevel.Default().toString());
-                                field.set(item, TechLevel.Default());
-                            }
-                        } else if(field.getType().equals(Resource.class)) {
-                            try {
-                                field.set(item, Resource.get(rawValue));
-                            } catch(IllegalArgumentException excep) {
-                                DefaultWarning(rawValue, "NO_SPECIAL_RESOURCES");
-                                field.set(item, Resource.get("NO_SPECIAL_RESOURCES"));
-                            }
-                        } else if(field.getType().equals(SunType.class)) {
-                            try {
-                                field.set(item, SunType.get(rawValue));
-                            } catch(IllegalArgumentException excep) {
-                                DefaultWarning(rawValue, SunType.Default().toString());
-                                field.set(item, SunType.Default());
-                            }
-                        } else if(field.getType().equals(Government.class)) {
-                            try {
-                                field.set(item, Government.get(rawValue));
-                            } catch(IllegalArgumentException excep) {
-                                DefaultWarning(rawValue, "");
-                                field.set(item, Government.get(""));
-                            }
-                        } else if(field.getType().equals(Color.class)) {
-                            try {
-                                field.set(item, Color.valueOf(rawValue));
-                            } catch(IllegalArgumentException excep) {
-                                DefaultWarning(rawValue, Color.WHITE.toString());
-                                field.set(item, Color.WHITE);
-                            }
-                        } else if(field.getType().equals(Image.class)) {
-                            try {
-                                field.set(item, new Image(rawValue));
-                            } catch(IllegalArgumentException excep) {
-                                DefaultWarning(rawValue, null);
-                                field.set(item, null);
-                            } 
-                        } else {
-                            field.set(item, rawValue);
-                        }
-
+                        field.set(item, parse(field.getType(), rawValue));
                         
                         field.setAccessible(false);
                     } catch(IllegalAccessException excep) {
@@ -229,4 +170,105 @@ public class XMLReader<T> {
     
     }
     
+    
+    /**
+     *  If you want to handle custom datatypes or I forgot to handle some other datatype,
+     *  then add the code for that here
+     *  @param type the type to parse to
+     *  @param rawValue value to parse
+     */
+    private Object parse(Class type, String rawValue) {
+        if(type.equals(Integer.TYPE)) {
+            return Integer.valueOf(rawValue);
+        } else if(type.equals(Double.TYPE)) {
+            return Double.valueOf(rawValue);
+        } else if(type.equals(Float.TYPE)) {
+            return Float.valueOf(rawValue);
+        } else if(type.equals(Boolean.TYPE)) {
+          return Boolean.valueOf(rawValue);
+        } else if(type.equals(TechLevel.class)) {
+            try {
+                TechLevel level = (TechLevel)TechLevel.get(rawValue);
+                if(level == null)
+                    level = (TechLevel)TechLevel.get(Integer.valueOf(rawValue), TechLevel.class);
+                if(level == null)//if the level is still null, the xml value is invalid
+                    System.err.println("The value " + rawValue + "is not a valid techLevel");
+                return level;
+            } catch(IllegalArgumentException excep) {
+                DefaultWarning(rawValue, TechLevel.Default().toString());
+                return TechLevel.Default();
+            }
+        } else if(type.equals(Resource.class)) {
+            try {
+                return Resource.get(rawValue);
+            } catch(IllegalArgumentException excep) {
+                DefaultWarning(rawValue, "NO_SPECIAL_RESOURCES");
+                return Resource.get("NO_SPECIAL_RESOURCES");
+            }
+        } else if(type.equals(SunType.class)) {
+            try {
+                return SunType.get(rawValue);
+            } catch(IllegalArgumentException excep) {
+                DefaultWarning(rawValue, SunType.Default().toString());
+                return SunType.Default();
+            }
+        } else if(type.equals(Government.class)) {
+            try {
+                return Government.get(rawValue);
+            } catch(IllegalArgumentException excep) {
+                DefaultWarning(rawValue, "");
+                return Government.get("");
+            }
+        } else if(type.equals(ShipType.class)) {
+            try {
+                return ShipType.get(rawValue);
+            } catch(IllegalArgumentException excep) {
+                DefaultWarning(rawValue, "");
+                return ShipType.Default();
+            }
+        } else if(type.equals(Color.class)) {
+            try {
+                return Color.valueOf(rawValue);
+            } catch(IllegalArgumentException excep) {
+                DefaultWarning(rawValue, Color.WHITE.toString());
+                return Color.WHITE;
+            }
+        } else if(type.equals(TradeGood.class)) {
+            try {
+                return TradeGood.get(rawValue);
+            } catch(IllegalArgumentException excep) {
+                DefaultWarning(rawValue, null);
+                return null;
+            }
+        } else if(type.equals(Image.class)) {
+            try {
+                return new Image(rawValue);
+            } catch(IllegalArgumentException excep) {
+                DefaultWarning(rawValue, null);
+                return null;
+            } 
+        } else if(type.isArray()) {
+            try {
+                String[] items = rawValue.split(",");
+                Class paramClass = type.getComponentType();
+                
+                Object typarr = Array.newInstance(paramClass, items.length);//needed to properly cast array
+                for(int i = 0; i< items.length; i++) {
+                    Array.set(typarr, i, parse(paramClass, items[i]));
+                }
+                
+                Object[] standardArr = (Object[]) typarr;
+                
+                return type.cast(standardArr);
+            } catch(IllegalArgumentException excep) {
+                DefaultWarning(rawValue, null);
+                return null;
+            } /*catch (InstantiationException | IllegalAccessException ex) {
+                Logger.getLogger(XMLReader.class.getName()).log(Level.SEVERE, null, ex);
+                return null;
+            }*/
+        } else {
+            return rawValue;
+        }
+    }
 }

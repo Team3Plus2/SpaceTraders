@@ -1,5 +1,6 @@
 package spacetrader.player;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import spacetrader.cosmos.SparseSpace.SparseIterator;
@@ -15,7 +16,7 @@ import spacetrader.turns.TurnEvent;
  * @author Carey MacDonald
  * @author Aaron McAnally
  */
-public class Player {
+public class Player implements Serializable{
     private static final float FUEL_PER_PLANET_MOVEMENT = 0.5f;
     
     private String name;
@@ -38,6 +39,17 @@ public class Player {
         this.ship = new Ship();
     }
 
+    /**
+     * Simulates a single round of attack on the given player
+     * @param other player to attack
+     * @param targets parts of ship to target, if null, targets at random
+     * @return true if the enemy ship is destroyed
+     */
+    public boolean attack(Player other, ArrayList targets) {
+        int advantage = other.fighterSkill - this.fighterSkill;//damage modifier based on relitave skill
+        return ship.attack(other.ship, advantage, targets);
+    }
+    
     /**
      * Move the player to the given solar system
      * 
@@ -185,6 +197,11 @@ public class Player {
             if(i != null && ship.getFuel() - distanceToSolarSystem(i) >= 0)
                 systems.add(i);
         }
+        
+        //can always travel to current system
+        if(!systems.contains(currentSolarSystem))
+            systems.add(currentSolarSystem);
+        
         return systems;
     }
     
@@ -218,5 +235,41 @@ public class Player {
      */
     public boolean removeTradeGood(TradeGood good) {
         return ship.removeTradeGood(good);
+    }
+        
+    /**
+     * gets all the trade goods of the given type owned by the player
+     * @param types types of tradegoods to get
+     * @return true if any goods were removed
+     */
+    public boolean removeTradeGoodsByType(TradeGood[] types) {
+        boolean removedSome = false;
+        for(TradeGood a : types) {
+            a.setAmount(-1);
+            if(ship.getCargo().removeTradeGood(a))
+                removedSome = true;
+        }
+        return removedSome;
+    }
+    
+    /**
+     * Get a list of cargo held by the player (null if player has no ship)
+     * 
+     * @return player's current cargo
+     */
+    public ArrayList<TradeGood> getCargoList() {
+        if(ship == null)
+            return null;
+        return ship.getCargoList();
+    }
+    
+    public String toString() {
+        if(pilotSkill == 0 && fighterSkill == 0 &&
+                traderSkill == 0 && engineerSkill == 0 &&
+                investorSkill == 0) {
+            return name;
+        } else {
+            return name + "\nMoney: $" + getMoney();
+        }
     }
 }

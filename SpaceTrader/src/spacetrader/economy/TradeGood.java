@@ -1,5 +1,6 @@
 package spacetrader.economy;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -16,7 +17,7 @@ import spacetrader.global.Utility;
  * 
  * @author Carey MacDonald
  */
-public class TradeGood extends LoadedType {
+public class TradeGood extends LoadedType implements Serializable {
     
     private static final String tradeGoodsFile = "objects/TradeGoods.xml";
     
@@ -29,6 +30,18 @@ public class TradeGood extends LoadedType {
     
     public static TradeGood Default() {
         return (TradeGood)TradeGood.Default(TradeGood.class);
+    }
+    
+    /**
+     * 
+     * @return a single TradeGood of a randomly selected type
+     */
+    public static TradeGood RandomSingleInstance() {
+        Random rand = new Random();
+        ArrayList<TradeGood> goods = TradeGood.getList(TradeGood.class);
+        TradeGood good = (TradeGood)goods.get(rand.nextInt(goods.size()));
+        good.setAmount(1);
+        return good;
     }
 
     @FromXML

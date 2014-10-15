@@ -5,7 +5,10 @@
  */
 package spacetrader.player;
 
+import java.util.Random;
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import spacetrader.economy.TradeGood;
 
 /**
@@ -13,7 +16,7 @@ import spacetrader.economy.TradeGood;
  * 
  * @author Aaron McAnally
  */
-public class Ship {
+public class Ship implements Serializable {
     
     public static void Load() {
         ShipType.Load();
@@ -26,6 +29,8 @@ public class Ship {
     private ArrayList<Gadget> gadgets;
     private ArrayList<Mercenary> mercenaries;
     private Cargo cargo;
+    private int damageToShields;
+    private String name;
     
     /**
      * Creates a new ship with basic stats.
@@ -33,6 +38,7 @@ public class Ship {
      * @param ship the ShipType enum that stores the basic stats of the ship.
      */
     public Ship(ShipType ship) {
+        name = ship.getName();
         fuel = ship.getMaxFuel();
         weapons = new ArrayList<Weapon>(ship.getMaxWeapons());
         shields = new ArrayList<Shield>(ship.getMaxShields());
@@ -44,6 +50,7 @@ public class Ship {
         maxGadgets = ship.getMaxGadgets();
         maxMercenaries = ship.getMaxMercenaries();
         cargo = new Cargo(maxCargo);
+        damageToShields = 0;
     }
     
     /**
@@ -125,6 +132,24 @@ public class Ship {
     }
     
     /**
+     * @return the ships weapons
+     */
+    public ArrayList<Weapon> getWeapons() {
+        return weapons;
+    }
+    
+    /**
+     * @return the ships gadgets
+     */
+    public ArrayList<Gadget> getGadgets() {
+        return gadgets;
+    }
+    
+    public ArrayList<TradeGood> getCargoList() {
+        return cargo.getCargoList();
+    }
+    
+    /**
      * Hires a mercenary in an open mercenary slot if one is available.
      * 
      * @param mercenary the mercenary to be added
@@ -168,6 +193,127 @@ public class Ship {
         return false;
     }
     
+    /**
+     * Fire at the given ship
+     * 
+     * @param other ship to attack on
+     * @param modifier damage modifier
+     * @param targets the parts on the ship to shoot at. if null, targets at random
+     * @return true if the enemy ship was destroyed, else false
+     */
+    public boolean attack(Ship other, int modifier, ArrayList targets) {
+        if(modifier <= 0)
+            modifier = 1;
+        Random rand = new Random();
+        int modifierSeed = rand.nextInt(modifier);
+        
+        return other.recieveDamage(getPower() + (modifierSeed/5), targets);
+    }
+    
+    /**
+     * Damages the ship the given amount
+     * 
+     * @param amount amount of damage to apply to the ship
+     * @param targets damage the given targets once the shields are destroyed, if null, targets at random
+     * @return true if the ship was destroyed, false if it survived
+     */
+    public boolean recieveDamage(int amount, ArrayList targets) {
+        damageToShields += amount;
+        
+        if(!shields.isEmpty()) {
+            Iterator<Shield> iter = shields.iterator();
+            do {
+                Shield a = iter.next();
+                int absorbed = a.absorbDamage(damageToShields);
+                if(absorbed < 0) {
+                    damageToShields += absorbed;//add since the shield's destructioned is denoted through a negative absorbtion return
+                    iter.remove();
+                }
+            } while(iter.hasNext());
+        }
+        
+        if(shields.isEmpty() && damageToShields > 0) {
+            if(targets != null) {
+                for(Object a : targets) {
+                    if(a instanceof Weapon) {
+                        if(weapons.size() > 0) {
+                            Weapon weap = (Weapon)a;
+                            Iterator<Weapon> weapIter = weapons.iterator();
+                            for(Weapon b = weapIter.next(); weapIter.hasNext(); b = weapIter.next()) {
+                                if(b.getLaserType().equals(weap.getLaserType())) {
+                                    weapIter.remove();
+                                    damageToShields--;
+                                }
+                            }
+                        }
+                    } else if (a instanceof Gadget) {
+                        if(gadgets.size() > 0) {
+                            Gadget gadg = (Gadget)a;
+                            Iterator<Gadget> gadgIter = gadgets.iterator();
+                            for(Gadget b = gadgIter.next(); gadgIter.hasNext(); b = gadgIter.next()) {
+                                if(b.getType().equals(gadg.getType())) {
+                                    gadgIter.remove();
+                                    damageToShields--;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            
+            if(damageToShields > 0) {
+                Random rand = new Random();
+                int i = 0;
+                for(; i < damageToShields; i++) {
+                    boolean removed = false;
+                    int type = rand.nextInt(1);
+                    if(type == 0) {
+                        if(!weapons.isEmpty()) {
+                            weapons.remove(0);
+                            removed = true;
+                        } else if(!gadgets.isEmpty()) {
+                            gadgets.remove(0);
+                            removed = true;
+                        }
+                    } else {
+                        if(!gadgets.isEmpty()) {
+                            gadgets.remove(0);
+                            removed = true;
+                        } else if(!weapons.isEmpty()) {
+                            weapons.remove(0);
+                            removed = true;
+                        }
+                    }
+                    if(!removed)
+                        return true;
+                }
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * Damages shields
+     * 
+     * This is also when any destroyed shields are actually removed from the arraylist
+     * @return the number of shields destroyed
+     */
+    /*public int damageShields() {
+        Iterator<Shield> iter = shields.iterator();
+        int removeCount = 0;
+        for(Shield a = iter.next() ;iter.hasNext(); a = iter.next()) {
+            int absorbed = a.absorbDamage(damageToShields);
+            if(absorbed < 0) {
+                damageToShields += absorbed;//add since the shield's destructioned is denoted through a negative absorbtion return
+                iter.remove();
+                removeCount++;
+            } else {
+                damageToShields -= absorbed;
+            }
+        }
+        return removeCount;
+    }*/
+    
     public float getFuel() {
         return fuel;
     }
@@ -199,4 +345,44 @@ public class Ship {
     public boolean removeTradeGood(TradeGood good) {
         return cargo.removeTradeGood(good);
     }
+    
+    /**
+     * Calculates the ships power. A.K.A.
+     * Gets the sum of the strength of the ships weapons.
+     * @return the ships power
+     */
+    public int getPower() {
+        int power = 0;
+        for(Weapon a : weapons) {
+            power += a.getStrength();
+        }
+        return power;
+    }
+
+    public int getMaxCargo() {
+        return maxCargo;
+    }
+
+    public int getMaxMercenaries() {
+        return maxMercenaries;
+    }
+
+    public int getMaxWeapons() {
+        return maxWeapons;
+    }
+
+    public int getMaxShields() {
+        return maxShields;
+    }
+
+    public int getMaxGadgets() {
+        return maxGadgets;
+    }
+    
+    public String toString() {
+        return name + "\nGadgets: " + getGadgets().toString()
+                + "\nWeapons: " + getWeapons().toString();
+    }
+    
+    
 }

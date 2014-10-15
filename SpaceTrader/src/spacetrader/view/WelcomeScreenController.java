@@ -28,7 +28,7 @@ public class WelcomeScreenController implements Initializable {
      */
     @FXML
     private void handleStartAction(ActionEvent event) {
-        SpaceTrader.getInstance().goToCharacterConfig();
+        SpaceTrader.getInstance().goToLoadGame();
     }
     
     @Override

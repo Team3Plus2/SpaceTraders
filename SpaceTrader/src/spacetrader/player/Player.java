@@ -197,6 +197,11 @@ public class Player implements Serializable{
             if(i != null && ship.getFuel() - distanceToSolarSystem(i) >= 0)
                 systems.add(i);
         }
+        
+        //can always travel to current system
+        if(!systems.contains(currentSolarSystem))
+            systems.add(currentSolarSystem);
+        
         return systems;
     }
     

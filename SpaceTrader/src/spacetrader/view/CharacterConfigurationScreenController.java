@@ -56,33 +56,17 @@ public class CharacterConfigurationScreenController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        pilotLevelSlider.valueProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                handleProgressBarUpdate(new ActionEvent());
-            }
-        
+        pilotLevelSlider.valueProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
+            handleProgressBarUpdate(new ActionEvent());
         });
-        fighterLevelSlider.valueProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                handleProgressBarUpdate(new ActionEvent());
-            }
-        
+        fighterLevelSlider.valueProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
+            handleProgressBarUpdate(new ActionEvent());
         });
-        traderLevelSlider.valueProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                handleProgressBarUpdate(new ActionEvent());
-            }
-        
+        traderLevelSlider.valueProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
+            handleProgressBarUpdate(new ActionEvent());
         });
-        engineerLevelSlider.valueProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                handleProgressBarUpdate(new ActionEvent());
-            }
-        
+        engineerLevelSlider.valueProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
+            handleProgressBarUpdate(new ActionEvent());
         });
     }
     

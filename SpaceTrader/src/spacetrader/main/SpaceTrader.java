@@ -106,6 +106,14 @@ public class SpaceTrader extends Application {
         }
     }
     
+    public void goToPlanetView() {
+        try {
+            loadNewScreen("/spacetrader/view/PlanetView.fxml");
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
     public void goToSolarSystemView() {
         try {
             loadNewScreen("/spacetrader/view/SolarSystemView.fxml");

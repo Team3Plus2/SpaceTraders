@@ -127,21 +127,6 @@ public class SolarSystemViewController implements Initializable {
             }
 
         });
-        
-        planetInventory.getSelectionModel().getSelectedItems().addListener(new ListChangeListener() {
-            @Override
-            public void onChanged(ListChangeListener.Change c) {
-                selectBuyableItem();
-            }
-        });
-        
-        playerInventory.getSelectionModel().getSelectedItems().addListener(new ListChangeListener() {
-
-            @Override
-            public void onChanged(ListChangeListener.Change c) {
-                selectSellableItem();
-            }
-        });
 
         //draw initial view
         draw();
@@ -288,31 +273,6 @@ public class SolarSystemViewController implements Initializable {
         preDragY = event.getY();
     }
 
-    @FXML
-    private void mouseClick(MouseEvent event) {
-        if (curPlanet != null) {
-            if (curPlanet.getMarket() == null) {
-                planetMarketplaceLabel.setText(curPlanet.Name() + " Marketplace");
-                planetMarketplaceLabel.setFont(Font.font(curPlanet.Name().length()));
-                market = new MarketPlace(curSystem.TechLevel(), curPlanet.Resources());
-                curPlanet.setMarket(market);
-            } else {
-                market = curPlanet.getMarket();
-            }
-            generateBuyList();
-            generateSellList();
-            marketplaceUI.setVisible(true);
-            backToStarScreen.setVisible(false);
-            generateBuyList();
-        }
-    }
-
-    @FXML
-    private void hideMarketplace() {
-        marketplaceUI.setVisible(false);
-        backToStarScreen.setVisible(true);
-    }
-
     private Planet findClosestPlanet(Point p) {
         if (curSystem.Planets()[0] == null) {
             return null;
@@ -341,9 +301,6 @@ public class SolarSystemViewController implements Initializable {
             drawSelection(new Point((int) event.getX(), (int) event.getY()), mouseOver);
             curPlanet = mouseOver;
         } else {
-            if (!marketplaceUI.isVisible()) {
-                curPlanet = null;
-            }
             selectionG.clearRect(0, 0, 1024, 576);
         }
     }
@@ -361,6 +318,13 @@ public class SolarSystemViewController implements Initializable {
         dragOffsetX = (preDragX - tempX);
         dragOffsetY = (preDragY - tempY);
         draw();
+    }
+    
+    @FXML
+    private void mouseClick(MouseEvent event) {
+        if(curPlanet != null) {
+            SpaceTrader.getInstance().goToPlanetView();
+        }
     }
 
     /**
@@ -410,122 +374,5 @@ public class SolarSystemViewController implements Initializable {
         scene.getWindow().setOnCloseRequest((WindowEvent event) -> {
             timer.cancel();
         });
-    }
-
-    /**
-     * *************************************************
-     * Start of Marketplace Screen functions *
-     * **************************************************
-     */
-    @FXML
-    private ListView planetInventory;
-    @FXML
-    private ListView playerInventory;
-    @FXML
-    private Button back1;
-    @FXML
-    private Button buyButton;
-    @FXML
-    private Button back2;
-    @FXML
-    private Button sellButton;
-    @FXML
-    private TextField buyQuantity;
-    @FXML
-    private TextField sellQuantity;
-    @FXML
-    private Label sellDetails;
-    @FXML
-    private Label buyDetails;
-    @FXML
-    private TabPane marketplaceUI;
-    @FXML
-    private Label planetMarketplaceLabel;
-    @FXML
-    private Label buySum;
-
-    private MarketPlace market;
-    private TradeGood buyableGood, sellableGood;
-
-    private void generateBuyList() {
-        if (curPlanet != null) {
-            ArrayList<TradeGood> goods = market.getListOfGoods();
-            ObservableList<TradeGood> list = FXCollections.observableArrayList(goods);
-            planetInventory.setItems(list);
-        }
-    }
-
-    private void generateSellList() {
-        ArrayList<TradeGood> goods = player.getShip().getCargo().getNonEmptyCargoList();
-        for (TradeGood tg : goods) {
-            tg.setPrice(market.priceOfGood(tg));
-        }
-        ObservableList<TradeGood> list = FXCollections.observableArrayList(goods);
-        playerInventory.setItems(list);
-    }
-
-    @FXML
-    private void selectBuyableItem() {
-        TradeGood selected = (TradeGood) (planetInventory.getSelectionModel().getSelectedItem());
-        if (selected != null) {
-            buyableGood = selected;
-        }
-        updateBuyableItem();
-    }
-
-    @FXML
-    private void selectSellableItem() {
-        TradeGood selected = (TradeGood) (playerInventory.getSelectionModel().selectedItemProperty().get());
-        if (selected != null) {
-            sellableGood = selected;
-        }
-        updateSellableItem();
-    }
-
-    private void updateBuyableItem() {
-        try {
-            buyDetails.setText("Cash: " + Utility.currencyFormat(player.getMoney())
-                    + "\nCost: " + Utility.currencyFormat(buyableGood.getCurrentPriceEach()));
-            buySum.setText("Sum: " + Utility.currencyFormat(player.getMoney() - buyableGood.getCurrentPriceEach() * Integer.parseInt(buyQuantity.getText())));
-            if (player.getMoney() - buyableGood.getCurrentPriceEach() * Integer.parseInt(buyQuantity.getText()) < 0) {
-                
-            }
-        } catch (Exception e) {
-
-        }
-    }
-
-    private void updateSellableItem() {
-        try {
-            if (sellableGood != null) {
-                sellDetails.setText("Cash: " + Utility.currencyFormat(player.getMoney())
-                        + "\nValue: " + Utility.currencyFormat(sellableGood.getCurrentPriceEach())
-                        + "\n\n\n\nSum: " + Utility.currencyFormat(player.getMoney() + sellableGood.getCurrentPriceEach() * Integer.parseInt(sellQuantity.getText())));
-            }
-        } catch (Exception e) {
-
-        }
-    }
-
-    @FXML
-    private void handleBuyAction() {
-        if (buyableGood != null) {
-            boolean success = market.buy(player, buyableGood, Integer.parseInt(buyQuantity.getText()));
-            generateBuyList();
-            generateSellList();
-            updateBuyableItem();
-        }
-    }
-
-    @FXML
-    private void handleSellAction() {
-        if (sellableGood != null) {
-            TradeGood temp = new TradeGood(sellableGood);
-            temp.setPrice(sellableGood.getCurrentPriceEach());
-            boolean success = market.sell(player, temp, Integer.parseInt(sellQuantity.getText()));
-            generateSellList();
-            generateBuyList();
-            updateSellableItem();
-        }
     }
 }

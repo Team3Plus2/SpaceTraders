@@ -14,6 +14,9 @@ and open the template in the editor.
         <maxGadgets>0</maxGadgets>
         <maxMercenaries>0</maxMercenaries>
         <maxFuel>20</maxFuel>
+        <minTechLevel>4</minTechLevel>
+        <price>2000</price>
+        <fuelCost>1</fuelCost>
     </FLEA>
     <FIREFLY>
         <maxCargo>20</maxCargo>
@@ -22,6 +25,9 @@ and open the template in the editor.
         <maxGadgets>1</maxGadgets>
         <maxMercenaries>0</maxMercenaries>
         <maxFuel>17</maxFuel>
+        <minTechLevel>5</minTechLevel>
+        <price>25000</price>
+        <fuelCost>3</fuelCost>
     </FIREFLY>
     <MOSQUITO>
         <maxCargo>15</maxCargo>
@@ -30,6 +36,9 @@ and open the template in the editor.
         <maxGadgets>1</maxGadgets>
         <maxMercenaries>0</maxMercenaries>
         <maxFuel>13</maxFuel>
+        <minTechLevel>5</minTechLevel>
+        <price>30000</price>
+        <fuelCost>5</fuelCost>
     </MOSQUITO>
     <BUMBLEBEE>
         <maxCargo>20</maxCargo>
@@ -38,6 +47,9 @@ and open the template in the editor.
         <maxGadgets>2</maxGadgets>
         <maxMercenaries>1</maxMercenaries>
         <maxFuel>15</maxFuel>
+        <minTechLevel>5</minTechLevel>
+        <price>60000</price>
+        <fuelCost>7</fuelCost>
     </BUMBLEBEE>
     <BEETLE>
         <maxCargo>50</maxCargo>
@@ -46,6 +58,9 @@ and open the template in the editor.
         <maxGadgets>1</maxGadgets>
         <maxMercenaries>3</maxMercenaries>
         <maxFuel>14</maxFuel>
+        <minTechLevel>5</minTechLevel>
+        <price>60000</price>
+        <fuelCost>7</fuelCost>
     </BEETLE>
     <HORNET>
         <maxCargo>20</maxCargo>
@@ -54,6 +69,9 @@ and open the template in the editor.
         <maxGadgets>1</maxGadgets>
         <maxMercenaries>2</maxMercenaries>
         <maxFuel>16</maxFuel>
+        <minTechLevel>5</minTechLevel>
+        <price>60000</price>
+        <fuelCost>7</fuelCost>
     </HORNET>
     <GRASSHOPPER>
         <maxCargo>30</maxCargo>
@@ -62,6 +80,9 @@ and open the template in the editor.
         <maxGadgets>3</maxGadgets>
         <maxMercenaries>3</maxMercenaries>
         <maxFuel>15</maxFuel>
+        <minTechLevel>5</minTechLevel>
+        <price>60000</price>
+        <fuelCost>7</fuelCost>
     </GRASSHOPPER>
     <TERMITE>
         <maxCargo>60</maxCargo>
@@ -70,6 +91,9 @@ and open the template in the editor.
         <maxGadgets>2</maxGadgets>
         <maxMercenaries>3</maxMercenaries>
         <maxFuel>13</maxFuel>
+        <minTechLevel>5</minTechLevel>
+        <price>60000</price>
+        <fuelCost>7</fuelCost>
     </TERMITE>
     <WASP>
         <maxCargo>35</maxCargo>
@@ -78,5 +102,8 @@ and open the template in the editor.
         <maxGadgets>2</maxGadgets>
         <maxMercenaries>3</maxMercenaries>
         <maxFuel>14</maxFuel>
+        <minTechLevel>5</minTechLevel>
+        <price>60000</price>
+        <fuelCost>7</fuelCost>
     </WASP>
 </root>

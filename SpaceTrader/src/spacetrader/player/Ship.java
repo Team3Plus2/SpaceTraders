@@ -22,8 +22,8 @@ public class Ship implements Serializable {
         ShipType.Load();
     }
     
-    private float fuel;
-    private int maxCargo, maxMercenaries, maxWeapons, maxShields, maxGadgets;
+    private float maxFuel, fuel, price, fuelCost;
+    private int maxMercenaries, maxWeapons, maxShields, maxGadgets;
     private ArrayList<Weapon> weapons;
     private ArrayList<Shield> shields;
     private ArrayList<Gadget> gadgets;
@@ -35,22 +35,23 @@ public class Ship implements Serializable {
     /**
      * Creates a new ship with basic stats.
      * 
-     * @param ship the ShipType enum that stores the basic stats of the ship.
+     * @param type the ShipType enum that stores the basic stats of the ship.
      */
-    public Ship(ShipType ship) {
-        name = ship.getName();
-        fuel = ship.getMaxFuel();
-        weapons = new ArrayList<Weapon>(ship.getMaxWeapons());
-        shields = new ArrayList<Shield>(ship.getMaxShields());
-        gadgets = new ArrayList<Gadget>(ship.getMaxGadgets());
-        mercenaries = new ArrayList<Mercenary>(ship.getMaxMercenaries());
-        maxCargo = ship.getMaxCargo();
-        maxWeapons = ship.getMaxWeapons();
-        maxShields = ship.getMaxShields();
-        maxGadgets = ship.getMaxGadgets();
-        maxMercenaries = ship.getMaxMercenaries();
-        cargo = new Cargo(maxCargo);
+    public Ship(ShipType type) {
+        name = type.getName();
+        maxFuel = fuel = type.getMaxFuel();
+        weapons = new ArrayList<Weapon>(type.getMaxWeapons());
+        shields = new ArrayList<Shield>(type.getMaxShields());
+        gadgets = new ArrayList<Gadget>(type.getMaxGadgets());
+        mercenaries = new ArrayList<Mercenary>(type.getMaxMercenaries());
+        maxWeapons = type.getMaxWeapons();
+        maxShields = type.getMaxShields();
+        maxGadgets = type.getMaxGadgets();
+        maxMercenaries = type.getMaxMercenaries();
+        cargo = new Cargo(type.getMaxCargo());
         damageToShields = 0;
+        price = type.getPrice();
+        fuelCost = type.getFuelCost();
     }
     
     /**
@@ -145,6 +146,9 @@ public class Ship implements Serializable {
         return gadgets;
     }
     
+    /**
+     * @return items in the cargo hold
+     */
     public ArrayList<TradeGood> getCargoList() {
         return cargo.getCargoList();
     }
@@ -178,6 +182,10 @@ public class Ship implements Serializable {
      */
     public Cargo getCargo() {
         return cargo;
+    }
+    
+    public void setCargo(Cargo cargo) {
+        this.cargo = cargo;
     }
 
     /**
@@ -359,10 +367,6 @@ public class Ship implements Serializable {
         return power;
     }
 
-    public int getMaxCargo() {
-        return maxCargo;
-    }
-
     public int getMaxMercenaries() {
         return maxMercenaries;
     }
@@ -379,10 +383,21 @@ public class Ship implements Serializable {
         return maxGadgets;
     }
     
+    public float getPrice() {
+        return price;
+    }
+    
+    public float getFuelCost() {
+        return fuelCost;
+    }
+    
+    public float getMaxFuel() {
+        return maxFuel;
+    }
+    
     public String toString() {
         return name + "\nGadgets: " + getGadgets().toString()
                 + "\nWeapons: " + getWeapons().toString();
     }
-    
     
 }

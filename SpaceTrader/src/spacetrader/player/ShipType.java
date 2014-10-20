@@ -1,6 +1,7 @@
 package spacetrader.player;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import spacetrader.xml.FromXML;
 import spacetrader.xml.LoadedType;
 
@@ -13,7 +14,7 @@ public class ShipType extends LoadedType implements Serializable {
     private static String ShipTypeFileLocation = "objects/Ships.xml";
     
     public static void Load() {
-        ShipType Gnat = new ShipType("GNAT", 15, 14, 1, 0, 1, 0);
+        ShipType Gnat = new ShipType("GNAT", 15, 14, 1, 0, 1, 0, 5, 10000, 2);
         ShipType.Load(ShipType.class, ShipTypeFileLocation, Gnat);
     }
     
@@ -29,11 +30,11 @@ public class ShipType extends LoadedType implements Serializable {
    }
    
    @FromXML
-   private int maxCargo, maxWeapons, maxShields, maxGadgets, maxMercenaries;
+   private int maxCargo, maxWeapons, maxShields, maxGadgets, maxMercenaries, techLevel;
    @FromXML
-   private float maxFuel;
+   private float maxFuel, price, fuelCost;
    
-   private ShipType(String name, int maxCargo, float maxFuel, int maxWeapons, int maxShields, int maxGadgets, int maxMercenaries) {
+   private ShipType(String name, int maxCargo, float maxFuel, int maxWeapons, int maxShields, int maxGadgets, int maxMercenaries, int techLevel, float price, float fuelCost) {
        super(name);
        this.maxCargo = maxCargo;
        this.maxFuel = maxFuel;
@@ -41,6 +42,9 @@ public class ShipType extends LoadedType implements Serializable {
        this.maxShields = maxShields;
        this.maxGadgets = maxGadgets;
        this.maxMercenaries = maxMercenaries;
+       this.techLevel = techLevel;
+       this.price = price;
+       this.fuelCost = fuelCost;
    }
 
     public int getMaxCargo() {
@@ -66,6 +70,20 @@ public class ShipType extends LoadedType implements Serializable {
     public float getMaxFuel() {
         return maxFuel;
     }
+    
+    public int getTechLevel() {
+        return techLevel;
+    }
+    
+    public float getPrice() {
+        return price;
+    }
+    
+    public float getFuelCost() {
+        return fuelCost;
+    }
    
-   
+    public static ArrayList<ShipType> getShipTypes() {
+        return ShipType.getList(ShipType.class);
+    }
 }

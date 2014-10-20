@@ -122,6 +122,10 @@ public class Player implements Serializable{
     public SolarSystem getCurrentSolarSystem() {
         return currentSolarSystem;
     }
+    
+    public Planet getCurrentPlanet() {
+        return currentPlanet;
+    }
 
     public void setCurrentSolarSystem(SolarSystem currentSolarSystem) {
         this.currentSolarSystem = currentSolarSystem;

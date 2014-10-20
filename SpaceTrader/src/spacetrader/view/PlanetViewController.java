@@ -25,6 +25,7 @@ import spacetrader.cosmos.system.SolarSystem;
 import spacetrader.economy.MarketPlace;
 import spacetrader.economy.TradeGood;
 import spacetrader.global.Utility;
+import spacetrader.main.SpaceTrader;
 import spacetrader.player.Player;
 
 /**
@@ -50,6 +51,10 @@ public class PlanetViewController implements Initializable {
         playerInventory.getSelectionModel().getSelectedItems().addListener((ListChangeListener.Change c) -> {
             selectSellableItem();
         });
+        
+        player = SpaceTrader.getInstance().getPlayer();
+        curSystem = player.getCurrentSolarSystem();
+        curPlanet = player.getCurrentPlanet();
     }
     
      /**
@@ -128,7 +133,7 @@ public class PlanetViewController implements Initializable {
     }
     
     @FXML
-    private void openMarketplace(MouseEvent event) {
+    private void openMarketplace() {
         if (curPlanet != null) {
             if (curPlanet.getMarket() == null) {
                 planetMarketplaceLabel.setText(curPlanet.Name() + " Marketplace");

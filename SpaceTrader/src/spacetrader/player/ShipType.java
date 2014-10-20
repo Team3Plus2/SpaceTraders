@@ -30,7 +30,7 @@ public class ShipType extends LoadedType implements Serializable {
    }
    
    @FromXML
-   private int maxCargo, maxWeapons, maxShields, maxGadgets, maxMercenaries, techLevel;
+   private int maxCargo, maxWeapons, maxShields, maxGadgets, maxMercenaries, minTechLevel;
    @FromXML
    private float maxFuel, price, fuelCost;
    
@@ -42,7 +42,7 @@ public class ShipType extends LoadedType implements Serializable {
        this.maxShields = maxShields;
        this.maxGadgets = maxGadgets;
        this.maxMercenaries = maxMercenaries;
-       this.techLevel = techLevel;
+       this.minTechLevel = techLevel;
        this.price = price;
        this.fuelCost = fuelCost;
    }
@@ -72,7 +72,7 @@ public class ShipType extends LoadedType implements Serializable {
     }
     
     public int getTechLevel() {
-        return techLevel;
+        return minTechLevel;
     }
     
     public float getPrice() {

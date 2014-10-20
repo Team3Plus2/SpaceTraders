@@ -5,6 +5,7 @@
  */
 package spacetrader.economy;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import spacetrader.cosmos.system.TechLevel;
 import spacetrader.player.Cargo;
@@ -17,31 +18,32 @@ import spacetrader.player.ShipType;
  * 
  * @author Aaron McAnally
  */
-public class Shipyard {
+public class Shipyard implements Serializable {
     
     private ArrayList<ShipType> shipTypes;
     
     /**
-     * Creates a shipyard of ship types
+     * Creates a shipyard of available ship types
+     * 
+     * @param techLevel techLevel of the system
      */
-    public Shipyard() {
-        shipTypes = ShipType.getShipTypes();
+    public Shipyard(TechLevel techLevel) {
+        shipTypes = new ArrayList<ShipType>();
+        ArrayList<ShipType> types = ShipType.getShipTypes();
+        for (ShipType type: types) {
+            if (type.getTechLevel() <= TechLevel.getIndex(techLevel)) {
+                shipTypes.add(type);
+            }
+        }
     }
     
     /**
      * Gets the list of ships sold in this shipyard
      * 
-     * @param techLevel techLevel of the system
      * @return list of available ship types
      */
-    public ArrayList<ShipType> getListAvailable(TechLevel techLevel) {
-        ArrayList<ShipType> types = new ArrayList<ShipType>();
-        for (ShipType type: shipTypes) {
-            if (type.getTechLevel() <= TechLevel.getIndex(techLevel)) {
-                types.add(type);
-            }
-        }
-        return types;
+    public ArrayList<ShipType> getListAvailable() {
+        return shipTypes;
     }
     
     /**

@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.Random;
 import spacetrader.cosmos.Universe;
 import spacetrader.economy.MarketPlace;
+import spacetrader.economy.Shipyard;
 import spacetrader.turns.TurnEvent;
 import spacetrader.turns.TurnListener;
 
@@ -20,6 +21,7 @@ public class Planet implements TurnListener, Serializable {
     private Resource resources;
     private float relativeWealth;//-1.0f pays less for goods, 0.0f normal, 1.0f pays more for goods
     private MarketPlace market;
+    private Shipyard shipyard;
     
     //needed only for display
     //location x: degree of orbit, y: average radius distance from sun
@@ -69,6 +71,7 @@ public class Planet implements TurnListener, Serializable {
         this.location = location;
     }
     
+    @Override
     public String toString() {
         return name;
     }
@@ -87,6 +90,14 @@ public class Planet implements TurnListener, Serializable {
 
     public void setMarket(MarketPlace market) {
         this.market = market;
+    }
+    
+    public Shipyard getShipyard() {
+        return shipyard;
+    }
+    
+    public void setShipyard(Shipyard shipyard) {
+        this.shipyard = shipyard;
     }
     
     @Override

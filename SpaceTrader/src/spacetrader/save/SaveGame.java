@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import spacetrader.cosmos.Universe;
 import spacetrader.player.Player;
+import spacetrader.turns.TurnEvent;
+import spacetrader.turns.TurnSerializer;
 
 /**
  * Class for saving the game.
@@ -48,6 +50,9 @@ public class SaveGame {
         try {
             objectWriter.writeObject(p);
             objectWriter.writeObject(u);
+            TurnSerializer ts = TurnEvent.getSerializer();
+            objectWriter.writeObject(ts);
+            objectWriter.close();
         } catch (IOException e) {
             System.out.println(e.getMessage());
             return false;

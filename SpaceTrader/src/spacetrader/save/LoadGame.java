@@ -13,6 +13,8 @@ import java.io.ObjectInputStream;
 import spacetrader.cosmos.Universe;
 import spacetrader.main.SpaceTrader;
 import spacetrader.player.Player;
+import spacetrader.turns.TurnEvent;
+import spacetrader.turns.TurnSerializer;
 
 /**
  *
@@ -44,11 +46,14 @@ public class LoadGame {
         }
         Player p = null;
         Universe u = null;
+        TurnSerializer ts = null;
         try {
             p = (Player) objectReader.readObject();
             s.setPlayer(p);
             u = (Universe) objectReader.readObject();
             s.setUniverse(u);
+            ts = (TurnSerializer) objectReader.readObject();
+            TurnEvent.Load(ts);
             objectReader.close();
         } catch (IOException e) {
             System.out.println(e.getMessage());
@@ -84,9 +89,11 @@ public class LoadGame {
         }
         Player p = null;
         Universe u = null;
+        TurnSerializer ts = null;
         try {
             p = (Player) objectReader.readObject();
             u = (Universe) objectReader.readObject();
+            ts = (TurnSerializer) objectReader.readObject();
             objectReader.close();
         } catch (IOException e) {
             System.out.println(e.getMessage());

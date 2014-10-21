@@ -46,7 +46,7 @@ public class TurnEvent {
      * get a TurnSerializer object with the static turn event data
      * @return 
      */
-    public TurnSerializer getSerializer() {
+    public static TurnSerializer getSerializer() {
         return new TurnSerializer(listeners, turn);
     }
     
@@ -55,7 +55,7 @@ public class TurnEvent {
      * 
      * @param serialized data to load
      */
-    public void Load(TurnSerializer serialized) {
+    public static void Load(TurnSerializer serialized) {
         listeners = serialized.getListeners();
         turn = serialized.getTurn();
     }

@@ -19,6 +19,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import spacetrader.cosmos.system.Planet;
 import spacetrader.cosmos.system.SolarSystem;
@@ -38,6 +39,9 @@ public class PlanetViewController implements Initializable {
     private Planet curPlanet;
     private Player player;
     private SolarSystem curSystem;
+    
+    @FXML
+    private AnchorPane planetOptions;
 
     /**
      * Initializes the controller class.
@@ -108,6 +112,11 @@ public class PlanetViewController implements Initializable {
         ObservableList<TradeGood> list = FXCollections.observableArrayList(goods);
         playerInventory.setItems(list);
     }
+    
+    @FXML
+    private void backToSolarSystem() {
+        SpaceTrader.getInstance().goToSolarSystemView();
+    }
 
     @FXML
     private void selectBuyableItem() {
@@ -130,6 +139,7 @@ public class PlanetViewController implements Initializable {
     @FXML
     private void hideMarketplace() {
         marketplaceUI.setVisible(false);
+        planetOptions.setVisible(true);
     }
     
     @FXML
@@ -146,6 +156,7 @@ public class PlanetViewController implements Initializable {
             generateBuyList();
             generateSellList();
             marketplaceUI.setVisible(true);
+            planetOptions.setVisible(false);
             generateBuyList();
         }
     }

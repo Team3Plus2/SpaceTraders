@@ -230,6 +230,10 @@ and open the template in the editor.
     -fx-background-image: url('../../visuals/StarBackdrop.png');
 }
 
+.split-pane:horizontal .split-pane-divider {
+    -fx-opacity: 0;
+}
+
 .button {
     -fx-font-family: "LVDC Common2";
     -fx-background-image: url('../../visuals/Button.png');

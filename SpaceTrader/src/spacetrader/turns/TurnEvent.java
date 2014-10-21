@@ -35,7 +35,28 @@ public class TurnEvent {
         }
     }
     
+    /**
+     * get the current game turn
+     */
     public static int getTurn() {
         return turn;
+    }
+    
+    /**
+     * get a TurnSerializer object with the static turn event data
+     * @return 
+     */
+    public TurnSerializer getSerializer() {
+        return new TurnSerializer(listeners, turn);
+    }
+    
+    /**
+     * Load the TurnEvent class with the serialized data
+     * 
+     * @param serialized data to load
+     */
+    public void Load(TurnSerializer serialized) {
+        listeners = serialized.getListeners();
+        turn = serialized.getTurn();
     }
 }

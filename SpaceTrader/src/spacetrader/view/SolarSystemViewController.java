@@ -6,6 +6,7 @@
 package spacetrader.view;
 
 import java.awt.Point;
+import java.awt.geom.Point2D;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Random;
@@ -65,6 +66,8 @@ public class SolarSystemViewController implements Initializable {
     private Canvas selectionLayer;
     @FXML
     private Button backToStarScreen;
+    @FXML
+    private Button travelToPlanet;
 
     private double zoom = 1;
     private double preDragX;
@@ -75,7 +78,11 @@ public class SolarSystemViewController implements Initializable {
     private double mapOffsetX;
     private double mapOffsetY;
     private boolean dragFinished;
-
+    private Point.Double currentPlanetCoords;
+    private Point.Double selectedPlanetCoords;
+    private Point.Double currentMousePosition;
+    private Planet selectedPlanet;
+    
     private HashMap<Point, Planet> screenSpace;
 
     /**
@@ -203,21 +210,29 @@ public class SolarSystemViewController implements Initializable {
                 g.fillOval(getCartesianLocation(new Point(i * 14, p.getLocation().y), p.getOrbitEllipse()).x - dragOffsetX - mapOffsetX - 1, getCartesianLocation(new Point(i * 14, p.getLocation().y), p.getOrbitEllipse()).y - dragOffsetY - mapOffsetY - 1, 2, 2);
                 g.fillOval(getCartesianLocation(new Point((i + 90) * 14, p.getLocation().y), p.getOrbitEllipse()).x - dragOffsetX - mapOffsetX - 1, getCartesianLocation(new Point((i + 90) * 14, p.getLocation().y), p.getOrbitEllipse()).y - dragOffsetY - mapOffsetY - 1, 2, 2);
             }
+            if (p.equals(player.getCurrentPlanet())) {
+                currentPlanetCoords = new Point.Double(posx, posy);
+                g.setFill(Color.CORNFLOWERBLUE);
+                g.fillOval(posx - 20, posy - 20, 40, 40);
+            }
             g.setFill(Color.WHITE);
             g.fillOval(posx - 5, posy - 5, 10, 10);
             screenSpace.put(new Point((int) (posx - 5), (int) (posy - 5)), p);
+            if(curPlanet != null && p.equals(curPlanet)) {
+                selectionG.clearRect(0, 0, 1024, 576);
+                selectionG.setStroke(Color.WHITE);
+                selectionG.setFill(Color.WHITE);
+                selectionG.strokeOval(posx - 15, posy - 15, 30, 30);
+                selectionG.fillText(curPlanet.Name(), posx + 15, posy - 15);
+                selectionG.fillText(curPlanet.Resources().toString(), posx + 15, posy);
+                if(selectedPlanetCoords != null) {
+                    g.strokeLine(currentPlanetCoords.x, currentPlanetCoords.y, posx, posy);
+                }
+            }
         }
-    }
-
-    /**
-     * draws the solar system
-     */
-    private void drawSelection(Point mouse, Planet selection) {
-        selectionG.clearRect(0, 0, 1024, 576);
-        selectionG.setStroke(Color.WHITE);
-        selectionG.setFill(Color.WHITE);
-        selectionG.strokeOval(mouse.x - 15, mouse.y - 15, 30, 30);
-        selectionG.fillText(selection.Name(), mouse.getX(), mouse.getY());
+        
+        curPlanet = planetHitTest();
+        
     }
 
     private void drawFlares(double size, double posx, double posy) {
@@ -259,6 +274,7 @@ public class SolarSystemViewController implements Initializable {
     private void mouseDown(MouseEvent event) {
         preDragX = event.getX();
         preDragY = event.getY();
+        currentMousePosition = new Point2D.Double(event.getX(), event.getY());
     }
 
     private Planet findClosestPlanet(Point p) {
@@ -284,12 +300,22 @@ public class SolarSystemViewController implements Initializable {
 
     @FXML
     private void mouseMove(MouseEvent event) {
-        Planet mouseOver = findClosestPlanet(new Point((int) event.getX(), (int) event.getY()));
+        currentMousePosition = new Point.Double(event.getX(), event.getY());
+        curPlanet = planetHitTest();
+    }
+    
+    private Planet planetHitTest() {
+        if(currentMousePosition == null) {
+            return null;
+        }
+        Planet mouseOver = findClosestPlanet(new Point((int)currentMousePosition.x, (int) currentMousePosition.y));
         if (mouseOver != null) {
-            drawSelection(new Point((int) event.getX(), (int) event.getY()), mouseOver);
-            curPlanet = mouseOver;
+            selectedPlanetCoords = currentMousePosition;
+            return mouseOver;
         } else {
+            selectedPlanetCoords = null;
             selectionG.clearRect(0, 0, 1024, 576);
+            return null;
         }
     }
 
@@ -300,6 +326,8 @@ public class SolarSystemViewController implements Initializable {
      */
     @FXML
     private void mouseDrag(MouseEvent event) {
+        currentMousePosition.x = event.getX();
+        currentMousePosition.y = event.getY();
         dragging = true;
         double tempX = event.getX();
         double tempY = event.getY();
@@ -310,9 +338,20 @@ public class SolarSystemViewController implements Initializable {
     
     @FXML
     private void mouseClick(MouseEvent event) {
-        if(curPlanet != null) {
+        selectedPlanet = planetHitTest();
+        if(selectedPlanet != null) {
+            travelToPlanet.setVisible(true);
+            travelToPlanet.setText("Travel To " + selectedPlanet.Name());
+        } else {
+            travelToPlanet.setVisible(false);
+        }
+    }
+    
+    @FXML
+    private void travelButton() {
+        if(selectedPlanet != null) {
             timer.cancel();
-            player.move(curSystem, curPlanet);
+            player.move(curSystem, selectedPlanet);
             SpaceTrader.getInstance().goToPlanetView();
         }
     }

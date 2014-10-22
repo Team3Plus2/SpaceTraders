@@ -7,6 +7,8 @@ import spacetrader.cosmos.SparseSpace.SparseIterator;
 import spacetrader.cosmos.Universe;
 import spacetrader.cosmos.system.Planet;
 import spacetrader.cosmos.system.SolarSystem;
+import spacetrader.economy.MarketPlace;
+import spacetrader.economy.Shipyard;
 import spacetrader.economy.TradeGood;
 import spacetrader.turns.TurnEvent;
 
@@ -90,6 +92,12 @@ public class Player implements Serializable{
             return false;
         currentSolarSystem = system;
         currentPlanet = planet;
+        if(currentPlanet.getShipyard() == null) {
+            currentPlanet.setShipyard(new Shipyard(currentSolarSystem.TechLevel()));
+        }
+        if (currentPlanet.getMarket() == null) {
+            currentPlanet.setMarket(new MarketPlace(currentSolarSystem.TechLevel(), currentPlanet.Resources()));
+        }
         TurnEvent.NextTurn();
         return true;
     }

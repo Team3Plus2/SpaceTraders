@@ -395,9 +395,14 @@ public class Ship implements Serializable {
         return maxFuel;
     }
     
+    @Override
     public String toString() {
         return name + "\nGadgets: " + getGadgets().toString()
                 + "\nWeapons: " + getWeapons().toString();
+    }
+    
+    public String getName() {
+        return name;
     }
     
 }

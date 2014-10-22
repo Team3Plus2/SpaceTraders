@@ -17,7 +17,7 @@
    <children>
       <SplitPane dividerPositions="0.5" prefHeight="576.0" prefWidth="1024.0" style="-fx-background-color: transparent;" stylesheets="@SpaceTraderStylesheet.css">
         <items>
-          <AnchorPane fx:id="planetOptions" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+          <AnchorPane fx:id="planetOptions" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" visible="false">
                <children>
                   <GridPane layoutX="2.0" layoutY="9.0" prefHeight="562.0" prefWidth="503.0" styleClass="gridpane" stylesheets="@SpaceTraderStylesheet.css" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="20.0">
                     <columnConstraints>
@@ -39,12 +39,12 @@
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                                  <children>
                                     <Label alignment="CENTER" layoutX="45.0" layoutY="14.0" text="Resources" textAlignment="CENTER" />
-                                    <Label alignment="CENTER" layoutX="70.0" layoutY="46.0" style="-fx-font-size: 20;" text="No Resources" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                                    <Label fx:id="resourceLabel" alignment="CENTER" layoutX="70.0" layoutY="46.0" style="-fx-font-size: 20;" text="No Resources" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                                  </children>
                               </AnchorPane>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                                  <children>
-                                    <Label alignment="CENTER" layoutX="52.0" layoutY="49.0" style="-fx-font-size: 20;" text="Stupid" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                                    <Label fx:id="techLevelLabel" alignment="CENTER" layoutX="52.0" layoutY="49.0" style="-fx-font-size: 20;" text="Stupid" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                                     <Label alignment="CENTER" layoutX="38.0" layoutY="14.0" text="Tech Level" textAlignment="CENTER" />
                                  </children></AnchorPane>
                           </items>
@@ -62,9 +62,9 @@
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <Button mnemonicParsing="false" onAction="#openMarketplace" prefHeight="80.0" prefWidth="202.0" style="-fx-font-size: 25;" text="Marketplace" />
-                              <Button alignment="CENTER" mnemonicParsing="false" prefHeight="80.0" prefWidth="202.0" style="-fx-font-size: 25;" text="Shipyard" GridPane.columnIndex="1" GridPane.valignment="CENTER" />
-                              <Button mnemonicParsing="false" prefHeight="80.0" prefWidth="202.0" style="-fx-font-size: 25;" text="Mercenaries" GridPane.rowIndex="1" />
+                              <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#openMarketplace" prefHeight="80.0" prefWidth="202.0" style="-fx-font-size: 25;" text="Marketplace" />
+                              <Button alignment="CENTER" mnemonicParsing="false" onAction="#showShipyard" prefHeight="80.0" prefWidth="202.0" style="-fx-font-size: 25;" text="Shipyard" GridPane.columnIndex="1" GridPane.valignment="CENTER" />
+                              <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="80.0" prefWidth="202.0" style="-fx-font-size: 25;" text="Mercenaries" GridPane.rowIndex="1" />
                               <Button mnemonicParsing="false" prefHeight="80.0" prefWidth="202.0" style="-fx-font-size: 25;" text="Stock Market" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                            </children>
                         </GridPane>
@@ -118,6 +118,68 @@
                      </children>
                   </AnchorPane>
                </content>
+            </Tab>
+         </tabs>
+      </TabPane>
+      <TabPane fx:id="shipyardUI" layoutX="144.0" layoutY="63.0" prefHeight="456.0" prefWidth="725.0" stylesheets="@SpaceTraderStylesheet.css" tabClosingPolicy="UNAVAILABLE" tabMaxHeight="50.0" tabMaxWidth="200.0" tabMinHeight="50.0" tabMinWidth="226.0">
+         <tabs>
+            <Tab closable="false" text="Buy Ship">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ListView id="listView" fx:id="availableShips" layoutX="14.0" layoutY="57.0" prefHeight="321.0" prefWidth="391.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="320.0" AnchorPane.topAnchor="57.0" />
+                        <Button fx:id="back11" mnemonicParsing="false" onAction="#hideShipyard" text="Back" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="420.0" AnchorPane.rightAnchor="15.0" />
+                        <Button fx:id="buyButton1" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleBuyAction" text="Buy" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="420.0" AnchorPane.rightAnchor="15.0" />
+                        <Label fx:id="buyShipDetails" alignment="TOP_LEFT" layoutX="426.0" layoutY="57.0" prefHeight="145.0" prefWidth="290.0" style="-fx-font-size: 18; -fx-line-spacing: -5;" text="Planet tech level too low to sell ships" wrapText="true" AnchorPane.leftAnchor="420.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="57.0" />
+                        <Label fx:id="planetMarketplaceLabel1" layoutX="44.0" layoutY="14.0" prefHeight="32.0" prefWidth="443.0" style="-fx-alignment: CENTER;" text="Available Ships" textAlignment="CENTER" textOverrun="CLIP" AnchorPane.leftAnchor="44.0" AnchorPane.rightAnchor="44.0" AnchorPane.topAnchor="14.0" />
+                        <Line endX="200.0" layoutX="262.0" layoutY="50.0" opacity="0.6" startX="-400.0" strokeWidth="2.0" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="60.0" />
+                        <Label fx:id="yourMoney1" layoutX="420.0" layoutY="202.0" prefHeight="35.0" prefWidth="370.0" style="-fx-font-size: 25;" text="Your Money:" AnchorPane.leftAnchor="420.0" AnchorPane.rightAnchor="15.0" />
+                        <Label fx:id="shipCost" layoutX="420.0" layoutY="236.0" prefHeight="35.0" prefWidth="287.0" style="-fx-font-size: 25;" text="Cost:" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab closable="false" text="Upgrade Ship">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ListView fx:id="availableUpgrades" layoutX="14.0" layoutY="56.0" prefHeight="322.0" prefWidth="309.0" styleClass="gridpane" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="320.0" AnchorPane.topAnchor="56.0" />
+                        <Button fx:id="back21" mnemonicParsing="false" onAction="#hideShipyard" text="Back" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="420.0" AnchorPane.rightAnchor="15.0" />
+                        <Button fx:id="sellButton1" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleSellAction" text="Buy" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="420.0" AnchorPane.rightAnchor="15.0" />
+                        <Label fx:id="sellDetails1" alignment="TOP_LEFT" layoutY="57.0" prefHeight="167.0" prefWidth="170.0" style="-fx-font-size: 25;" AnchorPane.leftAnchor="420.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="57.0" />
+                        <Label prefHeight="32.0" prefWidth="251.0" style="-fx-alignment: center;" text="Upgrades Available" textAlignment="CENTER" textOverrun="CLIP" AnchorPane.leftAnchor="44.0" AnchorPane.rightAnchor="44.0" AnchorPane.topAnchor="14.0" />
+                        <Line endX="200.0" layoutX="262.0" layoutY="50.0" opacity="0.6" startX="-400.0" strokeWidth="2.0" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="60.0" />
+                        <Label fx:id="buySum11" layoutX="422.0" layoutY="224.0" prefHeight="35.0" prefWidth="284.0" style="-fx-font-size: 25;" text="Sum:" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab text="Manage Ship">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <HBox layoutX="10.0" prefHeight="385.0" prefWidth="705.0">
+                           <children>
+                              <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="352.0">
+                                 <children>
+                                    <Label alignment="TOP_CENTER" contentDisplay="CENTER" text="Buy Fuel">
+                                       <VBox.margin>
+                                          <Insets top="20.0" />
+                                       </VBox.margin></Label>
+                                    <HBox prefHeight="100.0" prefWidth="200.0" />
+                                 </children>
+                              </VBox>
+                              <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="352.0">
+                                 <children>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" text="Repair Hull">
+                                       <VBox.margin>
+                                          <Insets top="20.0" />
+                                       </VBox.margin></Label>
+                                 </children></VBox>
+                           </children></HBox>
+                     </children>
+                  </AnchorPane>
+              </content>
             </Tab>
          </tabs>
       </TabPane>

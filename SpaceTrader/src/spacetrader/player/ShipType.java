@@ -2,6 +2,7 @@ package spacetrader.player;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import spacetrader.main.SpaceTrader;
 import spacetrader.xml.FromXML;
 import spacetrader.xml.LoadedType;
 
@@ -85,5 +86,26 @@ public class ShipType extends LoadedType implements Serializable {
    
     public static ArrayList<ShipType> getShipTypes() {
         return ShipType.getList(ShipType.class);
+    }
+    
+    public String getInfo() {
+        return getName() +
+                "\nCargo: " + getMaxCargo() +
+                "\nWeapon Slots: " + getMaxWeapons() +
+                "\nGadget Slots: " + getMaxGadgets() +
+                "\nMercenary Positions: " + getMaxGadgets() +
+                "\nMax Fuel: " + getMaxFuel() +
+                "\nFuel Cost: " + getMaxFuel();
+    }
+    
+    @Override
+    public String toString() {
+        SpaceTrader instance = SpaceTrader.getInstance();
+        if(instance != null &&
+                instance.getPlayer().getShip().getName().equals(getName())) {
+            return getName() + " (owned)";
+        } else {
+            return getName();
+        }
     }
 }

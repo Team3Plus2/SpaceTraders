@@ -35,7 +35,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.transform.Affine;
 import javafx.scene.transform.Rotate;
 import javafx.stage.WindowEvent;
-import javax.sound.midi.SysexMessage;
 import spacetrader.cosmos.SparseSpace;
 import spacetrader.cosmos.Universe;
 import spacetrader.cosmos.system.Planet;
@@ -175,7 +174,12 @@ public class StarScreenController implements Initializable {
      */
     @FXML
     private void goToSolarSystem() {
-        player.move(selectedSolarSystem);
+        Planet selected = (Planet)planetList.getSelectionModel().getSelectedItem();
+        if(selected == null) {
+            player.move(selectedSolarSystem);
+        } else {
+            player.move(selectedSolarSystem, selected);
+        }
         if(timer != null) {
             timer.cancel();
         }

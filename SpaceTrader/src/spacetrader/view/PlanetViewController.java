@@ -6,7 +6,9 @@
 package spacetrader.view;
 
 import java.net.URL;
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -24,10 +26,12 @@ import javafx.scene.text.Font;
 import spacetrader.cosmos.system.Planet;
 import spacetrader.cosmos.system.SolarSystem;
 import spacetrader.economy.MarketPlace;
+import spacetrader.economy.Shipyard;
 import spacetrader.economy.TradeGood;
 import spacetrader.global.Utility;
 import spacetrader.main.SpaceTrader;
 import spacetrader.player.Player;
+import spacetrader.player.ShipType;
 
 /**
  * FXML Controller class
@@ -42,6 +46,15 @@ public class PlanetViewController implements Initializable {
     
     @FXML
     private AnchorPane planetOptions;
+    
+    @FXML
+    private Label planetName;
+    
+    @FXML
+    private Label resourceLabel;
+    
+    @FXML
+    private Label techLevelLabel;
 
     /**
      * Initializes the controller class.
@@ -56,9 +69,63 @@ public class PlanetViewController implements Initializable {
             selectSellableItem();
         });
         
+        availableShips.getSelectionModel().getSelectedItems().addListener((ListChangeListener.Change c) -> {
+            selectShip();
+        });
+        
         player = SpaceTrader.getInstance().getPlayer();
         curSystem = player.getCurrentSolarSystem();
         curPlanet = player.getCurrentPlanet();
+        planetName.setText(curPlanet.Name());
+        resourceLabel.setText(curPlanet.Resources().getName());
+        techLevelLabel.setText(curSystem.TechLevel().getName());
+        ObservableList<ShipType> list = FXCollections.observableArrayList(curPlanet.getShipyard().getListAvailable());
+        availableShips.setItems(list);
+        if(list.size() > 0) {
+            buyShipDetails.setText(((ShipType)availableShips.getItems().get(0)).getInfo());
+        }
+    }
+    /**
+     * *************************************************
+     * Start of Shipyard Screen functions *
+     * **************************************************
+     */
+    
+    @FXML
+    private TabPane shipyardUI;
+    
+    @FXML
+    private ListView availableShips;
+    
+    @FXML
+    private ListView availableUpgrades;
+    
+    @FXML
+    private Label buyShipDetails;
+    
+    @FXML
+    private Label shipCost;
+    
+    @FXML
+    private Label yourMoney1;
+    
+    @FXML
+    private void showShipyard() {
+        shipyardUI.setVisible(true);
+        planetOptions.setVisible(false);
+    }
+    
+    @FXML
+    private void hideShipyard() {
+        shipyardUI.setVisible(false);
+        planetOptions.setVisible(true);
+    }
+    
+    private void selectShip() {
+        ShipType selected = (ShipType) (availableShips.getSelectionModel().getSelectedItem());
+        buyShipDetails.setText(selected.getInfo());
+        NumberFormat nf = NumberFormat.getCurrencyInstance();
+        shipCost.setText("Cost: " + nf.format(selected.getPrice()));
     }
     
      /**
@@ -145,14 +212,9 @@ public class PlanetViewController implements Initializable {
     @FXML
     private void openMarketplace() {
         if (curPlanet != null) {
-            if (curPlanet.getMarket() == null) {
-                planetMarketplaceLabel.setText(curPlanet.Name() + " Marketplace");
-                planetMarketplaceLabel.setFont(Font.font(curPlanet.Name().length()));
-                market = new MarketPlace(curSystem.TechLevel(), curPlanet.Resources());
-                curPlanet.setMarket(market);
-            } else {
-                market = curPlanet.getMarket();
-            }
+            planetMarketplaceLabel.setText(curPlanet.Name() + " Marketplace");
+            planetMarketplaceLabel.setFont(Font.font(curPlanet.Name().length()));
+            market = curPlanet.getMarket();
             generateBuyList();
             generateSellList();
             marketplaceUI.setVisible(true);

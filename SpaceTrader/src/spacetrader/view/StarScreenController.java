@@ -493,8 +493,6 @@ public class StarScreenController implements Initializable, TurnListener {
             //always check enemy agressivness first
             if(other.willAttack()) {
                 System.out.println("Other ship: Hand over all your goods or die!");
-                Scanner in = new Scanner(System.in);
-                String reaction = in.nextLine();
                 if(confirmationInterface()) {
                     other.loot(player);
                 } else {
@@ -521,9 +519,9 @@ public class StarScreenController implements Initializable, TurnListener {
                     fight(other);
                 }
             } else {
+                System.out.println("Enter a to attack, t to request trade, or any other key to continue on your way");
                 Scanner in = new Scanner(System.in);
                 String reaction = in.nextLine();
-                System.out.println("Enter a to attack, t to request trade, or any other key to continue on your way");
                 if(reaction.equals("a")) {
                     fight(other);
                 } else if(reaction.equals("t")) {
@@ -534,10 +532,10 @@ public class StarScreenController implements Initializable, TurnListener {
     }
     
     public boolean confirmationInterface() {
-        System.out.println("(Y or N)");
+        System.out.println("(Y or N)\n");
         Scanner in = new Scanner(System.in);
         String reaction = in.nextLine();
-        return reaction.equals("Y");
+        return reaction.toUpperCase().equals("Y");
     }
     
     public void commandLineBuyInterface(MarketPlace market) {
@@ -579,7 +577,7 @@ public class StarScreenController implements Initializable, TurnListener {
     
     public MarketPlace combatInterface(Encounter other) {
         Scanner in = new Scanner(System.in);
-        String reaction = in.nextLine();
+        String reaction = "";
         int result = 0;
         while(result == 0) {
             result = other.roundOfCombat(player, null);

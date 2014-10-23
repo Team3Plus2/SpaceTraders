@@ -10,6 +10,7 @@ import spacetrader.cosmos.system.SolarSystem;
 import spacetrader.economy.MarketPlace;
 import spacetrader.economy.Shipyard;
 import spacetrader.economy.TradeGood;
+import spacetrader.main.SpaceTrader;
 import spacetrader.turns.TurnEvent;
 
 /**
@@ -25,6 +26,7 @@ public class Player implements Serializable{
     private int pilotSkill, fighterSkill, traderSkill, engineerSkill, investorSkill;
     private Planet currentPlanet;
     private SolarSystem currentSolarSystem;
+    private boolean dead;
 
     private float money;
     private Ship ship;
@@ -220,6 +222,21 @@ public class Player implements Serializable{
      */
     public float getTravelRadius() {
         return ship.getFuel();
+    }
+    
+    /**
+     * Checks the players life readings
+     * @return true if the player is dead
+     */
+    public boolean isDead() {
+        return dead;
+    }
+    
+    /**
+     * Kills the player
+     */
+    public void die() {
+        dead = true;
     }
     
     /*****************************************

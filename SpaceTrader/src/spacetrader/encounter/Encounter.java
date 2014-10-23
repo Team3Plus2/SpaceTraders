@@ -1,6 +1,7 @@
 package spacetrader.encounter;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import spacetrader.cosmos.system.SolarSystem;
 import spacetrader.economy.MarketPlace;
@@ -87,28 +88,54 @@ public class Encounter{
         //"Hey, gimme all ur stufs, im pore and nede mor mony >:0";
     }
     
+    /**
+     * Returns true if the encounter will try to attack the player
+     * @return true if the enocunetr will try to attack the player
+     */
     public boolean willAttack() {
         return willAttack;
     }
     
+    /**
+     * returns true if the encounter will accept the player's request to trade
+     * @return true if the encounter will accept the player's request to trade
+     */
     public boolean willingToTrade() {
         return type.getWillingToTrade();
     }
     
+    /**
+     * returns true if the encounter will request the player to trade
+     * @return true if the encounter will request the player to trade
+     */
     public boolean willRequestTrade() {
         return willTrade;
     } 
     
+    /**
+     * returns true if the encounter will request to search the player
+     * @return true if the encounter will request to search the player
+     */
     public boolean willRequestSearch() {
         return searchFor != null;
     }
     
+    /**
+     * returns true if the encounter will surrender to the player,
+     * depends on encounter's current health and player's power
+     * 
+     * @return true if the encounter will surrender to the player
+     */
     public boolean willSurrender() {
         return captain.getShip().getPower() == 0;
     }
     
+    /**
+     * Returns an arraylist of the encounter's goods
+     * @return an arraylist of the encounter's goods
+     */
     public ArrayList<TradeGood> getGoods() {
-        return captain.getShip().getCargo().getCargoList();
+        return captain.getCargoList();
     }
     
     /**
@@ -140,12 +167,42 @@ public class Encounter{
         return other.removeTradeGoodsByType(searchFor);
     }
     
+    /**
+     * Loot all the tradegoods of the given player
+     * (Goods unable to be held will be jetissoned, so all goods are removed)
+     * 
+     * @param other player to loot
+     */
+    public void loot(Player other) {
+        other.getCargoList().clear();
+    }
+    
+    /**
+     * Gets a marketplace from this encounter's tradegoods
+     * @return a marketplace
+     */
     public MarketPlace getMarketPlace() {
         return new MarketPlace(captain.getCargoList());
     }
     
+    /**
+     * Gets a looting echange in which all goods in the encounter's ship are
+     * priced at zero
+     * @return a looting exchange
+     */
     public MarketPlace getLootingExchange() {
         return new MarketPlace(captain.getCargoList(), true);
+    }
+    
+    /**
+     * Gets a looting exchange of a random size as the player tries to salvage
+     * what remains from the destroyed ship (may still be all goods)
+     * @return a salvage exchange (as defined above)
+     */
+    public MarketPlace getSalvageExchange() {
+        Random rand = new Random();
+        int size = rand.nextInt(captain.getCargoList().size());
+        return new MarketPlace((ArrayList<TradeGood>)captain.getCargoList().subList(0, size), true);
     }
     
     //public abstract void handleEncounter();

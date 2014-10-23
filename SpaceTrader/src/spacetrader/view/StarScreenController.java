@@ -13,6 +13,7 @@ import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.Scanner;//used in temporary command line encounters
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -43,13 +44,20 @@ import spacetrader.cosmos.system.SolarSystem;
 import spacetrader.cosmos.system.SunType;
 import spacetrader.main.SpaceTrader;
 import spacetrader.save.SaveGame;
+import spacetrader.turns.TurnListener;
+import spacetrader.economy.MarketPlace;//used in temporary command line encounters
+import spacetrader.economy.TradeGood;//used in temporary command line encounters
+import spacetrader.player.*;//used in temporary command line encounters
+import spacetrader.encounter.Encounter;//used in temporary command line encounters
+import spacetrader.turns.TurnEvent;
+
 
 /**
  * FXML Controller class
  *
  * @author Aaron McAnally
  */
-public class StarScreenController implements Initializable {
+public class StarScreenController implements Initializable, TurnListener {
 
     private static final int GENERATION_BUFFER = 10;
     
@@ -113,6 +121,7 @@ public class StarScreenController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        TurnEvent.RegisterListener(this);
         universe = SpaceTrader.getInstance().getUniverse();
         player = SpaceTrader.getInstance().getPlayer();
         travelable = player.getTravelable(universe);
@@ -180,6 +189,12 @@ public class StarScreenController implements Initializable {
         } else {
             player.move(selectedSolarSystem, selected);
         }
+        
+        if(player.isDead()) {
+            SpaceTrader.getInstance().goToWelcomeScreen();
+            return;
+        }
+        
         if(timer != null) {
             timer.cancel();
         }
@@ -465,5 +480,126 @@ public class StarScreenController implements Initializable {
     @FXML
     private void closeInfoPane() {
         animateInfoScreen(false);
+    }
+    
+    @Override
+    public void handleNextTurn() {
+        Random rand = new Random();
+        
+        if(rand.nextFloat() < 0.5) {
+            Encounter other = new Encounter(player.getCurrentSolarSystem(), player);
+            System.out.println(other.getGreeting());
+            
+            //always check enemy agressivness first
+            if(other.willAttack()) {
+                System.out.println("Other ship: Hand over all your goods or die!");
+                Scanner in = new Scanner(System.in);
+                String reaction = in.nextLine();
+                if(confirmationInterface()) {
+                    other.loot(player);
+                } else {
+                    fight(other);
+                }
+
+            } else if(other.willRequestTrade()) {
+                System.out.println("Other ship: Do you want to buy some goods?");
+                if(confirmationInterface()) {
+                    commandLineBuyInterface(other.getMarketPlace());
+                }
+            } else if(other.willRequestSearch()) {
+                System.out.println("Other ship: by the authority of the " + player.getCurrentSolarSystem().Name() + 
+                        " system, I request permission to search your ship for illegal goods");
+                if(confirmationInterface()) {
+                    if(other.search(player)) {
+                        System.out.println("Other ship: I have confiscated illegal goods in your hold, " +
+                                 "don't let this happen again");
+                    } else {
+                        System.out.println("Other ship: You're all clear, my apologies for disturbing you");
+                    }
+                } else {
+                    System.out.println("Then we will search you by force!");
+                    fight(other);
+                }
+            } else {
+                Scanner in = new Scanner(System.in);
+                String reaction = in.nextLine();
+                if(reaction.equals("a")) {
+                    fight(other);
+                } else if(reaction.equals("t")) {
+                    commandLineBuyInterface(other.getMarketPlace());
+                }
+            }
+        }
+    }
+    
+    public boolean confirmationInterface() {
+        Scanner in = new Scanner(System.in);
+        String reaction = in.nextLine();
+        return reaction.equals("Y");
+    }
+    
+    public void commandLineBuyInterface(MarketPlace market) {
+        System.out.println("Goods:");
+        int count = 1;
+        for(TradeGood good : market.getListOfGoods()) {
+            System.out.println("\t" + count + ": " + good.getName() + " : " + good.getAmount() + " : " + good.getCurrentPriceEach());
+        }
+        System.out.println("-1: Leave");
+        
+        Scanner in = new Scanner(System.in);
+        int order = 0;
+        while(order != -1) {
+            System.out.println("What would you like?");
+            order = in.nextInt();
+            if(order <= market.getListOfGoods().size() && order > 0) {
+                System.out.println("How many would you like?");
+                int amount = in.nextInt();
+                if(market.getListOfGoods().get(order).getAmount() >= amount) {
+                    market.buy(player, market.getListOfGoods().get(order), amount);
+                } else {
+                    System.out.println("You have entered an invalid amount");
+                }
+            } else if(order != -1) {
+                System.out.println("You have entered an invalid good");
+            }
+        }
+    }
+    
+    public void fight(Encounter other) {
+        MarketPlace loot = combatInterface(other);
+        if(loot == null) {
+            player.die();
+        } else {
+            System.out.println("Loot your defeated enemy!");
+            commandLineBuyInterface(loot);
+        }
+    }
+    
+    public MarketPlace combatInterface(Encounter other) {
+        Scanner in = new Scanner(System.in);
+        String reaction = in.nextLine();
+        int result = 0;
+        while(result == 0) {
+            result = other.roundOfCombat(player, null);
+            if(result == -2) {
+                System.out.println("Other ship: Hold your fire! I surrender!");
+                reaction = in.nextLine();
+                if(reaction.equals("c")) {
+                    result = 0;
+                }
+            }
+        }
+
+        if(result == 1) {
+            System.out.println("You are dead");
+        } else if(result == -1) {
+            System.out.println("You destroy the enemy ship");
+            return other.getSalvageExchange();
+        } else if(result == -2) {
+            System.out.println("The enemy surrenders to you");
+            return other.getLootingExchange();
+        }
+        
+        return null;
     }
 }

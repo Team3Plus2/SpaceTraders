@@ -18,7 +18,7 @@ and open the template in the editor.
         <maxInvestor>7</maxInvestor>
         <minFighter>1</minFighter>
         <maxFighter>3</maxFighter>
-        <greeting>Howdy fellow trader person</greeting>
+        <greeting>Howdy fellow trader</greeting>
         <aggression>0.0f</aggression>
         <willingToTrade>true</willingToTrade>
         <tradeRequestChance>0.80f</tradeRequestChance>
@@ -26,4 +26,43 @@ and open the template in the editor.
         <maxCargoUsed>30</maxCargoUsed>
         <associatedWithSystem>false</associatedWithSystem>
     </merchant>
+    <pirate>
+        <minTrade>1</minTrade>
+        <maxTrade>4</maxTrade>
+        <minPilot>6</minPilot>
+        <maxPilot>8</maxPilot>
+        <minEngineer>1</minEngineer>
+        <maxEngineer>3</maxEngineer>
+        <minInvestor>3</minInvestor>
+        <maxInvestor>7</maxInvestor>
+        <minFighter>5</minFighter>
+        <maxFighter>8</maxFighter>
+        <greeting>They call me...well...Joe--I'm not actually that well known--but fear me!</greeting>
+        <aggression>1.0f</aggression>
+        <willingToTrade>true</willingToTrade>
+        <tradeRequestChance>0.0f</tradeRequestChance>
+        <ship>GRASSHOPPER</ship>
+        <maxCargoUsed>30</maxCargoUsed>
+        <associatedWithSystem>false</associatedWithSystem>
+    </pirate>
+    <police>
+        <minTrade>1</minTrade>
+        <maxTrade>4</maxTrade>
+        <minPilot>6</minPilot>
+        <maxPilot>8</maxPilot>
+        <minEngineer>1</minEngineer>
+        <maxEngineer>3</maxEngineer>
+        <minInvestor>3</minInvestor>
+        <maxInvestor>7</maxInvestor>
+        <minFighter>5</minFighter>
+        <maxFighter>8</maxFighter>
+        <greeting> </greeting>
+        <aggression>1.0f</aggression>
+        <willingToTrade>true</willingToTrade>
+        <tradeRequestChance>0.0f</tradeRequestChance>
+        <ship>GRASSHOPPER</ship>
+        <maxCargoUsed>30</maxCargoUsed>
+        <associatedWithSystem>true</associatedWithSystem>
+        <lookingFor>narcotics,firearms</lookingFor>
+    </police>
 </root>

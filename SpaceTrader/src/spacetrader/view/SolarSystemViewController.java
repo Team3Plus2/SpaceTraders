@@ -352,6 +352,12 @@ public class SolarSystemViewController implements Initializable {
         if(selectedPlanet != null) {
             timer.cancel();
             player.move(selectedPlanet);
+            
+            if(player.isDead()) {
+                SpaceTrader.getInstance().goToWelcomeScreen();
+                return;
+            }
+            
             SpaceTrader.getInstance().goToPlanetView();
         }
     }

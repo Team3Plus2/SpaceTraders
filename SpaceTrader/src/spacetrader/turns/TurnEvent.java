@@ -1,5 +1,7 @@
 package spacetrader.turns;
 
+import spacetrader.player.Player;
+
 import java.awt.AWTEvent;
 import java.awt.Event;
 import java.util.ArrayList;
@@ -28,10 +30,10 @@ public class TurnEvent {
     /**
      * Calls handleNextTurn() for all TurnListeners registered
      */
-    public static void NextTurn() {
+    public static void NextTurn(Player player) {
         turn++;
         for(TurnListener listener : listeners) {
-            listener.handleNextTurn();
+            listener.handleNextTurn(player);
         }
     }
     

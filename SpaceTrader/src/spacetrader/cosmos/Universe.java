@@ -5,11 +5,16 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Scanner;
 import spacetrader.cosmos.system.SolarSystem;
 import spacetrader.turns.TurnListener;
 import spacetrader.turns.TurnEvent;
 import spacetrader.xml.FromXML;
 import spacetrader.cosmos.SparseSpace.SparseIterator;
+import spacetrader.economy.MarketPlace;
+import spacetrader.economy.TradeGood;
+import spacetrader.encounter.Encounter;
+import spacetrader.player.Player;
 
 /**
  *
@@ -316,15 +321,130 @@ public class Universe implements Iterable<SolarSystem>, TurnListener, Serializab
         return found;
     }
     
-    public void NextTurn() {
-        TurnEvent.NextTurn();
+    public void NextTurn(Player player) {
+        TurnEvent.NextTurn(player);
     }
     
     @Override
-    public void handleNextTurn() {
-        System.out.println("Turn: " + TurnEvent.getTurn());
+    public void handleNextTurn(Player player) {
+        Random rand = new Random();
+        
+        if(rand.nextFloat() < 0.5) {
+            Encounter other = new Encounter(player.getCurrentSolarSystem(), player);
+            System.out.println(other.getGreeting());
+            
+            //always check enemy agressivness first
+            if(other.willAttack()) {
+                System.out.println("Other ship: Hand over all your goods or die!");
+                if(confirmationInterface()) {
+                    other.loot(player);
+                } else {
+                    fight(other, player);
+                }
+
+            } else if(other.willRequestTrade()) {
+                System.out.println("Other ship: Do you want to buy some goods?");
+                if(confirmationInterface()) {
+                    commandLineBuyInterface(other.getMarketPlace(), player);
+                }
+            } else if(other.willRequestSearch()) {
+                System.out.println("Other ship: by the authority of the " + player.getCurrentSolarSystem().Name() + 
+                        " system, I request permission to search your ship for illegal goods");
+                if(confirmationInterface()) {
+                    if(other.search(player)) {
+                        System.out.println("Other ship: I have confiscated illegal goods in your hold, " +
+                                 "don't let this happen again");
+                    } else {
+                        System.out.println("Other ship: You're all clear, my apologies for disturbing you");
+                    }
+                } else {
+                    System.out.println("Then we will search you by force!");
+                    fight(other, player);
+                }
+            } else {
+                System.out.println("Enter a to attack, t to request trade, or any other key to continue on your way");
+                Scanner in = new Scanner(System.in);
+                String reaction = in.nextLine();
+                if(reaction.equals("a")) {
+                    fight(other, player);
+                } else if(reaction.equals("t")) {
+                    commandLineBuyInterface(other.getMarketPlace(), player);
+                }
+            }
+        }
     }
     
+    public boolean confirmationInterface() {
+        System.out.println("(Y or N)\n");
+        Scanner in = new Scanner(System.in);
+        String reaction = in.nextLine();
+        return reaction.toUpperCase().equals("Y");
+    }
+    
+    public void commandLineBuyInterface(MarketPlace market, Player player) {
+        System.out.println("Goods:");
+        int count = 1;
+        for(TradeGood good : market.getListOfGoods()) {
+            System.out.println("\t" + count + ": " + good.getName() + " : " + good.getAmount() + " : " + good.getCurrentPriceEach());
+        }
+        System.out.println("-1: Leave");
+        
+        Scanner in = new Scanner(System.in);
+        int order = 0;
+        while(order != -1) {
+            System.out.println("What would you like?\n(enter an index of a good listed above)");
+            order = in.nextInt();
+            if(order <= market.getListOfGoods().size() && order > 0) {
+                System.out.println("How many would you like?");
+                int amount = in.nextInt();
+                if(market.getListOfGoods().get(order).getAmount() >= amount) {
+                    market.buy(player, market.getListOfGoods().get(order), amount);
+                } else {
+                    System.out.println("You have entered an invalid amount");
+                }
+            } else if(order != -1) {
+                System.out.println("You have entered an invalid good");
+            }
+        }
+    }
+    
+    public void fight(Encounter other, Player player) {
+        MarketPlace loot = combatInterface(other, player);
+        if(loot == null) {
+            player.die();
+        } else {
+            System.out.println("Loot your defeated enemy!");
+            commandLineBuyInterface(loot, player);
+        }
+    }
+    
+    public MarketPlace combatInterface(Encounter other, Player player) {
+        Scanner in = new Scanner(System.in);
+        String reaction = "";
+        int result = 0;
+        while(result == 0) {
+            result = other.roundOfCombat(player, null);
+            if(result == -2) {
+                System.out.println("Other ship: Hold your fire! I surrender!\n(c to continue fire, any other key to accept surrender)");
+                reaction = in.nextLine();
+                if(reaction.equals("c")) {
+                    result = 0;
+                }
+            }
+        }
+
+        if(result == 1) {
+            System.out.println("You are dead");
+        } else if(result == -1) {
+            System.out.println("You destroy the enemy ship");
+            return other.getSalvageExchange();
+        } else if(result == -2) {
+            System.out.println("The enemy surrenders to you");
+            return other.getLootingExchange();
+        }
+        
+        return null;
+    }
     /**
      * Returns an iterator that will go from the bottom leftmost generated solarsystem
      * to the upper rightmost solar system or, more concisely put, will iterate row by row

@@ -6,6 +6,8 @@
 
 package spacetrader.turns;
 
+import spacetrader.player.Player;
+
 /**
  *
  * @author Alex
@@ -14,7 +16,8 @@ public interface TurnListener {
     
     /**
      * This method should handle everything that must occur on an occurrence of a new turn
+     * @param player player that is the subject of the turn
      */
-    public void handleNextTurn();
+    public void handleNextTurn(Player player);
     
 }

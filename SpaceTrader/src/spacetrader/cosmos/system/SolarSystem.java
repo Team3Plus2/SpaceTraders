@@ -5,6 +5,8 @@ import java.util.Random;
 import spacetrader.cosmos.Universe;
 import spacetrader.turns.TurnEvent;
 import spacetrader.turns.TurnListener;
+import spacetrader.player.Player;
+
 
 /**
  * This is a solar system, it stores planets and some system wide social information
@@ -100,7 +102,7 @@ public class SolarSystem implements TurnListener, Serializable {
     }
     
     @Override
-    public void handleNextTurn() {
+    public void handleNextTurn(Player player) {
         relativeWealth += rand.nextFloat() * 0.2f - 0.1f;
     }
     

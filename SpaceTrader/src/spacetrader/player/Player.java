@@ -2,6 +2,8 @@ package spacetrader.player;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.Random;
 
 import spacetrader.cosmos.SparseSpace.SparseIterator;
 import spacetrader.cosmos.Universe;
@@ -10,8 +12,8 @@ import spacetrader.cosmos.system.SolarSystem;
 import spacetrader.economy.MarketPlace;
 import spacetrader.economy.Shipyard;
 import spacetrader.economy.TradeGood;
-import spacetrader.main.SpaceTrader;
-import spacetrader.turns.TurnEvent;
+import spacetrader.encounter.Encounter;
+import spacetrader.turns.*;
 
 /**
  * The main player and everything it owns.
@@ -19,7 +21,7 @@ import spacetrader.turns.TurnEvent;
  * @author Carey MacDonald
  * @author Aaron McAnally
  */
-public class Player implements Serializable{
+public class Player implements Serializable {
     private static final float FUEL_PER_PLANET_MOVEMENT = 0.5f;
     
     private String name;
@@ -71,7 +73,7 @@ public class Player implements Serializable{
             currentPlanet = system.Planets()[0];
         else
             currentPlanet = null;
-        TurnEvent.NextTurn();
+        TurnEvent.NextTurn(this);
         return true;
     }
     
@@ -97,7 +99,7 @@ public class Player implements Serializable{
         if (currentPlanet.getMarket() == null) {
             currentPlanet.setMarket(new MarketPlace(currentSolarSystem.TechLevel(), currentPlanet.Resources()));
         }
-        TurnEvent.NextTurn();
+        TurnEvent.NextTurn(this);
         return true;
     }
     
@@ -298,4 +300,6 @@ public class Player implements Serializable{
             return name + "\nMoney: $" + getMoney();
         }
     }
+    
+    
 }

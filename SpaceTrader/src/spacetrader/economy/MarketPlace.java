@@ -169,7 +169,7 @@ public class MarketPlace implements TurnListener, Serializable {
     }
     
     @Override
-    public void handleNextTurn() {
+    public void handleNextTurn(Player player) {
         for(TradeGood tg : tradeGoods) {
             tg.computeCurrentPriceEach(techLevel, resource);
         }

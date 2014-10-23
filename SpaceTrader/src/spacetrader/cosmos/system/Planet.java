@@ -8,6 +8,7 @@ import spacetrader.economy.MarketPlace;
 import spacetrader.economy.Shipyard;
 import spacetrader.turns.TurnEvent;
 import spacetrader.turns.TurnListener;
+import spacetrader.player.Player;
 
 /**
  * This is a planet, it stores planet specific resources and social information
@@ -101,7 +102,7 @@ public class Planet implements TurnListener, Serializable {
     }
     
     @Override
-    public void handleNextTurn() {
+    public void handleNextTurn(Player player) {
         relativeWealth += rand.nextFloat() * 0.2f - 0.1f;
     }
 }

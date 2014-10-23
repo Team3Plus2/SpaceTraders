@@ -55,11 +55,13 @@ public class Shipyard implements Serializable {
      */
     public boolean buyShip(Player p, ShipType type) {
         Cargo cargo = p.getShip().getCargo();
-        if (p.getMoney() >= type.getPrice() && cargo.getNumFilled() <= type.getMaxCargo()) {
+        if (p.getMoney() >= type.getPrice() && cargo.getNumFilled() <= type.getMaxCargo()
+                && !p.getShip().getName().equals(type.getName())) {
             cargo.setMax(type.getMaxCargo());
             Ship ship = new Ship(type);
             ship.setCargo(cargo);
             p.setShip(ship);
+            p.setMoney(p.getMoney() - type.getPrice());
             return true;
         } else {
             return false;

@@ -351,7 +351,7 @@ public class SolarSystemViewController implements Initializable {
     private void travelButton() {
         if(selectedPlanet != null) {
             timer.cancel();
-            player.move(curSystem, selectedPlanet);
+            player.move(selectedPlanet);
             SpaceTrader.getInstance().goToPlanetView();
         }
     }

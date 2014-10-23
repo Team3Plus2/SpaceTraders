@@ -8,7 +8,6 @@ package spacetrader.view;
 import java.net.URL;
 import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -20,17 +19,16 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import spacetrader.cosmos.system.Planet;
 import spacetrader.cosmos.system.SolarSystem;
 import spacetrader.economy.MarketPlace;
-import spacetrader.economy.Shipyard;
 import spacetrader.economy.TradeGood;
 import spacetrader.global.Utility;
 import spacetrader.main.SpaceTrader;
 import spacetrader.player.Player;
+import spacetrader.player.Ship;
 import spacetrader.player.ShipType;
 
 /**
@@ -121,10 +119,25 @@ public class PlanetViewController implements Initializable {
         planetOptions.setVisible(true);
     }
     
+    @FXML
+    private void handleBuyShip() {
+        ShipType selected = (ShipType) (availableShips.getSelectionModel().getSelectedItem());
+        if(selected != null) {
+            curPlanet.getShipyard().buyShip(player, selected);
+            ObservableList<ShipType> list = FXCollections.observableArrayList(curPlanet.getShipyard().getListAvailable());
+            availableShips.setItems(list);
+            buyShipDetails.setText(selected.getInfo());
+            NumberFormat nf = NumberFormat.getCurrencyInstance();
+            yourMoney1.setText("Your Money: " + nf.format(player.getMoney()));
+            shipCost.setText("Cost: " + nf.format(selected.getPrice()));
+        }
+    }
+    
     private void selectShip() {
         ShipType selected = (ShipType) (availableShips.getSelectionModel().getSelectedItem());
         buyShipDetails.setText(selected.getInfo());
         NumberFormat nf = NumberFormat.getCurrencyInstance();
+        yourMoney1.setText("Your Money: " + nf.format(player.getMoney()));
         shipCost.setText("Cost: " + nf.format(selected.getPrice()));
     }
     

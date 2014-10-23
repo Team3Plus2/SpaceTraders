@@ -95,7 +95,7 @@ public class ShipType extends LoadedType implements Serializable {
                 "\nGadget Slots: " + getMaxGadgets() +
                 "\nMercenary Positions: " + getMaxGadgets() +
                 "\nMax Fuel: " + getMaxFuel() +
-                "\nFuel Cost: " + getMaxFuel();
+                "\nFuel Cost: " + getFuelCost();
     }
     
     @Override

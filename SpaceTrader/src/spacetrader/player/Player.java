@@ -81,7 +81,8 @@ public class Player implements Serializable{
      * @return true if player has enough fuel to travel and system != currentSolarSystem and planet != currentPlanet
      */
     public boolean move(SolarSystem system, Planet planet) {
-        double distance = FUEL_PER_PLANET_MOVEMENT;
+//        double distance = FUEL_PER_PLANET_MOVEMENT;
+        double distance = 0;
         if(system != currentSolarSystem)
             distance = Math.sqrt(Math.pow(system.getX() - currentSolarSystem.getX(), 2) + Math.pow(system.getY() - currentSolarSystem.getY(), 2));
         if(!ship.moveDistance(distance))

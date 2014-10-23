@@ -523,6 +523,7 @@ public class StarScreenController implements Initializable, TurnListener {
             } else {
                 Scanner in = new Scanner(System.in);
                 String reaction = in.nextLine();
+                System.out.println("Enter a to attack, t to request trade, or any other key to continue on your way");
                 if(reaction.equals("a")) {
                     fight(other);
                 } else if(reaction.equals("t")) {
@@ -533,6 +534,7 @@ public class StarScreenController implements Initializable, TurnListener {
     }
     
     public boolean confirmationInterface() {
+        System.out.println("(Y or N)");
         Scanner in = new Scanner(System.in);
         String reaction = in.nextLine();
         return reaction.equals("Y");
@@ -549,7 +551,7 @@ public class StarScreenController implements Initializable, TurnListener {
         Scanner in = new Scanner(System.in);
         int order = 0;
         while(order != -1) {
-            System.out.println("What would you like?");
+            System.out.println("What would you like?\n(enter an index of a good listed above)");
             order = in.nextInt();
             if(order <= market.getListOfGoods().size() && order > 0) {
                 System.out.println("How many would you like?");
@@ -582,7 +584,7 @@ public class StarScreenController implements Initializable, TurnListener {
         while(result == 0) {
             result = other.roundOfCombat(player, null);
             if(result == -2) {
-                System.out.println("Other ship: Hold your fire! I surrender!");
+                System.out.println("Other ship: Hold your fire! I surrender!\n(c to continue fire, any other key to accept surrender)");
                 reaction = in.nextLine();
                 if(reaction.equals("c")) {
                     result = 0;

@@ -90,7 +90,7 @@ public class Encounter{
     
     /**
      * Returns true if the encounter will try to attack the player
-     * @return true if the enocunetr will try to attack the player
+     * @return true if the encounter will try to attack the player
      */
     public boolean willAttack() {
         return willAttack;

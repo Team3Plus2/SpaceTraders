@@ -6,12 +6,8 @@
 
 package spacetrader.main;
 
-import spacetrader.economy.TradeGood;
-import spacetrader.encounter.Encounter;
-import spacetrader.economy.MarketPlace;
 import spacetrader.player.Player;
 import spacetrader.xml.XMLReader;
-import spacetrader.turns.TurnEvent;
 import java.io.IOException;
 import javafx.util.Duration;
 import javafx.animation.KeyFrame;
@@ -29,22 +25,13 @@ import javafx.stage.Stage;
 import spacetrader.cosmos.Universe;
 import spacetrader.cosmos.system.SolarSystem;
 import spacetrader.cosmos.system.Planet;
-import spacetrader.cosmos.system.Resource;
 import spacetrader.xml.DummyXMLObject;
 import spacetrader.xml.ObjectLoader;
 
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.Random;
-import spacetrader.cosmos.system.TechLevel;
-import spacetrader.player.Ship;
-import spacetrader.player.ShipType;
-import spacetrader.player.Shield;
-import spacetrader.player.Weapon;
-import spacetrader.player.Gadget;
 import spacetrader.view.SolarSystemViewController;
 import spacetrader.view.StarScreenController;
-import spacetrader.xml.LoadedType;
 
 /**
  *
@@ -150,6 +137,16 @@ public class SpaceTrader extends Application {
         }
     }
     
+    public void goToEncounter() {
+        try {
+            System.out.println("I'm about to go to encounter!");
+            loadNewScreen("/spacetrader/view/Encounter.fxml");
+        } catch(IOException e) {
+            System.out.println("EHERJELRE");
+            e.printStackTrace();
+        }
+    }
+    
     private void loadNewScreen(String FXML) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(FXML));
         Parent root = (Parent)loader.load();
@@ -161,12 +158,9 @@ public class SpaceTrader extends Application {
             StarScreenController controller = (StarScreenController)loader.getController();
             controller.setScene(stage.getScene());
         }
-        EventHandler<ActionEvent> finished = new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                if(stackPane.getChildren().size() > 1) {
-                    stackPane.getChildren().remove(0);
-                }
+        EventHandler<ActionEvent> finished = (ActionEvent event) -> {
+            if(stackPane.getChildren().size() > 1) {
+                stackPane.getChildren().remove(0);
             }
         };
         

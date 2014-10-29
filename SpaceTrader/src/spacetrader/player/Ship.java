@@ -116,6 +116,17 @@ public class Ship implements Serializable {
      */
     public boolean addGadget(Gadget gadget) {
         if (gadgets.size() < maxGadgets) {
+            if (gadget.getGadgetName().equals("CARGO")) {
+                getCargo().setMax(getCargo().getMax() + 5);
+            } //else if (gadget.getGadgetName().equals("NAVIGATION")) {
+//                
+//            } else if (gadget.getGadgetName().equals("AUTOREPAIR")) {
+//                
+//            } else if (gadget.getGadgetName().equals("TARGETING")) {
+//                
+//            } else if (gadget.getGadgetName().equals("CLOAKING")) {
+//                
+//            }
             return gadgets.add(gadget);
         } else {
             return false;

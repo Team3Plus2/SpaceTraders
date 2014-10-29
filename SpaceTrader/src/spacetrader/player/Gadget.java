@@ -54,6 +54,10 @@ public class Gadget extends Upgrade implements Serializable {
         return "Gadget";
     }
     
+    public String getGadgetName() {
+        return gadgetType.getName();
+    }
+    
     @Override
     public int getPrice() {
         return gadgetType.getPrice();

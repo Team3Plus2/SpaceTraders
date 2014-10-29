@@ -79,6 +79,9 @@ public class CharacterConfigurationScreenController implements Initializable {
     private void handleBeginAction(ActionEvent event) {
         if (!(name.getText().equals("")) && skillPointsAvailable.getProgress() == 0) {
             Player newPlayer = new Player(name.getText(), (int) pilotLevelSlider.getValue(), (int) fighterLevelSlider.getValue(), (int) traderLevelSlider.getValue(), (int) engineerLevelSlider.getValue(), 0);
+            if (name.getText().equals("MoneyCheat")) {
+                newPlayer.setMoney(1000000);
+            }
             
             SpaceTrader.getInstance().goToGame(newPlayer);
         } else {

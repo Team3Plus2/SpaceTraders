@@ -170,6 +170,7 @@ public class PlanetViewController implements Initializable {
                 curPlanet.getShipyard().buyGadget(player, (Gadget) (selected));
             }
         }
+        selectUpgrade();
     }
     
     private void selectUpgrade() {
@@ -179,20 +180,21 @@ public class PlanetViewController implements Initializable {
                 int maxWeapons = player.getShip().getMaxWeapons();
                 int weaponsFilled = player.getShip().getWeaponsFilled();
                 upgradeDetails.setText("Weapon Slots: " + maxWeapons +
-                                       "Slots Filled: " + weaponsFilled);
+                                       "\nSlots Filled: " + weaponsFilled);
             } else if (selected.getClassName().equals("Shield")) {
                 int maxShields = player.getShip().getMaxShields();
                 int shieldsFilled = player.getShip().getShieldsFilled();
                 upgradeDetails.setText("Shield Slots: " + maxShields +
-                                       "Slots Filled: " + shieldsFilled);
+                                       "\nSlots Filled: " + shieldsFilled);
             } else if (selected.getClassName().equals("Gadget")) {
                 int maxGadgets = player.getShip().getMaxGadgets();
                 int gadgetsFilled = player.getShip().getGadgetsFilled();
                 upgradeDetails.setText("Gadget Slots: " + maxGadgets +
-                                       "Slots Filled: " + gadgetsFilled);
+                                       "\nSlots Filled: " + gadgetsFilled);
             }
         }
-        upgradeDetails.setText("Your Money: " + Utility.currencyFormat(player.getMoney()));
+        upgradeDetails.setText(upgradeDetails.getText() + 
+                               "\n\n\n\nYour Money: " + Utility.currencyFormat(player.getMoney()));
         upgradeCost.setText("Cost: " + Utility.currencyFormat(selected.getPrice()));
     }
     

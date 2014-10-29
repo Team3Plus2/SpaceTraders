@@ -62,7 +62,7 @@ public class EncounterController implements Initializable {
             button2.setText("Surrender");
             button3.setText("N/A");
             button3.setVisible(false);
-        } else if (other.willRequestTrade() || other.willingToTrade()) {
+        } else if (other.willingToTrade()) {
             button1.setText("Attack");
             button2.setText("Trade");
             button3.setText("Leave");
@@ -85,14 +85,14 @@ public class EncounterController implements Initializable {
     
     @FXML
     private void handle2() {
-        if(other.willRequestTrade()) {
+        if(other.willingToTrade()) {
             openMarketplace();
         }
     }
     
     @FXML
     private void handle3() {
-        if(other.willRequestTrade()) {
+        if(other.willingToTrade()) {
             SpaceTrader.getInstance().goToSolarSystemView();
         }
     }

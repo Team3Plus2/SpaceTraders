@@ -11,7 +11,7 @@ import spacetrader.xml.FromXML;
  * 
  * @author Aaron McAnally
  */
-public class Shield implements Serializable {
+public class Shield extends Upgrade implements Serializable {
     
     public static void Load() {
         ShieldType.Load();
@@ -45,6 +45,38 @@ public class Shield implements Serializable {
         return amount;
     }
     
+    @Override
+    public String getClassName() {
+        return "Shield";
+    }
+    
+    @Override
+    public int getPrice() {
+        return shieldType.getPrice();
+    }
+    
+    @Override
+    public int getTechLevel() {
+        return shieldType.getTechLevel();
+    }
+    
+    /**
+     * @return the list of all possible shield types
+     */
+    public static ArrayList<Shield> getShieldTypes() {
+        ArrayList<Shield> shields = new ArrayList<Shield>();
+        ArrayList<ShieldType> types = ShieldType.getShieldTypes();
+        for (ShieldType type: types) {
+            shields.add(new Shield(type));
+        }
+        return shields;
+    }
+    
+    @Override
+    public String toString() {
+        return "Shield - Strength: " + this.shieldType.getStrength();
+    }
+    
 }
 
 
@@ -62,18 +94,35 @@ class ShieldType extends LoadedType implements Serializable {
     }
     
     @FromXML
-    private int strength;
+    private int strength, price, techLevel;
     
     public ShieldType() {
 
     }
     
-    ShieldType(int strength) {
+    ShieldType(int strength, int price, int techLevel) {
         this.strength = strength;
+        this.price = price;
+        this.techLevel = techLevel;
     }
     
     public int getStrength() {
         return strength;
+    }
+    
+    public int getPrice() {
+        return price;
+    }
+    
+    public int getTechLevel() {
+        return techLevel;
+    }
+    
+    /**
+     * @return the list of all shield types
+     */
+    public static ArrayList<ShieldType> getShieldTypes() {
+        return ShieldType.getList(ShieldType.class);
     }
 }
 

@@ -27,9 +27,13 @@ import spacetrader.economy.MarketPlace;
 import spacetrader.economy.TradeGood;
 import spacetrader.global.Utility;
 import spacetrader.main.SpaceTrader;
+import spacetrader.player.Gadget;
 import spacetrader.player.Player;
+import spacetrader.player.Shield;
 import spacetrader.player.Ship;
 import spacetrader.player.ShipType;
+import spacetrader.player.Upgrade;
+import spacetrader.player.Weapon;
 
 /**
  * FXML Controller class
@@ -71,14 +75,20 @@ public class PlanetViewController implements Initializable {
             selectShip();
         });
         
+        availableUpgrades.getSelectionModel().getSelectedItems().addListener((ListChangeListener.Change c) -> {
+            selectUpgrade();
+        });
+        
         player = SpaceTrader.getInstance().getPlayer();
         curSystem = player.getCurrentSolarSystem();
         curPlanet = player.getCurrentPlanet();
         planetName.setText(curPlanet.Name());
         resourceLabel.setText(curPlanet.Resources().getName());
         techLevelLabel.setText(curSystem.TechLevel().getName());
-        ObservableList<ShipType> list = FXCollections.observableArrayList(curPlanet.getShipyard().getListAvailable());
+        ObservableList<ShipType> list = FXCollections.observableArrayList(curPlanet.getShipyard().getListShipsAvailable());
         availableShips.setItems(list);
+        ObservableList<Upgrade> upgradeList = FXCollections.observableArrayList(curPlanet.getShipyard().getListUpgradesAvailable());
+        availableUpgrades.setItems(upgradeList);
         if(list.size() > 0) {
             buyShipDetails.setText(((ShipType)availableShips.getItems().get(0)).getInfo());
         }
@@ -108,6 +118,15 @@ public class PlanetViewController implements Initializable {
     private Label yourMoney1;
     
     @FXML
+    private Label upgradeDetails;
+    
+    @FXML
+    private Label upgradeCost;
+    
+    @FXML
+    private Button buyUpgrade;
+    
+    @FXML
     private void showShipyard() {
         shipyardUI.setVisible(true);
         planetOptions.setVisible(false);
@@ -124,7 +143,7 @@ public class PlanetViewController implements Initializable {
         ShipType selected = (ShipType) (availableShips.getSelectionModel().getSelectedItem());
         if(selected != null) {
             curPlanet.getShipyard().buyShip(player, selected);
-            ObservableList<ShipType> list = FXCollections.observableArrayList(curPlanet.getShipyard().getListAvailable());
+            ObservableList<ShipType> list = FXCollections.observableArrayList(curPlanet.getShipyard().getListShipsAvailable());
             availableShips.setItems(list);
             buyShipDetails.setText(selected.getInfo());
             NumberFormat nf = NumberFormat.getCurrencyInstance();
@@ -139,6 +158,28 @@ public class PlanetViewController implements Initializable {
         NumberFormat nf = NumberFormat.getCurrencyInstance();
         yourMoney1.setText("Your Money: " + nf.format(player.getMoney()));
         shipCost.setText("Cost: " + nf.format(selected.getPrice()));
+    }
+    
+    @FXML
+    private void handleUpgradeShip() {
+        Upgrade selected = (Upgrade) (availableUpgrades.getSelectionModel().getSelectedItem());
+        if (selected != null) {
+            if (selected.getClassName().equals("Weapon")) {
+                curPlanet.getShipyard().buyWeapon(player, (Weapon) (selected));
+            } else if (selected.getClassName().equals("Shield")) {
+                curPlanet.getShipyard().buyShield(player, (Shield) (selected));
+            } else if (selected.getClassName().equals("Gadget")) {
+                curPlanet.getShipyard().buyGadget(player, (Gadget) (selected));
+            }
+        }
+    }
+    
+    private void selectUpgrade() {
+        Upgrade selected = (Upgrade) (availableUpgrades.getSelectionModel().getSelectedItem());
+        //upgradeDetails.setText(selected.getInfo());
+        NumberFormat nf = NumberFormat.getCurrencyInstance();
+        upgradeDetails.setText("Your Money: " + nf.format(player.getMoney()));
+        upgradeCost.setText("Cost: " + nf.format(selected.getPrice()));
     }
     
      /**

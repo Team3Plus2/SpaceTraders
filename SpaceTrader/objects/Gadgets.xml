@@ -7,9 +7,24 @@ and open the template in the editor.
 
 
 <root>
-    <CARGO></CARGO>
-    <NAVIGATION></NAVIGATION>
-    <AUTOREPAIR></AUTOREPAIR>
-    <TARGETING></TARGETING>
-    <CLOAKING></CLOAKING>
+    <CARGO>
+        <price>1000</price>
+        <techLevel>3</techLevel>
+    </CARGO>
+    <NAVIGATION>
+        <price>1000</price>
+        <techLevel>5</techLevel>
+    </NAVIGATION>
+    <AUTOREPAIR>
+        <price>1000</price>
+        <techLevel>3</techLevel>
+    </AUTOREPAIR>
+    <TARGETING>
+        <price>1000</price>
+        <techLevel>5</techLevel>
+    </TARGETING>
+    <CLOAKING>
+        <price>20000</price>
+        <techLevel>7</techLevel>
+    </CLOAKING>
 </root>

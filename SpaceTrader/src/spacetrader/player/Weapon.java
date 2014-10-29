@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * 
  * @author Aaron McAnally
  */
-public class Weapon implements Serializable {
+public class Weapon extends Upgrade implements Serializable {
     
     public static void Load() {
         LaserType.Load();
@@ -39,8 +39,40 @@ public class Weapon implements Serializable {
         return laserType;
     }
     
+    /**
+     * @return the list of all weapon types
+     */
+    public static ArrayList<Weapon> getWeaponTypes() {
+        ArrayList<Weapon> weapons = new ArrayList<Weapon>();
+        ArrayList<LaserType> types = LaserType.getLaserTypes();
+        for (LaserType type: types) {
+            weapons.add(new Weapon(type));
+        }
+        return weapons;
+    }
+    
     public int getStrength() {
         return laserType.getStrength();
+    }
+    
+    @Override
+    public String getClassName() {
+        return "Weapon";
+    }
+    
+    @Override
+    public int getPrice() {
+        return laserType.getPrice();
+    }
+    
+    @Override
+    public int getTechLevel() {
+        return laserType.getTechLevel();
+    }
+    
+    @Override
+    public String toString() {
+        return "Weapon - Strength: " + this.getStrength();
     }
 
 }
@@ -59,7 +91,7 @@ class LaserType extends LoadedType implements Serializable {
     }
     
     @FromXML
-    private int strength;
+    private int strength, price, techLevel;
 
     /**
      * Required by XMLReader
@@ -68,11 +100,28 @@ class LaserType extends LoadedType implements Serializable {
         
     }
     
-    LaserType(int strength) {
+    LaserType(int strength, int price, int techLevel) {
         this.strength = strength;
+        this.price = price;
+        this.techLevel = techLevel;
     }
     
     public int getStrength() {
         return strength;
+    }
+    
+    public int getPrice() {
+        return price;
+    }
+    
+    public int getTechLevel() {
+        return techLevel;
+    }
+    
+    /**
+     * @return the list of all laser types
+     */
+    public static ArrayList<LaserType> getLaserTypes() {
+        return ShieldType.getList(LaserType.class);
     }
 }

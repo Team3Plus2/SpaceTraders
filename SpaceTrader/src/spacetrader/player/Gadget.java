@@ -3,6 +3,7 @@ package spacetrader.player;
 import java.util.ArrayList;
 import java.util.Random;
 import java.io.Serializable;
+import spacetrader.xml.FromXML;
 import spacetrader.xml.LoadedType;
 
 /**
@@ -10,7 +11,7 @@ import spacetrader.xml.LoadedType;
  * 
  * @author Aaron McAnally
  */
-public class Gadget implements Serializable {
+public class Gadget extends Upgrade implements Serializable {
 
     private GadgetType gadgetType;
     
@@ -36,6 +37,38 @@ public class Gadget implements Serializable {
         return this.gadgetType;
     }
     
+    /**
+     * @return the list of all gadget types
+     */
+    public static ArrayList<Gadget> getGadgetTypes() {
+        ArrayList<Gadget> gadgets = new ArrayList<Gadget>();
+        ArrayList<GadgetType> types = GadgetType.getGadgetTypes();
+        for (GadgetType type: types) {
+            gadgets.add(new Gadget(type));
+        }
+        return gadgets;
+    }
+    
+    @Override
+    public String getClassName() {
+        return "Gadget";
+    }
+    
+    @Override
+    public int getPrice() {
+        return gadgetType.getPrice();
+    }
+    
+    @Override
+    public int getTechLevel() {
+        return gadgetType.getTechLevel();
+    }
+    
+    @Override
+    public String toString() {
+        return "Gadget - Type: " + this.gadgetType.getName();
+    }
+    
 }
 
 class GadgetType extends LoadedType implements Serializable {
@@ -45,8 +78,31 @@ class GadgetType extends LoadedType implements Serializable {
     public static void Load() {
         GadgetType.Load(GadgetType.class, GadgetFileLocation, null);
     }
-
+    
+    @FromXML
+    private int price, techLevel;
+    
     public GadgetType() {
         
+    }
+    
+    public GadgetType(int price, int techLevel) {
+        this.price = price;
+        this.techLevel = techLevel;
+    }
+    
+    public int getPrice() {
+        return price;
+    }
+    
+    public int getTechLevel() {
+        return techLevel;
+    }
+    
+    /**
+     * @return the list of all gadget types
+     */
+    public static ArrayList<GadgetType> getGadgetTypes() {
+        return GadgetType.getList(GadgetType.class);
     }
 }

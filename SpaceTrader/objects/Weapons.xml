@@ -9,11 +9,17 @@ and open the template in the editor.
 <root>
     <PULSE>
         <strength>1</strength>
+        <price>1000</price>
+        <techLevel>3</techLevel>
     </PULSE>
     <BEAM>
         <strength>2</strength>
+        <price>5000</price>
+        <techLevel>5</techLevel>
     </BEAM>
     <MILITARY>
         <strength>3</strength>
+        <price>10000</price>
+        <techLevel>7</techLevel>
     </MILITARY>
 </root>

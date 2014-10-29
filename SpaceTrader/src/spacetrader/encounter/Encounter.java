@@ -174,7 +174,13 @@ public class Encounter{
      * @param other player to loot
      */
     public void loot(Player other) {
-        other.getCargoList().clear();
+        ArrayList<TradeGood> goodTypes = TradeGood.getTradeGoodTypes();
+        Object[] goodObjs = goodTypes.toArray();
+        TradeGood[] goods = new TradeGood[goodObjs.length];
+        for(int i = 0; i < goods.length; i++) {
+            goods[i] = TradeGood.class.cast(goodObjs[i]);
+        }
+        other.removeTradeGoodsByType(goods);
     }
     
     /**

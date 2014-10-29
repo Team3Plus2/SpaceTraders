@@ -146,18 +146,16 @@ public class PlanetViewController implements Initializable {
             ObservableList<ShipType> list = FXCollections.observableArrayList(curPlanet.getShipyard().getListShipsAvailable());
             availableShips.setItems(list);
             buyShipDetails.setText(selected.getInfo());
-            NumberFormat nf = NumberFormat.getCurrencyInstance();
-            yourMoney1.setText("Your Money: " + nf.format(player.getMoney()));
-            shipCost.setText("Cost: " + nf.format(selected.getPrice()));
+            yourMoney1.setText("Your Money: " + Utility.currencyFormat(player.getMoney()));
+            shipCost.setText("Cost: " + Utility.currencyFormat(selected.getPrice()));
         }
     }
     
     private void selectShip() {
         ShipType selected = (ShipType) (availableShips.getSelectionModel().getSelectedItem());
         buyShipDetails.setText(selected.getInfo());
-        NumberFormat nf = NumberFormat.getCurrencyInstance();
-        yourMoney1.setText("Your Money: " + nf.format(player.getMoney()));
-        shipCost.setText("Cost: " + nf.format(selected.getPrice()));
+        yourMoney1.setText("Your Money: " + Utility.currencyFormat(player.getMoney()));
+        shipCost.setText("Cost: " + Utility.currencyFormat(selected.getPrice()));
     }
     
     @FXML
@@ -176,10 +174,26 @@ public class PlanetViewController implements Initializable {
     
     private void selectUpgrade() {
         Upgrade selected = (Upgrade) (availableUpgrades.getSelectionModel().getSelectedItem());
-        //upgradeDetails.setText(selected.getInfo());
-        NumberFormat nf = NumberFormat.getCurrencyInstance();
-        upgradeDetails.setText("Your Money: " + nf.format(player.getMoney()));
-        upgradeCost.setText("Cost: " + nf.format(selected.getPrice()));
+        if (selected != null) {
+            if (selected.getClassName().equals("Weapon")) {
+                int maxWeapons = player.getShip().getMaxWeapons();
+                int weaponsFilled = player.getShip().getWeaponsFilled();
+                upgradeDetails.setText("Weapon Slots: " + maxWeapons +
+                                       "Slots Filled: " + weaponsFilled);
+            } else if (selected.getClassName().equals("Shield")) {
+                int maxShields = player.getShip().getMaxShields();
+                int shieldsFilled = player.getShip().getShieldsFilled();
+                upgradeDetails.setText("Shield Slots: " + maxShields +
+                                       "Slots Filled: " + shieldsFilled);
+            } else if (selected.getClassName().equals("Gadget")) {
+                int maxGadgets = player.getShip().getMaxGadgets();
+                int gadgetsFilled = player.getShip().getGadgetsFilled();
+                upgradeDetails.setText("Gadget Slots: " + maxGadgets +
+                                       "Slots Filled: " + gadgetsFilled);
+            }
+        }
+        upgradeDetails.setText("Your Money: " + Utility.currencyFormat(player.getMoney()));
+        upgradeCost.setText("Cost: " + Utility.currencyFormat(selected.getPrice()));
     }
     
      /**

@@ -374,13 +374,25 @@ public class Ship implements Serializable {
     public int getMaxWeapons() {
         return maxWeapons;
     }
+    
+    public int getWeaponsFilled() {
+        return weapons.size();
+    }
 
     public int getMaxShields() {
         return maxShields;
     }
+    
+    public int getShieldsFilled() {
+        return shields.size();
+    }
 
     public int getMaxGadgets() {
         return maxGadgets;
+    }
+    
+    public int getGadgetsFilled() {
+        return gadgets.size();
     }
     
     public float getPrice() {

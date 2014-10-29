@@ -118,10 +118,12 @@ public class Shipyard implements Serializable {
      */
     public boolean buyWeapon(Player p, Weapon weapon) {
         if (p.getMoney() >= weapon.getPrice()) {
-           return p.getShip().addWeapon(weapon);
-        } else {
-            return false;
+           if (p.getShip().addWeapon(weapon)) {
+               p.setMoney(p.getMoney() - weapon.getPrice());
+               return true;
+           }
         }
+        return false;
     }
     
     /**
@@ -133,10 +135,12 @@ public class Shipyard implements Serializable {
      */
     public boolean buyShield(Player p, Shield shield) {
         if (p.getMoney() >= shield.getPrice()) {
-           return p.getShip().addShield(shield);
-        } else {
-            return false;
+           if (p.getShip().addShield(shield)) {
+               p.setMoney(p.getMoney() - shield.getPrice());
+               return true;
+           }
         }
+        return false;
     }
     
     /**
@@ -148,10 +152,12 @@ public class Shipyard implements Serializable {
      */
     public boolean buyGadget(Player p, Gadget gadget) {
         if (p.getMoney() >= gadget.getPrice()) {
-           return p.getShip().addGadget(gadget);
-        } else {
-            return false;
+           if (p.getShip().addGadget(gadget)) {
+               p.setMoney(p.getMoney() - gadget.getPrice());
+               return true;
+           }
         }
+        return false;
     }
     
     /**

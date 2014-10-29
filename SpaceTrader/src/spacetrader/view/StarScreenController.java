@@ -188,14 +188,17 @@ public class StarScreenController implements Initializable {
         } else {
             player.move(selectedSolarSystem, selected);
         }
-        
+        if(timer != null) {
+            timer.cancel();
+        }
+        Random rand = new Random();
+        if(rand.nextFloat() < 0.8) {
+            SpaceTrader.getInstance().goToEncounter();
+            return;
+        }
         if(player.isDead()) {
             SpaceTrader.getInstance().goToWelcomeScreen();
             return;
-        }
-        
-        if(timer != null) {
-            timer.cancel();
         }
         SpaceTrader.getInstance().goToSolarSystemView();
     }

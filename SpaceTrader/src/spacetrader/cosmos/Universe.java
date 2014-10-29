@@ -329,7 +329,8 @@ public class Universe implements Iterable<SolarSystem>, TurnListener, Serializab
     public void handleNextTurn(Player player) {
         Random rand = new Random();
         
-        if(rand.nextFloat() < 0.5) {
+        /*
+        if(rand.nextFloat() < 0.1) {
             Encounter other = new Encounter(player.getCurrentSolarSystem(), player);
             System.out.println(other.getGreeting());
             
@@ -372,6 +373,7 @@ public class Universe implements Iterable<SolarSystem>, TurnListener, Serializab
                 }
             }
         }
+        */
     }
     
     public boolean confirmationInterface() {

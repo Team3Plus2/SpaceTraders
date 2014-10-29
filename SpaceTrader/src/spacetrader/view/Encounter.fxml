@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.shape.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="StarBackdrop" prefHeight="576.0" prefWidth="1024.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="spacetrader.view.EncounterController">
+    <stylesheets>
+        <URL value="@SpaceTraderStylesheet.css" />
+    </stylesheets>
+   <children>
+      <Label layoutX="360.0" layoutY="33.0" style="-fx-font-size: 60;" text="Encounter!" textAlignment="CENTER" />
+      <AnchorPane fx:id="encounterUI" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <HBox layoutX="303.0" layoutY="107.0" prefHeight="399.0" prefWidth="671.0" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="303.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="107.0">
+               <children>
+                  <VBox prefHeight="476.0" prefWidth="462.0" styleClass="gridpane" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label alignment="CENTER" prefHeight="55.0" prefWidth="442.0" style="-fx-font-size: 50; -fx-border-style: solid; -fx-border-color: transparent transparent black transparent; -fx-border-width: 2;" text="Log" textAlignment="CENTER">
+                           <VBox.margin>
+                              <Insets left="10.0" right="10.0" top="8.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label fx:id="logText" alignment="BOTTOM_LEFT" prefHeight="408.0" prefWidth="462.0" text="test" textOverrun="CLIP" wrapText="true">
+                           <padding>
+                              <Insets bottom="20.0" left="10.0" />
+                           </padding>
+                           <VBox.margin>
+                              <Insets left="10.0" right="10.0" top="10.0" />
+                           </VBox.margin>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER" prefHeight="476.0" prefWidth="462.0" spacing="50.0" styleClass="gridpane" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Button fx:id="button1" mnemonicParsing="false" onAction="#handle1" prefHeight="80.0" prefWidth="280.0" text="Button1" textAlignment="CENTER" />
+                        <Button fx:id="button2" mnemonicParsing="false" onAction="#handle2" prefHeight="80.0" prefWidth="280.0" text="Button2" />
+                        <Button fx:id="button3" mnemonicParsing="false" onAction="#handle3" prefHeight="80.0" prefWidth="280.0" text="Button3" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <VBox layoutX="51.0" layoutY="102.0" prefHeight="205.0" prefWidth="249.0" styleClass="gridpane" AnchorPane.leftAnchor="51.0">
+               <children>
+                  <Label alignment="CENTER" prefHeight="55.0" prefWidth="442.0" style="-fx-font-size: 30; -fx-border-style: solid; -fx-border-color: transparent transparent black transparent; -fx-border-width: 2;" text="Other Ship" textAlignment="CENTER" />
+                  <Label fx:id="otherShipDetails" style="-fx-font-size: 20;" text="Label" VBox.vgrow="ALWAYS">
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" />
+                     </VBox.margin>
+                  </Label>
+               </children>
+            </VBox>
+            <VBox layoutX="52.0" layoutY="310.0" prefHeight="205.0" prefWidth="249.0" styleClass="gridpane">
+               <children>
+                  <Label alignment="CENTER" prefHeight="55.0" prefWidth="442.0" style="-fx-font-size: 30; -fx-border-style: solid; -fx-border-color: transparent transparent black transparent; -fx-border-width: 2;" text="Your Ship" textAlignment="CENTER" />
+                  <Label fx:id="yourShipDetails" style="-fx-font-size: 20;" text="Label">
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" />
+                     </VBox.margin>
+                  </Label>
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+      <TabPane fx:id="marketplaceUI" layoutX="150.0" layoutY="104.0" prefHeight="456.0" prefWidth="725.0" stylesheets="@SpaceTraderStylesheet.css" tabClosingPolicy="UNAVAILABLE" tabMaxHeight="50.0" tabMaxWidth="250.0" tabMinHeight="50.0" tabMinWidth="340.0" visible="false" AnchorPane.bottomAnchor="16.0" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="149.0" AnchorPane.topAnchor="104.0">
+         <tabs>
+            <Tab closable="false" text="Buy">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ListView id="listView" fx:id="planetInventory" layoutX="14.0" layoutY="57.0" prefHeight="321.0" prefWidth="391.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="320.0" AnchorPane.topAnchor="57.0" />
+                        <Button fx:id="back1" mnemonicParsing="false" onAction="#hideMarketplace" text="Back" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="420.0" AnchorPane.rightAnchor="15.0" />
+                        <Button fx:id="buyButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleBuyAction" text="Buy" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="420.0" AnchorPane.rightAnchor="15.0" />
+                        <Label layoutX="339.0" layoutY="230.0" prefHeight="32.0" prefWidth="73.0" text="Qty:" AnchorPane.leftAnchor="420.0" AnchorPane.rightAnchor="232.0" />
+                        <Label fx:id="buyDetails" alignment="TOP_LEFT" layoutX="426.0" layoutY="57.0" prefHeight="133.0" prefWidth="284.0" style="-fx-font-size: 25;" AnchorPane.leftAnchor="420.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="57.0" />
+                        <Label fx:id="planetMarketplaceLabel" layoutX="44.0" layoutY="14.0" prefHeight="32.0" prefWidth="443.0" style="-fx-alignment: CENTER;" text="Trader Inventory" textAlignment="CENTER" textOverrun="CLIP" AnchorPane.leftAnchor="44.0" AnchorPane.rightAnchor="44.0" AnchorPane.topAnchor="14.0" />
+                        <TextField fx:id="buyQuantity" layoutX="502.0" onKeyPressed="#selectBuyableItem" prefHeight="30.0" prefWidth="208.0" style="-fx-padding: 0,0,0;" styleClass="textfield" text="1" AnchorPane.bottomAnchor="130.0" AnchorPane.leftAnchor="500.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="233.0" />
+                        <Line endX="200.0" layoutX="262.0" layoutY="50.0" opacity="0.6" startX="-400.0" strokeWidth="2.0" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="60.0" />
+                        <Label fx:id="buySum" layoutX="339.0" layoutY="189.0" prefHeight="35.0" prefWidth="370.0" style="-fx-font-size: 25;" text="Sum:" AnchorPane.leftAnchor="420.0" AnchorPane.rightAnchor="15.0" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab closable="false" text="Sell">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ListView fx:id="playerInventory" layoutX="14.0" layoutY="56.0" prefHeight="322.0" prefWidth="309.0" styleClass="gridpane" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="320.0" AnchorPane.topAnchor="56.0" />
+                        <Button fx:id="back2" mnemonicParsing="false" onAction="#hideMarketplace" text="Back" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="420.0" AnchorPane.rightAnchor="15.0" />
+                        <Button fx:id="sellButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleSellAction" text="Sell" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="420.0" AnchorPane.rightAnchor="15.0" />
+                        <TextField fx:id="sellQuantity" layoutX="490.0" layoutY="231.0" onKeyPressed="#selectSellableItem" prefHeight="31.0" prefWidth="220.0" style="-fx-padding: 0,0,0;" styleClass="textfield" text="1" AnchorPane.bottomAnchor="131.0" AnchorPane.leftAnchor="500.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="231.0" />
+                        <Label layoutX="339.0" layoutY="230.0" prefHeight="32.0" prefWidth="77.0" text="Qty:" AnchorPane.bottomAnchor="130.0" AnchorPane.leftAnchor="420.0" AnchorPane.rightAnchor="228.0" />
+                        <Label fx:id="sellDetails" alignment="TOP_LEFT" layoutY="57.0" prefHeight="167.0" prefWidth="170.0" style="-fx-font-size: 25;" AnchorPane.leftAnchor="420.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="57.0" />
+                        <Label prefHeight="32.0" prefWidth="251.0" style="-fx-alignment: center;" text="Player Inventory" textAlignment="CENTER" textOverrun="CLIP" AnchorPane.leftAnchor="44.0" AnchorPane.rightAnchor="44.0" AnchorPane.topAnchor="14.0" />
+                        <Line endX="200.0" layoutX="262.0" layoutY="50.0" opacity="0.6" startX="-400.0" strokeWidth="2.0" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="60.0" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+         </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>

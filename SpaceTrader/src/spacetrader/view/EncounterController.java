@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package spacetrader.view;
 
 import java.net.URL;
@@ -58,10 +53,7 @@ public class EncounterController implements Initializable {
         other = new Encounter(player.getCurrentSolarSystem(), player);
         logText.setText(other.getGreeting());
         if(other.willAttack()) {
-            button1.setText("Attack");
-            button2.setText("Surrender");
-            button3.setText("N/A");
-            button3.setVisible(false);
+            attack();
         } else if (other.willingToTrade()) {
             button1.setText("Attack");
             button2.setText("Trade");
@@ -80,7 +72,7 @@ public class EncounterController implements Initializable {
     
     @FXML
     private void handle1() {
-        
+        attack();
     }
     
     @FXML
@@ -96,6 +88,36 @@ public class EncounterController implements Initializable {
             SpaceTrader.getInstance().goToSolarSystemView();
         }
     }
+    
+    public void log(String item) {
+        String current = logText.getText();
+        current += "\n" + item;
+        logText.setText(current);
+    }
+    
+    /***************************************************************************
+     * Attacking interface
+     **************************************************************************/
+    
+    public void attack() {
+        button1.setText("Attack");
+        button2.setText("Surrender");
+        button3.setText("N/A");
+        button3.setVisible(false);
+        
+        log("Entered Combat");
+    }
+    
+    
+    /***************************************************************************
+     * Searching interface
+     **************************************************************************/
+    
+    
+    
+    /***************************************************************************
+     * Trading/Looting/Salvaging interface
+     **************************************************************************/
     
     @FXML
     private void hideMarketplace() {

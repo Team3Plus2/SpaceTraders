@@ -2,6 +2,7 @@ package spacetrader.view;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -92,6 +93,11 @@ public class EncounterController implements Initializable {
     public void log(String item) {
         String current = logText.getText();
         current += "\n" + item;
+        String[] tempstrings = current.split("\n");
+        if (tempstrings.length > 8) {
+            tempstrings = Arrays.copyOfRange(tempstrings, 1, tempstrings.length);
+            current = String.join("\n", tempstrings);
+        }
         logText.setText(current);
     }
     

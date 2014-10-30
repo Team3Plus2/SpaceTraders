@@ -49,11 +49,21 @@ public class Gadget extends Upgrade implements Serializable {
         return gadgets;
     }
     
+    /**
+     * Used to differentiate between Upgrade types
+     * 
+     * @return "Gadget"
+     */
     @Override
     public String getClassName() {
         return "Gadget";
     }
     
+    /**
+     * Used to differentiate between gadget types
+     * 
+     * @return the name of the gadget type
+     */
     public String getGadgetName() {
         return gadgetType.getName();
     }

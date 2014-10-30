@@ -35,6 +35,11 @@ public class Weapon extends Upgrade implements Serializable {
         this.laserType = laserType;
     }
     
+    /**
+     * Access to the LaserType inner class
+     * 
+     * @return the laserType for the weapon
+     */
     public LaserType getLaserType() {
         return laserType;
     }
@@ -51,10 +56,18 @@ public class Weapon extends Upgrade implements Serializable {
         return weapons;
     }
     
+    /**
+     * @return the weapon's strength
+     */
     public int getStrength() {
         return laserType.getStrength();
     }
     
+    /**
+     * Used to differentiate between Upgrade types
+     * 
+     * @return "Weapon"
+     */
     @Override
     public String getClassName() {
         return "Weapon";

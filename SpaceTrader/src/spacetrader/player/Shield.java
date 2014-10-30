@@ -45,6 +45,11 @@ public class Shield extends Upgrade implements Serializable {
         return amount;
     }
     
+    /**
+     * Used to differentiate between Upgrade types
+     * 
+     * @return "Shield"
+     */
     @Override
     public String getClassName() {
         return "Shield";

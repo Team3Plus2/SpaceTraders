@@ -17,7 +17,7 @@
    <children>
       <SplitPane dividerPositions="0.5" prefHeight="576.0" prefWidth="1024.0" style="-fx-background-color: transparent;" stylesheets="@SpaceTraderStylesheet.css">
         <items>
-          <AnchorPane fx:id="planetOptions" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" visible="false">
+          <AnchorPane fx:id="planetOptions" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
                   <GridPane layoutX="2.0" layoutY="9.0" prefHeight="562.0" prefWidth="503.0" styleClass="gridpane" stylesheets="@SpaceTraderStylesheet.css" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="20.0">
                     <columnConstraints>
@@ -121,7 +121,7 @@
             </Tab>
          </tabs>
       </TabPane>
-      <TabPane fx:id="shipyardUI" layoutX="144.0" layoutY="63.0" prefHeight="456.0" prefWidth="725.0" stylesheets="@SpaceTraderStylesheet.css" tabClosingPolicy="UNAVAILABLE" tabMaxHeight="50.0" tabMaxWidth="200.0" tabMinHeight="50.0" tabMinWidth="226.0">
+      <TabPane fx:id="shipyardUI" layoutX="144.0" layoutY="63.0" prefHeight="456.0" prefWidth="725.0" stylesheets="@SpaceTraderStylesheet.css" tabClosingPolicy="UNAVAILABLE" tabMaxHeight="50.0" tabMaxWidth="200.0" tabMinHeight="50.0" tabMinWidth="226.0" visible="false">
          <tabs>
             <Tab closable="false" text="Buy Ship">
                <content>

@@ -192,7 +192,7 @@ public class StarScreenController implements Initializable {
             timer.cancel();
         }
         Random rand = new Random();
-        if(rand.nextFloat() < 0.8) {
+        if(rand.nextFloat() < 0.3) {
             SpaceTrader.getInstance().goToEncounter();
             return;
         }

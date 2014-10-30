@@ -57,6 +57,27 @@ public class Player implements Serializable {
     }
     
     /**
+     * @return the damage to the ship's shields
+     */
+    public int getDamageToShields() {
+        return ship.getDamageToShields();
+    }
+    
+    /**
+     * @return the damage this ship dealt in the last attack
+     */
+    public int getDamageDealt() {
+        return ship.getDamageDealt();
+    }
+    
+    /**
+     * @return the most recently destroyed objects from the ship
+     */
+    public ArrayList getDestroyed() {
+        return ship.getDestroyed();
+    }
+    
+    /**
      * Move the player to the given solar system
      * 
      * @param system target solar system

@@ -159,6 +159,34 @@ public class Encounter{
     }
     
     /**
+     * @return the damage to the ship's shields
+     */
+    public int getDamageToShields() {
+        return captain.getDamageToShields();
+    }
+    
+    /**
+     * @return the most recently destroyed objects from the ship
+     */
+    public ArrayList getDestroyed() {
+        return captain.getDestroyed();
+    }
+    
+    /**
+     * @return the damage this ship dealt in the last attack
+     */
+    public int getDamageDealt() {
+        return captain.getDamageDealt();
+    }
+    
+    /**
+     * @return the ship for this encounter
+     */
+    public Ship getShip() {
+        return captain.getShip();
+    }
+    
+    /**
      * 
      * @param other 
      * @return true if something is found
@@ -185,10 +213,13 @@ public class Encounter{
     
     /**
      * Gets a marketplace from this encounter's tradegoods
+     * @param system system context of the market
      * @return a marketplace
      */
-    public MarketPlace getMarketPlace() {
-        return new MarketPlace(captain.getCargoList());
+    public MarketPlace getMarketPlace(SolarSystem system) {
+        MarketPlace market = new MarketPlace(captain.getCargoList());
+        market.setupGoodsWithLocale(system.TechLevel());
+        return market;
     }
     
     /**

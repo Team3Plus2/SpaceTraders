@@ -28,8 +28,10 @@ public class Ship implements Serializable {
     private ArrayList<Shield> shields;
     private ArrayList<Gadget> gadgets;
     private ArrayList<Mercenary> mercenaries;
+    private ArrayList Destroyed;//an arraylist of objects destroyed the last time this ship was damaged
     private Cargo cargo;
     private int damageToShields;
+    private int damageFromLastAttack;//damage this ship dealt in last attack
     private String name;
     
     /**
@@ -225,8 +227,8 @@ public class Ship implements Serializable {
             modifier = 1;
         Random rand = new Random();
         int modifierSeed = rand.nextInt(modifier);
-        
-        return other.recieveDamage(getPower() + (modifierSeed/5), targets);
+        damageFromLastAttack = getPower() + (modifierSeed/5);//damage from this attack now
+        return other.recieveDamage(damageFromLastAttack, targets);
     }
     
     /**
@@ -237,6 +239,7 @@ public class Ship implements Serializable {
      * @return true if the ship was destroyed, false if it survived
      */
     public boolean recieveDamage(int amount, ArrayList targets) {
+        Destroyed = new ArrayList();
         damageToShields += amount;
         
         if(!shields.isEmpty()) {
@@ -246,6 +249,7 @@ public class Ship implements Serializable {
                 int absorbed = a.absorbDamage(damageToShields);
                 if(absorbed < 0) {
                     damageToShields += absorbed;//add since the shield's destructioned is denoted through a negative absorbtion return
+                    Destroyed.add(a);
                     iter.remove();
                 }
             } while(iter.hasNext());
@@ -260,6 +264,7 @@ public class Ship implements Serializable {
                             Iterator<Weapon> weapIter = weapons.iterator();
                             for(Weapon b = weapIter.next(); weapIter.hasNext(); b = weapIter.next()) {
                                 if(b.getLaserType().equals(weap.getLaserType())) {
+                                    Destroyed.add(b);
                                     weapIter.remove();
                                     damageToShields--;
                                 }
@@ -271,6 +276,7 @@ public class Ship implements Serializable {
                             Iterator<Gadget> gadgIter = gadgets.iterator();
                             for(Gadget b = gadgIter.next(); gadgIter.hasNext(); b = gadgIter.next()) {
                                 if(b.getType().equals(gadg.getType())) {
+                                    Destroyed.add(b);
                                     gadgIter.remove();
                                     damageToShields--;
                                 }
@@ -288,18 +294,18 @@ public class Ship implements Serializable {
                     int type = rand.nextInt(1);
                     if(type == 0) {
                         if(!weapons.isEmpty()) {
-                            weapons.remove(0);
+                            Destroyed.add(weapons.remove(0));
                             removed = true;
                         } else if(!gadgets.isEmpty()) {
-                            gadgets.remove(0);
+                            Destroyed.add(gadgets.remove(0));
                             removed = true;
                         }
                     } else {
                         if(!gadgets.isEmpty()) {
-                            gadgets.remove(0);
+                            Destroyed.add(gadgets.remove(0));
                             removed = true;
                         } else if(!weapons.isEmpty()) {
-                            weapons.remove(0);
+                            Destroyed.add(weapons.remove(0));
                             removed = true;
                         }
                     }
@@ -312,26 +318,25 @@ public class Ship implements Serializable {
     }
     
     /**
-     * Damages shields
-     * 
-     * This is also when any destroyed shields are actually removed from the arraylist
-     * @return the number of shields destroyed
+     * @return the items destroyed in the last round of combat
      */
-    /*public int damageShields() {
-        Iterator<Shield> iter = shields.iterator();
-        int removeCount = 0;
-        for(Shield a = iter.next() ;iter.hasNext(); a = iter.next()) {
-            int absorbed = a.absorbDamage(damageToShields);
-            if(absorbed < 0) {
-                damageToShields += absorbed;//add since the shield's destructioned is denoted through a negative absorbtion return
-                iter.remove();
-                removeCount++;
-            } else {
-                damageToShields -= absorbed;
-            }
-        }
-        return removeCount;
-    }*/
+    public ArrayList getDestroyed() {
+        return Destroyed;
+    }
+    
+    /**
+     * @return returns the pending damage to the shields
+     */
+    public int getDamageToShields() {
+        return damageToShields;
+    }
+    
+    /**
+     * @return the damage this ship dealt in the last attack
+     */
+    public int getDamageDealt() {
+        return damageFromLastAttack;
+    }
     
     public float getFuel() {
         return fuel;

@@ -77,6 +77,16 @@ public class MarketPlace implements TurnListener, Serializable {
     }
     
     /**
+     * calculate the price of all the marketplace goods with the current location
+     * @param localTech the technology of the local area
+     */
+    public void setupGoodsWithLocale(TechLevel localTech) {
+        for(TradeGood a : tradeGoods) {
+            a.computeCurrentPriceEach(localTech, Resource.Default());
+        }
+    }
+    
+    /**
      * Allows a Player to buy TradeGoods from this MarketPlace.
      * 
      * @param p the Player trying to buy TradeGoods from this MarketPlace

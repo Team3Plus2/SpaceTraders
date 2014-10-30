@@ -22,6 +22,7 @@ import spacetrader.encounter.Encounter;
 import spacetrader.global.Utility;
 import spacetrader.main.SpaceTrader;
 import spacetrader.player.Player;
+import spacetrader.player.ShipType;
 
 /**
  * FXML Controller class
@@ -32,6 +33,9 @@ public class EncounterController implements Initializable {
     
     private Player player;
     private Encounter other;
+    private MarketPlace market;
+
+    private int state;//0-standard, 1-attack, 2-enemy surrender, 3-player is destroyed, 4-leave state, 5-search request
     
     @FXML
     private Label logText, otherShipDetails, yourShipDetails;
@@ -52,10 +56,21 @@ public class EncounterController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         player = SpaceTrader.getInstance().getPlayer();
         other = new Encounter(player.getCurrentSolarSystem(), player);
+        
+        yourShipDetails.setText(("Ship: " + player.getShip().getName()));
+        otherShipDetails.setText(("Ship: " + other.getShip().getName()));
+        
         logText.setText(other.getGreeting());
         if(other.willAttack()) {
             attack();
-        } else if (other.willingToTrade()) {
+        } else if(other.willRequestSearch()) {
+            log("We are the local police force in this sector, please allow us to search your ship for illegal goods");
+            button1.setText("Okay");
+            button2.setText("Never!");
+            button3.setText("N/A");
+            button3.setVisible(false);
+            state = 5;
+        } else {
             button1.setText("Attack");
             button2.setText("Trade");
             button3.setText("Leave");
@@ -73,23 +88,48 @@ public class EncounterController implements Initializable {
     
     @FXML
     private void handle1() {
-        attack();
+        if(state == 3) {
+            destroyShip();
+        } else if(state == 4) {
+            leaveEncounter();
+        } else if(state == 5) {
+            search();
+        } else {
+            attack();
+        }
     }
     
     @FXML
     private void handle2() {
-        if(other.willingToTrade()) {
-            openMarketplace();
+        if(state == 1) {
+            other.loot(player);
+            log("The enemy looted your ship");
+            leaveInterface();
+        } else if(state == 2) {
+            loot();
+        } else if(state == 5) {
+            log("Very well, then we will search by force!");
+            button1.setText("Attack");
+            button2.setText("Surrender");
+            button3.setText("N/A");
+            button3.setVisible(false);
+            state = 1;
+        } else {
+            if(other.willingToTrade()) {
+                trade();
+            }
         }
     }
     
     @FXML
     private void handle3() {
-        if(other.willingToTrade()) {
-            SpaceTrader.getInstance().goToSolarSystemView();
-        }
+        leaveEncounter();
     }
     
+    /**
+     * write item as a new line to the ui log
+     * @param item item to write
+     */
     public void log(String item) {
         String current = logText.getText();
         current += "\n" + item;
@@ -101,29 +141,139 @@ public class EncounterController implements Initializable {
         logText.setText(current);
     }
     
+    /**
+     * Clear all current text from the log
+     */
+    public void clearLog() {
+        logText.setText("");
+    }
+    
+    /**
+     * sends the player on his way
+     */
+    private void leaveEncounter() {
+        SpaceTrader.getInstance().goToSolarSystemView();
+    }
+    
+    /**
+     * setup buttons and state to give user leave button
+     */
+    private void leaveInterface() {
+        button1.setText("Okay");
+        button2.setVisible(false);
+        button3.setVisible(false);
+        state = 4;
+    }
+    
     /***************************************************************************
      * Attacking interface
      **************************************************************************/
     
+    /**
+     * executes a round of combat
+     */
     public void attack() {
-        button1.setText("Attack");
-        button2.setText("Surrender");
-        button3.setText("N/A");
-        button3.setVisible(false);
+        if(state != 1) {
+            state = 1;
+            button1.setText("Attack");
+            button2.setText("Surrender");
+            button3.setText("N/A");
+            button3.setVisible(false);
+
+            log("Entered Combat");
+        } else {
+            button1.setText("Continue");
+        }
         
-        log("Entered Combat");
+        int result = other.roundOfCombat(player, null);
+        log("Player dealt damage: " + player.getDamageDealt());
+        if(other.getDestroyed() != null) {
+            for(Object o : other.getDestroyed()) {
+                log("Item destroyed: " + o.toString());
+            }
+        }
+        log("Top shield has sustained " + other.getDamageToShields() + "damage");
+        
+        log("Enemy dealt damage: " + other.getDamageDealt());
+        if(other.getDestroyed() != null) {
+            for(Object o : player.getDestroyed()) {
+                log("Item destroyed: " + o.toString());
+            }
+        }
+        log("Top shield has sustained " + player.getDamageToShields() + "damage");
+        
+        if(result == -1) {//enemy is destroyed
+            log("");
+            log("Enemy destroyed");
+            salvage();
+        } else if(result == -2) {//enemy surrenders
+            log("Enemy offers surrender");
+            button1.setText("Destroy");
+            button2.setText("Accept");
+            state = 2;
+        } else if(result == 1) {//player ship is destroyed
+            log("");
+            log("Your ship is destroyed");
+            button1.setText("Awww...");
+            button2.setText("N/A");
+            button2.setVisible(false);
+            state = 3;
+        }
     }
     
+    /**
+     * destroy the player's ship
+     */
+    private void destroyShip() {
+        SpaceTrader.getInstance().goToWelcomeScreen();
+    }
+    
+
     
     /***************************************************************************
      * Searching interface
      **************************************************************************/
     
-    
+    private void search() {
+        if(other.search(player)) {
+            log("We have confiscated some illegal goods from your cargo hold");
+        } else {
+            log("Nothing illegal in your hold, sorry to bother you");
+        }
+        leaveInterface();
+    }
     
     /***************************************************************************
      * Trading/Looting/Salvaging interface
      **************************************************************************/
+    
+    /**
+     * sets up and displays the salvage interface
+     */
+    private void salvage() {
+        planetMarketplaceLabel.setText("Salvage from the enemy wreckage");
+        market = other.getSalvageExchange();
+        openMarketplace();
+    }
+    
+    /**
+     * sets up and displays the looting interface
+     */
+    private void loot() {
+        planetMarketplaceLabel.setText("Loot the enemy ship");
+        market = other.getLootingExchange();
+        openMarketplace();
+    }
+    
+    /**
+     * sets up and displays the looting interface
+     */
+    private void trade() {
+        planetMarketplaceLabel.setText("Trader Marketplace");
+        market = other.getMarketPlace(player.getCurrentSolarSystem());
+        openMarketplace();
+    }
+    
     
     @FXML
     private void hideMarketplace() {
@@ -155,9 +305,9 @@ public class EncounterController implements Initializable {
     private ListView playerInventory;
     
     private void generateBuyList() {
-            ArrayList<TradeGood> goods = market.getListOfGoods();
-            ObservableList<TradeGood> list = FXCollections.observableArrayList(goods);
-            planetInventory.setItems(list);
+        ArrayList<TradeGood> goods = market.getListOfGoods();
+        ObservableList<TradeGood> list = FXCollections.observableArrayList(goods);
+        planetInventory.setItems(list);
     }
 
     private void generateSellList() {
@@ -172,12 +322,9 @@ public class EncounterController implements Initializable {
     @FXML
     private Label planetMarketplaceLabel;
     
-    private MarketPlace market;
     
     @FXML
     private void openMarketplace() {
-        planetMarketplaceLabel.setText("Trader Marketplace");
-        market = other.getMarketPlace();
         generateBuyList();
         generateSellList();
         marketplaceUI.setVisible(true);

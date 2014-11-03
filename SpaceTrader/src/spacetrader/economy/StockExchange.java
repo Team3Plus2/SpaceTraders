@@ -15,13 +15,13 @@ public class StockExchange {
     private ArrayList<Company> companies;
     private Company[] company;
     
-    public StockExchange (SolarSystem solarSystem, Company[] company) {
-        this.solarSystem = solarSystem;
-        this.company = company;
+    public StockExchange (SolarSystem solarSystem2, Company[] company2) {
+        this.solarSystem = solarSystem2;
+        this.company = company2;
     }
     
-    public void setCompanies (Planet planet) {
-        this.planet = planet;
+    public void setCompanies (Planet planet2) {
+        this.planet = planet2;
         for (int count = 0; count < company.length; count++) {
             if (company[count].companyCheck(solarSystem, this.planet)) {
                 companies.add(company[count]);

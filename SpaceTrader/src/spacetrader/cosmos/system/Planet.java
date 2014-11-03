@@ -31,7 +31,7 @@ public class Planet implements TurnListener, Serializable {
 
     private void init(Random rand) {
         this.rand = rand;
-        name = Universe.GenerateName(rand);
+        name = Universe.generateName(rand);
         resources = Resource.random();
         relativeWealth = rand.nextFloat() * 2.0f - 1.0f;
         Random r = new Random();

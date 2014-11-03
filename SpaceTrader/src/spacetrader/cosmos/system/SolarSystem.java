@@ -30,7 +30,7 @@ public class SolarSystem implements TurnListener, Serializable {
     
     private void init(Random rand) {
         this.rand = rand;
-        name = Universe.GenerateName(rand);
+        name = Universe.generateName(rand);
         sun = SunType.random(rand);
         techLevel = TechLevel.random(rand);
         government = Government.random(rand, techLevel);

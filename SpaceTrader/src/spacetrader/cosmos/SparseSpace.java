@@ -141,13 +141,13 @@ public class SparseSpace implements Iterable<SolarSystem>, Serializable {
         private int toX;
         private int toY;
 
-        public SparseIterator(SparseSpace toIterate, int fromX, int fromY, int toX, int toY) {
+        public SparseIterator(SparseSpace toIterate, int fromX, int fromY, int toX2, int toY2) {
             this.space = toIterate;
             this.currX = fromX;
             this.currY = fromY;
             this.startX = fromX;
-            this.toX = toX;
-            this.toY = toY;
+            this.toX = toX2;
+            this.toY = toY2;
         }
 
         /**

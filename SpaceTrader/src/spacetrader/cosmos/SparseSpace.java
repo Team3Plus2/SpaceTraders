@@ -10,7 +10,7 @@ import java.util.NoSuchElementException;
 
 /**
  * This is a simple sparse array implementation, shouldn't really need any
- * further modifications
+ * further modifications.
  * 
  * Array is unbounded and uses an embedded HashMap
  * 
@@ -19,7 +19,10 @@ import java.util.NoSuchElementException;
  */
 public class SparseSpace implements Iterable<SolarSystem>, Serializable {
     private HashMap<Integer, HashMap<Integer, SolarSystem>> spaceMap;
-    private int xMin, yMin, xMax, yMax;
+    private int xMin;
+    private int yMin;
+    private int xMax;
+    private int yMax;
     
     public SparseSpace() {
         spaceMap = new HashMap<>();
@@ -30,7 +33,7 @@ public class SparseSpace implements Iterable<SolarSystem>, Serializable {
     }
 
     /**
-     * Inserts a solar system at the given coordinates (null for deep space)
+     * Inserts a solar system at the given coordinates (null for deep space).
      * 
      * @param x The x coordinate
      * @param y The y coordinate
@@ -40,7 +43,7 @@ public class SparseSpace implements Iterable<SolarSystem>, Serializable {
         //System.out.println(x + " " + y + ": " + system.Name());
         system.setX(x);
         system.setY(y);
-        if(spaceMap.containsKey(x)) {
+        if (spaceMap.containsKey(x)) {
             spaceMap.get(x).put(y, system);
         } else {
             HashMap<Integer, SolarSystem> ymap = new HashMap<Integer, SolarSystem>();
@@ -49,18 +52,22 @@ public class SparseSpace implements Iterable<SolarSystem>, Serializable {
         }
         
         //at this point, insertion has been successful
-        if(x < xMin)
+        if (x < xMin) {
             xMin = x;
-        if(y < yMin)
+        }
+        if (y < yMin) {
             yMin = y;
-        if(xMax <= x)
+        }
+        if (xMax <= x) {
             xMax = x;
-        if(yMax <= y)
+        }
+        if (yMax <= y) {
             yMax = y;
+        }
     }
     
     /**
-     * Returns the solar system at the given coordinate
+     * Returns the solar system at the given coordinate.
      * 
      * @param x The x coordinate
      * @param y The y coordinate
@@ -68,15 +75,16 @@ public class SparseSpace implements Iterable<SolarSystem>, Serializable {
      */
     public SolarSystem get(int x, int y) {
         HashMap<Integer, SolarSystem> ymap = spaceMap.get(x);
-        if(ymap == null)
+        if (ymap == null) {
             return null;
+        }
         return ymap.get(y);
     }
     
     /**
      * Returns an iterator that will go from the bottom leftmost generated solarsystem
      * to the upper rightmost solar system or, more concisely put, will iterate row by row
-     * across the box defined by the corners (xMin, yMin), (xMax, yMax)
+     * across the box defined by the corners (xMin, yMin), (xMax, yMax).
      * 
      * @return an iterator that will behave as described above
      */
@@ -87,7 +95,7 @@ public class SparseSpace implements Iterable<SolarSystem>, Serializable {
     
     /**
      * 
-     * Iterate from x0 and y0 to x1 and y1
+     * Iterate from x0 and y0 to x1 and y1.
      * 
      * Note: x0 is less than x1 and y0 is less than y1
      * 
@@ -160,18 +168,19 @@ public class SparseSpace implements Iterable<SolarSystem>, Serializable {
 
         @Override
         public boolean hasNext() {
-            return (currY <= toY);//note: x will never be larger than toX
+            return (currY <= toY); //note: x will never be larger than toX
         }
 
         @Override
         public SolarSystem next() {
-            if(!hasNext())
+            if (!hasNext()) {
                 throw new NoSuchElementException();
+            }
 
             SolarSystem rit = space.get(currX, currY);
             currX++;
 
-            if(currX > toX) {
+            if (currX > toX) {
                 currX = startX;
                 currY++;
             }

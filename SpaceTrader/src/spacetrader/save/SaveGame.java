@@ -52,10 +52,15 @@ public class SaveGame {
             objectWriter.writeObject(u);
             TurnSerializer ts = TurnEvent.getSerializer();
             objectWriter.writeObject(ts);
-            objectWriter.close();
         } catch (IOException e) {
             System.out.println(e.getMessage());
             return false;
+        } finally {
+            try {
+                objectWriter.close();
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+            }
         }
         return true;
     }

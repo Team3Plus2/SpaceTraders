@@ -54,13 +54,18 @@ public class LoadGame {
             s.setUniverse(u);
             ts = (TurnSerializer) objectReader.readObject();
             TurnEvent.load(ts);
-            objectReader.close();
         } catch (IOException e) {
             System.out.println(e.getMessage());
             return false;
         } catch (ClassNotFoundException e) {
             System.out.println(e.getMessage());
             return false;
+        } finally {
+            try {
+                objectReader.close();
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+            }
         }
         return true;
     }
@@ -90,13 +95,18 @@ public class LoadGame {
         Player p = null;
         try {
             p = (Player) objectReader.readObject();
-            objectReader.close();
         } catch (IOException e) {
             System.out.println(e.getMessage());
             return null;
         } catch (ClassNotFoundException e) {
             System.out.println(e.getMessage());
             return null;
+        } finally {
+            try {
+                objectReader.close();
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+            }
         }
         return p;
     }

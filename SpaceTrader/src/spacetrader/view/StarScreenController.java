@@ -128,7 +128,7 @@ public class StarScreenController implements Initializable {
     /**
      * scales the distance between universes.
      */
-    private final int universeScale = 20;
+    private static final int universeScale = 20;
     
     /**
      * Timer that handles animations.

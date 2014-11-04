@@ -3,7 +3,6 @@ package spacetrader.cosmos.system;
 import java.io.Serializable;
 import java.util.Random;
 import spacetrader.xml.LoadedType;
-import spacetrader.xml.FromXML;
 
 /**
  *
@@ -11,28 +10,39 @@ import spacetrader.xml.FromXML;
  */
 public class TechLevel extends LoadedType implements Serializable {
     
-    private static final String techLevelFile = "objects/TechLevels.xml";
+    /**
+     * the file to load tech levels from.
+     */
+    private static final String TECH_LEVEL_FILE = "objects/TechLevels.xml";
 
-    public static void Load() {
-        TechLevel.load(TechLevel.class, "objects/TechLevels.xml", null);
+    /**
+     * load the tech levels from xml.
+     */
+    public static void load() {
+        TechLevel.load(TechLevel.class, TECH_LEVEL_FILE, null);
     }
     
-    public static TechLevel Default() {
-        return (TechLevel)TechLevel.defaultValue(TechLevel.class);
+    /**
+     * gets the default TechLevel.
+     * @return the default TechLevel
+     */
+    public static TechLevel defaultValue() {
+        return (TechLevel) TechLevel.defaultValue(TechLevel.class);
     }
-    
-    /*PRE_AGRICULTURE,
-    AGRICULTURE,
-    MEDIEVAL,
-    EARLY_INDUSTRIAL,
-    INDUSTRIAL,
-    POST_INDUSTRIAL,
-    HI_TECH;*/
-    
+
+    /**
+     * Gets a pre-seeded random tech level.
+     * @param rand pre-seeded random object
+     * @return a random tech level
+     */
     public static TechLevel random(Random rand) {
-        return (TechLevel)TechLevel.get(rand.nextInt(TechLevel.size(TechLevel.class)), TechLevel.class);
+        return (TechLevel) TechLevel.get(rand.nextInt(TechLevel.size(TechLevel.class)), TechLevel.class);
     }
     
+    /**
+     * Gets a random tech level.
+     * @return a random tech level
+     */
     public static TechLevel random() {
         return random(new Random());
     }

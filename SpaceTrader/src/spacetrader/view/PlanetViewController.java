@@ -105,9 +105,9 @@ public class PlanetViewController implements Initializable {
         player = SpaceTrader.getInstance().getPlayer();
         curSystem = player.getCurrentSolarSystem();
         curPlanet = player.getCurrentPlanet();
-        planetName.setText(curPlanet.Name());
-        resourceLabel.setText(curPlanet.Resources().getName());
-        techLevelLabel.setText(curSystem.TechLevel().getName());
+        planetName.setText(curPlanet.name());
+        resourceLabel.setText(curPlanet.resources().getName());
+        techLevelLabel.setText(curSystem.techLevel().getName());
         ObservableList<ShipType> list = FXCollections.observableArrayList(curPlanet.getShipyard().getListShipsAvailable());
         availableShips.setItems(list);
         ObservableList<AbstractUpgrade> upgradeList = FXCollections.observableArrayList(curPlanet.getShipyard().getListUpgradesAvailable());
@@ -443,8 +443,8 @@ public class PlanetViewController implements Initializable {
     @FXML
     private void openMarketplace() {
         if (curPlanet != null) {
-            planetMarketplaceLabel.setText(curPlanet.Name() + " Marketplace");
-            planetMarketplaceLabel.setFont(Font.font(curPlanet.Name().length()));
+            planetMarketplaceLabel.setText(curPlanet.name() + " Marketplace");
+            planetMarketplaceLabel.setFont(Font.font(curPlanet.name().length()));
             market = curPlanet.getMarket();
             generateBuyList();
             generateSellList();
@@ -462,11 +462,11 @@ public class PlanetViewController implements Initializable {
             buyDetails.setText("Cash: " + Utility.currencyFormat(player.getMoney())
                     + "\nCost: " + Utility.currencyFormat(buyableGood.getCurrentPriceEach()));
             buySum.setText("Sum: " + Utility.currencyFormat(player.getMoney() - buyableGood.getCurrentPriceEach() * Integer.parseInt(buyQuantity.getText())));
-            if (player.getMoney() - buyableGood.getCurrentPriceEach() * Integer.parseInt(buyQuantity.getText()) < 0) {
-                
-            }
+//            if (player.getMoney() - buyableGood.getCurrentPriceEach() * Integer.parseInt(buyQuantity.getText()) < 0) {
+//                
+//            }
         } catch (NumberFormatException e) {
-
+            System.out.println(e.getMessage());
         }
     }
 
@@ -481,7 +481,7 @@ public class PlanetViewController implements Initializable {
                         + "\n\n\n\nSum: " + Utility.currencyFormat(player.getMoney() + sellableGood.getCurrentPriceEach() * Integer.parseInt(sellQuantity.getText())));
             }
         } catch (NumberFormatException e) {
-
+            System.out.println(e.getMessage());
         }
     }
 

@@ -96,7 +96,7 @@ public class MarketPlace implements TurnListener, Serializable {
      */
     public void setupGoodsWithLocale(TechLevel localTech) {
         for (TradeGood a : tradeGoods) {
-            a.computeCurrentPriceEach(localTech, Resource.Default());
+            a.computeCurrentPriceEach(localTech, Resource.defaultValue());
         }
     }
     

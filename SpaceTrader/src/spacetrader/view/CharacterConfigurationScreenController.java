@@ -116,7 +116,7 @@ public class CharacterConfigurationScreenController implements Initializable {
      * @param event something happened
      */
     @FXML
-    private void handleBackAction(ActionEvent event) {
+    private void handleBackAction() {
         SpaceTrader.getInstance().goToLoadGame();
     }
     

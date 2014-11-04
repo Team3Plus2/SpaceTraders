@@ -349,7 +349,7 @@ public class Ship implements Serializable {
                         if (b.getLaserType().equals(weap.getLaserType())) {
                             destroyed.add(b);
                             weapIter.remove();
-                            damageToShields--;
+                            damage--;
                         }
                     }
                 }
@@ -360,7 +360,7 @@ public class Ship implements Serializable {
                     if (b.getType().equals(gadg.getType())) {
                         destroyed.add(b);
                         gadgIter.remove();
-                        damageToShields--;
+                        damage--;
                     }
                 }
             }
@@ -374,7 +374,7 @@ public class Ship implements Serializable {
      */
     private boolean damageShipComponentsAtRandom(int damage) {
         Random rand = new Random();
-        for (int i = 0; i < damageToShields; i++) {
+        for (int i = 0; i < damage; i++) {
             boolean removed = false;
             int type = rand.nextInt(1);
             if (type == 0) {

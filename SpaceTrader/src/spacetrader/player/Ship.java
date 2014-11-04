@@ -22,7 +22,7 @@ public class Ship implements Serializable {
      * Loads the ship type.
      */
     public static void load() {
-        ShipType.Load();
+        ShipType.load();
     }
     
     /**

@@ -6,53 +6,48 @@ import spacetrader.xml.LoadedType;
 import spacetrader.xml.FromXML;
 
 /**
- * Different types of government for solar systems
+ * Different types of government for solar systems.
  * 
  * @author Alex
  */
 public class Government extends LoadedType implements Serializable {
     
-    private static final String governmentsFile = "objects/Governments.xml";
-    
-    
-    public static void Load() {
-        Government.load(Government.class, governmentsFile, null);
-    }
-    
-    /*ANARCHY(null),
-    CAPITALIST_STATE(null),
-    COMUNIST_STATE(null),
-    CONFEDERACY(null),
-    CORPORATE_STATE(TechLevel.INDUSTRIAL),
-    CYBERNETIC_STATE(TechLevel.HI_TECH),
-    DEMOCRACY(null),
-    DICTATORSHIP(TechLevel.AGRICULTURE),
-    FASCIST_STATE(null),
-    FEUDAL_STATE(null),
-    MILITARY_STATE(TechLevel.AGRICULTURE),
-    MONARCHY(null),
-    PACIFIST_STATE(null),
-    SOCIALIST_STATE(null),
-    TECHNOCRACY(TechLevel.HI_TECH),
-    THEOCRACY(null);*/
-    
-    @FromXML
-    TechLevel lowestTechnology;//if null, then the government requires no technology
+    /**
+     * the location of the xml file to load the governments from.
+     */
+    private static final String GOVERNMENTS_FILE = "objects/Governments.xml";
     
     /**
-     * Required by XMLReader
+     * load all the government types.
+     */
+    public static void load() {
+        Government.load(Government.class, GOVERNMENTS_FILE, null);
+    }
+    
+    /**
+     * The lowest technology allowed to be used with this government.
+     */
+    @FromXML
+    TechLevel lowestTechnology; //if null, then the government requires no technology
+    
+    /**
+     * Required by XMLReader.
      */
     public Government() {
         
     }
     
+    /**
+     * Constructor that should be used in most situations.
+     * @param requiredTechnology the lowest technology allowed to be used with this government
+     */
     Government(TechLevel requiredTechnology) {
         lowestTechnology = requiredTechnology;
     }
     
     /**
      * 
-     * Get a random government based on permitted government types with the given technology
+     * Get a random government based on permitted government types with the given technology.
      * 
      * @param rand random number generator to use
      * @param technology technology level to consider
@@ -61,15 +56,16 @@ public class Government extends LoadedType implements Serializable {
     public static Government random(Random rand, TechLevel technology) {
         Government selectedGov = null;
         do {
-            selectedGov = (Government)Government.get(rand.nextInt(Government.size(Government.class)), Government.class);
-            if(selectedGov.lowestTechnology != null && technology.compareTo(selectedGov.lowestTechnology) < 0)
+            selectedGov = (Government) Government.get(rand.nextInt(Government.size(Government.class)), Government.class);
+            if (selectedGov.lowestTechnology != null && technology.compareTo(selectedGov.lowestTechnology) < 0) {
                 selectedGov = null;
-        } while(selectedGov == null);
+            }
+        } while (selectedGov == null);
         return selectedGov;
     }
     
     /**
-     * Assumes TechLevel.HI_TECH and creates its own random variable
+     * Assumes TechLevel.HI_TECH and creates its own random variable.
      * 
      * @return a random government type
      */

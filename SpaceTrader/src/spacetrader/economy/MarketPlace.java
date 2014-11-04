@@ -17,11 +17,26 @@ import spacetrader.turns.TurnEvent;
  * @author Carey MacDonald
  */
 public class MarketPlace implements TurnListener, Serializable {
+    /**
+     * List of TradeGoods this MarketPlace contains.
+     */
     private ArrayList<TradeGood> tradeGoods;
+    /**
+     * Random variable for computing amounts.
+     */
     private Random rand;
+    /**
+     * TechLevel of the Planet this MarketPlace is on.
+     */
     private TechLevel techLevel;
+    /**
+     * Resource of the Planet this MarketPlace is on.
+     */
     private Resource resource;
-    private boolean lootingExchange; //if true, then this "marketplace" is a forced exchange from a ship a player has beaten
+    /**
+     * If true, then this "marketplace" is a forced exchange from a ship a player has beaten.
+     */
+    private boolean lootingExchange;
     
     /**
      * Creates a new MarketPlace object based on the current techLevel and 

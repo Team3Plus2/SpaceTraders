@@ -90,7 +90,7 @@ class GadgetType extends LoadedType implements Serializable {
     private static final String GadgetFileLocation = "objects/Gadgets.xml";
 
     public static void Load() {
-        GadgetType.Load(GadgetType.class, GadgetFileLocation, null);
+        GadgetType.load(GadgetType.class, GadgetFileLocation, null);
     }
     
     @FromXML

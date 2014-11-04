@@ -18,11 +18,11 @@ public class SunType extends LoadedType implements Serializable {
     private static final String sunTypeFileLocation = "objects/SunTypes.xml";
     
     public static void Load() {
-        SunType.Load(SunType.class, sunTypeFileLocation, null);
+        SunType.load(SunType.class, sunTypeFileLocation, null);
     }
     
     public static SunType Default() {
-        return (SunType)SunType.Default(SunType.class);
+        return (SunType)SunType.defaultValue(SunType.class);
     }
     
     public static SunType random(Random rand) {

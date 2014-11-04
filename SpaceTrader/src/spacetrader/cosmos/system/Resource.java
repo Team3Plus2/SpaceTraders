@@ -16,11 +16,11 @@ public class Resource extends LoadedType implements Serializable {
     
     public static void Load() {
         Resource def = new Resource("NO_SPECIAL_RESOURCES");
-        Resource.Load(Resource.class, "objects/Resources.xml", def);
+        Resource.load(Resource.class, "objects/Resources.xml", def);
     }
     
     public static Resource Default() {
-        return (Resource)Resource.Default(Resource.class);
+        return (Resource)Resource.defaultValue(Resource.class);
     }
     
     public static Resource random(Random rand, float resourceChance) {
@@ -28,7 +28,7 @@ public class Resource extends LoadedType implements Serializable {
         if(useResource > resourceChance) {
             return (Resource)Resource.get(rand.nextInt(Resource.size(Resource.class) - 1) + 1, Resource.class);
         }
-        return (Resource)Resource.Default(Resource.class);
+        return (Resource)Resource.defaultValue(Resource.class);
     }
     
     public static Resource random(float resourceChance) {

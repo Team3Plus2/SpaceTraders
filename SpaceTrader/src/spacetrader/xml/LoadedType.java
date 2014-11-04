@@ -16,12 +16,31 @@ import java.util.HashMap;
  * 
  * @author Alex
  */
-public class LoadedType implements Comparable, Serializable{
+public class LoadedType implements Comparable, Serializable {
     
+    /**
+     * provides for effeciently getting types by name.
+     */
     private static HashMap<String, TypeWrapper> types;
+    
+    /**
+     * provides for effeciently getting types by index.
+     */
     private static HashMap<Integer, HashMap<Class, LoadedType>> indexes;
+    
+    /**
+     * provides for effeciently getting the amount of a given type.
+     */
     private static HashMap<Class, Integer> typeCount;
-    private static HashMap<Class, Object> defaults;//default type value, may be null
+    
+    /**
+     * stores default values per type.
+     */
+    private static HashMap<Class, Object> defaults; //default type value, may be null
+    
+    /**
+     * provides for effeciently getting a list of all types for a given type.
+     */
     private static HashMap<Class, ArrayList<LoadedType>> listByType;
     
     /**
@@ -34,11 +53,11 @@ public class LoadedType implements Comparable, Serializable{
      * 
      * @param type the type being loaded
      * @param fileLocation the location of the xml file
-     * @param _default the default value to be used for the given type
+     * @param def the default value to be used for the given type
 
      */
-    public static void Load(Class type, String fileLocation, Object _default) {
-        if(types == null) {//since these are always initialized together, only one check is needed
+    public static void load(Class type, String fileLocation, Object def) {
+        if (types == null) { //since these are always initialized together, only one check is needed
             defaults = new HashMap<>();
             typeCount = new HashMap<>();
             indexes = new HashMap<>();
@@ -52,11 +71,12 @@ public class LoadedType implements Comparable, Serializable{
          Put all types in HashMap types and update indexes as items are added
         */
         int index = 0;
-        for(LoadedType a : loadedTypes) {
+        for (LoadedType a : loadedTypes) {
             types.put(a.getName(), new TypeWrapper(index, a));
             HashMap<Class, LoadedType> currentIndexObject = indexes.get(index);
-            if(currentIndexObject == null)
+            if (currentIndexObject == null) {
                 currentIndexObject =  new HashMap<>();
+            }
             currentIndexObject.put(type, a);
             indexes.put(index, currentIndexObject);
             index++;
@@ -66,7 +86,7 @@ public class LoadedType implements Comparable, Serializable{
           Update type count, type default, and type list
         */
         typeCount.put(type, index);
-        defaults.put(type, _default);
+        defaults.put(type, def);
         listByType.put(type, loadedTypes);
     }
     
@@ -80,21 +100,22 @@ public class LoadedType implements Comparable, Serializable{
     
     /**
      * 
-     * Gets a Type with the given name
+     * Gets a Type with the given name.
      * 
      * @param name the name of the type
      * @return null if the given type is not defined, otherwise an object of the given type.  Note: object will need to be casted back into type from LoadedType.
      */
     public static LoadedType get(String name) {
         TypeWrapper typeForName = types.get(name);
-        if(typeForName == null)
+        if (typeForName == null) {
             return null;
+        }
         return typeForName.type;
     }
     
     /**
      * 
-     * Gets a type with the given index and class
+     * Gets a type with the given index and class.
      * 
      * @param type the class of the type to get
      * @param index the index of the type to get
@@ -102,14 +123,15 @@ public class LoadedType implements Comparable, Serializable{
      */
     protected static LoadedType get(int index, Class type) {
         HashMap<Class, LoadedType> atThisIndex = indexes.get(index);
-        if(atThisIndex == null)
+        if (atThisIndex == null) {
             return null;
+        }
         return atThisIndex.get(type);
     }
     
     /**
      * 
-     * Gets the index of the type with the given name
+     * Gets the index of the type with the given name.
      * 
      * @param name the name of the type to get the index of
      * @return null if the given type is not defined, otherwise the index of the given type
@@ -120,7 +142,7 @@ public class LoadedType implements Comparable, Serializable{
     
     /**
      * 
-     * Gets the index of the given type
+     * Gets the index of the given type.
      * 
      * @param typeToGet the type to get
      * @return null if the given type is not defined, otherwise the index of the given type
@@ -141,31 +163,31 @@ public class LoadedType implements Comparable, Serializable{
      * @param type the type to get the default value of
      * @return the default value of the given type
      */
-    protected static Object Default(Class type) {
+    protected static Object defaultValue(Class type) {
         return defaults.get(type);
     }
     
     /**
      * All loaded types must have a name-- this is a basic principle of enums which
-     * this class tries to mimick
+     * this class tries to mimick.
      */
     @FromXML
     private String name;
 
     /**
-     * Needed for XMLReader
+     * Needed for XMLReader.
      */
     public LoadedType() {
         
     }
     
     /**
-     * basic constructor
+     * basic constructor.
      * 
-     * @param name the name of the type
+     * @param newName the name of the type
      */
-    public LoadedType(String name) {
-        this.name = name;
+    public LoadedType(String newName) {
+        this.name = newName;
     }
     
     /**
@@ -178,7 +200,7 @@ public class LoadedType implements Comparable, Serializable{
     
     /**
      * toString() has been overriden to provide similar functionality to enums
-     * in that it will return its name
+     * in that it will return its name.
      * @return a string representation of this type
      */
     @Override
@@ -188,7 +210,7 @@ public class LoadedType implements Comparable, Serializable{
     
     /**
      * 
-     * Compares this type to another object
+     * Compares this type to another object.
      * 
      * Note: This will work between different types both loaded as a LoadedType
      * 
@@ -199,16 +221,19 @@ public class LoadedType implements Comparable, Serializable{
      */
     @Override
     public int compareTo(Object other) {
-        if(other instanceof LoadedType) {
-            LoadedType loadableOther = (LoadedType)other;
-            if(loadableOther.equals(this))
+        if (other instanceof LoadedType) {
+            LoadedType loadableOther = (LoadedType) other;
+            if (loadableOther.equals(this)) {
                 return 0;
+            }
             TypeWrapper otherWrap = types.get(loadableOther.name);
             TypeWrapper thisWrap = types.get(this.name);
-            if(otherWrap == null)
+            if (otherWrap == null) {
                 throw new IllegalArgumentException("Other is not a valid type");
-            if(thisWrap == null)
+            }
+            if (thisWrap == null) {
                 throw new IllegalStateException("This is not a valid type even though this is a loaded type");
+            }
             return thisWrap.index - otherWrap.index;    
         }
         throw new IllegalArgumentException();
@@ -217,33 +242,55 @@ public class LoadedType implements Comparable, Serializable{
 }
 
 /**
- * This wrapper class is used to help make references to indexes and types faster
+ * This wrapper class is used to help make references to indexes and types faster.
  * @author Alex
  */
 class TypeWrapper {
+    /**
+     * index of this type in relation to others of its type.
+     */
     int index;
+    
+    /**
+     * the loaded type that this instance is built to contain.
+     */
     LoadedType type;
 
+    /**
+     * Typewrapper constructor.
+     * @param id index of the type in relation to others of its type
+     * @param obj type to hold
+     */
     public TypeWrapper(int id, LoadedType obj) {
         index = id;
         type = obj;
     }
 
+    /**
+     * Ensures that types are checked against each other by name.
+     * 
+     * @param other object to compare to
+     * @return 1 if greater, 0 if equal, -1 if less than other
+     */
     @Override
     public boolean equals(Object other) {
-        if(other.getClass().equals(TypeWrapper.class)) {
-            TypeWrapper otherType = (TypeWrapper)other;
-            if(otherType.type.getClass().equals(this.type.getClass()) 
-                && this.hashCode() == other.hashCode())
+        if (other.getClass().equals(TypeWrapper.class)) {
+            TypeWrapper otherType = (TypeWrapper) other;
+            if (otherType.type.getClass().equals(this.type.getClass()) && this.hashCode() == other.hashCode()) {
                 return true;
-        } else if(other instanceof LoadedType) {
+            }
+        } else if (other instanceof LoadedType) {
             return this.type.equals(other);
-        } else if(other instanceof String) {
+        } else if (other instanceof String) {
             return this.type.getName().equals(other);
         }
         return false;
     }
 
+    /**
+     * makes the hashcode dependant only on the type name.
+     * @return 
+     */
     @Override
     public int hashCode() {
         return type.getName().hashCode();

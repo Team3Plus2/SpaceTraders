@@ -18,7 +18,7 @@ import spacetrader.xml.ObjectLoader;
 
 public class SavingDriver {
     public static void main(String[] args) {
-        ObjectLoader.LoadAllObjects();
+        ObjectLoader.loadAllObjects();
         Player p = new Player("Carey", 3, 2, 5, 5, 0);
         p.setShip(new Ship());
         Universe u = new Universe();

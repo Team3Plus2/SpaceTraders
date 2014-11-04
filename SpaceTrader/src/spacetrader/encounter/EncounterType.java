@@ -16,7 +16,7 @@ public class EncounterType extends LoadedType {
     private static String EncounterFileLocation = "objects/encounters.xml";
 
     public static void Load() {
-        EncounterType.Load(EncounterType.class, EncounterFileLocation, null);
+        EncounterType.load(EncounterType.class, EncounterFileLocation, null);
     }
     
     public static EncounterType Random() {

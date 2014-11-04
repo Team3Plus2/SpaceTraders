@@ -139,8 +139,8 @@ public class Player implements Serializable {
             return false;
         }
         currentSolarSystem = system;
-        if (system.Planets().length >= 1) {
-            currentPlanet = system.Planets()[0];
+        if (system.planets().length >= 1) {
+            currentPlanet = system.planets()[0];
         } else {
             currentPlanet = null;
         }
@@ -167,10 +167,10 @@ public class Player implements Serializable {
         currentSolarSystem = system;
         currentPlanet = planet;
         if (currentPlanet.getShipyard() == null) {
-            currentPlanet.setShipyard(new Shipyard(currentSolarSystem.TechLevel()));
+            currentPlanet.setShipyard(new Shipyard(currentSolarSystem.techLevel()));
         }
         if (currentPlanet.getMarket() == null) {
-            currentPlanet.setMarket(new MarketPlace(currentSolarSystem.TechLevel(), currentPlanet.Resources()));
+            currentPlanet.setMarket(new MarketPlace(currentSolarSystem.techLevel(), currentPlanet.resources()));
         }
         TurnEvent.nextTurn(this);
         return true;

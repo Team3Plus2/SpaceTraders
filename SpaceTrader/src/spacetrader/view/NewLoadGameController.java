@@ -104,7 +104,7 @@ public class NewLoadGameController implements Initializable {
                         + "\nTrader: " + p.getTraderSkill() 
                         + "\nEngineer: " + p.getEngineerSkill() 
                         + "\n\nShip: " + p.getShip().toString() 
-                        + "\n\nAt: " + p.getCurrentSolarSystem().Name());
+                        + "\n\nAt: " + p.getCurrentSolarSystem().name());
                 newPlayer = false;
             }
         }

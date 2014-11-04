@@ -25,8 +25,8 @@ public class ObjectLoader {
      * This is a driver to load in all the xml types.
      */
     public static void loadAllObjects() {
-        Resource.Load();
-        TechLevel.Load();
+        Resource.load();
+        TechLevel.load();
         Government.load();
         TradeGood.load();
         SunType.load();

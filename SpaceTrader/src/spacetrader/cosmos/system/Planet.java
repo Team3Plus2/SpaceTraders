@@ -11,29 +11,65 @@ import spacetrader.turns.TurnListener;
 import spacetrader.player.Player;
 
 /**
- * This is a planet, it stores planet specific resources and social information
+ * This is a planet, it stores planet specific resources and social information.
  * 
  * @author Alex
  */
 public class Planet implements TurnListener, Serializable {
     
+    /**
+     * Random seed associated internally with this planet.
+     */
     private Random rand;
+    
+    /**
+     * name of this planet.
+     */
     private String name;
+    
+    /**
+     * resources of this planet.
+     */
     private Resource resources;
-    private float relativeWealth;//-1.0f pays less for goods, 0.0f normal, 1.0f pays more for goods
+    
+    /**
+     * relative wealth of this planet.
+     * 
+     * -1.0f pays less for goods, 0.0f normal, 1.0f pays more for goods
+     */
+    private float relativeWealth;
+    
+    /**
+     * planet's market.
+     */
     private MarketPlace market;
+    
+    /**
+     * planet's shipyard.
+     */
     private Shipyard shipyard;
     
-    //needed only for display
-    //location x: degree of orbit, y: average radius distance from sun
+    /**
+     * needed only for display.
+     * location x: degree of orbit, y: average radius distance from sun
+     */
     private Point location;
+    
+    /**
+     * needed only for display.
+     * location x: degree of orbit, y: average radius distance from sun
+     */
     private Point orbitEllipse;
 
-    private void init(Random rand) {
-        this.rand = rand;
-        name = Universe.generateName(rand);
+    /**
+     * initialize this planet, used by constructors.
+     * @param seededRand seeded object to generate planet
+     */
+    private void init(Random seededRand) {
+        this.rand = seededRand;
+        name = Universe.generateName(seededRand);
         resources = Resource.random();
-        relativeWealth = rand.nextFloat() * 2.0f - 1.0f;
+        relativeWealth = seededRand.nextFloat() * 2.0f - 1.0f;
         Random r = new Random();
         int angle = r.nextInt(144000);
         int radius = (r.nextInt(400)) + 100;
@@ -43,33 +79,60 @@ public class Planet implements TurnListener, Serializable {
         TurnEvent.registerListener(this);
     }
     
+    /**
+     * basic constructor.
+     */
     public Planet() {
         rand = new Random();
         init(rand);
     } 
     
-    public Planet(Random rand) {
-        init(rand);
+    /**
+     * seeded constructor.
+     * @param seededRand seeded object to generate planet
+     */
+    public Planet(Random seededRand) {
+        init(seededRand);
     } 
     
-    public Resource Resources() {
+    /**
+     * gets the resources of the planet.
+     * @return the resources of the planet
+     */
+    public Resource resources() {
         return resources;
     }
     
-    public float Wealth() {
+    /**
+     * gets the planet's relative wealth value.
+     * @return the planet's relative wealth value
+     */
+    public float wealth() {
         return relativeWealth;
     }
     
-    public String Name() {
+    /**
+     * gets the planet's name.
+     * @return the planet's name
+     */
+    public String name() {
         return name;
     }
 
+    /**
+     * gets the location of the planet.
+     * @return the planet's location
+     */
     public Point getLocation() {
         return location;
     }
 
-    public void setLocation(Point location) {
-        this.location = location;
+    /**
+     * set's the planet's location.
+     * @param newLocation the location to give the planet
+     */
+    public void setLocation(Point newLocation) {
+        this.location = newLocation;
     }
     
     @Override
@@ -77,28 +140,52 @@ public class Planet implements TurnListener, Serializable {
         return name;
     }
 
+    /**
+     * gets the planet's orbit ellipse.
+     * @return the planet's orbit ellipse
+     */
     public Point getOrbitEllipse() {
         return orbitEllipse;
     }
 
-    public void setOrbitEllipse(Point orbitEllipse) {
-        this.orbitEllipse = orbitEllipse;
+    /**
+     * sets the planet's orbit ellipse.
+     * @param newOrbitEllipse the planet's new orbit ellipse
+     */
+    public void setOrbitEllipse(Point newOrbitEllipse) {
+        this.orbitEllipse = newOrbitEllipse;
     }
     
+    /**
+     * gets the planet's market.
+     * @return the planet's market
+     */
     public MarketPlace getMarket() {
         return market;
     }
-
-    public void setMarket(MarketPlace market) {
-        this.market = market;
+    
+    /**
+     * sets the planet's market.
+     * @param newMarket the planet's new market
+     */
+    public void setMarket(MarketPlace newMarket) {
+        this.market = newMarket;
     }
     
+    /**
+     * gets the planet's shipyard.
+     * @return the planet's shipyard
+     */
     public Shipyard getShipyard() {
         return shipyard;
     }
     
-    public void setShipyard(Shipyard shipyard) {
-        this.shipyard = shipyard;
+    /**
+     * sets the planet's market.
+     * @param newShipyard the planet's new market
+     */
+    public void setShipyard(Shipyard newShipyard) {
+        this.shipyard = newShipyard;
     }
     
     @Override

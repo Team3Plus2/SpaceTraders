@@ -229,8 +229,8 @@ public class XMLReader<T> {
                 }
                 return level;
             } catch (IllegalArgumentException excep) {
-                defaultWarning(rawValue, TechLevel.Default().toString());
-                return TechLevel.Default();
+                defaultWarning(rawValue, TechLevel.defaultValue().toString());
+                return TechLevel.defaultValue();
             }
         } else if (type.equals(Resource.class)) {
             try {

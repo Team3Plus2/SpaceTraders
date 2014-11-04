@@ -14,11 +14,11 @@ public class TechLevel extends LoadedType implements Serializable {
     private static final String techLevelFile = "objects/TechLevels.xml";
 
     public static void Load() {
-        TechLevel.Load(TechLevel.class, "objects/TechLevels.xml", null);
+        TechLevel.load(TechLevel.class, "objects/TechLevels.xml", null);
     }
     
     public static TechLevel Default() {
-        return (TechLevel)TechLevel.Default(TechLevel.class);
+        return (TechLevel)TechLevel.defaultValue(TechLevel.class);
     }
     
     /*PRE_AGRICULTURE,

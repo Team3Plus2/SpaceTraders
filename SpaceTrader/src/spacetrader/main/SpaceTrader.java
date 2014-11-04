@@ -23,13 +23,8 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import spacetrader.cosmos.Universe;
-import spacetrader.cosmos.system.SolarSystem;
-import spacetrader.cosmos.system.Planet;
-import spacetrader.xml.DummyXMLObject;
 import spacetrader.xml.ObjectLoader;
 
-import java.util.ArrayList;
-import java.util.Scanner;
 import spacetrader.view.SolarSystemViewController;
 import spacetrader.view.StarScreenController;
 
@@ -184,7 +179,7 @@ public class SpaceTrader extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        ObjectLoader.LoadAllObjects();
+        ObjectLoader.loadAllObjects();
         launch(args);
     }
     

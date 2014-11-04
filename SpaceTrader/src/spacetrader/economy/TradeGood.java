@@ -29,7 +29,7 @@ public class TradeGood extends LoadedType implements Serializable {
     }
     
     public static TradeGood Default() {
-        return (TradeGood) TradeGood.Default(TradeGood.class);
+        return (TradeGood) TradeGood.defaultValue(TradeGood.class);
     }
     
     /**

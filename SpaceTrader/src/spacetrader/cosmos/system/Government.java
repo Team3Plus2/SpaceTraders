@@ -16,7 +16,7 @@ public class Government extends LoadedType implements Serializable {
     
     
     public static void Load() {
-        Government.Load(Government.class, governmentsFile, null);
+        Government.load(Government.class, governmentsFile, null);
     }
     
     /*ANARCHY(null),

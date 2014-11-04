@@ -129,11 +129,9 @@ public class Shipyard implements Serializable {
      * @return true if successful; false if not enough money or weapon slots
      */
     public boolean buyWeapon(Player p, Weapon weapon) {
-        if (p.getMoney() >= weapon.getPrice()) {
-            if (p.getShip().addWeapon(weapon)) {
-                p.setMoney(p.getMoney() - weapon.getPrice());
-                return true;
-            }
+        if (p.getMoney() >= weapon.getPrice() && p.getShip().addWeapon(weapon)) {
+            p.setMoney(p.getMoney() - weapon.getPrice());
+            return true;
         }
         return false;
     }
@@ -146,11 +144,9 @@ public class Shipyard implements Serializable {
      * @return true if successful; false if not enough money or shield slots
      */
     public boolean buyShield(Player p, Shield shield) {
-        if (p.getMoney() >= shield.getPrice()) {
-            if (p.getShip().addShield(shield)) {
-                p.setMoney(p.getMoney() - shield.getPrice());
-                return true;
-            }
+        if (p.getMoney() >= shield.getPrice() && p.getShip().addShield(shield)) {
+            p.setMoney(p.getMoney() - shield.getPrice());
+            return true;
         }
         return false;
     }
@@ -163,11 +159,9 @@ public class Shipyard implements Serializable {
      * @return true if successful; false if not enough money or gadget slots
      */
     public boolean buyGadget(Player p, Gadget gadget) {
-        if (p.getMoney() >= gadget.getPrice()) {
-            if (p.getShip().addGadget(gadget)) {
-                p.setMoney(p.getMoney() - gadget.getPrice());
-                return true;
-            }
+        if (p.getMoney() >= gadget.getPrice() && p.getShip().addGadget(gadget)) {
+            p.setMoney(p.getMoney() - gadget.getPrice());
+            return true;
         }
         return false;
     }

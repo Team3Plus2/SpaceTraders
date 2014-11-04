@@ -270,16 +270,14 @@ public class Ship implements Serializable {
                                 }
                             }
                         }
-                    } else if (a instanceof Gadget) {
-                        if(gadgets.size() > 0) {
-                            Gadget gadg = (Gadget)a;
-                            Iterator<Gadget> gadgIter = gadgets.iterator();
-                            for(Gadget b = gadgIter.next(); gadgIter.hasNext(); b = gadgIter.next()) {
-                                if(b.getType().equals(gadg.getType())) {
-                                    Destroyed.add(b);
-                                    gadgIter.remove();
-                                    damageToShields--;
-                                }
+                    } else if (a instanceof Gadget && gadgets.size() > 0) {
+                        Gadget gadg = (Gadget)a;
+                        Iterator<Gadget> gadgIter = gadgets.iterator();
+                        for(Gadget b = gadgIter.next(); gadgIter.hasNext(); b = gadgIter.next()) {
+                            if(b.getType().equals(gadg.getType())) {
+                                Destroyed.add(b);
+                                gadgIter.remove();
+                                damageToShields--;
                             }
                         }
                     }

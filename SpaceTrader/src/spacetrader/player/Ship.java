@@ -307,6 +307,7 @@ public class Ship implements Serializable {
         destroyed = new ArrayList();
         damageToShields += amount;
         
+        //damage shields
         if (!shields.isEmpty()) {
             Iterator<Shield> iter = shields.iterator();
             do {
@@ -321,61 +322,82 @@ public class Ship implements Serializable {
         }
         
         if (shields.isEmpty() && damageToShields > 0) {
+            //damage any targets
             if (targets != null) {
-                for (Object a : targets) {
-                    if (a instanceof Weapon) {
-                        if (weapons.size() > 0) {
-                            Weapon weap = (Weapon) a;
-                            Iterator<Weapon> weapIter = weapons.iterator();
-                            for (Weapon b = weapIter.next(); weapIter.hasNext(); b = weapIter.next()) {
-                                if (b.getLaserType().equals(weap.getLaserType())) {
-                                    destroyed.add(b);
-                                    weapIter.remove();
-                                    damageToShields--;
-                                }
-                            }
-                        }
-                    } else if (a instanceof Gadget && gadgets.size() > 0) {
-                        Gadget gadg = (Gadget) a;
-                        Iterator<Gadget> gadgIter = gadgets.iterator();
-                        for (Gadget b = gadgIter.next(); gadgIter.hasNext(); b = gadgIter.next()) {
-                            if (b.getType().equals(gadg.getType())) {
-                                destroyed.add(b);
-                                gadgIter.remove();
-                                damageToShields--;
-                            }
-                        }
-                    }
-                }
+                damageShipComponents(damageToShields, targets);
             }
             
             if (damageToShields > 0) {
-                Random rand = new Random();
-                int i = 0;
-                for (; i < damageToShields; i++) {
-                    boolean removed = false;
-                    int type = rand.nextInt(1);
-                    if (type == 0) {
-                        if (!weapons.isEmpty()) {
-                            destroyed.add(weapons.remove(0));
-                            removed = true;
-                        } else if (!gadgets.isEmpty()) {
-                            destroyed.add(gadgets.remove(0));
-                            removed = true;
+                if (damageShipComponentsAtRandom(damageToShields)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * Damage weapons and gadgets in the given arraylist.
+     * @param damage damage to give weapons and gadgets
+     * @param targets systems to target
+     */
+    private void damageShipComponents(int damage, ArrayList targets) {
+        for (Object a : targets) {
+            if (a instanceof Weapon) {
+                if (weapons.size() > 0) {
+                    Weapon weap = (Weapon) a;
+                    Iterator<Weapon> weapIter = weapons.iterator();
+                    for (Weapon b = weapIter.next(); weapIter.hasNext(); b = weapIter.next()) {
+                        if (b.getLaserType().equals(weap.getLaserType())) {
+                            destroyed.add(b);
+                            weapIter.remove();
+                            damageToShields--;
                         }
-                    } else {
-                        if (!gadgets.isEmpty()) {
-                            destroyed.add(gadgets.remove(0));
-                            removed = true;
-                        } else if (!weapons.isEmpty()) {
-                            destroyed.add(weapons.remove(0));
-                            removed = true;
-                        }
-                    }
-                    if (!removed) {
-                        return true;
                     }
                 }
+            } else if (a instanceof Gadget && gadgets.size() > 0) {
+                Gadget gadg = (Gadget) a;
+                Iterator<Gadget> gadgIter = gadgets.iterator();
+                for (Gadget b = gadgIter.next(); gadgIter.hasNext(); b = gadgIter.next()) {
+                    if (b.getType().equals(gadg.getType())) {
+                        destroyed.add(b);
+                        gadgIter.remove();
+                        damageToShields--;
+                    }
+                }
+            }
+        }
+    }
+    
+    /**
+     * Damage weapons and gadgets on the ship at random.
+     * @param damage damage to give to weapons and gadgets
+     * @return true if systems absorbed damage, false if damage reached ship
+     */
+    private boolean damageShipComponentsAtRandom(int damage) {
+        Random rand = new Random();
+        for (int i = 0; i < damageToShields; i++) {
+            boolean removed = false;
+            int type = rand.nextInt(1);
+            if (type == 0) {
+                if (!weapons.isEmpty()) {
+                    destroyed.add(weapons.remove(0));
+                    removed = true;
+                } else if (!gadgets.isEmpty()) {
+                    destroyed.add(gadgets.remove(0));
+                    removed = true;
+                }
+            } else {
+                if (!gadgets.isEmpty()) {
+                    destroyed.add(gadgets.remove(0));
+                    removed = true;
+                } else if (!weapons.isEmpty()) {
+                    destroyed.add(weapons.remove(0));
+                    removed = true;
+                }
+            }
+            if (!removed) {
+                return true;
             }
         }
         return false;

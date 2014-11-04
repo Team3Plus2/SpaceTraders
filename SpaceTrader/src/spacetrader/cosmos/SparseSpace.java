@@ -14,16 +14,38 @@ import java.util.NoSuchElementException;
  * 
  * Array is unbounded and uses an embedded HashMap
  * 
- * 
  * @author Alex
  */
 public class SparseSpace implements Iterable<SolarSystem>, Serializable {
+    
+    /**
+     * the sparse storage system.
+     */
     private HashMap<Integer, HashMap<Integer, SolarSystem>> spaceMap;
+    
+    /**
+     * the lowest x value in the sparse space.
+     */
     private int xMin;
+    
+    /**
+     * the lowest y value in the sparse space.
+     */
     private int yMin;
+    
+    /**
+     * the largest x value in the sparce space.
+     */
     private int xMax;
+    
+    /**
+     * the largest y value in the sparce space.
+     */
     private int yMax;
     
+    /**
+     * initialize a new sparse space.
+     */
     public SparseSpace() {
         spaceMap = new HashMap<>();
         xMin = 0;
@@ -109,38 +131,97 @@ public class SparseSpace implements Iterable<SolarSystem>, Serializable {
         return new SparseIterator(this, x0, y0, x1, y1);
     }
     
+    /**
+     * The current width of the sparce space.
+     * @return the current width of the sparce space
+     */
     public int width() {
         return xMax - xMin;
     }
     
+    /**
+     * the current height of the sparce space.
+     * @return the current height of the sparce space
+     */
     public int height() {
         return yMax - yMin;
     }
     
+    /**
+     * the lowest x value in the sparse space.
+     * @return the lowest x value in the sparse space
+     */
     public int xMin() {
         return xMin;
     }
     
+    /**
+     * the lowest y value in the sparse space.
+     * @return the lowest y value in the sparse space
+     */
     public int yMin() {
         return xMin;
     }
     
+    /**
+     * the largest x value in the sparse space.
+     * @return the largest x value in the sparse space
+     */
     public int xMax() {
         return xMax;
     }
     
+    /**
+     * the largest y value in the sparse space.
+     * @return the largest y value in the sparse space
+     */
     public int yMax() {
         return yMax;
     }
     
+    /**
+     * An iterator specificaly catered toward effeciently going through the sparce space.
+     */
     public class SparseIterator implements Iterator<SolarSystem> {
+        /**
+         * The space this iterator is going through.
+         */
         private SparseSpace space;
+        
+        /**
+         * the current x coordinate of this iterator.
+         */
         private int currX;
+        
+        /**
+         * the current y coordinate of this iterator.
+         */
         private int currY;
+        
+        /**
+         * the x coordinate for this iterator to start at.
+         */
         private int startX;
+        
+        /**
+         * the x coordinate for this iterator to end at.
+         */
         private int toX;
+        
+        /**
+         * the y coordinate for this iterator to end at.
+         */
         private int toY;
 
+        /**
+         * initialize a sparce iterator.
+         * 
+         * @param toIterate sparce space to iterate through
+         * @param fromX x coordinate to start at
+         * @param fromY y coordinate to start at
+         * @param toX2 x coordinate to end at
+         * @param toY2 y coordinate to end at
+         */
         public SparseIterator(SparseSpace toIterate, int fromX, int fromY, int toX2, int toY2) {
             this.space = toIterate;
             this.currX = fromX;
@@ -151,7 +232,7 @@ public class SparseSpace implements Iterable<SolarSystem>, Serializable {
         }
 
         /**
-         * 
+         * the x coordinate of current SolarSystem.
          * @return the x coordinate of current SolarSystem
          */
         public int getX() {
@@ -159,18 +240,26 @@ public class SparseSpace implements Iterable<SolarSystem>, Serializable {
         }
 
         /**
-         * 
+         * the y coordinate of the current SolarSystem.
          * @return the y coordinate of the current SolarSystem
          */
         public int getY() {
             return currY;
         }
 
+        /**
+         * check to see if there is a next object to return.
+         * @return true if there is another object to get
+         */
         @Override
         public boolean hasNext() {
             return (currY <= toY); //note: x will never be larger than toX
         }
 
+        /**
+         * the next solar system in the iterator.
+         * @return the next solar system in the iterator
+         */
         @Override
         public SolarSystem next() {
             if (!hasNext()) {

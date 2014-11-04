@@ -5,15 +5,10 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.Scanner;
 import spacetrader.cosmos.system.SolarSystem;
-import spacetrader.turns.TurnListener;
 import spacetrader.turns.TurnEvent;
 import spacetrader.xml.FromXML;
 import spacetrader.cosmos.SparseSpace.SparseIterator;
-import spacetrader.economy.MarketPlace;
-import spacetrader.economy.TradeGood;
-import spacetrader.encounter.Encounter;
 import spacetrader.player.Player;
 
 /**
@@ -24,20 +19,53 @@ import spacetrader.player.Player;
  * 
  * @author Alex
  */
-public class Universe implements Iterable<SolarSystem>, TurnListener, Serializable {
+public class Universe implements Iterable<SolarSystem>, Serializable {
     
+    /**
+     * THE MEANING OF LIFE, THE UNIVERSE AND EVERYTHING!.
+     */
     private static final int MEANING = 42; //Also applies to life and everything
+    /**
+     * Default initial width of this universe.
+     */
     private static final int DEFAULT_INIT_WIDTH = 100;
+    /**
+     * Default initial spread of this universe.
+     */
     private static final float DEFAULT_INIT_SPREAD = 0.15f;
+    /**
+     * Default maximum number of name syllables.
+     */
     private static final int DEFAULT_MAX_NAME_SYLLABLES = 3;
+    /**
+     * Default chance of y being a vowel.
+     */
     private static final float DEFAULT_Y_CHANCE = 0.1f;
-    private static final float DEFAULT_INITIAL_VOWEL_CHANCE = 0.5f;    
+    /**
+     * Default initial vowel chance.
+     */
+    private static final float DEFAULT_INITIAL_VOWEL_CHANCE = 0.5f;
+    /**
+     * Default double letter chance.
+     */
     private static final float DEFAULT_DOUBLE_LETER_CHANCE = 0.2f;
     
+    /**
+     * SparseSpace that backs this Universe.
+     */
     private SparseSpace space;
+    /**
+     * Stores all the currently generated points, used to make generation more efficient.
+     */
     private HashSet<Point> generated; //stores all the currently generated points, used to make generation more effecient
+    /**
+     * Spread of the Universe.
+     */
     @FromXML
     private float spread;
+    /**
+     * Random number generator.
+     */
     @FromXML
     private Random rand;
     
@@ -71,18 +99,38 @@ public class Universe implements Iterable<SolarSystem>, TurnListener, Serializab
         return name;
     }
     
+    /**
+     * Returns xMin of this Universe.
+     * 
+     * @return xMin
+     */
     public int xMin() {
         return space.xMin();
     }
     
+    /**
+     * Returns xMax of this Universe.
+     * 
+     * @return xMax
+     */
     public int xMax() {
         return space.xMax();
     }
     
+    /**
+     * Returns yMin of this Universe.
+     * 
+     * @return yMin
+     */
     public int yMin() {
         return space.yMin();
     }
     
+    /**
+     * Returns yMax of this Universe.
+     * 
+     * @return yMax
+     */
     public int yMax() {
         return space.yMax();
     }
@@ -141,20 +189,28 @@ public class Universe implements Iterable<SolarSystem>, TurnListener, Serializab
         rand = new Random();
         space = new SparseSpace();
         this.spread = spread2;
-        TurnEvent.registerListener(this);
         generateInPosXDirection(0, 0, width / 2, width / 2);
         generateinNegXDirection(0, -1, width / 2, width / 2);
     }
     
+    /**
+     * Constructor for Universe.
+     * 
+     * @param width the width we want the universe to be
+     * @param spread2 the spread we want this universe to have
+     */
     public Universe(int width, float spread2) {
         init(width, spread2);
     }
     
+    /**
+     * Constructor for a default Universe.
+     */
     public Universe() {
         init(DEFAULT_INIT_WIDTH, DEFAULT_INIT_SPREAD);
     }
     
-     /**
+    /**
      * Generates an area of the given width around the given coordinates.
      * 
      * @param x0 The x0 coordinate
@@ -254,6 +310,13 @@ public class Universe implements Iterable<SolarSystem>, TurnListener, Serializab
         UniverseGenerationEvent.universeGenerated(systems);
     }
     
+    /**
+     * Generates a SolarSystem at the given coordinates.
+     * 
+     * @param x the x coordinate we want the SolarSystem to be at
+     * @param y the y coordinate we want the SolarSystem to be at
+     * @return the created SolarSystem
+     */
     private SolarSystem generatePoint(int x, int y) {
         SolarSystem sys = new SolarSystem(rand);
         if (canPlaceSystemAt(x, y) && rand.nextFloat() < spread) {
@@ -263,10 +326,24 @@ public class Universe implements Iterable<SolarSystem>, TurnListener, Serializab
         return sys;
     }
     
+    /**
+     * Checks if a SolarSystem exists at the given coordinates.
+     * 
+     * @param x the x coordinate we are checking for a SolarSystem
+     * @param y the y coordinate we are checking for a SolarSystem
+     * @return true if there is SolarSystem at the given coordinates.
+     */
     private boolean isPointGenerated(int x, int y) {
         return generated.contains(new Point(x, y));
     }
     
+    /**
+     * Checks if a SolarSystem can be placed at.
+     * 
+     * @param x the x coordinate we are checking
+     * @param y the y coordinate we are checking
+     * @return true if a SolarSystem can be placed at the given coordinates
+     */
     private boolean canPlaceSystemAt(int x, int y) {
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) { 
@@ -278,6 +355,14 @@ public class Universe implements Iterable<SolarSystem>, TurnListener, Serializab
         return true;
     }
     
+    /**
+     * Checks if a SolarSystem can generated in the given radius of the given coordinates.
+     * 
+     * @param x the x coordinate we are checking
+     * @param y the y coordinate we are checking
+     * @param width the radius we are checking
+     * @return true if a SolarSystem can be placed with the radius of the given coordinates
+     */
     public boolean canGenerateAround(int x, int y, int width) {
         for (int i = x - width / 2; i <= x + width / 2; i++) {
             for (int j = y - width / 2; j <= y + width / 2; j++) {
@@ -289,10 +374,25 @@ public class Universe implements Iterable<SolarSystem>, TurnListener, Serializab
         return true;
     }
     
+    /**
+     * Gets the SolarSystem at the given coordinates.
+     * 
+     * @param x the x coordinate we are getting
+     * @param y the y coordinate we are getting
+     * @return the SolarSystem at the given coordinates.
+     */
     public SolarSystem getSolarSystem(int x, int y) {
         return space.get(x, y);
     }
     
+    /**
+     * Gets the SolarSystem closest to the given coordinates within the given radius.
+     * 
+     * @param x the x coordinate we are getting
+     * @param y the y coordinate we are getting
+     * @param rad the radius we are checking
+     * @return the SolarSystem closest to the given coordinates within the given radius.
+     */
     public SolarSystem getClosestSolarSystem(int x, int y, int rad) {
         SolarSystem found = null;
         if (space.get(x, y) != null) {
@@ -330,133 +430,15 @@ public class Universe implements Iterable<SolarSystem>, TurnListener, Serializab
         return found;
     }
     
+    /**
+     * Moves to the next turn.
+     * 
+     * @param player the Player we are moving to the next turn.
+     */
     public void nextTurn(Player player) {
         TurnEvent.nextTurn(player);
     }
     
-    @Override
-    public void handleNextTurn(Player player) {
-        //Random rand2 = new Random();
-        
-        /*
-        if(rand.nextFloat() < 0.1) {
-            Encounter other = new Encounter(player.getCurrentSolarSystem(), player);
-            System.out.println(other.getGreeting());
-            
-            //always check enemy agressivness first
-            if(other.willAttack()) {
-                System.out.println("Other ship: Hand over all your goods or die!");
-                if(confirmationInterface()) {
-                    other.loot(player);
-                } else {
-                    fight(other, player);
-                }
-
-            } else if(other.willRequestTrade()) {
-                System.out.println("Other ship: Do you want to buy some goods?");
-                if(confirmationInterface()) {
-                    commandLineBuyInterface(other.getMarketPlace(), player);
-                }
-            } else if(other.willRequestSearch()) {
-                System.out.println("Other ship: by the authority of the " + player.getCurrentSolarSystem().Name() + 
-                        " system, I request permission to search your ship for illegal goods");
-                if(confirmationInterface()) {
-                    if(other.search(player)) {
-                        System.out.println("Other ship: I have confiscated illegal goods in your hold, " +
-                                 "don't let this happen again");
-                    } else {
-                        System.out.println("Other ship: You're all clear, my apologies for disturbing you");
-                    }
-                } else {
-                    System.out.println("Then we will search you by force!");
-                    fight(other, player);
-                }
-            } else {
-                System.out.println("Enter a to attack, t to request trade, or any other key to continue on your way");
-                Scanner in = new Scanner(System.in);
-                String reaction = in.nextLine();
-                if(reaction.equals("a")) {
-                    fight(other, player);
-                } else if(reaction.equals("t")) {
-                    commandLineBuyInterface(other.getMarketPlace(), player);
-                }
-            }
-        }
-        */
-    }
-    
-    public boolean confirmationInterface() {
-        System.out.println("(Y or N)\n");
-        Scanner in = new Scanner(System.in);
-        String reaction = in.nextLine();
-        return reaction.toUpperCase().equals("Y");
-    }
-    
-    public void commandLineBuyInterface(MarketPlace market, Player player) {
-        System.out.println("Goods:");
-        int count = 1;
-        String s = " : ";
-        for (TradeGood good : market.getListOfGoods()) {
-            System.out.println("\t" + count + ": " + good.getName() + s + good.getAmount() + s + good.getCurrentPriceEach());
-        }
-        System.out.println("-1: Leave");
-        
-        Scanner in = new Scanner(System.in);
-        int order = 0;
-        while (order != -1) {
-            System.out.println("What would you like?\n(enter an index of a good listed above)");
-            order = in.nextInt();
-            if (order <= market.getListOfGoods().size() && order > 0) {
-                System.out.println("How many would you like?");
-                int amount = in.nextInt();
-                if (market.getListOfGoods().get(order).getAmount() >= amount) {
-                    market.buy(player, market.getListOfGoods().get(order), amount);
-                } else {
-                    System.out.println("You have entered an invalid amount");
-                }
-            } else if (order != -1) {
-                System.out.println("You have entered an invalid good");
-            }
-        }
-    }
-    
-    public void fight(Encounter other, Player player) {
-        MarketPlace loot = combatInterface(other, player);
-        if (loot == null) {
-            player.die();
-        } else {
-            System.out.println("Loot your defeated enemy!");
-            commandLineBuyInterface(loot, player);
-        }
-    }
-    
-    public MarketPlace combatInterface(Encounter other, Player player) {
-        Scanner in = new Scanner(System.in);
-        String reaction = "";
-        int result = 0;
-        while (result == 0) {
-            result = other.roundOfCombat(player, null);
-            if (result == -2) {
-                System.out.println("Other ship: Hold your fire! I surrender!\n(c to continue fire, any other key to accept surrender)");
-                reaction = in.nextLine();
-                if (reaction.equals("c")) {
-                    result = 0;
-                }
-            }
-        }
-
-        if (result == 1) {
-            System.out.println("You are dead");
-        } else if (result == -1) {
-            System.out.println("You destroy the enemy ship");
-            return other.getSalvageExchange();
-        } else if (result == -2) {
-            System.out.println("The enemy surrenders to you");
-            return other.getLootingExchange();
-        }
-        
-        return null;
-    }
     /**
      * Returns an iterator that will go from the bottom leftmost generated solarsystem
      * to the upper rightmost solar system or, more concisely put, will iterate row by row

@@ -13,14 +13,14 @@ import spacetrader.player.Ship;
 import spacetrader.player.Weapon;
 
 /**
- * An interface for the trader, pirate, and police encounters
+ * An interface for the trader, pirate, and police encounters.
  * 
  * @author Aaron McAnally
  */
-public class Encounter{
+public class Encounter {
     
-    public static void Load() {
-        EncounterType.Load();
+    public static void load() {
+        EncounterType.load();
     }
     
     private Player captain;
@@ -32,7 +32,7 @@ public class Encounter{
 
     
     public Encounter(SolarSystem system, Player player) {
-        type = EncounterType.Random();
+        type = EncounterType.random();
         int traderSkill = (int) (Math.random() * (type.getMaxTrade() - type.getMinTrade())) + type.getMinTrade();
         int pilotSkill = (int) (Math.random() * (type.getMaxPilot() - type.getMinPilot())) + type.getMinPilot();
         int engineerSkill = (int) (Math.random() * (type.getMaxEngineer() - type.getMinEngineer())) + type.getMinEngineer();
@@ -47,37 +47,38 @@ public class Encounter{
             Breaking the law of not calling stuff via forced delegation because player doesn't need to know how to talk about max slots
         */
         
-        for(int i = 0; i < captain.getShip().getMaxWeapons(); i++) {
+        for (int i = 0; i < captain.getShip().getMaxWeapons(); i++) {
             captain.getShip().addWeapon(Weapon.Random());
         }
         
-        for(int i = 0; i < captain.getShip().getMaxShields(); i++) {
+        for (int i = 0; i < captain.getShip().getMaxShields(); i++) {
             captain.getShip().addShield(Shield.Random());
         }
         
-        for(int i = 0; i < captain.getShip().getMaxGadgets(); i++) {
-            captain.getShip().addGadget(Gadget.Random());
+        for (int i = 0; i < captain.getShip().getMaxGadgets(); i++) {
+            captain.getShip().addGadget(Gadget.random());
         }
         
         
         
         int cargoFilled = (int) (Math.random() * type.getMaxCargoUsed() + 1);
         for (int i = 0; i < cargoFilled; i++) {
-            captain.getShip().getCargo().addTradeGood(TradeGood.RandomSingleInstance());
+            captain.getShip().getCargo().addTradeGood(TradeGood.randomSingleInstance());
         }
         
-        if(type.isAssociatedWithSystem()) {
+        if (type.isAssociatedWithSystem()) {
             systemAssociation = system;
-            if(system.shouldAttack()) {
+            if (system.shouldAttack()) {
                 willAttack = true;
-            } else if(system.shouldSearch()) {
+            } else if (system.shouldSearch()) {
                 searchFor = type.getLookingFor();
             }
         } else {
-            if(type.getLookingFor() != null)
+            if (type.getLookingFor() != null) {
                 searchFor = type.getLookingFor();
-            else
+            } else {
                 searchFor = null;
+            }
             willAttack = type.getAggression() > Math.random();
             willTrade = type.getTrade() > Math.random();
         }
@@ -89,7 +90,7 @@ public class Encounter{
     }
     
     /**
-     * Returns true if the encounter will try to attack the player
+     * Returns true if the encounter will try to attack the player.
      * @return true if the encounter will try to attack the player
      */
     public boolean willAttack() {
@@ -97,7 +98,7 @@ public class Encounter{
     }
     
     /**
-     * returns true if the encounter will accept the player's request to trade
+     * returns true if the encounter will accept the player's request to trade.
      * @return true if the encounter will accept the player's request to trade
      */
     public boolean willingToTrade() {
@@ -105,7 +106,7 @@ public class Encounter{
     }
     
     /**
-     * returns true if the encounter will request the player to trade
+     * returns true if the encounter will request the player to trade.
      * @return true if the encounter will request the player to trade
      */
     public boolean willRequestTrade() {
@@ -113,7 +114,7 @@ public class Encounter{
     } 
     
     /**
-     * returns true if the encounter will request to search the player
+     * returns true if the encounter will request to search the player.
      * @return true if the encounter will request to search the player
      */
     public boolean willRequestSearch() {
@@ -122,7 +123,7 @@ public class Encounter{
     
     /**
      * returns true if the encounter will surrender to the player,
-     * depends on encounter's current health and player's power
+     * depends on encounter's current health and player's power.
      * 
      * @return true if the encounter will surrender to the player
      */
@@ -131,7 +132,7 @@ public class Encounter{
     }
     
     /**
-     * Returns an arraylist of the encounter's goods
+     * Returns an arraylist of the encounter's goods.
      * @return an arraylist of the encounter's goods
      */
     public ArrayList<TradeGood> getGoods() {
@@ -139,21 +140,24 @@ public class Encounter{
     }
     
     /**
-     * Simulates one round of combat
+     * Simulates one round of combat.
      * 
      * @param player the player involved in the combat
      * @param targets the parts of the ship the player wishes to target
      * @return 0: both still alive, -1: enemy dead, -2: enemy surrenders, 1: player dead
      */
     public int roundOfCombat(Player player, ArrayList targets) {
-        if(captain.attack(player, null))
+        if (captain.attack(player, null)) {
             return 1;
+        }
         
-        if(player.attack(captain, targets))
+        if (player.attack(captain, targets)) {
             return -1;
+        }
         
-        if(willSurrender())
+        if (willSurrender()) {
             return -2;
+        }
         
         return 0;
     }
@@ -196,7 +200,7 @@ public class Encounter{
     }
     
     /**
-     * Loot all the tradegoods of the given player
+     * Loot all the tradegoods of the given player.
      * (Goods unable to be held will be jetissoned, so all goods are removed)
      * 
      * @param other player to loot
@@ -205,14 +209,14 @@ public class Encounter{
         ArrayList<TradeGood> goodTypes = TradeGood.getTradeGoodTypes();
         Object[] goodObjs = goodTypes.toArray();
         TradeGood[] goods = new TradeGood[goodObjs.length];
-        for(int i = 0; i < goods.length; i++) {
+        for (int i = 0; i < goods.length; i++) {
             goods[i] = TradeGood.class.cast(goodObjs[i]);
         }
         other.removeTradeGoodsByType(goods);
     }
     
     /**
-     * Gets a marketplace from this encounter's tradegoods
+     * Gets a marketplace from this encounter's tradegoods.
      * @param system system context of the market
      * @return a marketplace
      */
@@ -224,7 +228,7 @@ public class Encounter{
     
     /**
      * Gets a looting echange in which all goods in the encounter's ship are
-     * priced at zero
+     * priced at zero.
      * @return a looting exchange
      */
     public MarketPlace getLootingExchange() {
@@ -233,13 +237,13 @@ public class Encounter{
     
     /**
      * Gets a looting exchange of a random size as the player tries to salvage
-     * what remains from the destroyed ship (may still be all goods)
+     * what remains from the destroyed ship (may still be all goods).
      * @return a salvage exchange (as defined above)
      */
     public MarketPlace getSalvageExchange() {
         Random rand = new Random();
         int size = rand.nextInt(captain.getCargoList().size());
-        return new MarketPlace((ArrayList<TradeGood>)captain.getCargoList().subList(0, size), true);
+        return new MarketPlace((ArrayList<TradeGood>) captain.getCargoList().subList(0, size), true);
     }
     
     //public abstract void handleEncounter();

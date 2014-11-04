@@ -24,7 +24,7 @@ public class TradeGood extends LoadedType implements Serializable {
     /**
      * Loads the various TradeGood types from TradeGoods.
      */
-    public static void Load() {
+    public static void load() {
         TradeGood.Load(TradeGood.class, TRADES_GOODS_FILE, null);
     }
     
@@ -36,7 +36,7 @@ public class TradeGood extends LoadedType implements Serializable {
      * 
      * @return a single TradeGood of a randomly selected type
      */
-    public static TradeGood RandomSingleInstance() {
+    public static TradeGood randomSingleInstance() {
         Random rand = new Random();
         ArrayList<TradeGood> goods = TradeGood.getList(TradeGood.class);
         TradeGood good = (TradeGood) goods.get(rand.nextInt(goods.size()));

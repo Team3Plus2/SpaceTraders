@@ -6,7 +6,8 @@
 
 package spacetrader.main;
 
-import spacetrader.save.*;
+import spacetrader.save.LoadGame;
+import spacetrader.save.SaveGame;
 import spacetrader.player.Player;
 import spacetrader.cosmos.Universe;
 import spacetrader.player.Ship;
@@ -18,11 +19,12 @@ import spacetrader.xml.ObjectLoader;
 
 public class SavingDriver {
     public static void main(String[] args) {
+        String fileName = "test.sav";
         ObjectLoader.LoadAllObjects();
         Player p = new Player("Carey", 3, 2, 5, 5, 0);
         p.setShip(new Ship());
         Universe u = new Universe();
-        boolean check = SaveGame.save("test.sav", p , u);
+        boolean check = SaveGame.save(fileName, p , u);
         if (!check) {
             System.out.println("Saving failed");
         } else {
@@ -34,7 +36,7 @@ public class SavingDriver {
                                                      + s.getPlayer().getTraderSkill()
                                                      + s.getPlayer().getEngineerSkill()
                                                      + s.getPlayer().getInvestorSkill());
-            boolean check2 = LoadGame.load("test.sav", s);
+            boolean check2 = LoadGame.load(fileName, s);
             if (!check2) {
                 System.out.println("Loading failed");
             } else {

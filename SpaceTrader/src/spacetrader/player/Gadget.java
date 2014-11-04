@@ -15,11 +15,11 @@ public class Gadget extends Upgrade implements Serializable {
 
     private GadgetType gadgetType;
     
-    public static void Load() {
-        GadgetType.Load();
+    public static void load() {
+        GadgetType.load();
     }
     
-    public static Gadget Random() {
+    public static Gadget random() {
         ArrayList<GadgetType> rList = (ArrayList<GadgetType>) GadgetType.getList(GadgetType.class);
         Random rand = new Random();
         int index = rand.nextInt(rList.size());
@@ -27,10 +27,10 @@ public class Gadget extends Upgrade implements Serializable {
     }
     
     /**
-     * @param gadgetType an enum that determines the type of gadget
+     * @param gadgetType2 an enum that determines the type of gadget
      */
-    public Gadget(GadgetType gadgetType) {
-        this.gadgetType = gadgetType;
+    public Gadget(GadgetType gadgetType2) {
+        this.gadgetType = gadgetType2;
     }
     
     public GadgetType getType() {
@@ -50,7 +50,7 @@ public class Gadget extends Upgrade implements Serializable {
     }
     
     /**
-     * Used to differentiate between Upgrade types
+     * Used to differentiate between Upgrade types.
      * 
      * @return "Gadget"
      */
@@ -60,7 +60,7 @@ public class Gadget extends Upgrade implements Serializable {
     }
     
     /**
-     * Used to differentiate between gadget types
+     * Used to differentiate between gadget types.
      * 
      * @return the name of the gadget type
      */
@@ -87,22 +87,24 @@ public class Gadget extends Upgrade implements Serializable {
 
 class GadgetType extends LoadedType implements Serializable {
 
-    private static final String GadgetFileLocation = "objects/Gadgets.xml";
+    private static final String GADGET_FILE_LOCATION = "objects/Gadgets.xml";
 
-    public static void Load() {
-        GadgetType.Load(GadgetType.class, GadgetFileLocation, null);
+    public static void load() {
+        GadgetType.Load(GadgetType.class, GADGET_FILE_LOCATION, null);
     }
     
     @FromXML
-    private int price, techLevel;
+    private int price;
+    @FromXML
+    private int techLevel;
     
     public GadgetType() {
         
     }
     
-    public GadgetType(int price, int techLevel) {
-        this.price = price;
-        this.techLevel = techLevel;
+    public GadgetType(int price2, int techLevel2) {
+        this.price = price2;
+        this.techLevel = techLevel2;
     }
     
     public int getPrice() {

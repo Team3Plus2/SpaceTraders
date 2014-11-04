@@ -491,7 +491,7 @@ public class PlanetViewController implements Initializable {
     @FXML
     private void handleBuyAction() {
         if (buyableGood != null) {
-            boolean success = market.buy(player, buyableGood, Integer.parseInt(buyQuantity.getText()));
+            market.buy(player, buyableGood, Integer.parseInt(buyQuantity.getText()));
             generateBuyList();
             generateSellList();
             updateBuyableItem();
@@ -506,7 +506,7 @@ public class PlanetViewController implements Initializable {
         if (sellableGood != null) {
             TradeGood temp = new TradeGood(sellableGood);
             temp.setPrice(sellableGood.getCurrentPriceEach());
-            boolean success = market.sell(player, temp, Integer.parseInt(sellQuantity.getText()));
+            market.sell(player, temp, Integer.parseInt(sellQuantity.getText()));
             generateSellList();
             generateBuyList();
             updateSellableItem();

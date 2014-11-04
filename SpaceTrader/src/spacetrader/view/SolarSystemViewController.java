@@ -149,10 +149,7 @@ public class SolarSystemViewController implements Initializable {
      * Map offset Y direction.
      */
     private double mapOffsetY;
-    /**
-     * Check for drag done.
-     */
-    private boolean dragFinished;
+
     /**
      * Current planet coordinates.
      */
@@ -500,7 +497,6 @@ public class SolarSystemViewController implements Initializable {
             dragOffsetX = 0;
             dragOffsetY = 0;
             dragging = false;
-            dragFinished = true;
             draw();
         }
     }

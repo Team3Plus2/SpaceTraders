@@ -34,8 +34,6 @@ public class StockExchange {
      * @param company2 the array of all of the Companies in this instance of the game.
      */
     public StockExchange (SolarSystem solarSystem2, Company[] company2) {
-        //Need to take in the array of existing companies and the solar system the player
-        //is on
         this.solarSystem = solarSystem2;
         this.company = company2.clone();
         companies = new ArrayList<Company>();

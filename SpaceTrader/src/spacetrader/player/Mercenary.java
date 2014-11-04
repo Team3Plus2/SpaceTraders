@@ -29,7 +29,7 @@ class MercenaryType extends LoadedType implements Serializable {
     private static final String MERCENARY_FILE_LOCATION = "objects/Mercenaries.xml";
 
     public static void load() {
-        MercenaryType.Load(MercenaryType.class, MERCENARY_FILE_LOCATION, null);
+        MercenaryType.load(MercenaryType.class, MERCENARY_FILE_LOCATION, null);
     }
 
     public MercenaryType() {

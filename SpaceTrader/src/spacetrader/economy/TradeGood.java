@@ -25,7 +25,7 @@ public class TradeGood extends LoadedType implements Serializable {
      * Loads the various TradeGood types from TradeGoods.
      */
     public static void load() {
-        TradeGood.Load(TradeGood.class, TRADES_GOODS_FILE, null);
+        TradeGood.load(TradeGood.class, TRADES_GOODS_FILE, null);
     }
     
     public static TradeGood Default() {

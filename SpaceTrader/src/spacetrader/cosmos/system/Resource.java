@@ -10,7 +10,7 @@ import spacetrader.xml.LoadedType;
  * 
  * @author Alex
  */
-public class Resource extends LoadedType implements Serializable {
+public class Resource extends LoadedType {
     
     /**
      * the default chance that a resource, rather than NO_SPECIAL_RESOURCES is randomly selected.

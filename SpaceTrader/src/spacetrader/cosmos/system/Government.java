@@ -10,7 +10,7 @@ import spacetrader.xml.FromXML;
  * 
  * @author Alex
  */
-public class Government extends LoadedType implements Serializable {
+public class Government extends LoadedType {
     
     /**
      * the location of the xml file to load the governments from.

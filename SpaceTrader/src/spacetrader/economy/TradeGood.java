@@ -17,7 +17,7 @@ import spacetrader.global.Utility;
  * 
  * @author Carey MacDonald
  */
-public class TradeGood extends LoadedType implements Serializable {
+public class TradeGood extends LoadedType {
     
     /**
      * The file that contains all the TradeGood type definitions.

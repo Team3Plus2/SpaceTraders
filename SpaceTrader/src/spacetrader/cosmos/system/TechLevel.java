@@ -8,7 +8,7 @@ import spacetrader.xml.LoadedType;
  *
  * @author Alex
  */
-public class TechLevel extends LoadedType implements Serializable {
+public class TechLevel extends LoadedType {
     
     /**
      * the file to load tech levels from.

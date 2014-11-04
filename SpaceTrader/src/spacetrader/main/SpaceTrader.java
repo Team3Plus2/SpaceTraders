@@ -75,7 +75,7 @@ public class SpaceTrader extends Application {
     public void goToCharacterConfig() {
         try {
             loadNewScreen("/spacetrader/view/CharacterConfigurationScreen.fxml");
-        } catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -83,7 +83,7 @@ public class SpaceTrader extends Application {
     public void goToLoadGame() {
         try {
             loadNewScreen("/spacetrader/view/NewLoadGame.fxml");
-        } catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -91,7 +91,7 @@ public class SpaceTrader extends Application {
     public void goToPlanetView() {
         try {
             loadNewScreen("/spacetrader/view/PlanetView.fxml");
-        } catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -99,7 +99,7 @@ public class SpaceTrader extends Application {
     public void goToSolarSystemView() {
         try {
             loadNewScreen("/spacetrader/view/SolarSystemView.fxml");
-        } catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -107,19 +107,19 @@ public class SpaceTrader extends Application {
     public void goToWelcomeScreen() {
         try {
             loadNewScreen("/spacetrader/view/WelcomeScreen.fxml");
-        } catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
     
-    public void goToGame(Player newPlayer) {
+    public void goToGame(Player newPlayer2) {
         try {
-            this.newPlayer = newPlayer;
+            this.newPlayer = newPlayer2;
             this.universe = new Universe(100, 0.1f);
             this.newPlayer.setCurrentSolarSystem(this.universe.getClosestSolarSystem(0, 0, 20));
             System.out.println(this.newPlayer.getCurrentSolarSystem());
             loadNewScreen("/spacetrader/view/StarScreen.fxml");
-        } catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -127,7 +127,7 @@ public class SpaceTrader extends Application {
     public void goToGame() {
         try {
             loadNewScreen("/spacetrader/view/StarScreen.fxml");
-        } catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -136,31 +136,31 @@ public class SpaceTrader extends Application {
         try {
             System.out.println("I'm about to go to encounter!");
             loadNewScreen("/spacetrader/view/Encounter.fxml");
-        } catch(IOException e) {
+        } catch (IOException e) {
             System.out.println("EHERJELRE");
             e.printStackTrace();
         }
     }
     
-    private void loadNewScreen(String FXML) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(FXML));
-        Parent root = (Parent)loader.load();
+    private void loadNewScreen(String fXML) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(fXML));
+        Parent root = (Parent) loader.load();
         stackPane.getChildren().add(root);
-        if(FXML.equals("/spacetrader/view/SolarSystemView.fxml")) {
-            SolarSystemViewController controller = (SolarSystemViewController)loader.getController();
+        if (fXML.equals("/spacetrader/view/SolarSystemView.fxml")) {
+            SolarSystemViewController controller = (SolarSystemViewController) loader.getController();
             controller.setScene(stage.getScene());
-        } else if(FXML.equals("/spacetrader/view/StarScreen.fxml")) {
-            StarScreenController controller = (StarScreenController)loader.getController();
+        } else if (fXML.equals("/spacetrader/view/StarScreen.fxml")) {
+            StarScreenController controller = (StarScreenController) loader.getController();
             controller.setScene(stage.getScene());
         }
         EventHandler<ActionEvent> finished = (ActionEvent event) -> {
-            if(stackPane.getChildren().size() > 1) {
+            if (stackPane.getChildren().size() > 1) {
                 stackPane.getChildren().remove(0);
             }
         };
         
         final Timeline switchPage;
-        if(stackPane.getChildren().size() > 1) {
+        if (stackPane.getChildren().size() > 1) {
             switchPage = new Timeline(
                 new KeyFrame(Duration.seconds(0), new KeyValue(stackPane.getChildren().get(1).opacityProperty(), 0.0), new KeyValue(stackPane.getChildren().get(0).opacityProperty(), 1.0)),
                 new KeyFrame(Duration.seconds(1), finished, new KeyValue(stackPane.getChildren().get(1).opacityProperty(), 1.0), new KeyValue(stackPane.getChildren().get(0).opacityProperty(), 0.0))

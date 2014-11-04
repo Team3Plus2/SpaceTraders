@@ -5,38 +5,46 @@ import spacetrader.player.ShipType;
 import spacetrader.xml.FromXML;
 import spacetrader.xml.LoadedType;
 
-import java.util.ArrayList;
-
 /**
- * Types of encounter, loaded from xml
+ * Types of encounter, loaded from xml.
  * 
  * @author Alex
  */
 public class EncounterType extends LoadedType {
-    private static String EncounterFileLocation = "objects/encounters.xml";
+    private static String encounterFileLocation = "objects/encounters.xml";
 
-    public static void Load() {
-        EncounterType.load(EncounterType.class, EncounterFileLocation, null);
+    public static void load() {
+        EncounterType.load(EncounterType.class, encounterFileLocation, null);
     }
     
-    public static EncounterType Random() {
-        return (EncounterType) EncounterType.get((int)(Math.random() * EncounterType.size(EncounterType.class)), EncounterType.class);
+    public static EncounterType random() {
+        return (EncounterType) EncounterType.get((int) (Math.random() * EncounterType.size(EncounterType.class)), EncounterType.class);
     }
 
     @FromXML
-    private int minTrade, maxTrade;
+    private int minTrade;
+    @FromXML
+    private int maxTrade;
     
     @FromXML
-    private int minPilot, maxPilot;
+    private int minPilot;
+    @FromXML
+    private int maxPilot;
     
     @FromXML
-    private int minEngineer, maxEngineer;
+    private int minEngineer;
+    @FromXML
+    private int maxEngineer;
     
     @FromXML
-    private int minInvestor, maxInvestor;
+    private int minInvestor;
+    @FromXML
+    private int maxInvestor;
     
     @FromXML
-    private int minFighter, maxFighter;
+    private int minFighter;
+    @FromXML
+    private int maxFighter;
     
     @FromXML
     private String greeting;
@@ -134,4 +142,4 @@ public class EncounterType extends LoadedType {
         return tradeRequestChance;
     }
     
- }
+}

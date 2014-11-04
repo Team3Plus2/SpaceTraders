@@ -16,6 +16,11 @@ import java.util.ArrayList;
 public class Weapon extends AbstractUpgrade implements Serializable {
     
     /**
+     * Used for Serializable class.
+     */
+    static final long serialVersionUID = 98L;
+    
+    /**
      * Loads the LaserType for the weapon.
      */
     public static void load() {
@@ -105,7 +110,13 @@ public class Weapon extends AbstractUpgrade implements Serializable {
  * LaserType(2) = beam laser
  * LaserType(3) = military laser
  */
-class LaserType extends LoadedType implements Serializable {
+class LaserType extends LoadedType {
+    
+    /**
+     * Used for Serializable class.
+     */
+    static final long serialVersionUID = 99L;
+    
     /**
      * Weapon XML file location.
      */

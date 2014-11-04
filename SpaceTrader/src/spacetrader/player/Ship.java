@@ -19,6 +19,11 @@ import spacetrader.economy.TradeGood;
 public class Ship implements Serializable {
     
     /**
+     * Used for Serializable class.
+     */
+    static final long serialVersionUID = 96L;
+    
+    /**
      * Loads the ship type.
      */
     public static void load() {

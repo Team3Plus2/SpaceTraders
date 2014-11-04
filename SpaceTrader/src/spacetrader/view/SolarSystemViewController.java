@@ -9,7 +9,6 @@ import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;

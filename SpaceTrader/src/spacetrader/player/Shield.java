@@ -14,6 +14,11 @@ import spacetrader.xml.FromXML;
 public class Shield extends AbstractUpgrade implements Serializable {
     
     /**
+     * Used for Serializable class.
+     */
+    static final long serialVersionUID = 95L;
+    
+    /**
      * Loads the shield type.
      */
     public static void load() {
@@ -100,7 +105,12 @@ public class Shield extends AbstractUpgrade implements Serializable {
  * ShieldType(1): energy shield
  * ShieldType(2): reflective shield
  */
-class ShieldType extends LoadedType implements Serializable {
+class ShieldType extends LoadedType {
+    
+    /**
+     * Used for Serializable class.
+     */
+    static final long serialVersionUID = 101L;
 
     /**
      * The shield XML file location.

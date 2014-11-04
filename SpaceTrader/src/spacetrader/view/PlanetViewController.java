@@ -268,10 +268,10 @@ public class PlanetViewController implements Initializable {
                 upgradeDetails.setText("Gadget Slots: " + maxGadgets
                                        + "\nSlots Filled: " + gadgetsFilled);
             }
-        }
-        upgradeDetails.setText(upgradeDetails.getText()
+            upgradeDetails.setText(upgradeDetails.getText()
                                + "\n\n\n\nYour Money: " + Utility.currencyFormat(player.getMoney()));
-        setShipCostLabel(Utility.currencyFormat(selected.getPrice()));
+            setShipCostLabel(Utility.currencyFormat(selected.getPrice()));
+        }
     }
     
      /**

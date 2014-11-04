@@ -13,6 +13,11 @@ import spacetrader.xml.LoadedType;
 public class ShipType extends LoadedType {
 
     /**
+     * Used for Serializable class.
+     */
+    static final long serialVersionUID = 97L;
+    
+    /**
      * String name of the file containing the list of ship types.
      */
     private static String shipTypeFileLocation = "objects/Ships.xml";

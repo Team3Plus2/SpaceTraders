@@ -19,6 +19,12 @@ import spacetrader.turns.TurnEvent;
  * @author Aaron McAnally
  */
 public class Player implements Serializable {
+    
+    /**
+     * Used for Serializable class.
+     */
+    static final long serialVersionUID = 94L;
+    
     /**
      * Fuel expended in between planets.
      */

@@ -99,7 +99,7 @@ public class Encounter {
                 searchFor = type.getLookingFor();
             }
         } else {
-            if (type.getLookingFor() != null) {
+            if (type.getLookingFor().length != 0) {
                 searchFor = type.getLookingFor();
             } else {
                 searchFor = null;

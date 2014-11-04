@@ -175,7 +175,7 @@ public class EncounterType extends LoadedType {
      */
     public TradeGood[] getLookingFor() {
         if (lookingFor == null) {
-            return null;
+            return new TradeGood[0];
         }
         return lookingFor.clone();
     }

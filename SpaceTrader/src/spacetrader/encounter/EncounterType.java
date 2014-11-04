@@ -13,6 +13,11 @@ import spacetrader.xml.LoadedType;
 public class EncounterType extends LoadedType {
     
     /**
+     * An id for serialization.
+     */
+    static final long serialVersionUID = (long) 54L;
+    
+    /**
      * Location of the encounters xml file.
      */
     private static String encounterFileLocation = "objects/encounters.xml";
@@ -169,7 +174,10 @@ public class EncounterType extends LoadedType {
      * @return TradeGood[] looking for
      */
     public TradeGood[] getLookingFor() {
-        return lookingFor;
+        if (lookingFor == null) {
+            return null;
+        }
+        return lookingFor.clone();
     }
 
     /**

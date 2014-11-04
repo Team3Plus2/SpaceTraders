@@ -17,31 +17,37 @@ import java.util.HashMap;
  * @author Alex
  */
 public class LoadedType implements Comparable, Serializable {
+        
+    /**
+     * An id for serialization.
+     */
+    static final long serialVersionUID = (long) 57L;
     
     /**
      * provides for effeciently getting types by name.
      */
-    private static HashMap<String, TypeWrapper> types;
+    private static HashMap<String, TypeWrapper> types = new HashMap<>();
     
     /**
      * provides for effeciently getting types by index.
      */
-    private static HashMap<Integer, HashMap<Class, LoadedType>> indexes;
+    private static HashMap<Integer, HashMap<Class, LoadedType>> indexes = new HashMap<>();
     
     /**
      * provides for effeciently getting the amount of a given type.
      */
-    private static HashMap<Class, Integer> typeCount;
+    private static HashMap<Class, Integer> typeCount = new HashMap<>();
     
     /**
      * stores default values per type.
+     * default type value, may be null
      */
-    private static HashMap<Class, Object> defaults; //default type value, may be null
+    private static HashMap<Class, Object> defaults = new HashMap<>();
     
     /**
      * provides for effeciently getting a list of all types for a given type.
      */
-    private static HashMap<Class, ArrayList<LoadedType>> listByType;
+    private static HashMap<Class, ArrayList<LoadedType>> listByType = new HashMap<>();
     
     /**
      * 
@@ -57,13 +63,6 @@ public class LoadedType implements Comparable, Serializable {
 
      */
     public static void load(Class type, String fileLocation, Object def) {
-        if (types == null) { //since these are always initialized together, only one check is needed
-            defaults = new HashMap<>();
-            typeCount = new HashMap<>();
-            indexes = new HashMap<>();
-            types = new HashMap<>();
-            listByType = new HashMap<>();
-        }
         XMLReader reader = new XMLReader(type, fileLocation);
         ArrayList<LoadedType> loadedTypes = reader.read();
         
@@ -239,6 +238,28 @@ public class LoadedType implements Comparable, Serializable {
         throw new IllegalArgumentException();
     }
     
+    /**
+     * check to see if this type equals another object
+     * @param other object to check against
+     * @return 
+     */
+    @Override
+    public boolean equals(Object other) {
+        if (other instanceof LoadedType) {
+            return this.name.equals(((LoadedType) other).name);
+        }
+        return false;
+    }
+    
+    
+    /**
+     * gets the type's hashcode
+     * @return type's hashcode
+     */
+    @Override
+    public int hashCode() {
+        return name.hashCode();
+    }
 }
 
 /**
@@ -274,7 +295,10 @@ class TypeWrapper {
      */
     @Override
     public boolean equals(Object other) {
-        if (other.getClass().equals(TypeWrapper.class)) {
+        if (other == null)
+            return false;
+        
+        if (other.getClass().equals(this.getClass())) {
             TypeWrapper otherType = (TypeWrapper) other;
             if (otherType.type.getClass().equals(this.type.getClass()) && this.hashCode() == other.hashCode()) {
                 return true;

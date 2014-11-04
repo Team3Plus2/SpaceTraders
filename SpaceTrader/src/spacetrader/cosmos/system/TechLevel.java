@@ -11,6 +11,11 @@ import spacetrader.xml.LoadedType;
 public class TechLevel extends LoadedType {
     
     /**
+     * An id for serialization.
+     */
+    static final long serialVersionUID = (long) 49L;
+    
+    /**
      * the file to load tech levels from.
      */
     private static final String TECH_LEVEL_FILE = "objects/TechLevels.xml";

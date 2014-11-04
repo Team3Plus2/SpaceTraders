@@ -16,6 +16,11 @@ import spacetrader.player.Player;
 public class SolarSystem implements TurnListener, Serializable {
     
     /**
+     * An id for serialization.
+     */
+    static final long serialVersionUID = (long) 46L;
+    
+    /**
      * the default maximum number of planets in a system.
      */
     private static final int DEFAULT_MAX_PLANETS = 10;

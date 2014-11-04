@@ -15,6 +15,11 @@ import spacetrader.xml.LoadedType;
 public class SunType extends LoadedType {
     
     /**
+     * An id for serialization.
+     */
+    static final long serialVersionUID = (long) 48L;
+    
+    /**
      * the location of the xml file to load the sun types from.
      */
     private static final String SUN_TYPE_FILE_LOCATION = "objects/SunTypes.xml";

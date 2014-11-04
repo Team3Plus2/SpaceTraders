@@ -13,6 +13,11 @@ import spacetrader.xml.LoadedType;
 public class Resource extends LoadedType {
     
     /**
+     * An id for serialization.
+     */
+    static final long serialVersionUID = (long) 45L;
+    
+    /**
      * the default chance that a resource, rather than NO_SPECIAL_RESOURCES is randomly selected.
      */
     private static final float DEFAULT_RESOURCE_CHANCE = 0.25f;

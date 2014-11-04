@@ -333,15 +333,14 @@ public class Ship implements Serializable {
             }
             
             if (damageToShields > 0 && damageShipComponentsAtRandom()) {
-                    return true;
+                return true;
             }
         }
         return false;
     }
     
     /**
-     * Damage weapons and gadgets in the given arraylist.
-     * @param damage damage to give weapons and gadgets
+     * Damage weapons and gadgets in the given ArrayList.
      * @param targets systems to target
      */
     private void damageShipComponents(ArrayList targets) {

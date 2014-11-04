@@ -113,7 +113,6 @@ public class CharacterConfigurationScreenController implements Initializable {
     
     /**
      * If back button is pushed go back to welcome screen.
-     * @param event something happened
      */
     @FXML
     private void handleBackAction() {

@@ -252,7 +252,7 @@ public class Encounter {
      */
     public MarketPlace getMarketPlace(SolarSystem system) {
         MarketPlace market = new MarketPlace(captain.getCargoList());
-        market.setupGoodsWithLocale(system.TechLevel());
+        market.setupGoodsWithLocale(system.techLevel());
         return market;
     }
     

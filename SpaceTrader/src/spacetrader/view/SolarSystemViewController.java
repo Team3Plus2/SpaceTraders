@@ -186,10 +186,10 @@ public class SolarSystemViewController implements Initializable {
         g = viewCanvas.getGraphicsContext2D();
         flareG = flareLayer.getGraphicsContext2D();
         selectionG = selectionLayer.getGraphicsContext2D();
-        if (curSystem.SunType().usesImage() && curSystem.SunType().getImage().contains("RedGiant")) {
+        if (curSystem.sunType().usesImage() && curSystem.sunType().getImage().contains("RedGiant")) {
             starImage = new Image("/visuals/Stars/RedGiant_big.png");
             flareImage = new Image("/visuals/Stars/RedGiantFlareSheet.png");
-        } else if (curSystem.SunType().usesImage() && curSystem.SunType().getImage().contains("Binary")) {
+        } else if (curSystem.sunType().usesImage() && curSystem.sunType().getImage().contains("Binary")) {
             starImage = new Image("/visuals/Stars/Binary_big.png");
             flareImage = new Image("/visuals/Stars/BinaryFlareSheet.png");
         } else {
@@ -227,16 +227,16 @@ public class SolarSystemViewController implements Initializable {
      * Ensure no planets are too close to one another.
      */
     private void checkRadii() {
-        if (curSystem.Planets().length > 1) {
+        if (curSystem.planets().length > 1) {
             int i = 0;
-            while (i < curSystem.Planets().length) {
-                for (int j = i + 1; j < curSystem.Planets().length; j++) {
-                    int p1 = curSystem.Planets()[i].getLocation().y;
-                    int p2 = curSystem.Planets()[j].getLocation().y;
+            while (i < curSystem.planets().length) {
+                for (int j = i + 1; j < curSystem.planets().length; j++) {
+                    int p1 = curSystem.planets()[i].getLocation().y;
+                    int p2 = curSystem.planets()[j].getLocation().y;
                     while (Math.abs(p1 - p2) < 30) {
-                        curSystem.Planets()[j].setLocation(new Point(curSystem.Planets()[j].getLocation().x, p2 + 1));
-                        p1 = curSystem.Planets()[i].getLocation().y;
-                        p2 = curSystem.Planets()[j].getLocation().y;
+                        curSystem.planets()[j].setLocation(new Point(curSystem.planets()[j].getLocation().x, p2 + 1));
+                        p1 = curSystem.planets()[i].getLocation().y;
+                        p2 = curSystem.planets()[j].getLocation().y;
                         i = 0;
                     }
                 }
@@ -254,7 +254,7 @@ public class SolarSystemViewController implements Initializable {
             @Override
             public void run() {
                 Platform.runLater(() -> {
-                        for (Planet p : curSystem.Planets()) {
+                        for (Planet p : curSystem.planets()) {
                             if (p.getLocation().x + 1 > 144000) {
                                 p.setLocation(new Point(0, p.getLocation().y));
                             }
@@ -300,7 +300,7 @@ public class SolarSystemViewController implements Initializable {
             drawFlares(size, posx, posy);
         }
         g.setStroke(Color.WHITE);
-        for (Planet p : curSystem.Planets()) {
+        for (Planet p : curSystem.planets()) {
             posx = getCartesianLocation(p.getLocation(), p.getOrbitEllipse()).x - dragOffsetX - mapOffsetX;
             posy = getCartesianLocation(p.getLocation(), p.getOrbitEllipse()).y - dragOffsetY - mapOffsetY;
             for (int i = 0; i < 90; i++) {
@@ -321,8 +321,8 @@ public class SolarSystemViewController implements Initializable {
                 selectionG.setStroke(Color.WHITE);
                 selectionG.setFill(Color.WHITE);
                 selectionG.strokeOval(posx - 15, posy - 15, 30, 30);
-                selectionG.fillText(curPlanet.Name(), posx + 15, posy - 15);
-                selectionG.fillText(curPlanet.Resources().toString(), posx + 15, posy);
+                selectionG.fillText(curPlanet.name(), posx + 15, posy - 15);
+                selectionG.fillText(curPlanet.resources().toString(), posx + 15, posy);
                 if (selectedPlanetCoords != null) {
                     g.strokeLine(currentPlanetCoords.x, currentPlanetCoords.y, posx, posy);
                 }
@@ -390,7 +390,7 @@ public class SolarSystemViewController implements Initializable {
      * @return closest planet
      */
     private Planet findClosestPlanet(Point p) {
-        if (curSystem.Planets()[0] == null) {
+        if (curSystem.planets()[0] == null) {
             return null;
         }
         Planet forreturn = screenSpace.get(p);
@@ -464,7 +464,7 @@ public class SolarSystemViewController implements Initializable {
         selectedPlanet = planetHitTest();
         if (selectedPlanet != null) {
             travelToPlanet.setVisible(true);
-            travelToPlanet.setText("Travel To " + selectedPlanet.Name());
+            travelToPlanet.setText("Travel To " + selectedPlanet.name());
         } else {
             travelToPlanet.setVisible(false);
         }

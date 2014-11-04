@@ -314,7 +314,7 @@ public class StarScreenController implements Initializable {
             g.setStroke(Color.WHITE);
             g.setFill(Color.WHITE);
             g.strokeOval(event.getX() - 15, event.getY() - 15, 30, 30);
-            g.fillText(mouseOver.Name(), event.getX(), event.getY());
+            g.fillText(mouseOver.name(), event.getX(), event.getY());
             if (travelable.contains(mouseOver)) {
                 double radx = ((player.getCurrentSolarSystem().getX() * universeScale) - mapOffsetX - dragOffsetX) + (512 - mapOffsetX - dragOffsetX);
                 double rady = ((player.getCurrentSolarSystem().getY() * universeScale) - mapOffsetY - dragOffsetY) + (288 - mapOffsetY - dragOffsetY);
@@ -366,8 +366,8 @@ public class StarScreenController implements Initializable {
         if (mouseOver != null && travelable.contains(mouseOver)) {
             selectedSolarSystem = mouseOver;
             animateInfoScreen(true);
-            solarSystemName.setText(mouseOver.Name());
-            ObservableList<Planet> planets = FXCollections.observableArrayList(mouseOver.Planets());
+            solarSystemName.setText(mouseOver.name());
+            ObservableList<Planet> planets = FXCollections.observableArrayList(mouseOver.planets());
             planetList.setItems(planets);
             fuelInfo.setText("Current:\n" + player.getShip().getFuel() + "\n\nCost:\n" + player.distanceToSolarSystem(mouseOver) + "\n\nSum:\n" + (player.getShip().getFuel() - player.distanceToSolarSystem(mouseOver)));
             drawUniverse();
@@ -408,17 +408,17 @@ public class StarScreenController implements Initializable {
             if (a != null && !travelable.contains(a)) {
                 int x = a.getX() * universeScale;
                 int y = a.getY() * universeScale;
-                r.setSeed(a.Name().hashCode());
+                r.setSeed(a.name().hashCode());
                 
                 //set color of star based on suntype
-                if (a.SunType().usesColor()) {
-                    g.setFill(new Color(a.SunType().getR(), a.SunType().getG(), a.SunType().getB(), 1.0));
+                if (a.sunType().usesColor()) {
+                    g.setFill(new Color(a.sunType().getR(), a.sunType().getG(), a.sunType().getB(), 1.0));
                 } else {
-                    starImage = sunImages.get(a.SunType().getName());
+                    starImage = sunImages.get(a.sunType().getName());
                 }
                 
                 //initializes size and position variables
-                double size = 20 + a.Planets().length * 2;
+                double size = 20 + a.planets().length * 2;
                 double xPosition = (x - mapOffsetX - dragOffsetX) + (512 - mapOffsetX - dragOffsetX) - (size / 2);
                 double yPosition = (y - mapOffsetY - dragOffsetY) + (288 - mapOffsetY - dragOffsetY) - (size / 2);
                 if (dragFinished) {
@@ -461,16 +461,16 @@ public class StarScreenController implements Initializable {
         g.setFill(Color.WHITE);
         Random r = new Random();
         for (SolarSystem a : travelable) {
-            r.setSeed(a.Name().hashCode());
+            r.setSeed(a.name().hashCode());
             int x = a.getX() * universeScale;
             int y = a.getY() * universeScale;
             Image starImage = null;
-            if (a.SunType().usesColor()) {
-                g.setFill(new Color(a.SunType().getR(), a.SunType().getG(), a.SunType().getB(), 1.0));
+            if (a.sunType().usesColor()) {
+                g.setFill(new Color(a.sunType().getR(), a.sunType().getG(), a.sunType().getB(), 1.0));
             } else {
-                starImage = sunImages.get(a.SunType().getName());
+                starImage = sunImages.get(a.sunType().getName());
             }
-            double size = 20 + a.Planets().length * 2;
+            double size = 20 + a.planets().length * 2;
             double xPosition = (x - mapOffsetX - dragOffsetX) + (512 - mapOffsetX - dragOffsetX) - (size / 2);
             double yPosition = (y - mapOffsetY - dragOffsetY) + (288 - mapOffsetY - dragOffsetY) - (size / 2);
 

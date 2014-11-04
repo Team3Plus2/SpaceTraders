@@ -20,9 +20,6 @@ import javafx.scene.control.Label;
  */
 public class WelcomeScreenController implements Initializable {
     
-    @FXML
-    private Label label;
-    
     /**
      * Handles what happens when the Start button is pressed
      */

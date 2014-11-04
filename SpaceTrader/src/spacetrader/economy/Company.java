@@ -141,4 +141,14 @@ public class Company {
     public ArrayList<SolarSystem> solarSystems() {
         return solarSystems;
     }
+
+    /**
+     * Returns name of company.
+     * @return String name of company
+     */
+    public String getName() {
+        return name;
+    }
+    
+    
 }

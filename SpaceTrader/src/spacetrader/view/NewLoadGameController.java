@@ -119,10 +119,8 @@ public class NewLoadGameController implements Initializable {
             SpaceTrader.getInstance().goToCharacterConfig();
         } else {
             Player p = loadOptions.getSelectionModel().getSelectedItem();
-            if (p != null) {
-                if (LoadGame.load(p.getName() + save, SpaceTrader.getInstance())) {
-                    SpaceTrader.getInstance().goToGame();
-                }
+            if (p != null && LoadGame.load(p.getName() + save, SpaceTrader.getInstance())) {
+                SpaceTrader.getInstance().goToGame();
             }
         }
     }

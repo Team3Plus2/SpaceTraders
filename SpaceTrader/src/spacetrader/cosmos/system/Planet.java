@@ -40,7 +40,7 @@ public class Planet implements TurnListener, Serializable {
         location = new Point(angle, radius);
         orbitEllipse = new Point(r.nextInt(10), r.nextInt(10));
         
-        TurnEvent.RegisterListener(this);
+        TurnEvent.registerListener(this);
     }
     
     public Planet() {

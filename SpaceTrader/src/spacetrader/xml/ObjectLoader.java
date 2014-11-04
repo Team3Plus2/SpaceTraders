@@ -29,13 +29,15 @@ public class ObjectLoader {
         TechLevel.Load();
         TradeGood.Load();
         Government.load();
+        TradeGood.load();
+        Government.Load();
         SunType.Load();
-        Gadget.Load();
-        Mercenary.Load();
+        Gadget.load();
+        Mercenary.load();
         Shield.Load();
         Ship.Load();
         Weapon.Load();
-        Encounter.Load();
+        Encounter.load();
     }
     
 }

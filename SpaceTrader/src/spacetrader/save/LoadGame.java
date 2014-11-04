@@ -53,7 +53,7 @@ public class LoadGame {
             u = (Universe) objectReader.readObject();
             s.setUniverse(u);
             ts = (TurnSerializer) objectReader.readObject();
-            TurnEvent.Load(ts);
+            TurnEvent.load(ts);
             objectReader.close();
         } catch (IOException e) {
             System.out.println(e.getMessage());

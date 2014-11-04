@@ -17,7 +17,7 @@ public class Utility {
     /**
      * formats a number by giving it the following form:
      *      $#.## if positive
-     *      -$#.## if negative
+     *      -$#.## if negative.
      * 
      * @param o the input that must be formatted;
      *          can be any number primitive type or

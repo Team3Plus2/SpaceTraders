@@ -273,7 +273,11 @@ public class Encounter {
     public MarketPlace getSalvageExchange() {
         Random rand = new Random();
         int size = rand.nextInt(captain.getCargoList().size());
-        return new MarketPlace((ArrayList<TradeGood>) captain.getCargoList().subList(0, size), true);
+        ArrayList<TradeGood> subList = new ArrayList<TradeGood>();
+        for (int i = 0; i < size; i++) {
+            subList.add(captain.getCargoList().get(i));
+        }
+        return new MarketPlace(subList, true);
     }
 
     /**

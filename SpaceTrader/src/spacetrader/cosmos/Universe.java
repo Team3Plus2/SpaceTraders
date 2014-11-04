@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Random;
 import spacetrader.cosmos.system.SolarSystem;
 import spacetrader.turns.TurnEvent;
@@ -25,6 +26,12 @@ public class Universe implements Iterable<SolarSystem>, Serializable {
      * THE MEANING OF LIFE, THE UNIVERSE AND EVERYTHING!.
      */
     private static final int MEANING = 42; //Also applies to life and everything
+    
+    /**
+     * An id for serialization.
+     */
+    static final long serialVersionUID = (long) MEANING;
+    
     /**
      * Default initial width of this universe.
      */
@@ -83,18 +90,22 @@ public class Universe implements Iterable<SolarSystem>, Serializable {
             name += randomVowel(rand);
         }
         
+        StringBuffer buff = new StringBuffer();
+        buff.append(name);
         for (int i = 0; i < syllables; i++) {
-            name += randomLetter(rand);
-            name += randomVowel(rand);
+            buff.append(randomLetter(rand));
+            buff.append(randomVowel(rand));
             //name += randomLetter(rand);
             
             if (rand.nextFloat() < DEFAULT_DOUBLE_LETER_CHANCE) {
-                name += randomLetter(rand);
+                buff.append(randomLetter(rand));
             }
         }
         
+        name = buff.toString();
+        
         String firstChar = "" + name.charAt(0);
-        name = firstChar.toUpperCase() + name.substring(1);
+        name = firstChar.toUpperCase(Locale.getDefault()) + name.substring(1);
         
         return name;
     }

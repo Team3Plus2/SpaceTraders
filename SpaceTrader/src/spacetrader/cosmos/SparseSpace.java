@@ -19,6 +19,11 @@ import java.util.NoSuchElementException;
 public class SparseSpace implements Iterable<SolarSystem>, Serializable {
     
     /**
+     * An id for serialization.
+     */
+    static final long serialVersionUID = 41L;
+    
+    /**
      * the sparse storage system.
      */
     private HashMap<Integer, HashMap<Integer, SolarSystem>> spaceMap;
@@ -182,7 +187,7 @@ public class SparseSpace implements Iterable<SolarSystem>, Serializable {
     /**
      * An iterator specificaly catered toward effeciently going through the sparce space.
      */
-    public class SparseIterator implements Iterator<SolarSystem> {
+    public static class SparseIterator implements Iterator<SolarSystem> {
         /**
          * The space this iterator is going through.
          */

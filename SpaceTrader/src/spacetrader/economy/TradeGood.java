@@ -20,6 +20,11 @@ import spacetrader.global.Utility;
 public class TradeGood extends LoadedType {
     
     /**
+     * An id for serialization.
+     */
+    static final long serialVersionUID = (long) 52L;
+    
+    /**
      * The file that contains all the TradeGood type definitions.
      */
     private static final String TRADES_GOODS_FILE = "objects/TradeGoods.xml";

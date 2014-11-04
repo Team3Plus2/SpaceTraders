@@ -327,7 +327,7 @@ public class Ship implements Serializable {
                 damageShipComponents(targets);
             }
             
-            if (damageToShields > 0 && damageShipComponentsAtRandom(damageToShields)) {
+            if (damageToShields > 0 && damageShipComponentsAtRandom()) {
                     return true;
             }
         }

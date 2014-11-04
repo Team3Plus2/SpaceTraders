@@ -18,6 +18,11 @@ import spacetrader.player.Player;
 public class Planet implements TurnListener, Serializable {
     
     /**
+     * An id for serialization.
+     */
+    static final long serialVersionUID = (long) 44L;
+    
+    /**
      * Random seed associated internally with this planet.
      */
     private Random rand;

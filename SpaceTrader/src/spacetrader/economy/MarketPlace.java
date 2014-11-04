@@ -17,6 +17,12 @@ import spacetrader.turns.TurnEvent;
  * @author Carey MacDonald
  */
 public class MarketPlace implements TurnListener, Serializable {
+    
+    /**
+     * An id for serialization.
+     */
+    static final long serialVersionUID = (long) 50L;
+    
     /**
      * List of TradeGoods this MarketPlace contains.
      */

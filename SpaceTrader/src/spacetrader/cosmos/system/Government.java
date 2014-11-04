@@ -18,6 +18,11 @@ public class Government extends LoadedType {
     private static final String GOVERNMENTS_FILE = "objects/Governments.xml";
     
     /**
+     * An id for serialization.
+     */
+    static final long serialVersionUID = (long) 43L;
+    
+    /**
      * load all the government types.
      */
     public static void load() {

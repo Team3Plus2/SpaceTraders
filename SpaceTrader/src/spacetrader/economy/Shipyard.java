@@ -25,6 +25,11 @@ import spacetrader.player.Weapon;
 public class Shipyard implements Serializable {
     
     /**
+     * An id for serialization.
+     */
+    static final long serialVersionUID = (long) 51L;
+    
+    /**
      * List of ShipTypes.
      */
     private final ArrayList<ShipType> shipTypes;

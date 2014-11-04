@@ -222,7 +222,7 @@ public class XMLReader<T> {
             try {
                 TechLevel level = (TechLevel) TechLevel.get(rawValue);
                 if (level == null) {
-                    level = (TechLevel) TechLevel.get(Integer.valueOf(rawValue), TechLevel.class);
+                    level = (TechLevel) TechLevel.get(Integer.parseInt(rawValue), TechLevel.class);
                 }
                 if (level == null) { //if the level is still null, the xml value is invalid
                     System.err.println("The value " + rawValue + "is not a valid techLevel");

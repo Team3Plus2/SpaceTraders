@@ -10,8 +10,16 @@ import java.util.ArrayList;
  */
 public class UniverseGenerationEvent {
     
+    /**
+     * List of registeredListeners for this Event.
+     */
     private static ArrayList<UniverseGenerationListener> registeredListeners;
     
+    /**
+     * Registers the given listener with this Event.
+     * 
+     * @param listener the listener we want to register.
+     */
     public static void registerListener(UniverseGenerationListener listener) {
         if (registeredListeners == null) {
             registeredListeners = new ArrayList<>();
@@ -19,6 +27,11 @@ public class UniverseGenerationEvent {
         registeredListeners.add(listener);
     }
     
+    /**
+     * Does what needs to be done when the Universe if generated.
+     * 
+     * @param systems the list of SolarSystems we need to handle events for.
+     */
     public static void universeGenerated(ArrayList<SolarSystem> systems) {
         if (registeredListeners == null) {
             return;
@@ -29,12 +42,25 @@ public class UniverseGenerationEvent {
         }
     }
     
+    /**
+     * List of SolarSystems for this Event.
+     */
     private ArrayList<SolarSystem> systemsAdded;
     
+    /**
+     * Constructor for UniverseGenerationEvent.
+     * 
+     * @param systems the list of SolarSystems for this Event.
+     */
     public UniverseGenerationEvent(ArrayList<SolarSystem> systems) {
         systemsAdded = systems;
     }
     
+    /**
+     * Getter for systemsAdded.
+     * 
+     * @return systemsAdded
+     */
     public ArrayList<SolarSystem> getSystems() {
         return systemsAdded;
     }

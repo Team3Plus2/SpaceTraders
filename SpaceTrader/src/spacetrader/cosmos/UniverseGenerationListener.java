@@ -11,6 +11,6 @@ public interface UniverseGenerationListener {
      * 
      * @param event the fired event
      */
-    public void onGeneration(UniverseGenerationEvent event);
+    void onGeneration(UniverseGenerationEvent event);
     
 }

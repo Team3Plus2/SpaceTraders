@@ -324,13 +324,11 @@ public class Ship implements Serializable {
         if (shields.isEmpty() && damageToShields > 0) {
             //damage any targets
             if (targets != null) {
-                damageShipComponents(damageToShields, targets);
+                damageShipComponents(targets);
             }
             
-            if (damageToShields > 0) {
-                if (damageShipComponentsAtRandom(damageToShields)) {
+            if (damageToShields > 0 && damageShipComponentsAtRandom(damageToShields)) {
                     return true;
-                }
             }
         }
         return false;
@@ -341,7 +339,7 @@ public class Ship implements Serializable {
      * @param damage damage to give weapons and gadgets
      * @param targets systems to target
      */
-    private void damageShipComponents(int damage, ArrayList targets) {
+    private void damageShipComponents(ArrayList targets) {
         for (Object a : targets) {
             if (a instanceof Weapon) {
                 if (weapons.size() > 0) {
@@ -371,12 +369,12 @@ public class Ship implements Serializable {
     
     /**
      * Damage weapons and gadgets on the ship at random.
-     * @param damage damage to give to weapons and gadgets
      * @return true if systems absorbed damage, false if damage reached ship
      */
-    private boolean damageShipComponentsAtRandom(int damage) {
+    private boolean damageShipComponentsAtRandom() {
         Random rand = new Random();
-        for (int i = 0; i < damageToShields; i++) {
+        int i = 0;
+        for (; i < damageToShields; i++) {
             boolean removed = false;
             int type = rand.nextInt(1);
             if (type == 0) {
@@ -400,6 +398,7 @@ public class Ship implements Serializable {
                 return true;
             }
         }
+        damageToShields -= i;
         return false;
     }
     

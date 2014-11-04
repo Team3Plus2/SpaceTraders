@@ -97,6 +97,7 @@ public class Player implements Serializable {
             currentPlanet = system.Planets()[0];
         } else {
             currentPlanet = null;
+        }
         TurnEvent.nextTurn(this);
         return true;
     }
@@ -280,7 +281,7 @@ public class Player implements Serializable {
      * @return true if successful; false if no more room for cargo
      */
     public boolean addTradeGood(TradeGood good) {
-        return ship.addTradeGood(good);
+        return ship.getCargo().addTradeGood(good);
     }
     
     /**
@@ -290,7 +291,7 @@ public class Player implements Serializable {
      * @return true if successful; false if improper amount of good type in cargo hold
      */
     public boolean removeTradeGood(TradeGood good) {
-        return ship.removeTradeGood(good);
+        return ship.getCargo().removeTradeGood(good);
     }
         
     /**

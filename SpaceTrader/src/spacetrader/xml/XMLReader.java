@@ -258,7 +258,7 @@ public class XMLReader<T> {
                 return ShipType.get(rawValue);
             } catch (IllegalArgumentException excep) {
                 defaultWarning(rawValue, "");
-                return ShipType.Default();
+                return ShipType.defaultValue();
             }
         } else if (type.equals(Color.class)) {
             try {

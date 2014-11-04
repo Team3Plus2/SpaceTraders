@@ -33,7 +33,7 @@ public class ObjectLoader {
         Gadget.load();
         Mercenary.load();
         Shield.load();
-        Ship.Load();
+        Ship.load();
         Weapon.load();
         Encounter.load();
     }

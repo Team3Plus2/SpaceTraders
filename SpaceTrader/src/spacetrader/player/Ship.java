@@ -18,20 +18,80 @@ import spacetrader.economy.TradeGood;
  */
 public class Ship implements Serializable {
     
-    public static void Load() {
-        ShipType.Load();
+    /**
+     * Loads the ship type.
+     */
+    public static void load() {
+        ShipType.load();
     }
     
-    private float maxFuel, fuel, price, fuelCost;
-    private int maxMercenaries, maxWeapons, maxShields, maxGadgets;
+    /**
+     * the ship's max fuel.
+     */
+    private float maxFuel;
+    /**
+     * the ship's current fuel.
+     */
+    private float fuel;
+    /**
+     * the ship's price.
+     */
+    private float price;
+    /**
+     * the ship's fuel cost.
+     */
+    private float fuelCost;
+    /**
+     * the ship's max mercenaries.
+     */
+    private int maxMercenaries;
+    /**
+     * the ship's max weapons.
+     */
+    private int maxWeapons;
+    /**
+     * the ship's max shields.
+     */
+    private int maxShields;
+    /**
+     * the ship's max gadgets.
+     */
+    private int maxGadgets;
+    /**
+     * the ship's weapons.
+     */
     private ArrayList<Weapon> weapons;
+    /**
+     * the ship's shields.
+     */
     private ArrayList<Shield> shields;
+    /**
+     * the ship's gadgets.
+     */
     private ArrayList<Gadget> gadgets;
+    /**
+     * the ship's mercenaries.
+     */
     private ArrayList<Mercenary> mercenaries;
-    private ArrayList Destroyed;//an arraylist of objects destroyed the last time this ship was damaged
+    /**
+     * an arraylist of objects destroyed the last time this ship was damaged.
+     */
+    private ArrayList destroyed;
+    /**
+     * the ship's cargo.
+     */
     private Cargo cargo;
+    /**
+     * the ship's damage to shields.
+     */
     private int damageToShields;
-    private int damageFromLastAttack;//damage this ship dealt in last attack
+    /**
+     * damage this ship dealt in last attack.
+     */
+    private int damageFromLastAttack;
+    /**
+     * the ship's name.
+     */
     private String name;
     
     /**
@@ -57,10 +117,10 @@ public class Ship implements Serializable {
     }
     
     /**
-     * Creates a ship of type GNAT (the starter ship for the player)
+     * Creates a ship of type GNAT (the starter ship for the player).
      */
     public Ship() {
-        this(ShipType.Default());
+        this(ShipType.defaultValue());
     }
     /**
      * Puts a weapon in an open weapon slot if one is available.
@@ -197,17 +257,20 @@ public class Ship implements Serializable {
         return cargo;
     }
     
-    public void setCargo(Cargo cargo) {
-        this.cargo = cargo;
+    /**
+     * @param cargo2 the new cargo for the ship
+     */
+    public void setCargo(Cargo cargo2) {
+        this.cargo = cargo2;
     }
 
     /**
-     * Moves the ship the given distance if the player has enough fuel
-     * @param dist
-     * @return true if the movement occured, false if ship doesn't have enough fuel
+     * Moves the ship the given distance if the player has enough fuel.
+     * @param dist the move distance
+     * @return true if the movement occurred, false if ship doesn't have enough fuel
      */
     public boolean moveDistance(double dist) {
-        if(dist <= fuel) {
+        if (dist <= fuel) {
             fuel -= dist;
             return true;
         }
@@ -215,7 +278,7 @@ public class Ship implements Serializable {
     }
     
     /**
-     * Fire at the given ship
+     * Fire at the given ship.
      * 
      * @param other ship to attack on
      * @param modifier damage modifier
@@ -223,92 +286,97 @@ public class Ship implements Serializable {
      * @return true if the enemy ship was destroyed, else false
      */
     public boolean attack(Ship other, int modifier, ArrayList targets) {
-        if(modifier <= 0)
-            modifier = 1;
+        int newModifier = modifier;
+        if (newModifier <= 0) {
+            newModifier = 1;
+        }
         Random rand = new Random();
-        int modifierSeed = rand.nextInt(modifier);
-        damageFromLastAttack = getPower() + (modifierSeed/5);//damage from this attack now
+        int modifierSeed = rand.nextInt(newModifier);
+        damageFromLastAttack = getPower() + (modifierSeed / 5); //damage from this attack now
         return other.recieveDamage(damageFromLastAttack, targets);
     }
     
     /**
-     * Damages the ship the given amount
+     * Damages the ship the given amount.
      * 
      * @param amount amount of damage to apply to the ship
      * @param targets damage the given targets once the shields are destroyed, if null, targets at random
      * @return true if the ship was destroyed, false if it survived
      */
     public boolean recieveDamage(int amount, ArrayList targets) {
-        Destroyed = new ArrayList();
+        destroyed = new ArrayList();
         damageToShields += amount;
         
-        if(!shields.isEmpty()) {
+        if (!shields.isEmpty()) {
             Iterator<Shield> iter = shields.iterator();
             do {
                 Shield a = iter.next();
                 int absorbed = a.absorbDamage(damageToShields);
-                if(absorbed < 0) {
-                    damageToShields += absorbed;//add since the shield's destructioned is denoted through a negative absorbtion return
-                    Destroyed.add(a);
+                if (absorbed < 0) {
+                    damageToShields += absorbed; //add since the shield's destructioned is denoted through a negative absorbtion return
+                    destroyed.add(a);
                     iter.remove();
                 }
-            } while(iter.hasNext());
+            } while (iter.hasNext());
         }
         
-        if(shields.isEmpty() && damageToShields > 0) {
-            if(targets != null) {
-                for(Object a : targets) {
-                    if(a instanceof Weapon) {
-                        if(weapons.size() > 0) {
-                            Weapon weap = (Weapon)a;
+        if (shields.isEmpty() && damageToShields > 0) {
+            if (targets != null) {
+                for (Object a : targets) {
+                    if (a instanceof Weapon) {
+                        if (weapons.size() > 0) {
+                            Weapon weap = (Weapon) a;
                             Iterator<Weapon> weapIter = weapons.iterator();
-                            for(Weapon b = weapIter.next(); weapIter.hasNext(); b = weapIter.next()) {
-                                if(b.getLaserType().equals(weap.getLaserType())) {
-                                    Destroyed.add(b);
+                            for (Weapon b = weapIter.next(); weapIter.hasNext(); b = weapIter.next()) {
+                                if (b.getLaserType().equals(weap.getLaserType())) {
+                                    destroyed.add(b);
                                     weapIter.remove();
                                     damageToShields--;
                                 }
                             }
                         }
-                    } else if (a instanceof Gadget && gadgets.size() > 0) {
-                        Gadget gadg = (Gadget)a;
-                        Iterator<Gadget> gadgIter = gadgets.iterator();
-                        for(Gadget b = gadgIter.next(); gadgIter.hasNext(); b = gadgIter.next()) {
-                            if(b.getType().equals(gadg.getType())) {
-                                Destroyed.add(b);
-                                gadgIter.remove();
-                                damageToShields--;
+                    } else if (a instanceof Gadget) {
+                        if (gadgets.size() > 0) {
+                            Gadget gadg = (Gadget) a;
+                            Iterator<Gadget> gadgIter = gadgets.iterator();
+                            for (Gadget b = gadgIter.next(); gadgIter.hasNext(); b = gadgIter.next()) {
+                                if (b.getType().equals(gadg.getType())) {
+                                    destroyed.add(b);
+                                    gadgIter.remove();
+                                    damageToShields--;
+                                }
                             }
                         }
                     }
                 }
             }
             
-            if(damageToShields > 0) {
+            if (damageToShields > 0) {
                 Random rand = new Random();
                 int i = 0;
-                for(; i < damageToShields; i++) {
+                for (; i < damageToShields; i++) {
                     boolean removed = false;
                     int type = rand.nextInt(1);
-                    if(type == 0) {
-                        if(!weapons.isEmpty()) {
-                            Destroyed.add(weapons.remove(0));
+                    if (type == 0) {
+                        if (!weapons.isEmpty()) {
+                            destroyed.add(weapons.remove(0));
                             removed = true;
-                        } else if(!gadgets.isEmpty()) {
-                            Destroyed.add(gadgets.remove(0));
+                        } else if (!gadgets.isEmpty()) {
+                            destroyed.add(gadgets.remove(0));
                             removed = true;
                         }
                     } else {
-                        if(!gadgets.isEmpty()) {
-                            Destroyed.add(gadgets.remove(0));
+                        if (!gadgets.isEmpty()) {
+                            destroyed.add(gadgets.remove(0));
                             removed = true;
-                        } else if(!weapons.isEmpty()) {
-                            Destroyed.add(weapons.remove(0));
+                        } else if (!weapons.isEmpty()) {
+                            destroyed.add(weapons.remove(0));
                             removed = true;
                         }
                     }
-                    if(!removed)
+                    if (!removed) {
                         return true;
+                    }
                 }
             }
         }
@@ -319,7 +387,7 @@ public class Ship implements Serializable {
      * @return the items destroyed in the last round of combat
      */
     public ArrayList getDestroyed() {
-        return Destroyed;
+        return destroyed;
     }
     
     /**
@@ -336,12 +404,18 @@ public class Ship implements Serializable {
         return damageFromLastAttack;
     }
     
+    /**
+     * @return the ships current fuel supply
+     */
     public float getFuel() {
         return fuel;
     }
 
-    public void setFuel(float fuel) {
-        this.fuel = fuel;
+    /**
+     * @param fuel2 the new fuel amount for the ship
+     */
+    public void setFuel(float fuel2) {
+        this.fuel = fuel2;
     }
     
     /**
@@ -351,48 +425,78 @@ public class Ship implements Serializable {
      */
     public int getPower() {
         int power = 0;
-        for(Weapon a : weapons) {
+        for (Weapon a : weapons) {
             power += a.getStrength();
         }
         return power;
     }
 
+    /**
+     * @return the ship's max mercenaries
+     */
     public int getMaxMercenaries() {
         return maxMercenaries;
     }
 
+    /**
+     * @return the ship's max weapons
+     */
     public int getMaxWeapons() {
         return maxWeapons;
     }
     
+    /**
+     * @return the ship's number of weapons filled
+     */
     public int getWeaponsFilled() {
         return weapons.size();
     }
 
+    /**
+     * @return the ship's max shields
+     */
     public int getMaxShields() {
         return maxShields;
     }
     
+    /**
+     * @return the ship's number of shields filled
+     */
     public int getShieldsFilled() {
         return shields.size();
     }
 
+    /**
+     * @return the ship's max gadgets
+     */
     public int getMaxGadgets() {
         return maxGadgets;
     }
     
+    /**
+     * @return the ship's number of gadgets filled
+     */
     public int getGadgetsFilled() {
         return gadgets.size();
     }
     
+    /**
+     * @return the ship's price
+     */
     public float getPrice() {
         return price;
     }
     
+    /**
+     * @return the ship's cost for fuel
+     */
     public float getFuelCost() {
         return fuelCost;
     }
     
+    /**
+     * @return the ship's max fuel
+     */
     public float getMaxFuel() {
         return maxFuel;
     }
@@ -403,6 +507,9 @@ public class Ship implements Serializable {
                 + "\nWeapons: " + getWeapons().toString();
     }
     
+    /**
+     * @return the ship's name
+     */
     public String getName() {
         return name;
     }

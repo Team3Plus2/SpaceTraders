@@ -7,7 +7,6 @@
 package spacetrader.main;
 
 import spacetrader.player.Player;
-import spacetrader.xml.XMLReader;
 import java.io.IOException;
 import javafx.util.Duration;
 import javafx.animation.KeyFrame;

@@ -12,7 +12,12 @@ import spacetrader.xml.LoadedType;
  *
  * @author Alex
  */
-public class SunType extends LoadedType implements Serializable {
+public class SunType extends LoadedType {
+    
+    /**
+     * An id for serialization.
+     */
+    static final long serialVersionUID = (long) 48L;
     
     /**
      * the location of the xml file to load the sun types from.

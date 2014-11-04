@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Random;
 import spacetrader.cosmos.system.SolarSystem;
 import spacetrader.turns.TurnEvent;
@@ -25,6 +26,12 @@ public class Universe implements Iterable<SolarSystem>, Serializable {
      * THE MEANING OF LIFE, THE UNIVERSE AND EVERYTHING!.
      */
     private static final int MEANING = 42; //Also applies to life and everything
+    
+    /**
+     * An id for serialization.
+     */
+    static final long serialVersionUID = (long) MEANING;
+    
     /**
      * Default initial width of this universe.
      */
@@ -83,18 +90,22 @@ public class Universe implements Iterable<SolarSystem>, Serializable {
             name += randomVowel(rand);
         }
         
+        StringBuffer buff = new StringBuffer();
+        buff.append(name);
         for (int i = 0; i < syllables; i++) {
-            name += randomLetter(rand);
-            name += randomVowel(rand);
+            buff.append(randomLetter(rand));
+            buff.append(randomVowel(rand));
             //name += randomLetter(rand);
             
             if (rand.nextFloat() < DEFAULT_DOUBLE_LETER_CHANCE) {
-                name += randomLetter(rand);
+                buff.append(randomLetter(rand));
             }
         }
         
+        name = buff.toString();
+        
         String firstChar = "" + name.charAt(0);
-        name = firstChar.toUpperCase() + name.substring(1);
+        name = firstChar.toUpperCase(Locale.getDefault()) + name.substring(1);
         
         return name;
     }
@@ -251,27 +262,7 @@ public class Universe implements Iterable<SolarSystem>, Serializable {
     }
     
     /**
-     * Generates an area of the given height past the given x.
-     * 
-     * @param x The x coordinate
-     * @param y The y coordinate
-     * @param width The width of the area to generate
-     * @param length The length of the area to generate
-     */
-    public void generateinPosYDirection(int x, int y, int width, int length) {
-        ArrayList<SolarSystem> systems = new ArrayList<>();
-        for (int i = y; i <= y + length; i++) {
-            for (int j = x - width / 2; j <= x + width / 2; j++) {
-                if (!isPointGenerated(i, j)) {
-                    systems.add(generatePoint(i, j));
-                }
-            }
-        }
-        UniverseGenerationEvent.universeGenerated(systems);
-    }
-    
-    /**
-     * Generates an area of the given height past the given x.
+     * Generates an area of the given height past the given negative x.
      * 
      * @param x The x coordinate
      * @param y The y coordinate
@@ -279,26 +270,6 @@ public class Universe implements Iterable<SolarSystem>, Serializable {
      * @param length The length of the area to generate
      */
     public void generateinNegXDirection(int x, int y, int width, int length) {
-        ArrayList<SolarSystem> systems = new ArrayList<>();
-        for (int i = y; i >= y - length; i--) {
-            for (int j = x - width / 2; j <= x + width / 2; j++) {
-                if (!isPointGenerated(i, j)) {
-                    systems.add(generatePoint(i, j));
-                }
-            }
-        }
-        UniverseGenerationEvent.universeGenerated(systems);
-    }
-    
-    /**
-     * Generates an area of the given height past the given x.
-     * 
-     * @param x The x coordinate
-     * @param y The y coordinate
-     * @param width The width of the area to generate
-     * @param length The length of the area to generate
-     */
-    public void generateinNegYDirection(int x, int y, int width, int length) {
         ArrayList<SolarSystem> systems = new ArrayList<>();
         for (int i = y; i >= y - length; i--) {
             for (int j = x - width / 2; j <= x + width / 2; j++) {
@@ -431,7 +402,7 @@ public class Universe implements Iterable<SolarSystem>, Serializable {
     
     /**
      * 
-     * Iterate from x0 and y0 to x1 and y1.
+     * Iterate from x0 and y0 to x1 and y1. Blah
      * 
      * Note: x0 is less than x1 and y0 is less than y1
      * 

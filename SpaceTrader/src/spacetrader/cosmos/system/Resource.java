@@ -10,7 +10,12 @@ import spacetrader.xml.LoadedType;
  * 
  * @author Alex
  */
-public class Resource extends LoadedType implements Serializable {
+public class Resource extends LoadedType {
+    
+    /**
+     * An id for serialization.
+     */
+    static final long serialVersionUID = (long) 45L;
     
     /**
      * the default chance that a resource, rather than NO_SPECIAL_RESOURCES is randomly selected.

@@ -476,7 +476,7 @@ public class StarScreenController implements Initializable {
 
             if (dragFinished) {
                 solarSystemLocations.put(new Point((int) (xPosition + (size / 2)), (int) (yPosition + (size / 2))), a);
-            }
+            } //blah
             if (starImage == null) {
                 g.fillOval(xPosition, yPosition, size, size);
             } else {

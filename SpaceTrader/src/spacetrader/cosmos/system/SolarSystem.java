@@ -16,6 +16,11 @@ import spacetrader.player.Player;
 public class SolarSystem implements TurnListener, Serializable {
     
     /**
+     * An id for serialization.
+     */
+    static final long serialVersionUID = (long) 46L;
+    
+    /**
      * the default maximum number of planets in a system.
      */
     private static final int DEFAULT_MAX_PLANETS = 10;
@@ -84,6 +89,7 @@ public class SolarSystem implements TurnListener, Serializable {
         government = Government.random(seededRand, techLevel);
         relativeWealth = seededRand.nextFloat() * 2.0f - 1.0f;
         planets = new Planet[seededRand.nextInt(DEFAULT_MAX_PLANETS) + 5];
+        relation = 0;
         
         for (int i = 0; i < planets.length; i++) {
             planets[i] = new Planet(seededRand);
@@ -161,7 +167,7 @@ public class SolarSystem implements TurnListener, Serializable {
      * @return the system's planets
      */
     public Planet[] planets() {
-        return planets;
+        return planets.clone();
     }
     
     /**
@@ -212,8 +218,9 @@ public class SolarSystem implements TurnListener, Serializable {
     @Override
     public String toString() {
         String forreturn = name + ":\n-----";
+        StringBuffer buff = new StringBuffer();
         for (int i = 0; i < planets.length; i++) {
-            forreturn = forreturn + planets[i];
+            buff.append(planets[i]);
         }
         return forreturn;
     }

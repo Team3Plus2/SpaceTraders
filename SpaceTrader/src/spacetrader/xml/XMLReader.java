@@ -243,8 +243,8 @@ public class XMLReader<T> {
             try {
                 return SunType.get(rawValue);
             } catch (IllegalArgumentException excep) {
-                defaultWarning(rawValue, SunType.Default().toString());
-                return SunType.Default();
+                defaultWarning(rawValue, SunType.defaultValue().toString());
+                return SunType.defaultValue();
             }
         } else if (type.equals(Government.class)) {
             try {

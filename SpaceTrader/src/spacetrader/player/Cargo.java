@@ -15,6 +15,12 @@ import spacetrader.economy.TradeGood;
  * @author Aaron McAnally
  */
 public class Cargo implements Serializable {
+    
+    /**
+     * Used for Serializable class.
+     */
+    static final long serialVersionUID = 90L;
+    
     /**
      * The maximum size for this Cargo.
      */

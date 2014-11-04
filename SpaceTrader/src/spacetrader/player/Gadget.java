@@ -14,6 +14,11 @@ import spacetrader.xml.LoadedType;
 public class Gadget extends AbstractUpgrade implements Serializable {
 
     /**
+     * Used for Serializable class.
+     */
+    static final long serialVersionUID = 91L;
+    
+    /**
      * The gadget type.
      */
     private GadgetType gadgetType;
@@ -99,8 +104,13 @@ public class Gadget extends AbstractUpgrade implements Serializable {
 /**
  * There are 5 different gadgets.
  */
-class GadgetType extends LoadedType implements Serializable {
+class GadgetType extends LoadedType {
 
+    /**
+     * Used for Serializable class.
+     */
+    static final long serialVersionUID = 92L;
+    
     /**
      * The gadget XML file location.
      */

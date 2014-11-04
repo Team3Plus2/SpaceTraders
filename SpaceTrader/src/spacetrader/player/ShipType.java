@@ -10,8 +10,13 @@ import spacetrader.xml.LoadedType;
  * An enum for ship types with basic stats:
  *      maxCargo, maxFuel, maxWeapons, maxShields, maxGadgets, maxMercenaries.
  */
-public class ShipType extends LoadedType implements Serializable {
+public class ShipType extends LoadedType {
 
+    /**
+     * Used for Serializable class.
+     */
+    static final long serialVersionUID = 97L;
+    
     /**
      * String name of the file containing the list of ship types.
      */

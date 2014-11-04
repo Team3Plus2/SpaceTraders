@@ -13,7 +13,7 @@ public class TurnEvent {
     /**
      * ArrayList of listeners.
      */
-    private static ArrayList<TurnListener> listeners;
+    private static ArrayList<TurnListener> listeners = new ArrayList<TurnListener>();
     
     /**
      * Turn the player is on.
@@ -26,9 +26,7 @@ public class TurnEvent {
      * @param listener listener to register
      */
     public static void registerListener(TurnListener listener) {
-        if (listeners == null) {
-            listeners = new ArrayList<TurnListener>();
-        }
+        listeners = new ArrayList<TurnListener>();
         listeners.add(listener);
     }
     

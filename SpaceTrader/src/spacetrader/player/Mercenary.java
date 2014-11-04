@@ -11,6 +11,11 @@ import spacetrader.xml.LoadedType;
 public class Mercenary implements Serializable {
     
     /**
+     * Used for Serializable class.
+     */
+    static final long serialVersionUID = 93L;
+    
+    /**
      * The type of this mercenary.
      */
     private MercenaryType mercenaryType;
@@ -44,8 +49,13 @@ public class Mercenary implements Serializable {
 /**
  * PILOT, FIGHTER, TRADER, ENGINEER, INVESTOR.
  */
-class MercenaryType extends LoadedType implements Serializable {
+class MercenaryType extends LoadedType {
 
+    /**
+     * Used for Serializable class.
+     */
+    static final long serialVersionUID = 100L;
+    
     /**
      * The location of the file that defines the types of mercenaries.
      */

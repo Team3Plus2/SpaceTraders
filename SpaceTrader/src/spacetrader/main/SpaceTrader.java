@@ -77,9 +77,12 @@ public class SpaceTrader extends Application {
     
     /**
      * instantiates the SpaceTrader.
+     * 
+     * "instance = this" is needed in order to implement singleton
      */
     public SpaceTrader() {
         instance = this;
+        stage = new Stage();
     }
     
     /**

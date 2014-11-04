@@ -8,6 +8,12 @@ import java.io.Serializable;
  * @author Alex
  */
 public class TurnSerializer implements Serializable {
+    
+    /**
+     * Used for Serializable class.
+     */
+    static final long serialVersionUID = 103L;
+    
     /**
      * An ArrayList of listeners.
      */

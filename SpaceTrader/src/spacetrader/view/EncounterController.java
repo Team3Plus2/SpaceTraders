@@ -106,7 +106,7 @@ public class EncounterController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         player = SpaceTrader.getInstance().getPlayer();
-        other = new Encounter(player.getCurrentSolarSystem(), player);
+        other = new Encounter(player.getCurrentSolarSystem());
         
         yourShipDetails.setText(("Ship: " + player.getShip().getName()));
         otherShipDetails.setText(("Ship: " + other.getShip().getName()));
@@ -365,7 +365,7 @@ public class EncounterController implements Initializable {
         if (sellableGood != null) {
             TradeGood temp = new TradeGood(sellableGood);
             temp.setPrice(sellableGood.getCurrentPriceEach());
-            boolean success = market.sell(player, temp, Integer.parseInt(sellQuantity.getText()));
+            market.sell(player, temp, Integer.parseInt(sellQuantity.getText()));
             generateSellList();
             generateBuyList();
             updateSellableItem();
@@ -453,9 +453,9 @@ public class EncounterController implements Initializable {
         buyDetails.setText("Cash: " + Utility.currencyFormat(player.getMoney())
                 + "\nCost: " + Utility.currencyFormat(buyableGood.getCurrentPriceEach()));
         buySum.setText("Sum: " + Utility.currencyFormat(player.getMoney() - buyableGood.getCurrentPriceEach() * Integer.parseInt(buyQuantity.getText())));
-        if (player.getMoney() - buyableGood.getCurrentPriceEach() * Integer.parseInt(buyQuantity.getText()) < 0) {
-
-        }
+//        if (player.getMoney() - buyableGood.getCurrentPriceEach() * Integer.parseInt(buyQuantity.getText()) < 0) {
+//
+//        }
     }
     
     /**
@@ -481,7 +481,7 @@ public class EncounterController implements Initializable {
     @FXML
     private void handleBuyAction() {
         if (buyableGood != null) {
-            boolean success = market.buy(player, buyableGood, Integer.parseInt(buyQuantity.getText()));
+            market.buy(player, buyableGood, Integer.parseInt(buyQuantity.getText()));
             generateBuyList();
             generateSellList();
             updateBuyableItem();

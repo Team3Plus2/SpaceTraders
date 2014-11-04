@@ -462,11 +462,11 @@ public class PlanetViewController implements Initializable {
             buyDetails.setText("Cash: " + Utility.currencyFormat(player.getMoney())
                     + "\nCost: " + Utility.currencyFormat(buyableGood.getCurrentPriceEach()));
             buySum.setText("Sum: " + Utility.currencyFormat(player.getMoney() - buyableGood.getCurrentPriceEach() * Integer.parseInt(buyQuantity.getText())));
-            if (player.getMoney() - buyableGood.getCurrentPriceEach() * Integer.parseInt(buyQuantity.getText()) < 0) {
-                
-            }
+//            if (player.getMoney() - buyableGood.getCurrentPriceEach() * Integer.parseInt(buyQuantity.getText()) < 0) {
+//                
+//            }
         } catch (NumberFormatException e) {
-
+            System.out.println(e.getMessage());
         }
     }
 
@@ -481,7 +481,7 @@ public class PlanetViewController implements Initializable {
                         + "\n\n\n\nSum: " + Utility.currencyFormat(player.getMoney() + sellableGood.getCurrentPriceEach() * Integer.parseInt(sellQuantity.getText())));
             }
         } catch (NumberFormatException e) {
-
+            System.out.println(e.getMessage());
         }
     }
 

@@ -88,12 +88,8 @@ public class LoadGame {
             return null;
         }
         Player p = null;
-        Universe u = null;
-        TurnSerializer ts = null;
         try {
             p = (Player) objectReader.readObject();
-            u = (Universe) objectReader.readObject();
-            ts = (TurnSerializer) objectReader.readObject();
             objectReader.close();
         } catch (IOException e) {
             System.out.println(e.getMessage());

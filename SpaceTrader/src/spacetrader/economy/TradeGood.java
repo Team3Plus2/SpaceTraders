@@ -291,10 +291,8 @@ public class TradeGood extends LoadedType implements Serializable {
     @Override
     public boolean equals(Object other) {
         if (other == null) { return false; }
-        if (other instanceof TradeGood) {
-            if (((TradeGood) other).getName().equals(this.getName())) {
-                return true;
-            }
+        if (other instanceof TradeGood && ((TradeGood) other).getName().equals(this.getName())) {
+            return true;
         }
         return false;
     }

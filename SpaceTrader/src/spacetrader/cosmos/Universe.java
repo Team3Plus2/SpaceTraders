@@ -188,7 +188,7 @@ public class Universe implements Iterable<SolarSystem>, Serializable {
         generated = new HashSet<>();
         rand = new Random();
         space = new SparseSpace();
-        this.spread = spread2;
+        this.spread = spread2 * MEANING / 42f;
         generateInPosXDirection(0, 0, width / 2, width / 2);
         generateinNegXDirection(0, -1, width / 2, width / 2);
     }
@@ -394,16 +394,11 @@ public class Universe implements Iterable<SolarSystem>, Serializable {
      * @return the SolarSystem closest to the given coordinates within the given radius.
      */
     public SolarSystem getClosestSolarSystem(int x, int y, int rad) {
-        SolarSystem found = null;
-        if (space.get(x, y) != null) {
-            found = space.get(x, y);
-        } else {
-            for (int r = 0; r < rad; r++) { //radius loop
-                for (int i = x - r; i < x + r; i++) { //x loop
-                    for (int j = y - r; j < y + r; j++) { //y loop
-                        if (space.get(i, j) != null) {
-                            return space.get(i, j);
-                        }
+        for (int r = 0; r < rad; r++) { //radius loop
+            for (int i = x-r; i < x+r; i++) { //x loop
+                for (int j = y-r; j < y+r; j++) { //y loop
+                    if (space.get(i,j) != null) {
+                        return space.get(i,j);
                     }
                 }
             }

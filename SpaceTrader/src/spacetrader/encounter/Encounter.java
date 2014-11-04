@@ -55,9 +55,8 @@ public class Encounter {
      * Constructor for Encounter.
      * 
      * @param system the SolarSystem this Encounter will be affiliated with.
-     * @param player the Player who will be battling this Encounter.
      */
-    public Encounter(SolarSystem system, Player player) {
+    public Encounter(SolarSystem system) {
         type = EncounterType.random();
         int traderSkill = (int) (Math.random() * (type.getMaxTrade() - type.getMinTrade())) + type.getMinTrade();
         int pilotSkill = (int) (Math.random() * (type.getMaxPilot() - type.getMinPilot())) + type.getMinPilot();
@@ -276,4 +275,14 @@ public class Encounter {
         int size = rand.nextInt(captain.getCargoList().size());
         return new MarketPlace((ArrayList<TradeGood>) captain.getCargoList().subList(0, size), true);
     }
+
+    /**
+     * Getter for the SystemAssociation.
+     * @return SolarSystem system association
+     */
+    public SolarSystem getSystemAssociation() {
+        return systemAssociation;
+    }
+    
+    
 }

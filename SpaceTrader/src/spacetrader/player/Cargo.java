@@ -18,8 +18,8 @@ public class Cargo implements Serializable {
     private int maxCargo;
     private ArrayList<TradeGood> goods;
     
-    public Cargo(int maxCargo) {
-        this.maxCargo = maxCargo;
+    public Cargo(int maxCargo2) {
+        this.maxCargo = maxCargo2;
         goods = TradeGood.getTradeGoodTypes();
     }
     
@@ -32,15 +32,15 @@ public class Cargo implements Serializable {
     
     /**
      * Changes the number of slots for cargo on the ship only if 
-     * the number of filled slots is not over the new capacity
+     * the number of filled slots is not over the new capacity.
      * 
-     * @param maxCargo the new total number of cargo holds on the ship
+     * @param maxCargo2 the new total number of cargo holds on the ship
      * @return true if successful; 
      *       false if there are more slots filled than the new max size can hold
      */
-    public boolean setMax(int maxCargo) {
-        if (getNumFilled() <= maxCargo) {
-            this.maxCargo = maxCargo;
+    public boolean setMax(int maxCargo2) {
+        if (getNumFilled() <= maxCargo2) {
+            this.maxCargo = maxCargo2;
             return true;
         } else {
             return false;
@@ -66,7 +66,7 @@ public class Cargo implements Serializable {
     }
     
     /**
-     * Adds a set of goods of a particular type to the cargo hold if there is room
+     * Adds a set of goods of a particular type to the cargo hold if there is room.
      * 
      * @param good - the good to be added to the cargo hold
      * @return true if successful; false if failed - not enough room in cargo hold
@@ -87,7 +87,7 @@ public class Cargo implements Serializable {
     
     /**
      * Removes a trade good from the cargo hold if the proper amount exists
-     * or remove all if the passed trade good's amount is -1
+     * or remove all if the passed trade good's amount is -1.
      * @param good the trade good to be removed
      * @return true if successful; false if improper amount of good type in cargo hold
      */
@@ -95,7 +95,7 @@ public class Cargo implements Serializable {
         boolean success = false;
         for (int i = 0; i < 10; i++) {
             if (goods.get(i).getName().equals(good.getName()) && goods.get(i).getAmount() != 0) {
-                if(good.getAmount() < 0) {
+                if (good.getAmount() < 0) {
                     goods.get(i).setAmount(0);
                     success = true;
                 } else if (goods.get(i).getAmount() >= good.getAmount()) {
@@ -115,7 +115,7 @@ public class Cargo implements Serializable {
     }
     
     /**
-     * Meant for use by the SolarSystemViewController in Marketplace view
+     * Meant for use by the SolarSystemViewController in Marketplace view.
      * 
      * @return ArrayList of trade goods with amount greater than 0
      */

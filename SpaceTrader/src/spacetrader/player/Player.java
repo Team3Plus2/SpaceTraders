@@ -10,7 +10,7 @@ import spacetrader.cosmos.system.SolarSystem;
 import spacetrader.economy.MarketPlace;
 import spacetrader.economy.Shipyard;
 import spacetrader.economy.TradeGood;
-import spacetrader.turns.*;
+import spacetrader.turns.TurnEvent;
 
 /**
  * The main player and everything it owns.
@@ -22,7 +22,11 @@ public class Player implements Serializable {
     private static final float FUEL_PER_PLANET_MOVEMENT = 0.5f;
     
     private String name;
-    private int pilotSkill, fighterSkill, traderSkill, engineerSkill, investorSkill;
+    private int pilotSkill;
+    private int fighterSkill;
+    private int traderSkill;
+    private int engineerSkill;
+    private int investorSkill;
     private Planet currentPlanet;
     private SolarSystem currentSolarSystem;
     private boolean dead;
@@ -30,26 +34,26 @@ public class Player implements Serializable {
     private float money;
     private Ship ship;
     
-    public Player(String name, int pilotSkill, int fighterSkill, int traderSkill,
-                  int engineerSkill, int investorSkill) {
-        this.name = name;
+    public Player(String name2, int pilotSkill2, int fighterSkill2, int traderSkill2,
+                  int engineerSkill2, int investorSkill2) {
+        this.name = name2;
         this.money = 1000;
-        this.pilotSkill = pilotSkill;
-        this.fighterSkill = fighterSkill;
-        this.traderSkill = traderSkill;
-        this.engineerSkill = engineerSkill;
-        this.investorSkill = investorSkill;
+        this.pilotSkill = pilotSkill2;
+        this.fighterSkill = fighterSkill2;
+        this.traderSkill = traderSkill2;
+        this.engineerSkill = engineerSkill2;
+        this.investorSkill = investorSkill2;
         this.ship = new Ship();
     }
 
     /**
-     * Simulates a single round of attack on the given player
+     * Simulates a single round of attack on the given player.
      * @param other player to attack
      * @param targets parts of ship to target, if null, targets at random
      * @return true if the enemy ship is destroyed
      */
     public boolean attack(Player other, ArrayList targets) {
-        int advantage = other.fighterSkill - this.fighterSkill;//damage modifier based on relitave skill
+        int advantage = other.fighterSkill - this.fighterSkill; //damage modifier based on relitave skill
         return ship.attack(other.ship, advantage, targets);
     }
     
@@ -75,28 +79,30 @@ public class Player implements Serializable {
     }
     
     /**
-     * Move the player to the given solar system
+     * Move the player to the given solar system.
      * 
      * @param system target solar system
      * @return true if player has enough fuel to travel and system != currentSolarSystem and planet != currentPlanet
      */
     public boolean move(SolarSystem system) {
         double distance = FUEL_PER_PLANET_MOVEMENT;
-        if(system != currentSolarSystem)
+        if (system != currentSolarSystem) {
             distance = Math.sqrt(Math.pow(system.getX() - currentSolarSystem.getX(), 2) + Math.pow(system.getY() - currentSolarSystem.getY(), 2));
-        if(!ship.moveDistance(distance))
+        }
+        if (!ship.moveDistance(distance)) {
             return false;
+        }
         currentSolarSystem = system;
-        if(system.Planets().length >= 1)
+        if (system.Planets().length >= 1) {
             currentPlanet = system.Planets()[0];
-        else
+        } else {
             currentPlanet = null;
-        TurnEvent.NextTurn(this);
+        TurnEvent.nextTurn(this);
         return true;
     }
     
     /**
-     * Move the player to the given planet and solar system
+     * Move the player to the given planet and solar system.
      * 
      * @param system target solar system
      * @param planet target planet
@@ -105,24 +111,26 @@ public class Player implements Serializable {
     public boolean move(SolarSystem system, Planet planet) {
 //        double distance = FUEL_PER_PLANET_MOVEMENT;
         double distance = 0;
-        if(system != currentSolarSystem)
+        if (system != currentSolarSystem) {
             distance = Math.sqrt(Math.pow(system.getX() - currentSolarSystem.getX(), 2) + Math.pow(system.getY() - currentSolarSystem.getY(), 2));
-        if(!ship.moveDistance(distance))
+        }
+        if (!ship.moveDistance(distance)) {
             return false;
+        }
         currentSolarSystem = system;
         currentPlanet = planet;
-        if(currentPlanet.getShipyard() == null) {
+        if (currentPlanet.getShipyard() == null) {
             currentPlanet.setShipyard(new Shipyard(currentSolarSystem.TechLevel()));
         }
         if (currentPlanet.getMarket() == null) {
             currentPlanet.setMarket(new MarketPlace(currentSolarSystem.TechLevel(), currentPlanet.Resources()));
         }
-        TurnEvent.NextTurn(this);
+        TurnEvent.nextTurn(this);
         return true;
     }
     
     /**
-     * Move the player to the given planet in the current system
+     * Move the player to the given planet in the current system.
      * 
      * @param planet target planet
      * @return true if player has enough fuel to travel to the planet
@@ -132,9 +140,9 @@ public class Player implements Serializable {
     }
     
     /**
-     * Returns distance to solar system
+     * Returns distance to solar system.
      * @param system the solar system to check distance of
-     * @return 
+     * @return the distance to the solar system
      */
     public float distanceToSolarSystem(SolarSystem system) {
         float distance;
@@ -154,60 +162,60 @@ public class Player implements Serializable {
         return currentPlanet;
     }
 
-    public void setCurrentSolarSystem(SolarSystem currentSolarSystem) {
-        this.currentSolarSystem = currentSolarSystem;
+    public void setCurrentSolarSystem(SolarSystem currentSolarSystem2) {
+        this.currentSolarSystem = currentSolarSystem2;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setName(String name2) {
+        this.name = name2;
     }
     
     public float getMoney() {
         return money;
     }
     
-    public void setMoney(float money) {
-        this.money = money;
+    public void setMoney(float money2) {
+        this.money = money2;
     }
 
     public int getPilotSkill() {
         return pilotSkill;
     }
 
-    public void setPilotSkill(int pilotSkill) {
-        this.pilotSkill = pilotSkill;
+    public void setPilotSkill(int pilotSkill2) {
+        this.pilotSkill = pilotSkill2;
     }
 
     public int getFighterSkill() {
         return fighterSkill;
     }
 
-    public void setFighterSkill(int fighterSkill) {
-        this.fighterSkill = fighterSkill;
+    public void setFighterSkill(int fighterSkill2) {
+        this.fighterSkill = fighterSkill2;
     }
 
     public int getTraderSkill() {
         return traderSkill;
     }
 
-    public void setTraderSkill(int traderSkill) {
-        this.traderSkill = traderSkill;
+    public void setTraderSkill(int traderSkill2) {
+        this.traderSkill = traderSkill2;
     }
 
     public int getEngineerSkill() {
         return engineerSkill;
     }
 
-    public void setEngineerSkill(int engineerSkill) {
-        this.engineerSkill = engineerSkill;
+    public void setEngineerSkill(int engineerSkill2) {
+        this.engineerSkill = engineerSkill2;
     }
 
     public int getInvestorSkill() {
         return investorSkill;
     }
 
-    public void setInvestorSkill(int investorSkill) {
-        this.investorSkill = investorSkill;
+    public void setInvestorSkill(int investorSkill2) {
+        this.investorSkill = investorSkill2;
     }
     
     public Ship getShip() {
@@ -219,25 +227,27 @@ public class Player implements Serializable {
     }
     
     public ArrayList<SolarSystem> getTravelable(Universe universe) {
-        int travelRadius = (int)ship.getFuel();
+        int travelRadius = (int) ship.getFuel();
         ArrayList<SolarSystem> systems = new ArrayList<>();
         int x = currentSolarSystem.getX();
         int y = currentSolarSystem.getY();
         SparseIterator iter = universe.iterateFrom(x - travelRadius, y - travelRadius, x + travelRadius, y + travelRadius);
-        for(SolarSystem i = iter.next();iter.hasNext(); i = iter.next()) {
-            if(i != null && ship.getFuel() - distanceToSolarSystem(i) >= 0)
+        for (SolarSystem i = iter.next(); iter.hasNext(); i = iter.next()) {
+            if (i != null && ship.getFuel() - distanceToSolarSystem(i) >= 0) {
                 systems.add(i);
+            }
         }
         
         //can always travel to current system
-        if(!systems.contains(currentSolarSystem))
+        if (!systems.contains(currentSolarSystem)) {
             systems.add(currentSolarSystem);
+        }
         
         return systems;
     }
     
     /**
-     * Gets the players current travel radius based on the ship's fuel
+     * Gets the players current travel radius based on the ship's fuel.
      * @return the player's travel radius (obtained from the ship)
      */
     public float getTravelRadius() {
@@ -245,7 +255,7 @@ public class Player implements Serializable {
     }
     
     /**
-     * Checks the players life readings
+     * Checks the players life readings.
      * @return true if the player is dead
      */
     public boolean isDead() {
@@ -253,7 +263,7 @@ public class Player implements Serializable {
     }
     
     /**
-     * Kills the player
+     * Kills the player.
      */
     public void die() {
         dead = true;
@@ -270,7 +280,7 @@ public class Player implements Serializable {
      * @return true if successful; false if no more room for cargo
      */
     public boolean addTradeGood(TradeGood good) {
-        return ship.getCargo().addTradeGood(good);
+        return ship.addTradeGood(good);
     }
     
     /**
@@ -280,39 +290,41 @@ public class Player implements Serializable {
      * @return true if successful; false if improper amount of good type in cargo hold
      */
     public boolean removeTradeGood(TradeGood good) {
-        return ship.getCargo().removeTradeGood(good);
+        return ship.removeTradeGood(good);
     }
         
     /**
-     * gets all the trade goods of the given type owned by the player
+     * gets all the trade goods of the given type owned by the player.
      * @param types types of tradegoods to get
      * @return true if any goods were removed
      */
     public boolean removeTradeGoodsByType(TradeGood[] types) {
         boolean removedSome = false;
-        for(TradeGood a : types) {
+        for (TradeGood a : types) {
             a.setAmount(-1);
-            if(ship.getCargo().removeTradeGood(a))
+            if (ship.getCargo().removeTradeGood(a)) {
                 removedSome = true;
+            }
         }
         return removedSome;
     }
     
     /**
-     * Get a list of cargo held by the player (null if player has no ship)
+     * Get a list of cargo held by the player (null if player has no ship).
      * 
      * @return player's current cargo
      */
     public ArrayList<TradeGood> getCargoList() {
-        if(ship == null)
+        if (ship == null) {
             return null;
+        }
         return ship.getCargoList();
     }
     
     public String toString() {
-        if(pilotSkill == 0 && fighterSkill == 0 &&
-                traderSkill == 0 && engineerSkill == 0 &&
-                investorSkill == 0) {
+        if (pilotSkill == 0 && fighterSkill == 0
+                && traderSkill == 0 && engineerSkill == 0
+                && investorSkill == 0) {
             return name;
         } else {
             return name + "\nMoney: $" + getMoney();

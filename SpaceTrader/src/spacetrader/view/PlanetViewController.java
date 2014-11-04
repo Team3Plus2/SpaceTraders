@@ -6,7 +6,6 @@
 package spacetrader.view;
 
 import java.net.URL;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -30,54 +29,78 @@ import spacetrader.main.SpaceTrader;
 import spacetrader.player.Gadget;
 import spacetrader.player.Player;
 import spacetrader.player.Shield;
-import spacetrader.player.Ship;
 import spacetrader.player.ShipType;
 import spacetrader.player.AbstractUpgrade;
 import spacetrader.player.Weapon;
 
 /**
- * FXML Controller class
+ * FXML Controller class.
  *
  * @author KartikKini
  */
 public class PlanetViewController implements Initializable {
     
+    /**
+     * Local reference of current planet.
+     */
     private Planet curPlanet;
+    
+    /**
+     * Local reference of player.
+     */
     private Player player;
+    
+    /**
+     * local reference of current system.
+     */
     private SolarSystem curSystem;
     
+    /**
+     * FXML reference of the planet options pane.
+     */
     @FXML
     private AnchorPane planetOptions;
     
+    /**
+     * FXML reference of the planet name label.
+     */
     @FXML
     private Label planetName;
     
+    /**
+     * FXML reference of the resource label.
+     */
     @FXML
     private Label resourceLabel;
     
+    /**
+     * FXML reference of the tech level label.
+     */
     @FXML
     private Label techLevelLabel;
 
     /**
      * Initializes the controller class.
+     * @param url URL to load this controller
+     * @param rb needed for implementation
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         planetInventory.getSelectionModel().getSelectedItems().addListener((ListChangeListener.Change c) -> {
-            selectBuyableItem();
-        });
+                selectBuyableItem();
+            });
         
         playerInventory.getSelectionModel().getSelectedItems().addListener((ListChangeListener.Change c) -> {
-            selectSellableItem();
-        });
+                selectSellableItem();
+            });
         
         availableShips.getSelectionModel().getSelectedItems().addListener((ListChangeListener.Change c) -> {
-            selectShip();
-        });
+                selectShip();
+            });
         
         availableUpgrades.getSelectionModel().getSelectedItems().addListener((ListChangeListener.Change c) -> {
-            selectUpgrade();
-        });
+                selectUpgrade();
+            });
         
         player = SpaceTrader.getInstance().getPlayer();
         curSystem = player.getCurrentSolarSystem();
@@ -89,8 +112,8 @@ public class PlanetViewController implements Initializable {
         availableShips.setItems(list);
         ObservableList<AbstractUpgrade> upgradeList = FXCollections.observableArrayList(curPlanet.getShipyard().getListUpgradesAvailable());
         availableUpgrades.setItems(upgradeList);
-        if(list.size() > 0) {
-            buyShipDetails.setText(((ShipType)availableShips.getItems().get(0)).getInfo());
+        if (list.size() > 0) {
+            buyShipDetails.setText(((ShipType) availableShips.getItems().get(0)).getInfo());
         }
     }
     /**
@@ -99,65 +122,115 @@ public class PlanetViewController implements Initializable {
      * **************************************************
      */
     
+    /**
+     * FXML reference of the shipyard UI.
+     */
     @FXML
     private TabPane shipyardUI;
     
+    /**
+     * FMXL reference of the list of available ships.
+     */
     @FXML
     private ListView availableShips;
     
+    /**
+     * FXML reference of the list of available upgrades.
+     */
     @FXML
     private ListView availableUpgrades;
     
+    /**
+     * FXML reference of the buying ship details label.
+     */
     @FXML
     private Label buyShipDetails;
     
+    /**
+     * FXML reference of the ship cost label.
+     */
     @FXML
     private Label shipCost;
     
+    /**
+     * FXML reference of the label that shows your money.
+     */
     @FXML
     private Label yourMoney1;
     
+    /**
+     * FXML reference of the upgrade details label.
+     */
     @FXML
     private Label upgradeDetails;
     
+    /**
+     * FXML reference of the upgrade cost label.
+     */
     @FXML
     private Label upgradeCost;
     
+    /**
+     * FXML reference of the buy upgrade button.
+     */
     @FXML
     private Button buyUpgrade;
     
+    /**
+     * Handles showing the shipyard.
+     */
     @FXML
     private void showShipyard() {
         shipyardUI.setVisible(true);
         planetOptions.setVisible(false);
     }
     
+    /**
+     * Handles hiding the shipyard.
+     */
     @FXML
     private void hideShipyard() {
         shipyardUI.setVisible(false);
         planetOptions.setVisible(true);
     }
     
+    /**
+     * Handles buying ships.
+     */
     @FXML
     private void handleBuyShip() {
         ShipType selected = (ShipType) (availableShips.getSelectionModel().getSelectedItem());
-        if(selected != null) {
+        if (selected != null) {
             curPlanet.getShipyard().buyShip(player, selected);
             ObservableList<ShipType> list = FXCollections.observableArrayList(curPlanet.getShipyard().getListShipsAvailable());
             availableShips.setItems(list);
             buyShipDetails.setText(selected.getInfo());
             yourMoney1.setText("Your Money: " + Utility.currencyFormat(player.getMoney()));
-            shipCost.setText("Cost: " + Utility.currencyFormat(selected.getPrice()));
+            setShipCostLabel(Utility.currencyFormat(selected.getPrice()));
         }
     }
     
+    /**
+     * Sets ship cost label.
+     * @param price String of price
+     */
+    private void setShipCostLabel(String price) {
+        shipCost.setText("Cost: " + price);
+    }
+    
+    /**
+     * Handles selecting ships in the list view.
+     */
     private void selectShip() {
         ShipType selected = (ShipType) (availableShips.getSelectionModel().getSelectedItem());
         buyShipDetails.setText(selected.getInfo());
         yourMoney1.setText("Your Money: " + Utility.currencyFormat(player.getMoney()));
-        shipCost.setText("Cost: " + Utility.currencyFormat(selected.getPrice()));
+        setShipCostLabel(Utility.currencyFormat(selected.getPrice()));
     }
     
+    /**
+     * Handles upgrading ship.
+     */
     @FXML
     private void handleUpgradeShip() {
         AbstractUpgrade selected = (AbstractUpgrade) (availableUpgrades.getSelectionModel().getSelectedItem());
@@ -173,29 +246,32 @@ public class PlanetViewController implements Initializable {
         selectUpgrade();
     }
     
+    /**
+     * Handles selecting upgrades in the list view.
+     */
     private void selectUpgrade() {
         AbstractUpgrade selected = (AbstractUpgrade) (availableUpgrades.getSelectionModel().getSelectedItem());
         if (selected != null) {
             if (selected.getClassName().equals("Weapon")) {
                 int maxWeapons = player.getShip().getMaxWeapons();
                 int weaponsFilled = player.getShip().getWeaponsFilled();
-                upgradeDetails.setText("Weapon Slots: " + maxWeapons +
-                                       "\nSlots Filled: " + weaponsFilled);
+                upgradeDetails.setText("Weapon Slots: " + maxWeapons
+                                       + "\nSlots Filled: " + weaponsFilled);
             } else if (selected.getClassName().equals("Shield")) {
                 int maxShields = player.getShip().getMaxShields();
                 int shieldsFilled = player.getShip().getShieldsFilled();
-                upgradeDetails.setText("Shield Slots: " + maxShields +
-                                       "\nSlots Filled: " + shieldsFilled);
+                upgradeDetails.setText("Shield Slots: " + maxShields
+                                       + "\nSlots Filled: " + shieldsFilled);
             } else if (selected.getClassName().equals("Gadget")) {
                 int maxGadgets = player.getShip().getMaxGadgets();
                 int gadgetsFilled = player.getShip().getGadgetsFilled();
-                upgradeDetails.setText("Gadget Slots: " + maxGadgets +
-                                       "\nSlots Filled: " + gadgetsFilled);
+                upgradeDetails.setText("Gadget Slots: " + maxGadgets
+                                       + "\nSlots Filled: " + gadgetsFilled);
             }
         }
-        upgradeDetails.setText(upgradeDetails.getText() + 
-                               "\n\n\n\nYour Money: " + Utility.currencyFormat(player.getMoney()));
-        upgradeCost.setText("Cost: " + Utility.currencyFormat(selected.getPrice()));
+        upgradeDetails.setText(upgradeDetails.getText()
+                               + "\n\n\n\nYour Money: " + Utility.currencyFormat(player.getMoney()));
+        setShipCostLabel(Utility.currencyFormat(selected.getPrice()));
     }
     
      /**
@@ -203,36 +279,103 @@ public class PlanetViewController implements Initializable {
      * Start of Marketplace Screen functions *
      * **************************************************
      */
+    
+    /**
+     * FXML reference of the planet inventory list view.
+     */
     @FXML
     private ListView planetInventory;
+    
+    /**
+     * FXMl reference of the player inventory list view.
+     */
     @FXML
     private ListView playerInventory;
+    
+    /**
+     * FXML reference of the back button.
+     */
     @FXML
     private Button back1;
+    
+    /**
+     * FXML reference of the buy button.
+     */
     @FXML
     private Button buyButton;
+    
+    /**
+     * FXMl reference of the back button.
+     */
     @FXML
     private Button back2;
+    
+    /**
+     * FXML reference of the sell button.
+     */
     @FXML
     private Button sellButton;
+    
+    /**
+     * FXML reference of the buy quantity text field.
+     */
     @FXML
     private TextField buyQuantity;
+    
+    /**
+     * FXML reference of the sell quantity text field.
+     */
     @FXML
     private TextField sellQuantity;
+    
+    /**
+     * FXML reference of the sell details label.
+     */
     @FXML
     private Label sellDetails;
+    
+    /**
+     * FXML reference of the buy details label.
+     */
     @FXML
     private Label buyDetails;
+    
+    /**
+     * FXML reference of the marketplace UI tabpane.
+     */
     @FXML
     private TabPane marketplaceUI;
+    
+    /**
+     * FXML reference of the planet marketplace label.
+     */
     @FXML
     private Label planetMarketplaceLabel;
+    
+    /**
+     * FXML reference of the buy sum label.
+     */
     @FXML
     private Label buySum;
 
+    /**
+     * local reference of the market.
+     */
     private MarketPlace market;
-    private TradeGood buyableGood, sellableGood;
+    
+    /**
+     * Local variable for the goods being bought.
+     */
+    private TradeGood buyableGood;
+    
+    /**
+     * Local variable for the goods being sold.
+     */
+    private TradeGood sellableGood;
 
+    /**
+     * Handles generating buy list.
+     */
     private void generateBuyList() {
         if (curPlanet != null) {
             ArrayList<TradeGood> goods = market.getListOfGoods();
@@ -241,6 +384,9 @@ public class PlanetViewController implements Initializable {
         }
     }
 
+    /**
+     * Handles generating the sell list.
+     */
     private void generateSellList() {
         ArrayList<TradeGood> goods = player.getShip().getCargo().getNonEmptyCargoList();
         for (TradeGood tg : goods) {
@@ -250,11 +396,17 @@ public class PlanetViewController implements Initializable {
         playerInventory.setItems(list);
     }
     
+    /**
+     * Handles pressing the back button.
+     */
     @FXML
     private void backToSolarSystem() {
         SpaceTrader.getInstance().goToSolarSystemView();
     }
 
+    /**
+     * Handles selecting buyable item.
+     */
     @FXML
     private void selectBuyableItem() {
         TradeGood selected = (TradeGood) (planetInventory.getSelectionModel().getSelectedItem());
@@ -263,7 +415,10 @@ public class PlanetViewController implements Initializable {
         }
         updateBuyableItem();
     }
-
+    
+    /**
+     * Handles selecting sellable item.
+     */
     @FXML
     private void selectSellableItem() {
         TradeGood selected = (TradeGood) (playerInventory.getSelectionModel().selectedItemProperty().get());
@@ -273,12 +428,18 @@ public class PlanetViewController implements Initializable {
         updateSellableItem();
     }
     
+    /**
+     * Handles hiding the marketplace.
+     */
     @FXML
     private void hideMarketplace() {
         marketplaceUI.setVisible(false);
         planetOptions.setVisible(true);
     }
     
+    /**
+     * Handles showing the marketplace.
+     */
     @FXML
     private void openMarketplace() {
         if (curPlanet != null) {
@@ -293,6 +454,9 @@ public class PlanetViewController implements Initializable {
         }
     }
 
+    /**
+     * updates the buyable item label.
+     */
     private void updateBuyableItem() {
         try {
             buyDetails.setText("Cash: " + Utility.currencyFormat(player.getMoney())
@@ -301,11 +465,14 @@ public class PlanetViewController implements Initializable {
             if (player.getMoney() - buyableGood.getCurrentPriceEach() * Integer.parseInt(buyQuantity.getText()) < 0) {
                 
             }
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
 
         }
     }
 
+    /**
+     * Updates the sellable item label.
+     */
     private void updateSellableItem() {
         try {
             if (sellableGood != null) {
@@ -313,11 +480,14 @@ public class PlanetViewController implements Initializable {
                         + "\nValue: " + Utility.currencyFormat(sellableGood.getCurrentPriceEach())
                         + "\n\n\n\nSum: " + Utility.currencyFormat(player.getMoney() + sellableGood.getCurrentPriceEach() * Integer.parseInt(sellQuantity.getText())));
             }
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
 
         }
     }
 
+    /**
+     * Handles pressing the buy button.
+     */
     @FXML
     private void handleBuyAction() {
         if (buyableGood != null) {
@@ -328,6 +498,9 @@ public class PlanetViewController implements Initializable {
         }
     }
 
+    /**
+     * Handles pressing the sell button.
+     */
     @FXML
     private void handleSellAction() {
         if (sellableGood != null) {

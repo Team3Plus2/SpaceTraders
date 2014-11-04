@@ -24,9 +24,21 @@ import spacetrader.player.Weapon;
  */
 public class Shipyard implements Serializable {
     
+    /**
+     * List of ShipTypes.
+     */
     private final ArrayList<ShipType> shipTypes;
+    /**
+     * List of Weapons this Shipyard can sell.
+     */
     private final ArrayList<Weapon> weapons;
+    /**
+     * List of Shields this Shipyard can sell.
+     */
     private final ArrayList<Shield> shields;
+    /**
+     * List of Gadgets this Shipyard can sell.
+     */
     private final ArrayList<Gadget> gadgets;
     
     /**

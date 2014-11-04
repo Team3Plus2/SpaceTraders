@@ -19,6 +19,9 @@ import spacetrader.global.Utility;
  */
 public class TradeGood extends LoadedType implements Serializable {
     
+    /**
+     * The file that contains all the TradeGood type definitions.
+     */
     private static final String TRADES_GOODS_FILE = "objects/TradeGoods.xml";
     
     /**
@@ -28,7 +31,12 @@ public class TradeGood extends LoadedType implements Serializable {
         TradeGood.load(TradeGood.class, TRADES_GOODS_FILE, null);
     }
     
-    public static TradeGood Default() {
+    /**
+     * Loads the default TradeGood type from TradeGoods.
+     * 
+     * @return the default TradeGood type
+     */
+    public static TradeGood defaultValue() {
         return (TradeGood) TradeGood.defaultValue(TradeGood.class);
     }
     
@@ -44,34 +52,70 @@ public class TradeGood extends LoadedType implements Serializable {
         return good;
     }
 
+    /**
+     * BasePrice of this TradeGood.
+     */
     @FromXML
     private float basePrice;
+    /**
+     * IncreasePerLevel of this TradeGood.
+     */
     @FromXML
     private float increasePerLevel;
+    /**
+     * MinRandPrice of this TradeGood.
+     */
     @FromXML
     private float minRandPrice;
+    /**
+     * MaxRandPrice of this TradeGood.
+     */
     @FromXML
     private float maxRandPrice;
     
+    /**
+     * PriceVariance of this TradeGood.
+     */
     @FromXML
     private int priceVariance;
     
+    /**
+     * MinLevelProduce of this TradeGood.
+     */
     @FromXML
     private TechLevel minLevelProduce;
+    /**
+     * MinLevelUse of this TradeGood.
+     */
     @FromXML
     private TechLevel minLevelUse;
+    /**
+     * LevelProduceMost of this TradeGood.
+     */
     @FromXML
     private TechLevel levelProduceMost;
     
+    /**
+     * PriceLowCondition of this TradeGood.
+     */
     @FromXML (required = false)
     private Resource priceLowCondition;
+    /**
+     * PriceHighCondition of this TradeGood.
+     */
     @FromXML (required = false)
     private Resource priceHighCondition;
-    
+    /**
+     * CurrentPriceEach of this TradeGood.
+     */
     private float currentPriceEach;
-    
+    /**
+     * Amount of this TradeGood.
+     */
     private int amount;
-    
+    /**
+     * Random variable for computing price.
+     */
     private Random rand;
 
     /**

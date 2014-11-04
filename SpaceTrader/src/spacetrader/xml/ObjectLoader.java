@@ -27,8 +27,8 @@ public class ObjectLoader {
     public static void loadAllObjects() {
         Resource.Load();
         TechLevel.Load();
+        Government.load();
         TradeGood.load();
-        Government.Load();
         SunType.Load();
         Gadget.load();
         Mercenary.load();

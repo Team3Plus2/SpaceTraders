@@ -87,7 +87,7 @@ public class Company {
         meanTechLevel = 0;
         for (int count = 0; count < solarSystems.size(); count++) {
             int techLevel;
-            String currentLevel = solarSystems.get(count).TechLevel().getName();
+            String currentLevel = solarSystems.get(count).techLevel().getName();
             techLevel = TechLevel.getIndex(currentLevel);
             meanTechLevel = meanTechLevel + (techLevel * planets.get(count).size());
         }
@@ -100,7 +100,7 @@ public class Company {
     public void calcMeanRelativeWealth() {
         for (int count = 0; count < solarSystems.size(); count++) {
             for (int count1 = 0; count1 < planets.get(count).size(); count1++) {
-                meanRelativeWealth = meanRelativeWealth + planets.get(count).get(count).Wealth();
+                meanRelativeWealth = meanRelativeWealth + planets.get(count).get(count).wealth();
             }
             meanRelativeWealth++;
             meanRelativeWealth = meanRelativeWealth / 2;

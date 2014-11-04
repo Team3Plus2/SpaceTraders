@@ -32,7 +32,7 @@ import spacetrader.player.Player;
 import spacetrader.player.Shield;
 import spacetrader.player.Ship;
 import spacetrader.player.ShipType;
-import spacetrader.player.Upgrade;
+import spacetrader.player.AbstractUpgrade;
 import spacetrader.player.Weapon;
 
 /**
@@ -87,7 +87,7 @@ public class PlanetViewController implements Initializable {
         techLevelLabel.setText(curSystem.TechLevel().getName());
         ObservableList<ShipType> list = FXCollections.observableArrayList(curPlanet.getShipyard().getListShipsAvailable());
         availableShips.setItems(list);
-        ObservableList<Upgrade> upgradeList = FXCollections.observableArrayList(curPlanet.getShipyard().getListUpgradesAvailable());
+        ObservableList<AbstractUpgrade> upgradeList = FXCollections.observableArrayList(curPlanet.getShipyard().getListUpgradesAvailable());
         availableUpgrades.setItems(upgradeList);
         if(list.size() > 0) {
             buyShipDetails.setText(((ShipType)availableShips.getItems().get(0)).getInfo());
@@ -160,7 +160,7 @@ public class PlanetViewController implements Initializable {
     
     @FXML
     private void handleUpgradeShip() {
-        Upgrade selected = (Upgrade) (availableUpgrades.getSelectionModel().getSelectedItem());
+        AbstractUpgrade selected = (AbstractUpgrade) (availableUpgrades.getSelectionModel().getSelectedItem());
         if (selected != null) {
             if (selected.getClassName().equals("Weapon")) {
                 curPlanet.getShipyard().buyWeapon(player, (Weapon) (selected));
@@ -174,7 +174,7 @@ public class PlanetViewController implements Initializable {
     }
     
     private void selectUpgrade() {
-        Upgrade selected = (Upgrade) (availableUpgrades.getSelectionModel().getSelectedItem());
+        AbstractUpgrade selected = (AbstractUpgrade) (availableUpgrades.getSelectionModel().getSelectedItem());
         if (selected != null) {
             if (selected.getClassName().equals("Weapon")) {
                 int maxWeapons = player.getShip().getMaxWeapons();

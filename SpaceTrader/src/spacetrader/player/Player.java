@@ -19,21 +19,67 @@ import spacetrader.turns.TurnEvent;
  * @author Aaron McAnally
  */
 public class Player implements Serializable {
+    /**
+     * Fuel expended in between planets.
+     */
     private static final float FUEL_PER_PLANET_MOVEMENT = 0.5f;
     
+    /**
+     * The player's name.
+     */
     private String name;
+    /**
+     * The pilot skill of the player.
+     */
     private int pilotSkill;
+    /**
+     * The fighter skill of the player.
+     */
     private int fighterSkill;
+    /**
+     * The trader skill of the player.
+     */
     private int traderSkill;
+    /**
+     * The engineer skill of the player.
+     */
     private int engineerSkill;
+    /**
+     * The investor skill of the player.
+     */
     private int investorSkill;
+    /**
+     * The current planet of the player.
+     */
     private Planet currentPlanet;
+    /**
+     * The current solar system of the player.
+     */
     private SolarSystem currentSolarSystem;
+    /**
+     * True if the player is dead.
+     */
     private boolean dead;
 
+    /**
+     * The amount of money the player has.
+     */
     private float money;
+    /**
+     * The player's ship.
+     */
     private Ship ship;
     
+    /**
+     * Instantiates the player at game initialization.
+     * 
+     * @param name2 name
+     * @param pilotSkill2 pilot skill
+     * @param fighterSkill2 fighter skill
+     * @param traderSkill2 trader skill
+     * @param engineerSkill2 engineer skill
+     * @param investorSkill2 investor skill
+     */
     public Player(String name2, int pilotSkill2, int fighterSkill2, int traderSkill2,
                   int engineerSkill2, int investorSkill2) {
         this.name = name2;
@@ -58,21 +104,21 @@ public class Player implements Serializable {
     }
     
     /**
-     * @return the damage to the ship's shields
+     * @return the damage to the ship's shields.
      */
     public int getDamageToShields() {
         return ship.getDamageToShields();
     }
     
     /**
-     * @return the damage this ship dealt in the last attack
+     * @return the damage this ship dealt in the last attack.
      */
     public int getDamageDealt() {
         return ship.getDamageDealt();
     }
     
     /**
-     * @return the most recently destroyed objects from the ship
+     * @return the most recently destroyed objects from the ship.
      */
     public ArrayList getDestroyed() {
         return ship.getDestroyed();
@@ -151,82 +197,163 @@ public class Player implements Serializable {
         return distance;
     }
     
+    /**
+     * @return The name of the player
+     */
     public String getName() {
         return name;
     }
     
+    /**
+     * @return The current solar system of the player.
+     */
     public SolarSystem getCurrentSolarSystem() {
         return currentSolarSystem;
     }
     
+    /**
+     * @return The current planet of the player.
+     */
     public Planet getCurrentPlanet() {
         return currentPlanet;
     }
 
+    /**
+     * Sets the current solar system to a new one.
+     * 
+     * @param currentSolarSystem2 the current solar system
+     */
     public void setCurrentSolarSystem(SolarSystem currentSolarSystem2) {
         this.currentSolarSystem = currentSolarSystem2;
     }
 
+    /**
+     * Sets the name to a new name.
+     * 
+     * @param name2 the new name
+     */
     public void setName(String name2) {
         this.name = name2;
     }
     
+    /**
+     * @return the money the player owns
+     */
     public float getMoney() {
         return money;
     }
     
+    /**
+     * Sets the money to a new value.
+     * 
+     * @param money2 the new money value
+     */
     public void setMoney(float money2) {
         this.money = money2;
     }
 
+    /**
+     * @return The pilot skill.
+     */
     public int getPilotSkill() {
         return pilotSkill;
     }
 
+    /**
+     * Sets the pilot skill to a new value.
+     * 
+     * @param pilotSkill2 the new pilot skill
+     */
     public void setPilotSkill(int pilotSkill2) {
         this.pilotSkill = pilotSkill2;
     }
 
+    /**
+     * @return The fighter skill.
+     */
     public int getFighterSkill() {
         return fighterSkill;
     }
 
+    /**
+     * Sets the fighter skill to a new value.
+     * 
+     * @param fighterSkill2 the new fighter skill
+     */
     public void setFighterSkill(int fighterSkill2) {
         this.fighterSkill = fighterSkill2;
     }
 
+    /**
+     * @return The trader skill.
+     */
     public int getTraderSkill() {
         return traderSkill;
     }
 
+    /**
+     * Sets the trader skill to a new value.
+     * 
+     * @param traderSkill2 the new trader skill
+     */
     public void setTraderSkill(int traderSkill2) {
         this.traderSkill = traderSkill2;
     }
 
+    /**
+     * @return The engineer skill.
+     */
     public int getEngineerSkill() {
         return engineerSkill;
     }
 
+    /**
+     * Sets the engineer skill to a new value.
+     * 
+     * @param engineerSkill2 the new engineer skill
+     */
     public void setEngineerSkill(int engineerSkill2) {
         this.engineerSkill = engineerSkill2;
     }
 
+    /**
+     * @return The investor skill.
+     */
     public int getInvestorSkill() {
         return investorSkill;
     }
 
+    /**
+     * Sets the investor skill to a new value.
+     * 
+     * @param investorSkill2 the new investor skill
+     */
     public void setInvestorSkill(int investorSkill2) {
         this.investorSkill = investorSkill2;
     }
     
+    /**
+     * @return The player's ship
+     */
     public Ship getShip() {
         return ship;
     }
     
-    public void setShip(Ship ship) {
-        this.ship = ship;
+    /**
+     * Sets the player's ship to a new one.
+     * 
+     * @param ship2 the new ship
+     */
+    public void setShip(Ship ship2) {
+        this.ship = ship2;
     }
     
+    /**
+     * Gets an ArrayList of travelable solar systems.
+     * 
+     * @param universe the universe
+     * @return an ArrayList of travelable solar systems
+     */
     public ArrayList<SolarSystem> getTravelable(Universe universe) {
         int travelRadius = (int) ship.getFuel();
         ArrayList<SolarSystem> systems = new ArrayList<>();
@@ -322,6 +449,7 @@ public class Player implements Serializable {
         return ship.getCargoList();
     }
     
+    @Override
     public String toString() {
         if (pilotSkill == 0 && fighterSkill == 0
                 && traderSkill == 0 && engineerSkill == 0

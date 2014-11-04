@@ -48,11 +48,11 @@ public class Encounter {
         */
         
         for (int i = 0; i < captain.getShip().getMaxWeapons(); i++) {
-            captain.getShip().addWeapon(Weapon.Random());
+            captain.getShip().addWeapon(Weapon.random());
         }
         
         for (int i = 0; i < captain.getShip().getMaxShields(); i++) {
-            captain.getShip().addShield(Shield.Random());
+            captain.getShip().addShield(Shield.random());
         }
         
         for (int i = 0; i < captain.getShip().getMaxGadgets(); i++) {

@@ -16,11 +16,11 @@ public class ShipType extends LoadedType implements Serializable {
     
     public static void Load() {
         ShipType Gnat = new ShipType("GNAT", 15, 14, 1, 0, 1, 0, 5, 10000, 2);
-        ShipType.Load(ShipType.class, ShipTypeFileLocation, Gnat);
+        ShipType.load(ShipType.class, ShipTypeFileLocation, Gnat);
     }
     
     public static ShipType Default() {
-        return (ShipType)ShipType.Default(ShipType.class);
+        return (ShipType)ShipType.defaultValue(ShipType.class);
     }
     
    /*

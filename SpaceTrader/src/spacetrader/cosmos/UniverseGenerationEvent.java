@@ -13,16 +13,18 @@ public class UniverseGenerationEvent {
     private static ArrayList<UniverseGenerationListener> registeredListeners;
     
     public static void registerListener(UniverseGenerationListener listener) {
-        if(registeredListeners == null) 
+        if (registeredListeners == null) {
             registeredListeners = new ArrayList<>();
+        }
         registeredListeners.add(listener);
     }
     
     public static void universeGenerated(ArrayList<SolarSystem> systems) {
-        if(registeredListeners == null)
+        if (registeredListeners == null) {
             return;
+        }
         UniverseGenerationEvent event = new UniverseGenerationEvent(systems);
-        for(UniverseGenerationListener listener : registeredListeners) {
+        for (UniverseGenerationListener listener : registeredListeners) {
             listener.onGeneration(event);
         }
     }

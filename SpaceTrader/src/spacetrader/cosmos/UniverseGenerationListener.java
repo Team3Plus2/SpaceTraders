@@ -1,13 +1,13 @@
 package spacetrader.cosmos;
 
 /**
- * listener for UniverseGenerationEvents
+ * Listener for UniverseGenerationEvents.
  * @author Alex
  */
 public interface UniverseGenerationListener {
     
     /**
-     * Handles generation events
+     * Handles generation events.
      * 
      * @param event the fired event
      */

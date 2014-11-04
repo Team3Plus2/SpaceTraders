@@ -30,7 +30,7 @@ public class Shipyard implements Serializable {
     private final ArrayList<Gadget> gadgets;
     
     /**
-     * Creates a shipyard of available ship types
+     * Creates a shipyard of available ship types.
      * 
      * @param techLevel techLevel of the system
      */
@@ -66,7 +66,7 @@ public class Shipyard implements Serializable {
     }
     
     /**
-     * Gets the list of ships sold in this shipyard
+     * Gets the list of ships sold in this shipyard.
      * 
      * @return list of available ship types
      */
@@ -75,7 +75,7 @@ public class Shipyard implements Serializable {
     }
     
     /**
-     * Gets the list of upgrades sold in this shipyard
+     * Gets the list of upgrades sold in this shipyard.
      * 
      * @return list of available upgrade types
      */
@@ -110,7 +110,7 @@ public class Shipyard implements Serializable {
     }
     
     /**
-     * Adds a weapon to the ship if player has enough money and the ship has enough weapon slots
+     * Adds a weapon to the ship if player has enough money and the ship has enough weapon slots.
      * 
      * @param p the player
      * @param weapon the weapon to be added
@@ -118,16 +118,16 @@ public class Shipyard implements Serializable {
      */
     public boolean buyWeapon(Player p, Weapon weapon) {
         if (p.getMoney() >= weapon.getPrice()) {
-           if (p.getShip().addWeapon(weapon)) {
-               p.setMoney(p.getMoney() - weapon.getPrice());
-               return true;
-           }
+            if (p.getShip().addWeapon(weapon)) {
+                p.setMoney(p.getMoney() - weapon.getPrice());
+                return true;
+            }
         }
         return false;
     }
     
     /**
-     * Adds a shield to the ship if player has enough money and the ship has enough shield slots
+     * Adds a shield to the ship if player has enough money and the ship has enough shield slots.
      * 
      * @param p the player
      * @param shield the shield to be added
@@ -135,16 +135,16 @@ public class Shipyard implements Serializable {
      */
     public boolean buyShield(Player p, Shield shield) {
         if (p.getMoney() >= shield.getPrice()) {
-           if (p.getShip().addShield(shield)) {
-               p.setMoney(p.getMoney() - shield.getPrice());
-               return true;
-           }
+            if (p.getShip().addShield(shield)) {
+                p.setMoney(p.getMoney() - shield.getPrice());
+                return true;
+            }
         }
         return false;
     }
     
     /**
-     * Adds a gadget to the ship if player has enough money and the ship has enough gadget slots
+     * Adds a gadget to the ship if player has enough money and the ship has enough gadget slots.
      * 
      * @param p the player
      * @param gadget the gadget to be added
@@ -152,10 +152,10 @@ public class Shipyard implements Serializable {
      */
     public boolean buyGadget(Player p, Gadget gadget) {
         if (p.getMoney() >= gadget.getPrice()) {
-           if (p.getShip().addGadget(gadget)) {
-               p.setMoney(p.getMoney() - gadget.getPrice());
-               return true;
-           }
+            if (p.getShip().addGadget(gadget)) {
+                p.setMoney(p.getMoney() - gadget.getPrice());
+                return true;
+            }
         }
         return false;
     }

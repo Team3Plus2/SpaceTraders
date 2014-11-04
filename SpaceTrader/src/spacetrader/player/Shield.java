@@ -95,7 +95,7 @@ class ShieldType extends LoadedType implements Serializable {
     private static final String ShieldFileLocation = "objects/Shields.xml";
 
     public static void Load() {
-        ShieldType.Load(ShieldType.class, ShieldFileLocation, null);
+        ShieldType.load(ShieldType.class, ShieldFileLocation, null);
     }
     
     @FromXML

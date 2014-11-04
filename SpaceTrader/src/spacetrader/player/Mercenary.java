@@ -12,12 +12,12 @@ public class Mercenary implements Serializable {
     
     private MercenaryType mercenaryType;
     
-    public static void Load() {
-        MercenaryType.Load();
+    public static void load() {
+        MercenaryType.load();
     }
     
-    public Mercenary(MercenaryType mercenaryType) {
-        this.mercenaryType = mercenaryType;
+    public Mercenary(MercenaryType mercenaryType2) {
+        this.mercenaryType = mercenaryType2;
     }
 }
 
@@ -26,10 +26,10 @@ public class Mercenary implements Serializable {
  */
 class MercenaryType extends LoadedType implements Serializable {
 
-    private static final String MercenaryFileLocation = "objects/Mercenaries.xml";
+    private static final String MERCENARY_FILE_LOCATION = "objects/Mercenaries.xml";
 
-    public static void Load() {
-        MercenaryType.Load(MercenaryType.class, MercenaryFileLocation, null);
+    public static void load() {
+        MercenaryType.load(MercenaryType.class, MERCENARY_FILE_LOCATION, null);
     }
 
     public MercenaryType() {

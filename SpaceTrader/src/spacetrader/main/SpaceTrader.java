@@ -23,13 +23,8 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import spacetrader.cosmos.Universe;
-import spacetrader.cosmos.system.SolarSystem;
-import spacetrader.cosmos.system.Planet;
-import spacetrader.xml.DummyXMLObject;
 import spacetrader.xml.ObjectLoader;
 
-import java.util.ArrayList;
-import java.util.Scanner;
 import spacetrader.view.SolarSystemViewController;
 import spacetrader.view.StarScreenController;
 
@@ -80,7 +75,7 @@ public class SpaceTrader extends Application {
     public void goToCharacterConfig() {
         try {
             loadNewScreen("/spacetrader/view/CharacterConfigurationScreen.fxml");
-        } catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -88,7 +83,7 @@ public class SpaceTrader extends Application {
     public void goToLoadGame() {
         try {
             loadNewScreen("/spacetrader/view/NewLoadGame.fxml");
-        } catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -96,7 +91,7 @@ public class SpaceTrader extends Application {
     public void goToPlanetView() {
         try {
             loadNewScreen("/spacetrader/view/PlanetView.fxml");
-        } catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -104,7 +99,7 @@ public class SpaceTrader extends Application {
     public void goToSolarSystemView() {
         try {
             loadNewScreen("/spacetrader/view/SolarSystemView.fxml");
-        } catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -112,19 +107,19 @@ public class SpaceTrader extends Application {
     public void goToWelcomeScreen() {
         try {
             loadNewScreen("/spacetrader/view/WelcomeScreen.fxml");
-        } catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
     
-    public void goToGame(Player newPlayer) {
+    public void goToGame(Player newPlayer2) {
         try {
-            this.newPlayer = newPlayer;
+            this.newPlayer = newPlayer2;
             this.universe = new Universe(100, 0.1f);
             this.newPlayer.setCurrentSolarSystem(this.universe.getClosestSolarSystem(0, 0, 20));
             System.out.println(this.newPlayer.getCurrentSolarSystem());
             loadNewScreen("/spacetrader/view/StarScreen.fxml");
-        } catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -132,7 +127,7 @@ public class SpaceTrader extends Application {
     public void goToGame() {
         try {
             loadNewScreen("/spacetrader/view/StarScreen.fxml");
-        } catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -141,31 +136,31 @@ public class SpaceTrader extends Application {
         try {
             System.out.println("I'm about to go to encounter!");
             loadNewScreen("/spacetrader/view/Encounter.fxml");
-        } catch(IOException e) {
+        } catch (IOException e) {
             System.out.println("EHERJELRE");
             e.printStackTrace();
         }
     }
     
-    private void loadNewScreen(String FXML) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(FXML));
-        Parent root = (Parent)loader.load();
+    private void loadNewScreen(String fXML) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(fXML));
+        Parent root = (Parent) loader.load();
         stackPane.getChildren().add(root);
-        if(FXML.equals("/spacetrader/view/SolarSystemView.fxml")) {
-            SolarSystemViewController controller = (SolarSystemViewController)loader.getController();
+        if (fXML.equals("/spacetrader/view/SolarSystemView.fxml")) {
+            SolarSystemViewController controller = (SolarSystemViewController) loader.getController();
             controller.setScene(stage.getScene());
-        } else if(FXML.equals("/spacetrader/view/StarScreen.fxml")) {
-            StarScreenController controller = (StarScreenController)loader.getController();
+        } else if (fXML.equals("/spacetrader/view/StarScreen.fxml")) {
+            StarScreenController controller = (StarScreenController) loader.getController();
             controller.setScene(stage.getScene());
         }
         EventHandler<ActionEvent> finished = (ActionEvent event) -> {
-            if(stackPane.getChildren().size() > 1) {
+            if (stackPane.getChildren().size() > 1) {
                 stackPane.getChildren().remove(0);
             }
         };
         
         final Timeline switchPage;
-        if(stackPane.getChildren().size() > 1) {
+        if (stackPane.getChildren().size() > 1) {
             switchPage = new Timeline(
                 new KeyFrame(Duration.seconds(0), new KeyValue(stackPane.getChildren().get(1).opacityProperty(), 0.0), new KeyValue(stackPane.getChildren().get(0).opacityProperty(), 1.0)),
                 new KeyFrame(Duration.seconds(1), finished, new KeyValue(stackPane.getChildren().get(1).opacityProperty(), 1.0), new KeyValue(stackPane.getChildren().get(0).opacityProperty(), 0.0))
@@ -184,84 +179,12 @@ public class SpaceTrader extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        ObjectLoader.LoadAllObjects();
+        ObjectLoader.loadAllObjects();
         launch(args);
     }
     
     public Player getPlayer() {
         return newPlayer;
-    }
-    
-    /**
-     * Simple example call of xml reader to help demonstrate how to interface with the xml reader.
-     * See DummyXMLObject.java and objects/test.xml(look in the files tab) for the complete view of
-     * how to construct objects and xml files that will interface and be parsed by the XMLReader class.
-     */
-    public static void ExampleXMLReaderAPI() {
-        XMLReader reader = new XMLReader(DummyXMLObject.class, "objects/test.xml");
-        ArrayList<DummyXMLObject> objects = reader.read();
-        
-        for(DummyXMLObject obj : objects) {
-            obj.print();
-        }
-    }
-    
-    /**
-     * Prettyish command-prompt interface with the universe to demonstrate how simple it is
-     * to interface with the API (just toss it into main to run it, also, it won't exit, you'll need to
-     * kill the program, didn't put to much time into exit functionality :) )
-     */
-    public static void ExampleUniverseAPI() {
-        Universe universe = new Universe(100, 0.4f);
-        System.out.println(universe.canGenerateAround(130, 50, 10));
-        //universe.generateAround(130, 50, 10);
-        //System.out.println(universe.canGenerateAround(130, 50, 10));
-        int count = 0;
-        for(SolarSystem a : universe) {
-            count++;
-            if(a == null)
-                System.out.print("");
-            else
-                System.out.print("(" + a + ",'" + a.Name() + "')");
-            if(count % 101 == 0)
-                System.out.println();
-        }
-        
-        Scanner in = new Scanner(System.in);
-        String finalCommand = "";
-        
-        do {
-            System.out.println("\nWhat solar system would you like to query?");
-            int x = in.nextInt();
-            int y = in.nextInt();
-
-            SolarSystem system = universe.getSolarSystem(x, y);
-            
-            if(system != null) {
-                System.out.println("System Information");        
-                System.out.println("--------------------------------------");        
-                System.out.println("X: " + x + ", Y: " + y);        
-                System.out.println("Name: " + system.Name());            
-                System.out.println("Government: " + system.Government());            
-                System.out.println("Sun Type: " + system.SunType());            
-                System.out.println("Technology Era: " + system.TechLevel());
-                System.out.println("Wealth: " + system.Wealth());                
-                System.out.println("Planets: " + system.Planets().length);
-
-
-                System.out.println("Planetary Information:");  
-
-                Planet[] planets = system.Planets();
-                for(Planet planet : planets) {
-                    System.out.println("Name: " + planet.Name());                
-                    System.out.println("\tResource: " + planet.Resources());
-                    System.out.println("\tWealth: " + planet.Wealth());
-                }
-            }
-            
-            System.out.println("Query again?");  
-            finalCommand = in.nextLine();
-        } while(finalCommand != "stop");
     }
     
     public void setPlayer(Player p) {

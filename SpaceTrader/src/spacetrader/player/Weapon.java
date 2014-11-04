@@ -100,7 +100,7 @@ class LaserType extends LoadedType implements Serializable {
     private static String WeaponFileLocation = "objects/Weapons.xml";
     
     public static void Load() {
-        LaserType.Load(LaserType.class, WeaponFileLocation, null);
+        LaserType.load(LaserType.class, WeaponFileLocation, null);
     }
     
     @FromXML

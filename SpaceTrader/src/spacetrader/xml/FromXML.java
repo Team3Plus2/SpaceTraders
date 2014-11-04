@@ -15,7 +15,6 @@ public @interface FromXML {
     
     /**
      * Requires this field.
-     * @return true if this field is required
      */
     boolean required() default true;
     

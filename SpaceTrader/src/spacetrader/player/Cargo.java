@@ -15,9 +15,20 @@ import spacetrader.economy.TradeGood;
  * @author Aaron McAnally
  */
 public class Cargo implements Serializable {
+    /**
+     * The maximum size for this Cargo.
+     */
     private int maxCargo;
+    /**
+     * The list of goods in this Cargo.
+     */
     private ArrayList<TradeGood> goods;
     
+    /**
+     * Constructor for Cargo.
+     * 
+     * @param maxCargo2 the maximum size this cargo will be able to hold.
+     */
     public Cargo(int maxCargo2) {
         this.maxCargo = maxCargo2;
         goods = TradeGood.getTradeGoodTypes();

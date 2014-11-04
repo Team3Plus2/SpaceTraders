@@ -97,6 +97,7 @@ public class Player implements Serializable {
             currentPlanet = system.Planets()[0];
         } else {
             currentPlanet = null;
+        }
         TurnEvent.nextTurn(this);
         return true;
     }

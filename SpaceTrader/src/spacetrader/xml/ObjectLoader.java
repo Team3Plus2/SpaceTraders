@@ -32,9 +32,9 @@ public class ObjectLoader {
         SunType.load();
         Gadget.load();
         Mercenary.load();
-        Shield.Load();
+        Shield.load();
         Ship.Load();
-        Weapon.Load();
+        Weapon.load();
         Encounter.load();
     }
     

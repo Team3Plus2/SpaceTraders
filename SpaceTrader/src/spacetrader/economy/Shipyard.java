@@ -14,7 +14,7 @@ import spacetrader.player.Player;
 import spacetrader.player.Shield;
 import spacetrader.player.Ship;
 import spacetrader.player.ShipType;
-import spacetrader.player.Upgrade;
+import spacetrader.player.AbstractUpgrade;
 import spacetrader.player.Weapon;
 
 /**
@@ -91,8 +91,8 @@ public class Shipyard implements Serializable {
      * 
      * @return list of available upgrade types
      */
-    public ArrayList<Upgrade> getListUpgradesAvailable() {
-        ArrayList<Upgrade> upgrades = new ArrayList<Upgrade>();
+    public ArrayList<AbstractUpgrade> getListUpgradesAvailable() {
+        ArrayList<AbstractUpgrade> upgrades = new ArrayList<AbstractUpgrade>();
         upgrades.addAll(weapons);
         upgrades.addAll(shields);
         upgrades.addAll(gadgets);

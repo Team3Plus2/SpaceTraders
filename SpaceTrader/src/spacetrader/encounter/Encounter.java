@@ -19,18 +19,44 @@ import spacetrader.player.Weapon;
  */
 public class Encounter {
     
+    /**
+     * Loads the list of EncounterTypes.
+     */
     public static void load() {
         EncounterType.load();
     }
     
+    /**
+     * The captain of this Encounter.
+     */
     private Player captain;
+    /**
+     * The SolarSystem this Encounter is associated with.
+     */
     private SolarSystem systemAssociation;
+    /**
+     * Type of this Encounter.
+     */
     private EncounterType type;
+    /**
+     * Whether or not this Encounter will attack.
+     */
     private boolean willAttack;
+    /**
+     * Whether of not this Encounter will trade.
+     */
     private boolean willTrade;
+    /**
+     * Array of TradeGoods that this Encounter will search for.
+     */
     private TradeGood[] searchFor;
 
-    
+    /**
+     * Constructor for Encounter.
+     * 
+     * @param system the SolarSystem this Encounter will be affiliated with.
+     * @param player the Player who will be battling this Encounter.
+     */
     public Encounter(SolarSystem system, Player player) {
         type = EncounterType.random();
         int traderSkill = (int) (Math.random() * (type.getMaxTrade() - type.getMinTrade())) + type.getMinTrade();
@@ -48,11 +74,11 @@ public class Encounter {
         */
         
         for (int i = 0; i < captain.getShip().getMaxWeapons(); i++) {
-            captain.getShip().addWeapon(Weapon.Random());
+            captain.getShip().addWeapon(Weapon.random());
         }
         
         for (int i = 0; i < captain.getShip().getMaxShields(); i++) {
-            captain.getShip().addShield(Shield.Random());
+            captain.getShip().addShield(Shield.random());
         }
         
         for (int i = 0; i < captain.getShip().getMaxGadgets(); i++) {
@@ -84,6 +110,11 @@ public class Encounter {
         }
     }
     
+    /**
+     * Getter for this Encounter's greeting.
+     * 
+     * @return this Encounter's greeting
+     */
     public String getGreeting() {
         return type.getGreeting();
         //"Hey, gimme all ur stufs, im pore and nede mor mony >:0";
@@ -245,6 +276,4 @@ public class Encounter {
         int size = rand.nextInt(captain.getCargoList().size());
         return new MarketPlace((ArrayList<TradeGood>) captain.getCargoList().subList(0, size), true);
     }
-    
-    //public abstract void handleEncounter();
 }

@@ -13,30 +13,39 @@ import java.util.ArrayList;
  * 
  * @author Aaron McAnally
  */
-public class Weapon extends Upgrade implements Serializable {
+public class Weapon extends AbstractUpgrade implements Serializable {
     
-    public static void Load() {
-        LaserType.Load();
+    /**
+     * Loads the LaserType for the weapon.
+     */
+    public static void load() {
+        LaserType.load();
     }
     
-    public static Weapon Random() {
+    /**
+     * @return Gets a random weapon
+     */
+    public static Weapon random() {
         ArrayList<LaserType> rList = (ArrayList<LaserType>) LaserType.getList(LaserType.class);
         Random rand = new Random();
         int index = rand.nextInt(rList.size());
         return new Weapon(rList.get(index));
     }
     
+    /**
+     * The laser type of the weapon.
+     */
     private LaserType laserType;
     
     /**
-     * @param laserType an enum that determines the type of weapon
+     * @param laserType2 an enum that determines the type of weapon
      */
-    public Weapon(LaserType laserType) {
-        this.laserType = laserType;
+    public Weapon(LaserType laserType2) {
+        this.laserType = laserType2;
     }
     
     /**
-     * Access to the LaserType inner class
+     * Access to the LaserType inner class.
      * 
      * @return the laserType for the weapon
      */
@@ -64,7 +73,7 @@ public class Weapon extends Upgrade implements Serializable {
     }
     
     /**
-     * Used to differentiate between Upgrade types
+     * Used to differentiate between Upgrade types.
      * 
      * @return "Weapon"
      */
@@ -91,42 +100,75 @@ public class Weapon extends Upgrade implements Serializable {
 }
 
 /**
- * LaserTypes:
+ * LaserTypes.
  * LaserType(1) = pulse laser
  * LaserType(2) = beam laser
  * LaserType(3) = military laser
  */
 class LaserType extends LoadedType implements Serializable {
-    private static String WeaponFileLocation = "objects/Weapons.xml";
+    /**
+     * Weapon XML file location.
+     */
+    private static final String WEAPON_FILE_LOCATION = "objects/Weapons.xml";
     
-    public static void Load() {
-        LaserType.load(LaserType.class, WeaponFileLocation, null);
+    /**
+     * Loads the laser type.
+     */
+    public static void load() {
+        LaserType.load(LaserType.class, WEAPON_FILE_LOCATION, null);
     }
     
+    /**
+     * The laser strength.
+     */
     @FromXML
-    private int strength, price, techLevel;
+    private int strength;
+    /**
+     * The laser price.
+     */
+    @FromXML
+    private int price;
+    /**
+     * The laser tech level.
+     */
+    @FromXML
+    private int techLevel;
 
     /**
-     * Required by XMLReader
+     * Required by XMLReader.
      */
     public LaserType() {
         
     }
     
-    LaserType(int strength, int price, int techLevel) {
-        this.strength = strength;
-        this.price = price;
-        this.techLevel = techLevel;
+    /**
+     * @param strength2 Laser strength
+     * @param price2 Laser price
+     * @param techLevel2 Laser tech level
+     */
+    LaserType(int strength2, int price2, int techLevel2) {
+        this.strength = strength2;
+        this.price = price2;
+        this.techLevel = techLevel2;
     }
     
+    /**
+     * @return the strength of the laser
+     */
     public int getStrength() {
         return strength;
     }
     
+    /**
+     * @return the price of the laser
+     */
     public int getPrice() {
         return price;
     }
     
+    /**
+     * @return the tech level of the laser
+     */
     public int getTechLevel() {
         return techLevel;
     }

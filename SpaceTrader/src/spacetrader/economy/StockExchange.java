@@ -50,9 +50,6 @@ public class StockExchange {
         this.planet = planet2;
         for (int count = 0; count < company.length; count++) {
             if (company[count].companyCheck(solarSystem, this.planet)) {
-                //Adds only companies that have investments in the planet to the ArrayList, this could be anything 
-                //from all of them to none of them and this will be used to determine what will be sold at the planet's 
-                //stock exchange
                 companies.add(company[count]);
             }
         }

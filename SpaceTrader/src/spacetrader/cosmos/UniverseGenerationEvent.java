@@ -13,7 +13,7 @@ public class UniverseGenerationEvent {
     /**
      * List of registeredListeners for this Event.
      */
-    private static ArrayList<UniverseGenerationListener> registeredListeners;
+    private static ArrayList<UniverseGenerationListener> registeredListeners = new ArrayList<>();
     
     /**
      * Registers the given listener with this Event.
@@ -21,9 +21,6 @@ public class UniverseGenerationEvent {
      * @param listener the listener we want to register.
      */
     public static void registerListener(UniverseGenerationListener listener) {
-        if (registeredListeners == null) {
-            registeredListeners = new ArrayList<>();
-        }
         registeredListeners.add(listener);
     }
     

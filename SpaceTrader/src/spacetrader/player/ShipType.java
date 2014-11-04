@@ -9,6 +9,9 @@ import spacetrader.xml.LoadedType;
 /**
  * An enum for ship types with basic stats:
  *      maxCargo, maxFuel, maxWeapons, maxShields, maxGadgets, maxMercenaries.
+ * 
+ * Doesn't ovverride .equals since it should actually just use the Loaded Type super class check
+ * 
  */
 public class ShipType extends LoadedType {
 

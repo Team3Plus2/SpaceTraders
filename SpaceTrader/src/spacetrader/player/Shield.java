@@ -9,6 +9,8 @@ import spacetrader.xml.FromXML;
 /**
  * A shield is added protection to a ship.
  * 
+ * Doesn't ovverride .equals since it should actually just use the Loaded Type super class check
+ * 
  * @author Aaron McAnally
  */
 public class Shield extends AbstractUpgrade implements Serializable {

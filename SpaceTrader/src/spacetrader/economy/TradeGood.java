@@ -15,6 +15,8 @@ import spacetrader.global.Utility;
  * Trade goods should have the following names:
  *      water, furs, food, ore, games, firearms, medicine, machines, narcotics, robots
  * 
+ * Doesn't ovverride .equals since it should actually just use the Loaded Type super class check
+ * 
  * @author Carey MacDonald
  */
 public class TradeGood extends LoadedType {

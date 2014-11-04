@@ -9,6 +9,8 @@ import spacetrader.xml.LoadedType;
 /**
  * A gadget can be used to upgrade a ship.
  * 
+ * Doesn't ovverride .equals since it should actually just use the Loaded Type super class check
+ * 
  * @author Aaron McAnally
  */
 public class Gadget extends AbstractUpgrade implements Serializable {

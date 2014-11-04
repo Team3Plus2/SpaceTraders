@@ -291,15 +291,11 @@ public class TradeGood extends LoadedType {
     
     @Override
     public int hashCode() {
-        return getName().hashCode();
+        return super.hashCode();
     }
     
     @Override
     public boolean equals(Object other) {
-        if (other == null) { return false; }
-        if (other instanceof TradeGood && ((TradeGood) other).getName().equals(this.getName())) {
-            return true;
-        }
-        return false;
+        return super.equals(other);
     }
 }

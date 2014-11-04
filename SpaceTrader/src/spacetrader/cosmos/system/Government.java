@@ -76,4 +76,14 @@ public class Government extends LoadedType {
     public static Government random() {
         return random(new Random(), null);
     }
+    
+    @Override
+    public boolean equals(Object other) {
+        return super.equals(other);
+    }
+    
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }

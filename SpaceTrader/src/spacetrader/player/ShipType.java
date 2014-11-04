@@ -233,4 +233,14 @@ public class ShipType extends LoadedType {
             return getName();
         }
     }
+    
+    @Override
+    public boolean equals(Object other) {
+        return super.equals(other);
+    }
+    
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }

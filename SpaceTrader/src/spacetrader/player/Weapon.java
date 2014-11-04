@@ -190,4 +190,14 @@ class LaserType extends LoadedType {
     public static ArrayList<LaserType> getLaserTypes() {
         return ShieldType.getList(LaserType.class);
     }
+    
+    @Override
+    public boolean equals(Object other) {
+        return super.equals(other);
+    }
+    
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }

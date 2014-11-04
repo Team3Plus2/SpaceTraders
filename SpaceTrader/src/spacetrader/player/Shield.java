@@ -185,5 +185,15 @@ class ShieldType extends LoadedType {
     public static ArrayList<ShieldType> getShieldTypes() {
         return ShieldType.getList(ShieldType.class);
     }
+    
+    @Override
+    public boolean equals(Object other) {
+        return super.equals(other);
+    }
+    
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }
 

@@ -65,7 +65,7 @@ public class MarketPlace implements TurnListener, Serializable {
         }
         this.techLevel = techLevel2;
         this.resource = resource2;
-        TurnEvent.RegisterListener(this);
+        TurnEvent.registerListener(this);
     }
     
     /**

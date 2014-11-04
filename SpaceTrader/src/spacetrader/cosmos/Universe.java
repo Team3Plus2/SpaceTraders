@@ -436,7 +436,7 @@ public class Universe implements Iterable<SolarSystem>, Serializable {
      * @param player the Player we are moving to the next turn.
      */
     public void nextTurn(Player player) {
-        TurnEvent.NextTurn(player);
+        TurnEvent.nextTurn(player);
     }
     
     /**

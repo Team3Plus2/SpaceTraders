@@ -395,10 +395,10 @@ public class Universe implements Iterable<SolarSystem>, Serializable {
      */
     public SolarSystem getClosestSolarSystem(int x, int y, int rad) {
         for (int r = 0; r < rad; r++) { //radius loop
-            for (int i = x-r; i < x+r; i++) { //x loop
-                for (int j = y-r; j < y+r; j++) { //y loop
-                    if (space.get(i,j) != null) {
-                        return space.get(i,j);
+            for (int i = x - r; i < x + r; i++) { //x loop
+                for (int j = y - r; j < y + r; j++) { //y loop
+                    if (space.get(i, j) != null) {
+                        return space.get(i, j);
                     }
                 }
             }

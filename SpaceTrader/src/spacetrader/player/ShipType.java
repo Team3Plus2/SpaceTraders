@@ -1,6 +1,5 @@
 package spacetrader.player;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import spacetrader.main.SpaceTrader;
 import spacetrader.xml.FromXML;

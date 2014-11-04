@@ -1,6 +1,5 @@
 package spacetrader.cosmos.system;
 
-import java.io.Serializable;
 import java.util.Random;
 import spacetrader.xml.LoadedType;
 

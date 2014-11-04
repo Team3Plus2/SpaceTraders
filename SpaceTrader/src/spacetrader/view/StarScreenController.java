@@ -128,7 +128,7 @@ public class StarScreenController implements Initializable {
     /**
      * scales the distance between universes.
      */
-    private static final int universeScale = 20;
+    private static final int UNIVERSE_SCALE = 20;
     
     /**
      * Timer that handles animations.
@@ -316,8 +316,8 @@ public class StarScreenController implements Initializable {
             g.strokeOval(event.getX() - 15, event.getY() - 15, 30, 30);
             g.fillText(mouseOver.name(), event.getX(), event.getY());
             if (travelable.contains(mouseOver)) {
-                double radx = ((player.getCurrentSolarSystem().getX() * universeScale) - mapOffsetX - dragOffsetX) + (512 - mapOffsetX - dragOffsetX);
-                double rady = ((player.getCurrentSolarSystem().getY() * universeScale) - mapOffsetY - dragOffsetY) + (288 - mapOffsetY - dragOffsetY);
+                double radx = ((player.getCurrentSolarSystem().getX() * UNIVERSE_SCALE) - mapOffsetX - dragOffsetX) + (512 - mapOffsetX - dragOffsetX);
+                double rady = ((player.getCurrentSolarSystem().getY() * UNIVERSE_SCALE) - mapOffsetY - dragOffsetY) + (288 - mapOffsetY - dragOffsetY);
                 g.strokeLine(radx, rady, event.getX(), event.getY());
             }
         } else {
@@ -383,8 +383,8 @@ public class StarScreenController implements Initializable {
         Random r = new Random();
         Point lower = getLower();
         Point upper = getUpper();
-        lower = new Point(lower.x / (universeScale), lower.y / (universeScale));
-        upper = new Point(upper.x / (universeScale), upper.y / (universeScale));
+        lower = new Point(lower.x / (UNIVERSE_SCALE), lower.y / (UNIVERSE_SCALE));
+        upper = new Point(upper.x / (UNIVERSE_SCALE), upper.y / (UNIVERSE_SCALE));
 
         universe.generateFrom(lower.x, lower.y, upper.x, upper.y );
         
@@ -406,8 +406,8 @@ public class StarScreenController implements Initializable {
             SolarSystem a = iter.next();
             Image starImage = null;
             if (a != null && !travelable.contains(a)) {
-                int x = a.getX() * universeScale;
-                int y = a.getY() * universeScale;
+                int x = a.getX() * UNIVERSE_SCALE;
+                int y = a.getY() * UNIVERSE_SCALE;
                 r.setSeed(a.name().hashCode());
                 
                 //set color of star based on suntype
@@ -442,9 +442,9 @@ public class StarScreenController implements Initializable {
         g.fillRect(0, 0, 1024, 512);
         
         //draw travel radius
-        double radsize = player.getTravelRadius() * universeScale * 2;
-        double radx = (((player.getCurrentSolarSystem().getX() * universeScale) - mapOffsetX - dragOffsetX)) + (512 - mapOffsetX - dragOffsetX) - (radsize / 2f);
-        double rady = (((player.getCurrentSolarSystem().getY() * universeScale) - mapOffsetY - dragOffsetY)) + (288 - mapOffsetY - dragOffsetY) - (radsize / 2f);
+        double radsize = player.getTravelRadius() * UNIVERSE_SCALE * 2;
+        double radx = (((player.getCurrentSolarSystem().getX() * UNIVERSE_SCALE) - mapOffsetX - dragOffsetX)) + (512 - mapOffsetX - dragOffsetX) - (radsize / 2f);
+        double rady = (((player.getCurrentSolarSystem().getY() * UNIVERSE_SCALE) - mapOffsetY - dragOffsetY)) + (288 - mapOffsetY - dragOffsetY) - (radsize / 2f);
         g.strokeOval(radx, rady, radsize, radsize);
         g.setFill(new Color(0, 0, 1, 0.1));
         g.fillOval(radx, rady, radsize, radsize);
@@ -462,8 +462,8 @@ public class StarScreenController implements Initializable {
         Random r = new Random();
         for (SolarSystem a : travelable) {
             r.setSeed(a.name().hashCode());
-            int x = a.getX() * universeScale;
-            int y = a.getY() * universeScale;
+            int x = a.getX() * UNIVERSE_SCALE;
+            int y = a.getY() * UNIVERSE_SCALE;
             Image starImage = null;
             if (a.sunType().usesColor()) {
                 g.setFill(new Color(a.sunType().getR(), a.sunType().getG(), a.sunType().getB(), 1.0));

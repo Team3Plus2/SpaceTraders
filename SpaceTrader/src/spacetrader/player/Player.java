@@ -94,7 +94,7 @@ public class Player implements Serializable {
             currentPlanet = system.Planets()[0];
         else
             currentPlanet = null;
-        TurnEvent.NextTurn(this);
+        TurnEvent.nextTurn(this);
         return true;
     }
     
@@ -120,7 +120,7 @@ public class Player implements Serializable {
         if (currentPlanet.getMarket() == null) {
             currentPlanet.setMarket(new MarketPlace(currentSolarSystem.TechLevel(), currentPlanet.Resources()));
         }
-        TurnEvent.NextTurn(this);
+        TurnEvent.nextTurn(this);
         return true;
     }
     

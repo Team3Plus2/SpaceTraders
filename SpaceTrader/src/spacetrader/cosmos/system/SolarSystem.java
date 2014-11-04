@@ -41,7 +41,7 @@ public class SolarSystem implements TurnListener, Serializable {
             planets[i] = new Planet(rand);
         }
         
-        TurnEvent.RegisterListener(this);
+        TurnEvent.registerListener(this);
     }
     
     public SolarSystem() {

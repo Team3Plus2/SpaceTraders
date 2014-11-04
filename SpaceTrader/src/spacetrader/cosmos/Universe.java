@@ -141,7 +141,7 @@ public class Universe implements Iterable<SolarSystem>, TurnListener, Serializab
         rand = new Random();
         space = new SparseSpace();
         this.spread = spread2;
-        TurnEvent.RegisterListener(this);
+        TurnEvent.registerListener(this);
         generateInPosXDirection(0, 0, width / 2, width / 2);
         generateinNegXDirection(0, -1, width / 2, width / 2);
     }
@@ -331,7 +331,7 @@ public class Universe implements Iterable<SolarSystem>, TurnListener, Serializab
     }
     
     public void nextTurn(Player player) {
-        TurnEvent.NextTurn(player);
+        TurnEvent.nextTurn(player);
     }
     
     @Override

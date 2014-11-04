@@ -4,6 +4,9 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Array;
 
+import java.security.AccessController;
+import java.security.PrivilegedAction;
+
 import javafx.scene.paint.Color;
 import javafx.scene.image.Image;
 
@@ -106,6 +109,8 @@ public class XMLReader<T> {
                     
                     if (field.getName().equals("name")) {
                         try {
+                            //putting this code in a doPriveledged block is unnecesary
+                            //because this will never be called by unpriveledged code
                             field.setAccessible(true);
                             field.set(item, elem.getNodeName());
                             field.setAccessible(false);

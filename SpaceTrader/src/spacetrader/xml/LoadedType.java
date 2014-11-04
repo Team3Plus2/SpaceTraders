@@ -290,6 +290,8 @@ class TypeWrapper {
     /**
      * Ensures that types are checked against each other by name.
      * 
+     * Note that the explicit checks are neccesary to check the typewrapper's internal fields
+     * 
      * @param other object to compare to
      * @return 1 if greater, 0 if equal, -1 if less than other
      */

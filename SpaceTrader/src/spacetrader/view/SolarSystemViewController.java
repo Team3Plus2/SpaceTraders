@@ -316,7 +316,7 @@ public class SolarSystemViewController implements Initializable {
             g.setFill(Color.WHITE);
             g.fillOval(posx - 5, posy - 5, 10, 10);
             screenSpace.put(new Point((int) (posx - 5), (int) (posy - 5)), p);
-            if(p.equals(curPlanet)) {
+            if (p.equals(curPlanet)) {
                 selectionG.clearRect(0, 0, 1024, 576);
                 selectionG.setStroke(Color.WHITE);
                 selectionG.setFill(Color.WHITE);

@@ -190,7 +190,7 @@ class ShieldType extends LoadedType {
     
     @Override
     public boolean equals(Object other) {
-        return super.equals(other);
+        return super.equals(other); //blah
     }
     
     @Override

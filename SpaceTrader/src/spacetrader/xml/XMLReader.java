@@ -4,9 +4,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Array;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-
 import javafx.scene.paint.Color;
 import javafx.scene.image.Image;
 

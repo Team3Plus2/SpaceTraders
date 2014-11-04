@@ -200,6 +200,6 @@ class LaserType extends LoadedType {
     
     @Override
     public int hashCode() {
-        return super.hashCode();
+        return super.hashCode(); //blah
     }
 }

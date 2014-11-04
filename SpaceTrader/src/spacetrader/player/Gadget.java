@@ -176,10 +176,10 @@ class GadgetType extends LoadedType {
     @Override
     public boolean equals(Object other) {
         return super.equals(other);
-    }
+    } //blah
     
     @Override
-    public int hashCode() {
+    public int hashCode() { //blah
         return super.hashCode();
     }
 }

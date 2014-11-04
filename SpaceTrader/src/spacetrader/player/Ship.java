@@ -19,7 +19,7 @@ import spacetrader.economy.TradeGood;
 public class Ship implements Serializable {
     
     public static void Load() {
-        ShipType.Load();
+        ShipType.load();
     }
     
     private float maxFuel, fuel, price, fuelCost;
@@ -60,7 +60,7 @@ public class Ship implements Serializable {
      * Creates a ship of type GNAT (the starter ship for the player)
      */
     public Ship() {
-        this(ShipType.Default());
+        this(ShipType.defaultValue());
     }
     /**
      * Puts a weapon in an open weapon slot if one is available.

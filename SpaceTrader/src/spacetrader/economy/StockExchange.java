@@ -34,8 +34,11 @@ public class StockExchange {
      * @param company2 the array of all of the Companies in this instance of the game.
      */
     public StockExchange (SolarSystem solarSystem2, Company[] company2) {
+        //Need to take in the array of existing companies and the solar system the player
+        //is on
         this.solarSystem = solarSystem2;
         this.company = company2;
+        companies = new ArrayList<Company>();
     }
     
     /**
@@ -47,6 +50,9 @@ public class StockExchange {
         this.planet = planet2;
         for (int count = 0; count < company.length; count++) {
             if (company[count].companyCheck(solarSystem, this.planet)) {
+                //Adds only companies that have investments in the planet to the ArrayList, this could be anything 
+                //from all of them to none of them and this will be used to determine what will be sold at the planet's 
+                //stock exchange
                 companies.add(company[count]);
             }
         }

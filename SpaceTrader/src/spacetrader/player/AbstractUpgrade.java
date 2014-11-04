@@ -6,13 +6,22 @@
 package spacetrader.player;
 
 /**
- * Used for polymorphism
+ * Used for polymorphism.
  * 
  * @author Aaron McAnally
  */
-public abstract class Upgrade {
+public abstract class AbstractUpgrade {
+    /**
+     * @return The class name that extends Upgrade
+     */
     public abstract String getClassName();
+    /**
+     * @return the price of the upgrade
+     */
     public abstract int getPrice();
+    /**
+     * @return the tech level of the upgrade
+     */
     public abstract int getTechLevel();
     @Override
     public abstract String toString();

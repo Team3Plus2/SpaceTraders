@@ -41,6 +41,10 @@ public class Company {
     
     /**
      * Constructor for Company.
+     * 
+     * @param name2 the name of this Company
+     * @param solarSystems2 the list of SolarSystems this Company will be affiliated with.
+     * @param planets2 the list of Planets this Company will be affiliated with.
      */
     public Company (String name2, ArrayList<SolarSystem> solarSystems2, ArrayList<ArrayList<Planet>> planets2) {
         this.solarSystems = solarSystems2;

@@ -28,7 +28,7 @@ public class StockExchange {
     private Company[] company;
     
     /**
-     * Constructor for StockExchange
+     * Constructor for StockExchange.
      * 
      * @param solarSystem2 the SolarSystem this StockExchange will be on.
      * @param company2 the array of all of the Companies in this instance of the game.

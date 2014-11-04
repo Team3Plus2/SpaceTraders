@@ -398,36 +398,17 @@ public class Universe implements Iterable<SolarSystem>, Serializable {
         if (space.get(x, y) != null) {
             found = space.get(x, y);
         } else {
-            int radius = 1;
-            while (found == null && radius < rad) {
-                if (space.get(x + radius, y + radius) != null) {
-                    found = space.get(x + radius, y + radius);
+            for (int r = 0; r < rad; r++) { //radius loop
+                for (int i = x-r; i < x+r; i++) { //x loop
+                    for (int j = y-r; j < y+r; j++) { //y loop
+                        if (space.get(i,j) != null) {
+                            return space.get(i,j);
+                        }
+                    }
                 }
-                else if (space.get(x - radius, y + radius) != null) {
-                    found = space.get(x - radius, y + radius);
-                }
-                else if (space.get(x + radius, y - radius) != null) {
-                    found = space.get(x + radius, y - radius);
-                }
-                else if (space.get(x - radius, y - radius) != null) {
-                    found = space.get(x - radius, y - radius);
-                }
-                else if (space.get(x, y - radius) != null) {
-                    found = space.get(x, y - radius);
-                }
-                else if (space.get(x, y + radius) != null) {
-                    found = space.get(x, y + radius);
-                }
-                else if (space.get(x + radius, y) != null) {
-                    found = space.get(x + radius, y);
-                }
-                else if (space.get(x - radius, y) != null) {
-                    found = space.get(x - radius, y);
-                }
-                radius++;
             }
         }
-        return found;
+        return null;
     }
     
     /**

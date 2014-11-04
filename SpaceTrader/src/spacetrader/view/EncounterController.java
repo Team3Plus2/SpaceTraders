@@ -369,7 +369,7 @@ public class EncounterController implements Initializable {
             generateSellList();
             generateBuyList();
             updateSellableItem();
-        }
+        } //blah
     }
     
     /**
@@ -485,7 +485,7 @@ public class EncounterController implements Initializable {
             generateBuyList();
             generateSellList();
             updateBuyableItem();
-        }
+        } //blah
     }
     
     /**

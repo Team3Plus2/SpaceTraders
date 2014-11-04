@@ -239,7 +239,7 @@ public class LoadedType implements Comparable, Serializable {
     }
     
     /**
-     * check to see if this type equals another object
+     * check to see if this type equals another object.
      * @param other object to check against
      * @return 
      */
@@ -253,7 +253,7 @@ public class LoadedType implements Comparable, Serializable {
     
     
     /**
-     * gets the type's hashcode
+     * gets the type's hashcode.
      * @return type's hashcode
      */
     @Override
@@ -295,8 +295,9 @@ class TypeWrapper {
      */
     @Override
     public boolean equals(Object other) {
-        if (other == null)
+        if (other == null) {
             return false;
+        }
         
         if (other.getClass().equals(this.getClass())) {
             TypeWrapper otherType = (TypeWrapper) other;

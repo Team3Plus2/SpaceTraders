@@ -34,7 +34,7 @@ import spacetrader.player.Upgrade;
 import spacetrader.player.Weapon;
 
 /**
- * FXML Controller class
+ * FXML Controller class.
  *
  * @author KartikKini
  */
@@ -87,20 +87,20 @@ public class PlanetViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         planetInventory.getSelectionModel().getSelectedItems().addListener((ListChangeListener.Change c) -> {
-            selectBuyableItem();
-        });
+                selectBuyableItem();
+            });
         
         playerInventory.getSelectionModel().getSelectedItems().addListener((ListChangeListener.Change c) -> {
-            selectSellableItem();
-        });
+                selectSellableItem();
+            });
         
         availableShips.getSelectionModel().getSelectedItems().addListener((ListChangeListener.Change c) -> {
-            selectShip();
-        });
+                selectShip();
+            });
         
         availableUpgrades.getSelectionModel().getSelectedItems().addListener((ListChangeListener.Change c) -> {
-            selectUpgrade();
-        });
+                selectUpgrade();
+            });
         
         player = SpaceTrader.getInstance().getPlayer();
         curSystem = player.getCurrentSolarSystem();
@@ -112,7 +112,7 @@ public class PlanetViewController implements Initializable {
         availableShips.setItems(list);
         ObservableList<Upgrade> upgradeList = FXCollections.observableArrayList(curPlanet.getShipyard().getListUpgradesAvailable());
         availableUpgrades.setItems(upgradeList);
-        if(list.size() > 0) {
+        if (list.size() > 0) {
             buyShipDetails.setText(((ShipType) availableShips.getItems().get(0)).getInfo());
         }
     }
@@ -200,14 +200,22 @@ public class PlanetViewController implements Initializable {
     @FXML
     private void handleBuyShip() {
         ShipType selected = (ShipType) (availableShips.getSelectionModel().getSelectedItem());
-        if(selected != null) {
+        if (selected != null) {
             curPlanet.getShipyard().buyShip(player, selected);
             ObservableList<ShipType> list = FXCollections.observableArrayList(curPlanet.getShipyard().getListShipsAvailable());
             availableShips.setItems(list);
             buyShipDetails.setText(selected.getInfo());
             yourMoney1.setText("Your Money: " + Utility.currencyFormat(player.getMoney()));
-            shipCost.setText("Cost: " + Utility.currencyFormat(selected.getPrice()));
+            setShipCostLabel(Utility.currencyFormat(selected.getPrice()));
         }
+    }
+    
+    /**
+     * Sets ship cost label.
+     * @param price String of price
+     */
+    private void setShipCostLabel(String price) {
+        shipCost.setText("Cost: " + price);
     }
     
     /**
@@ -217,7 +225,7 @@ public class PlanetViewController implements Initializable {
         ShipType selected = (ShipType) (availableShips.getSelectionModel().getSelectedItem());
         buyShipDetails.setText(selected.getInfo());
         yourMoney1.setText("Your Money: " + Utility.currencyFormat(player.getMoney()));
-        shipCost.setText("Cost: " + Utility.currencyFormat(selected.getPrice()));
+        setShipCostLabel(Utility.currencyFormat(selected.getPrice()));
     }
     
     /**
@@ -247,23 +255,23 @@ public class PlanetViewController implements Initializable {
             if (selected.getClassName().equals("Weapon")) {
                 int maxWeapons = player.getShip().getMaxWeapons();
                 int weaponsFilled = player.getShip().getWeaponsFilled();
-                upgradeDetails.setText("Weapon Slots: " + maxWeapons +
-                                       "\nSlots Filled: " + weaponsFilled);
+                upgradeDetails.setText("Weapon Slots: " + maxWeapons
+                                       + "\nSlots Filled: " + weaponsFilled);
             } else if (selected.getClassName().equals("Shield")) {
                 int maxShields = player.getShip().getMaxShields();
                 int shieldsFilled = player.getShip().getShieldsFilled();
-                upgradeDetails.setText("Shield Slots: " + maxShields +
-                                       "\nSlots Filled: " + shieldsFilled);
+                upgradeDetails.setText("Shield Slots: " + maxShields
+                                       + "\nSlots Filled: " + shieldsFilled);
             } else if (selected.getClassName().equals("Gadget")) {
                 int maxGadgets = player.getShip().getMaxGadgets();
                 int gadgetsFilled = player.getShip().getGadgetsFilled();
-                upgradeDetails.setText("Gadget Slots: " + maxGadgets +
-                                       "\nSlots Filled: " + gadgetsFilled);
+                upgradeDetails.setText("Gadget Slots: " + maxGadgets
+                                       + "\nSlots Filled: " + gadgetsFilled);
             }
         }
-        upgradeDetails.setText(upgradeDetails.getText() + 
-                               "\n\n\n\nYour Money: " + Utility.currencyFormat(player.getMoney()));
-        upgradeCost.setText("Cost: " + Utility.currencyFormat(selected.getPrice()));
+        upgradeDetails.setText(upgradeDetails.getText()
+                               + "\n\n\n\nYour Money: " + Utility.currencyFormat(player.getMoney()));
+        setShipCostLabel(Utility.currencyFormat(selected.getPrice()));
     }
     
      /**
@@ -365,6 +373,9 @@ public class PlanetViewController implements Initializable {
      */
     private TradeGood sellableGood;
 
+    /**
+     * Handles generating buy list.
+     */
     private void generateBuyList() {
         if (curPlanet != null) {
             ArrayList<TradeGood> goods = market.getListOfGoods();
@@ -373,6 +384,9 @@ public class PlanetViewController implements Initializable {
         }
     }
 
+    /**
+     * Handles generating the sell list.
+     */
     private void generateSellList() {
         ArrayList<TradeGood> goods = player.getShip().getCargo().getNonEmptyCargoList();
         for (TradeGood tg : goods) {
@@ -382,11 +396,17 @@ public class PlanetViewController implements Initializable {
         playerInventory.setItems(list);
     }
     
+    /**
+     * Handles pressing the back button.
+     */
     @FXML
     private void backToSolarSystem() {
         SpaceTrader.getInstance().goToSolarSystemView();
     }
 
+    /**
+     * Handles selecting buyable item.
+     */
     @FXML
     private void selectBuyableItem() {
         TradeGood selected = (TradeGood) (planetInventory.getSelectionModel().getSelectedItem());
@@ -395,7 +415,10 @@ public class PlanetViewController implements Initializable {
         }
         updateBuyableItem();
     }
-
+    
+    /**
+     * Handles selecting sellable item.
+     */
     @FXML
     private void selectSellableItem() {
         TradeGood selected = (TradeGood) (playerInventory.getSelectionModel().selectedItemProperty().get());
@@ -405,12 +428,18 @@ public class PlanetViewController implements Initializable {
         updateSellableItem();
     }
     
+    /**
+     * Handles hiding the marketplace.
+     */
     @FXML
     private void hideMarketplace() {
         marketplaceUI.setVisible(false);
         planetOptions.setVisible(true);
     }
     
+    /**
+     * Handles showing the marketplace.
+     */
     @FXML
     private void openMarketplace() {
         if (curPlanet != null) {
@@ -425,6 +454,9 @@ public class PlanetViewController implements Initializable {
         }
     }
 
+    /**
+     * updates the buyable item label.
+     */
     private void updateBuyableItem() {
         try {
             buyDetails.setText("Cash: " + Utility.currencyFormat(player.getMoney())
@@ -433,11 +465,14 @@ public class PlanetViewController implements Initializable {
             if (player.getMoney() - buyableGood.getCurrentPriceEach() * Integer.parseInt(buyQuantity.getText()) < 0) {
                 
             }
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
 
         }
     }
 
+    /**
+     * Updates the sellable item label.
+     */
     private void updateSellableItem() {
         try {
             if (sellableGood != null) {
@@ -445,11 +480,14 @@ public class PlanetViewController implements Initializable {
                         + "\nValue: " + Utility.currencyFormat(sellableGood.getCurrentPriceEach())
                         + "\n\n\n\nSum: " + Utility.currencyFormat(player.getMoney() + sellableGood.getCurrentPriceEach() * Integer.parseInt(sellQuantity.getText())));
             }
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
 
         }
     }
 
+    /**
+     * Handles pressing the buy button.
+     */
     @FXML
     private void handleBuyAction() {
         if (buyableGood != null) {
@@ -460,6 +498,9 @@ public class PlanetViewController implements Initializable {
         }
     }
 
+    /**
+     * Handles pressing the sell button.
+     */
     @FXML
     private void handleSellAction() {
         if (sellableGood != null) {

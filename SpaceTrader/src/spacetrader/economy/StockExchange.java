@@ -37,7 +37,7 @@ public class StockExchange {
         //Need to take in the array of existing companies and the solar system the player
         //is on
         this.solarSystem = solarSystem2;
-        this.company = company2;
+        this.company = company2.clone();
         companies = new ArrayList<Company>();
     }
     

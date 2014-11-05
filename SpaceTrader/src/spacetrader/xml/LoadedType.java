@@ -66,6 +66,12 @@ public class LoadedType implements Comparable, Serializable {
         XMLReader reader = new XMLReader(type, fileLocation);
         ArrayList<LoadedType> loadedTypes = reader.read();
         
+        //if the default value is a loaded type, then the user will want it to
+        //be handled just as if it were loaded through xml
+        if (def != null && def.getClass().equals(type)) {
+            loadedTypes.add((LoadedType) def);
+        }
+        
         /*
          Put all types in HashMap types and update indexes as items are added
         */

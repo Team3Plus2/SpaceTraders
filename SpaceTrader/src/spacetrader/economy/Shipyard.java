@@ -45,38 +45,43 @@ public class Shipyard implements Serializable {
      * List of Gadgets this Shipyard can sell.
      */
     private final ArrayList<Gadget> gadgets;
+    /**
+     * 
+     */
+    private final TechLevel techLevel;
     
     /**
      * Creates a shipyard of available ship types.
      * 
-     * @param techLevel techLevel of the system
+     * @param techLevel2 techLevel of the system
      */
-    public Shipyard(TechLevel techLevel) {
+    public Shipyard(TechLevel techLevel2) {
+        techLevel = techLevel2;
         shipTypes = new ArrayList<ShipType>();
         ArrayList<ShipType> ships = ShipType.getShipTypes();
         for (ShipType type: ships) {
-            if (type.getTechLevel() <= TechLevel.getIndex(techLevel)) {
+            if (type.getTechLevel() <= TechLevel.getIndex(techLevel2)) {
                 shipTypes.add(type);
             }
         }
         weapons = new ArrayList<Weapon>();
         ArrayList<Weapon> weaponTypes = Weapon.getWeaponTypes();
         for (Weapon type: weaponTypes) {
-            if (type.getTechLevel() <= TechLevel.getIndex(techLevel)) {
+            if (type.getTechLevel() <= TechLevel.getIndex(techLevel2)) {
                 weapons.add(type);
             }
         }
         shields = new ArrayList<Shield>();
         ArrayList<Shield> shieldTypes = Shield.getShieldTypes();
         for (Shield type: shieldTypes) {
-            if (type.getTechLevel() <= TechLevel.getIndex(techLevel)) {
+            if (type.getTechLevel() <= TechLevel.getIndex(techLevel2)) {
                 shields.add(type);
             }
         }
         gadgets = new ArrayList<Gadget>();
         ArrayList<Gadget> gadgetTypes = Gadget.getGadgetTypes();
         for (Gadget type: gadgetTypes) {
-            if (type.getTechLevel() <= TechLevel.getIndex(techLevel)) {
+            if (type.getTechLevel() <= TechLevel.getIndex(techLevel2)) {
                 gadgets.add(type);
             }
         }
@@ -114,7 +119,8 @@ public class Shipyard implements Serializable {
     public boolean buyShip(Player p, ShipType type) {
         Cargo cargo = p.getShip().getCargo();
         if (p.getMoney() >= type.getPrice() && cargo.getNumFilled() <= type.getMaxCargo()
-                && !p.getShip().getName().equals(type.getName())) {
+                && !p.getShip().getName().equals(type.getName())
+                && type.getTechLevel() <= TechLevel.getIndex(techLevel)) {
             cargo.setMax(type.getMaxCargo());
             Ship ship = new Ship(type);
             ship.setCargo(cargo);

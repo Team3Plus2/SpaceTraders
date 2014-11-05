@@ -40,6 +40,14 @@
     <module name="IllegalImport"/>
     <module name="RedundantImport"/>
     <module name="UnusedImports"/>
+<!--    <module name="com.github.sevntu.checkstyle.checks.coding.AvoidHidingCauseException"/>
+    <module name="com.github.sevntu.checkstyle.checks.coding.ConfusingConditionCheck"/>
+    <module name="com.github.sevntu.checkstyle.checks.coding.ForbidReturnInFinalBlockCheck"/>
+    <module name="com.github.sevntu.checkstyle.checks.coding.ReturnNullInsteadOfBoolean"/>
+    <module name="com.github.sevntu.checkstyle.checks.coding.MultipleVariableDeclarationsExtended"/>
+    <module name="com.github.sevntu.checkstyle.checks.coding.MultipleStringLiteralsExtended"/>
+    <module name="com.github.sevntu.checkstyle.checks.coding.OverridableMethodInConstructor"/>
+    <module name="com.github.sevntu.checkstyle.checks.coding.SimpleAccessorNameNotation"/> -->
     <module name="GenericWhitespace"/>
     <module name="NoWhitespaceAfter"/>
     <module name="NoWhitespaceBefore"/>

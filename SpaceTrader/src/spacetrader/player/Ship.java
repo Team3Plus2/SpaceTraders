@@ -532,4 +532,15 @@ public class Ship implements Serializable {
         return name;
     }
     
+    @Override
+    public boolean equals(Object other) {
+        if (other == null) {
+            return false;
+        }
+        if (other instanceof Ship) {
+            return name.equals(((Ship) (other)).getName());
+        }
+        return false;
+    }
+    
 }

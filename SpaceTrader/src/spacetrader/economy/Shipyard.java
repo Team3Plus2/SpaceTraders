@@ -194,4 +194,13 @@ public class Shipyard implements Serializable {
         }
     }
     
+    /**
+     * Needed for jUnit testing.
+     * 
+     * @return the techLevel of the shipyard
+     */
+    public TechLevel getTechLevel() {
+        return techLevel;
+    }
+    
 }

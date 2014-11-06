@@ -151,6 +151,7 @@ public class SunType extends LoadedType {
     
     @Override
     public boolean equals(Object other) {
+        //ignore warning; super class takes care of type check
         return super.equals(other);
     }
     

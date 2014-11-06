@@ -6,10 +6,7 @@
 package spacetrader.economy;
 
 import java.util.ArrayList;
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import spacetrader.cosmos.system.TechLevel;
@@ -20,10 +17,16 @@ import spacetrader.player.Shield;
 import spacetrader.player.Ship;
 import spacetrader.player.ShipType;
 import spacetrader.player.Weapon;
-import spacetrader.xml.LoadedType;
 
 /**
- *
+ * Tests the buyShip method of shipyard for the following:
+ * - instantiation of shipyards of different tech levels was successful
+ * - cargo is preserved after purchase
+ * - the new ship is owned after purchase
+ * - purchasing a ship that is already owned does not buy it
+ * - a ship can only be purchased if the player owns enough money for it
+ * - a ship can only be purchased if the tech level of the shipyard is high enough
+ * 
  * @author Aaron McAnally
  */
 public class ShipyardTest {
@@ -143,14 +146,19 @@ public class ShipyardTest {
                                 + " from Shipyard of tech level " + shipyard.getTechLevel(),
                                 shipyard.buyShip(brokePlayer, type));
                 float before = richPlayer.getMoney();
-                if (shipyard.buyShip(richPlayer, type)) {
-                    float after = richPlayer.getMoney();
+                boolean success = shipyard.buyShip(richPlayer, type);
+                float after = richPlayer.getMoney();
+                if (success) {
                     assertEquals("Money deducted from player was improper amount. Expected: " + type.getPrice() + " Actual: " + (before - after),
                                     after, before - type.getPrice(), 1.0);
                 } else if (type.getTechLevel() <= TechLevel.getIndex(shipyard.getTechLevel())
                             && !richPlayer.getShip().equals(new Ship(type))) {
                     fail("Rich Player was unable to purchase a ship of type " + type
                             + " from Shipyard of tech level " + shipyard.getTechLevel());
+                } else {
+                    assertEquals("Money was deducted even though the purchase of ship of type "
+                                        + type.getName() + " was unsuccessful",
+                                        before, after, 1.0);
                 }
             }
         }
@@ -190,16 +198,5 @@ public class ShipyardTest {
         }
         return canBuy;
     }
-    
-    /**
-     * Calls buyShip in Shipyard
-     * 
-     * @param p the player
-     * @param shipyard the shipyard the ship is purchased from
-     * @param shipType the ship type being purchased
-     * @return true if successful purchase; false otherwise
-     */
-    private boolean buyShip(Player p, Shipyard shipyard, ShipType shipType) {
-        return shipyard.buyShip(p, shipType);
-    }
+
 }

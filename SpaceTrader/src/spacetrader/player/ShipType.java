@@ -239,6 +239,7 @@ public class ShipType extends LoadedType {
     
     @Override
     public boolean equals(Object other) {
+        //Does not need any checks; checks done in super class
         return super.equals(other);
     }
     

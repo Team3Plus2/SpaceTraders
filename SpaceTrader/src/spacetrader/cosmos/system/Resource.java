@@ -44,11 +44,12 @@ public class Resource extends LoadedType {
      * @return a random resource
      */
     public static Resource random(Random rand, float resourceChance) {
+        Resource resource = (Resource) Resource.defaultValue(Resource.class);
         float useResource = rand.nextFloat();
         if (useResource > resourceChance) {
-            return (Resource) Resource.get(rand.nextInt(Resource.size(Resource.class) - 1) + 1, Resource.class);
+            resource = (Resource) Resource.get(rand.nextInt(Resource.size(Resource.class) - 1) + 1, Resource.class);
         }
-        return (Resource) Resource.defaultValue(Resource.class);
+        return resource;
     }
     
     /**

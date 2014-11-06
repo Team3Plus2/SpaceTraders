@@ -220,8 +220,9 @@ public class XMLReader<T> {
             return Float.valueOf(rawValue);
         } else if (type.equals(Boolean.TYPE)) {
             return Boolean.valueOf(rawValue);
-        } else if (type.equals(TechLevel.class)) {
+        } else if (type.equals(TechLevel.class)) { //parse tech level
             try {
+                //first try to get by name, if that fails, then get by level (i.e Agriculture = 0, LEVEL_2 = 1,...
                 TechLevel level = (TechLevel) TechLevel.get(rawValue);
                 if (level == null) {
                     level = (TechLevel) TechLevel.get(Integer.parseInt(rawValue), TechLevel.class);
@@ -232,58 +233,58 @@ public class XMLReader<T> {
                 return level;
             } catch (IllegalArgumentException excep) {
                 defaultWarning(rawValue, TechLevel.defaultValue().toString());
-                return TechLevel.defaultValue();
+                return TechLevel.defaultValue(); //default Tech Level to TechLevel.defaultValue()
             }
-        } else if (type.equals(Resource.class)) {
+        } else if (type.equals(Resource.class)) { //parse resource
             try {
                 return Resource.get(rawValue);
             } catch (IllegalArgumentException excep) {
-                defaultWarning(rawValue, "NO_SPECIAL_RESOURCES");
-                return Resource.get("NO_SPECIAL_RESOURCES");
+                defaultWarning(rawValue, Resource.defaultValue().toString());
+                return Resource.defaultValue(); //default Resource to Resource.defaultValue()
             }
         } else if (type.equals(SunType.class)) {
             try {
                 return SunType.get(rawValue);
             } catch (IllegalArgumentException excep) {
                 defaultWarning(rawValue, SunType.defaultValue().toString());
-                return SunType.defaultValue();
+                return SunType.defaultValue(); //default suntype to SunType.defaultValue()
             }
-        } else if (type.equals(Government.class)) {
+        } else if (type.equals(Government.class)) { //parse government
             try {
                 return Government.get(rawValue);
             } catch (IllegalArgumentException excep) {
-                defaultWarning(rawValue, "");
+                defaultWarning(rawValue, ""); //default government to ""
                 return Government.get("");
             }
-        } else if (type.equals(ShipType.class)) {
+        } else if (type.equals(ShipType.class)) { //parse ship type
             try {
                 return ShipType.get(rawValue);
             } catch (IllegalArgumentException excep) {
-                defaultWarning(rawValue, "");
+                defaultWarning(rawValue, ""); //default ship type to ShipType.defaultValue();
                 return ShipType.defaultValue();
             }
-        } else if (type.equals(Color.class)) {
+        } else if (type.equals(Color.class)) { //parse color
             try {
                 return Color.valueOf(rawValue);
             } catch (IllegalArgumentException excep) {
-                defaultWarning(rawValue, Color.WHITE.toString());
+                defaultWarning(rawValue, Color.WHITE.toString()); //default color return to white
                 return Color.WHITE;
             }
-        } else if (type.equals(TradeGood.class)) {
+        } else if (type.equals(TradeGood.class)) { //parse trade good
             try {
                 return TradeGood.get(rawValue);
             } catch (IllegalArgumentException excep) {
                 defaultWarning(rawValue, null);
                 return null;
             }
-        } else if (type.equals(Image.class)) {
+        } else if (type.equals(Image.class)) { //parse image
             try {
                 return new Image(rawValue);
             } catch (IllegalArgumentException excep) {
-                defaultWarning(rawValue, null);
+                defaultWarning(rawValue, null); //default image return to null
                 return null;
             } 
-        } else if (type.isArray()) {
+        } else if (type.isArray()) { //parse array
             try {
                 String[] items = rawValue.split(",");
                 Class paramClass = type.getComponentType();
@@ -297,10 +298,10 @@ public class XMLReader<T> {
                 
                 return type.cast(standardArr);
             } catch (IllegalArgumentException excep) {
-                defaultWarning(rawValue, null);
+                defaultWarning(rawValue, null); //default array return to null
                 return null;
             }
-        } else {
+        } else { //if no other type matched, then default to type string
             return rawValue;
         }
     }

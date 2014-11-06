@@ -43,9 +43,11 @@ public class MarketPlaceTest {
             tg = instance.getListOfGoods().get(i);
         }
         boolean expResult = true;
+        float tempPrice = tg.getCurrentPriceEach();
         boolean result = instance.buy(p, tg, 1);
         assertEquals(expResult, result);
-        assertEquals(p.getMoney(), 20000 - tg.getCurrentPriceEach(), 0);
+        assertEquals(p.getMoney(), 20000 - tempPrice, 0);
+        
     }
 
     /**
@@ -55,6 +57,11 @@ public class MarketPlaceTest {
     public void testSell() {
         testBuyOne();
         TradeGood tg = p.getCargoList().get(0);
+        int i = 0;
+        while (tg.getAmount() == 0) {
+            i++;
+            tg = p.getCargoList().get(i);
+        }
         boolean expResult = true;
         boolean result = instance.sell(p, tg, 1);
         assertEquals(expResult, result);
@@ -72,23 +79,21 @@ public class MarketPlaceTest {
         
         TradeGood tg = instance.getListOfGoods().get(0);
         int i = 0;
-        System.out.println(tg.getAmount());
         while (tg.getAmount() == 0) {
             i++;
             tg = instance.getListOfGoods().get(i);
         }
         boolean expResult = true;
-        System.out.println("Buying " + tg.getAmount() + " " + tg.getName() + "s.");
         int tempamount = tg.getAmount();
         float tempPrice = tg.getCurrentPriceEach();
         boolean result = instance.buy(p, tg, tg.getAmount());
-        if(p.getShip().getCargo().getNumEmpty() >= tempamount) {
+         if(p.getCargoList().get(i).getAmount() > 0) {
             assertEquals(expResult, result);
+            assertEquals(p.getMoney(), 20000 - tempPrice*tempamount, 0);
         } else {
-            assertEquals(expResult, !result);
+            assertEquals(!expResult, result);
+            assertEquals(p.getMoney(), 20000, 0);
         }
-        System.out.println("Buying " + tempamount + " " + tg.getName() + "s for " + tempPrice);
-        assertEquals(p.getMoney(), 20000 - tempPrice*tempamount, 0);
     }
 
     /**
@@ -96,13 +101,18 @@ public class MarketPlaceTest {
      */
     @Test
     public void testSellMultiple() {
-        testBuyMultiple();
-        TradeGood tg = p.getCargoList().get(0);
-        System.out.println("Buying " + tg.getAmount() + " " + tg.getName() + "s.");
-        boolean expResult = true;
-        boolean result = instance.sell(p, tg, tg.getAmount());
-        assertEquals(expResult, result);
-        assertEquals(p.getMoney(), 20000, 0);
+        boolean success = false;
+        while(!success) {
+            testBuyMultiple();
+            TradeGood tg = p.getCargoList().get(0);
+            if(tg != null && tg.getAmount() > 0) {
+                boolean expResult = true;
+                boolean result = instance.sell(p, tg, tg.getAmount());
+                assertEquals(expResult, result);
+                assertEquals(p.getMoney(), 20000, 0);
+                success = true;
+            }
+        }
     }
     
 }

@@ -4,6 +4,7 @@ import java.util.Random;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Objects;
 import spacetrader.economy.TradeGood;
 
 /**
@@ -541,6 +542,11 @@ public class Ship implements Serializable {
             return name.equals(((Ship) (other)).getName());
         }
         return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return name.hashCode();
     }
     
 }

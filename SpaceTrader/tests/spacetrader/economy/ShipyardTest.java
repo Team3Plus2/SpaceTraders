@@ -13,6 +13,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import spacetrader.cosmos.system.TechLevel;
+import spacetrader.player.Cargo;
 import spacetrader.player.Gadget;
 import spacetrader.player.Player;
 import spacetrader.player.Shield;
@@ -23,7 +24,7 @@ import spacetrader.xml.LoadedType;
 
 /**
  *
- * @author Admin
+ * @author Aaron McAnally
  */
 public class ShipyardTest {
     
@@ -64,13 +65,93 @@ public class ShipyardTest {
     }
     
     @Test
+    public void cargoSavedAfterPurchaseTest() {
+        ShipType grasshopper = null;
+        for (ShipType type : shipTypes) {
+            if (type.getName().equals("GRASSHOPPER")) {
+                richPlayer.setShip(new Ship(type));
+                grasshopper = type;
+            }
+        }
+        for (int i = 0; i < 30; i++) {
+            richPlayer.addTradeGood(TradeGood.randomSingleInstance());
+        }
+        for (Shipyard shipyard : shipyards) {
+            for (ShipType type : shipTypes) {
+                if (shipyard.buyShip(richPlayer, type)) {
+                    assertTrue("Purchase of ship " + type.getName() + " was successful despite it having less cargo space ("
+                                + type.getMaxCargo() + ") than player's ship " + richPlayer.getShip().getName() +
+                                " cargo filled (" + richPlayer.getShip().getCargo().getNumFilled() + ")",
+                                type.getMaxCargo() >= richPlayer.getShip().getCargo().getNumFilled());
+                    assertTrue("Cargo was not preserved. Found: " + richPlayer.getShip().getCargo().getNumFilled()
+                                + " Expected: 30",
+                                richPlayer.getShip().getCargo().getNumFilled() == 30);
+                } else if (type.getTechLevel() <= TechLevel.getIndex(shipyard.getTechLevel())
+                            && !richPlayer.getShip().equals(new Ship(type))) {
+                    assertFalse("Purchase of ship " + type.getName() + " was unsuccessful despite it having more cargo space ("
+                                + type.getMaxCargo() + ") than player's ship " + richPlayer.getShip().getName() +
+                                " cargo filled (" + richPlayer.getShip().getCargo().getNumFilled() + ")",
+                                type.getMaxCargo() >= richPlayer.getShip().getCargo().getNumFilled());
+                }
+                Cargo cargo = richPlayer.getShip().getCargo();
+                if (grasshopper != null) {
+                    richPlayer.setShip(new Ship(grasshopper));
+                    richPlayer.getShip().setCargo(cargo);
+                }
+            }
+        }
+        
+    }
+    
+    @Test
+    public void shipOwnedAfterPurchaseTest() {
+        for (Shipyard shipyard : shipyards) {
+            for (ShipType type : shipTypes) {
+                if (shipyard.buyShip(richPlayer, type)) {
+                    assertTrue("After successful purchase, player owns a ship of type " + richPlayer.getShip().getName()
+                                    + " Expected: " + type.getName(),
+                                    richPlayer.getShip().equals(new Ship(type)));
+                }
+            }
+        }
+    }
+    
+    @Test
+    public void buyShipAlreadyOwnedTest() {
+        for (ShipType owned : shipTypes) {
+            richPlayer.setShip(new Ship(owned));
+            for (Shipyard shipyard : shipyards) {
+                for (ShipType type : shipTypes) {
+                    boolean success = shipyard.buyShip(richPlayer, type);
+                    if (owned.equals(type)) {
+                        assertFalse("Player was able to buy ship " + type.getName()
+                                        + " and already owns ship " + richPlayer.getShip().getName()
+                                        + " in shipyard of tech level " + shipyard.getTechLevel(),
+                                        success);
+                    }
+                    richPlayer.setShip(new Ship(owned));
+                }
+            }
+        }
+    }
+    
+    @Test
     public void buyShipMoneyTest() {
-        Shipyard shipyard = shipyards[shipyards.length - 1];
-        for (ShipType type: shipTypes) {
-            assertFalse(shipyard.buyShip(brokePlayer, type));
-            float before = richPlayer.getMoney();
-            if (shipyard.buyShip(richPlayer, type)) {
-                assertEquals(richPlayer.getMoney(), before - type.getPrice(), 1.0);
+        for (Shipyard shipyard : shipyards) {
+            for (ShipType type : shipTypes) {
+                assertFalse("Broke player was able to purchase a ship of type " + type
+                                + " from Shipyard of tech level " + shipyard.getTechLevel(),
+                                shipyard.buyShip(brokePlayer, type));
+                float before = richPlayer.getMoney();
+                if (shipyard.buyShip(richPlayer, type)) {
+                    float after = richPlayer.getMoney();
+                    assertEquals("Money deducted from player was improper amount. Expected: " + type.getPrice() + " Actual: " + (before - after),
+                                    after, before - type.getPrice(), 1.0);
+                } else if (type.getTechLevel() <= TechLevel.getIndex(shipyard.getTechLevel())
+                            && !richPlayer.getShip().equals(new Ship(type))) {
+                    fail("Rich Player was unable to purchase a ship of type " + type
+                            + " from Shipyard of tech level " + shipyard.getTechLevel());
+                }
             }
         }
     }
@@ -78,29 +159,47 @@ public class ShipyardTest {
     @Test
     public void buyShipTechLevelTest() {
         for (Shipyard shipyard : shipyards) {
-            boolean[] canBuy = buyShips(richPlayer, shipyard);
+            boolean[] canBuy = buyShipsIgnoreAlreadyOwned(richPlayer, shipyard);
             for (int j = 0; j < canBuy.length; j++) {
                 boolean expected = shipTypes.get(j).getTechLevel()
                         <= TechLevel.getIndex(shipyard.getTechLevel());
-                assertTrue("Shipyard tech level is " + TechLevel.getIndex(shipyard.getTechLevel()) + "; Ship Type tech level is " + shipTypes.get(j).getTechLevel()
-                            + "; attempted purchace returned " + canBuy[j] + "; expected: " + expected,
-                        canBuy[j] == expected);
+                assertTrue("Shipyard tech level is " + TechLevel.getIndex(shipyard.getTechLevel())
+                                + "; Ship Type tech level is " + shipTypes.get(j).getTechLevel()
+                                + "; attempted purchace returned " + canBuy[j] + "; expected: " + expected,
+                                canBuy[j] == expected);
             }
         }
     }
     
     /**
+     * Returns boolean array telling which ships can be purchased successfully.
+     * Ignores the fact that the new ship must be different from the one already owned by the player
+     * 
      * @param shipyard the shipyard being tested
      * @return an array that contains what is returned when the player tries to purchase a ship
      */
-    private boolean[] buyShips(Player p, Shipyard shipyard) {
+    private boolean[] buyShipsIgnoreAlreadyOwned(Player p, Shipyard shipyard) {
         boolean[] canBuy = new boolean[shipTypes.size()];
         for (int i = 0; i < shipTypes.size(); i++) {
-            canBuy[i] = shipyard.buyShip(p, shipTypes.get(i));
-            if (canBuy[i] && i > 0) {
-                canBuy[i-1] = true;
+            if (p.getShip().getName().equals(shipTypes.get(i).getName()) && i != 0) {
+                p.setShip(new Ship(shipTypes.get(0)));
+            } else {
+                p.setShip(new Ship(shipTypes.get(shipTypes.size() - 1)));
             }
+            canBuy[i] = shipyard.buyShip(p, shipTypes.get(i));
         }
         return canBuy;
+    }
+    
+    /**
+     * Calls buyShip in Shipyard
+     * 
+     * @param p the player
+     * @param shipyard the shipyard the ship is purchased from
+     * @param shipType the ship type being purchased
+     * @return true if successful purchase; false otherwise
+     */
+    private boolean buyShip(Player p, Shipyard shipyard, ShipType shipType) {
+        return shipyard.buyShip(p, shipType);
     }
 }

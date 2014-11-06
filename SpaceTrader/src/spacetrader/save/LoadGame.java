@@ -30,44 +30,35 @@ public class LoadGame {
      * @return true if the save was successful.
      */
     public static boolean load(String fileName, SpaceTrader s) {
-        FileInputStream inputFile;
+        boolean success = true;
+        ObjectInputStream objectReader = null;
         try {
-            inputFile = new FileInputStream(fileName);
+            FileInputStream  inputFile = new FileInputStream(fileName);
+            objectReader = new ObjectInputStream(inputFile);
+            Player p = (Player) objectReader.readObject();
+            s.setPlayer(p);
+            Universe u = (Universe) objectReader.readObject();
+            s.setUniverse(u);
+            TurnSerializer ts = (TurnSerializer) objectReader.readObject();
+            TurnEvent.load(ts);
         } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
-            return false;
-        }
-        ObjectInputStream objectReader;
-        try {
-            objectReader = new ObjectInputStream(inputFile);
+            success = false;
         } catch (IOException e) {
             System.out.println(e.getMessage());
-            return false;
-        }
-        Player p = null;
-        Universe u = null;
-        TurnSerializer ts = null;
-        try {
-            p = (Player) objectReader.readObject();
-            s.setPlayer(p);
-            u = (Universe) objectReader.readObject();
-            s.setUniverse(u);
-            ts = (TurnSerializer) objectReader.readObject();
-            TurnEvent.load(ts);
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-            return false;
+            success = false;
         } catch (ClassNotFoundException e) {
             System.out.println(e.getMessage());
-            return false;
-        } finally {
+            success = false;
+        }
+        if (objectReader != null) {
             try {
                 objectReader.close();
             } catch (IOException e) {
                 System.out.println(e.getMessage());
             }
         }
-        return true;
+        return success;
     }
     
     /**
@@ -78,30 +69,21 @@ public class LoadGame {
      * @return true if the save was successful.
      */
     public static Player loadPlayer(String fileName) {
-        FileInputStream inputFile;
+        Player p = null;
+        ObjectInputStream objectReader = null;
         try {
-            inputFile = new FileInputStream(fileName);
+            FileInputStream inputFile = new FileInputStream(fileName);
+            objectReader = new ObjectInputStream(inputFile);
+            p = (Player) objectReader.readObject();
+            objectReader.close();
         } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
-            return null;
-        }
-        ObjectInputStream objectReader;
-        try {
-            objectReader = new ObjectInputStream(inputFile);
         } catch (IOException e) {
             System.out.println(e.getMessage());
-            return null;
-        }
-        Player p = null;
-        try {
-            p = (Player) objectReader.readObject();
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-            return null;
         } catch (ClassNotFoundException e) {
             System.out.println(e.getMessage());
-            return null;
-        } finally {
+        }
+        if (objectReader != null) {
             try {
                 objectReader.close();
             } catch (IOException e) {

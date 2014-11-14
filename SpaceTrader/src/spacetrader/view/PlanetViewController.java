@@ -291,6 +291,7 @@ public class PlanetViewController implements Initializable {
             upgradeDetails.setText(upgradeDetails.getText()
                                + "\n\n\n\nYour Money: " + Utility.currencyFormat(player.getMoney()));
             setShipCostLabel(Utility.currencyFormat(selected.getPrice()));
+            upgradeCost.setText("Cost: " + Utility.currencyFormat(selected.getPrice()));
         }
     }
     

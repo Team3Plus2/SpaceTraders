@@ -33,35 +33,29 @@ public class SaveGame {
      * @return true if the save was successful.
      */
     public static boolean save(String fileName, Player p, Universe u) {
-        FileOutputStream outputFile;
+        boolean success = true;
+        ObjectOutputStream objectWriter = null;
         try {
-            outputFile = new FileOutputStream(fileName);
-        } catch (FileNotFoundException e) {
-            System.out.println(e.getMessage());
-            return false;
-        }
-        ObjectOutputStream objectWriter;
-        try {
+            FileOutputStream outputFile = new FileOutputStream(fileName);
             objectWriter = new ObjectOutputStream(outputFile);
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-            return false;
-        }
-        try {
             objectWriter.writeObject(p);
             objectWriter.writeObject(u);
             TurnSerializer ts = TurnEvent.getSerializer();
             objectWriter.writeObject(ts);
+        } catch (FileNotFoundException e) {
+            System.out.println(e.getMessage());
+            success = false;
         } catch (IOException e) {
             System.out.println(e.getMessage());
-            return false;
-        } finally {
+            success = false;
+        }
+        if (objectWriter != null) {
             try {
                 objectWriter.close();
             } catch (IOException e) {
                 System.out.println(e.getMessage());
             }
         }
-        return true;
+        return success;
     }
 }

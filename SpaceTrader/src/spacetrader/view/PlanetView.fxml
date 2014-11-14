@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.canvas.*?>
@@ -15,6 +16,11 @@
         <URL value="@SpaceTraderStylesheet.css" />
     </stylesheets>
    <children>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="740.0" layoutY="435.0" pickOnBounds="true" preserveRatio="true" scaleX="8.0" scaleY="8.0" AnchorPane.bottomAnchor="-9.0" AnchorPane.leftAnchor="740.0" AnchorPane.rightAnchor="134.0" AnchorPane.topAnchor="435.0">
+         <image>
+            <Image url="@../../visuals/Stars/Planet1.png" />
+         </image>
+      </ImageView>
       <SplitPane dividerPositions="0.5" prefHeight="576.0" prefWidth="1024.0" style="-fx-background-color: transparent;" stylesheets="@SpaceTraderStylesheet.css">
         <items>
           <AnchorPane fx:id="planetOptions" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
@@ -154,7 +160,7 @@
                   </AnchorPane>
                </content>
             </Tab>
-            <Tab text="Manage Ship">
+            <Tab onSelectionChanged="#handleTabChange" text="Manage Ship">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -162,11 +168,23 @@
                            <children>
                               <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="352.0">
                                  <children>
-                                    <Label alignment="TOP_CENTER" contentDisplay="CENTER" text="Buy Fuel">
+                                    <Label alignment="TOP_CENTER" contentDisplay="CENTER" text="Current Fuel">
                                        <VBox.margin>
                                           <Insets top="20.0" />
                                        </VBox.margin></Label>
-                                    <HBox prefHeight="100.0" prefWidth="200.0" />
+                                    <HBox prefHeight="100.0" prefWidth="200.0">
+                                       <children>
+                                          <ProgressBar fx:id="fuelTank" prefHeight="113.0" prefWidth="362.0" progress="1.0" styleClass="progressbar" stylesheets="@SpaceTraderStylesheet.css">
+                                             <HBox.margin>
+                                                <Insets bottom="20.0" left="10.0" right="10.0" top="20.0" />
+                                             </HBox.margin>
+                                          </ProgressBar>
+                                       </children></HBox>
+                                    <Button mnemonicParsing="false" onAction="#buyFuel" text="Fill Tank">
+                                       <VBox.margin>
+                                          <Insets top="10.0" />
+                                       </VBox.margin>
+                                    </Button>
                                  </children>
                               </VBox>
                               <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="352.0">
@@ -177,6 +195,7 @@
                                        </VBox.margin></Label>
                                  </children></VBox>
                            </children></HBox>
+                        <Label fx:id="fuelAvailableLabel" alignment="CENTER" blendMode="ADD" contentDisplay="CENTER" layoutX="92.0" layoutY="87.0" prefHeight="32.0" prefWidth="189.0" style="-fx-text-fill: green;" text="15/15" textAlignment="CENTER" />
                      </children>
                   </AnchorPane>
               </content>

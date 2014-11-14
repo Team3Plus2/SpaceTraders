@@ -184,7 +184,7 @@ public class Shipyard implements Serializable {
      * @param amount amount of fuel purchased
      * @return true if successful; false if not enough money or fuel tank size
      */
-    public boolean buyFuel(Player p, int amount) {
+    public boolean buyFuel(Player p, float amount) {
         Ship ship = p.getShip();
         if (p.getMoney() >= ship.getFuelCost() && ship.getFuel() + amount <= ship.getMaxFuel()) {
             ship.setFuel(ship.getFuel() + amount);

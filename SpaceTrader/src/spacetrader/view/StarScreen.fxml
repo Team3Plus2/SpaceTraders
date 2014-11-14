@@ -18,9 +18,16 @@
    <children>
       <Pane id="StarBackdrop" fx:id="starBackdrop" layoutX="16.0" layoutY="103.0" prefHeight="576.0" prefWidth="1024.0" scaleX="2.0" scaleY="2.0" stylesheets="@SpaceTraderStylesheet.css" />
       <Canvas fx:id="gameCanvas" height="576.0" onMouseClicked="#mouseClicked" onMouseDragged="#mouseDrag" onMouseMoved="#mouseMove" onMousePressed="#mouseDown" onMouseReleased="#mouseReleased" width="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-      <Pane id="GameBackground" mouseTransparent="true" prefHeight="576.0" prefWidth="1024.0" styleClass="starbackdrop" stylesheets="@SpaceTraderStylesheet.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <Pane id="GameBackground" mouseTransparent="true" prefHeight="576.0" prefWidth="1024.0" styleClass="starbackdrop" stylesheets="@SpaceTraderStylesheet.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label fx:id="playerInfo1" alignment="CENTER" layoutX="16.0" layoutY="503.0" prefHeight="58.0" prefWidth="132.0" style="-fx-font-size: 20;" stylesheets="@SpaceTraderStylesheet.css" text="Pilot:" textAlignment="CENTER" wrapText="true" />
+            <Label fx:id="playerInfo2" alignment="CENTER" layoutX="204.0" layoutY="503.0" prefHeight="58.0" prefWidth="132.0" style="-fx-font-size: 20;" stylesheets="@SpaceTraderStylesheet.css" text="Pilot:" textAlignment="CENTER" wrapText="true" />
+            <Label fx:id="playerInfo3" alignment="CENTER" layoutX="430.0" layoutY="503.0" prefHeight="58.0" prefWidth="132.0" style="-fx-font-size: 20;" stylesheets="@SpaceTraderStylesheet.css" text="Pilot:" textAlignment="CENTER" wrapText="true" />
+            <Label fx:id="playerInfo4" alignment="CENTER" layoutX="657.0" layoutY="503.0" prefHeight="58.0" prefWidth="132.0" style="-fx-font-size: 20;" stylesheets="@SpaceTraderStylesheet.css" text="Pilot:" textAlignment="CENTER" wrapText="true" />
+            <Label fx:id="playerInfo5" alignment="CENTER" layoutX="866.0" layoutY="503.0" prefHeight="58.0" prefWidth="132.0" style="-fx-font-size: 20;" stylesheets="@SpaceTraderStylesheet.css" text="Pilot:" textAlignment="CENTER" wrapText="true" />
+         </children></Pane>
       <Slider fx:id="zoomSlider" layoutX="980.0" layoutY="112.0" max="15.0" min="10.0" orientation="VERTICAL" prefHeight="305.0" prefWidth="15.0" stylesheets="@SpaceTraderStylesheet.css" value="10.0" />
-      <Label fx:id="playerInfo" alignment="TOP_LEFT" layoutX="7.0" layoutY="7.0" prefHeight="58.0" prefWidth="176.0" style="-fx-font-size: 20;" stylesheets="@SpaceTraderStylesheet.css" text="Bob Waters" />
+      <Label fx:id="playerInfo" alignment="CENTER" layoutX="7.0" layoutY="7.0" prefHeight="58.0" prefWidth="176.0" style="-fx-font-size: 20;" stylesheets="@SpaceTraderStylesheet.css" text="Bob Waters" wrapText="true" />
       <BorderPane fx:id="solarSystemInfo" prefHeight="200.0" prefWidth="200.0" scaleY="0.0" styleClass="gridpane" AnchorPane.bottomAnchor="90.0" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="600.0" AnchorPane.topAnchor="80.0">
          <bottom>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">

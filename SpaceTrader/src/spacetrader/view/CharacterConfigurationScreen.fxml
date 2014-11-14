@@ -103,6 +103,6 @@
       </GridPane>
       <ProgressBar fx:id="skillPointsAvailable" layoutX="514.0" layoutY="320.0" prefHeight="80.0" prefWidth="300.0" progress="1.0" rotate="270.0" styleClass="progressbar" />
       <Line endX="260.0" layoutX="501.0" layoutY="187.0" opacity="0.53" startX="-260.0" strokeWidth="2.0" />
-      <Label fx:id="skillPointsAvailableLabel" alignment="CENTER" blendMode="DIFFERENCE" contentDisplay="CENTER" layoutX="627.0" layoutY="344.0" prefHeight="32.0" prefWidth="74.0" style="-fx-text-fill: green;" text="15/15" textAlignment="CENTER" />
+      <Label fx:id="skillPointsAvailableLabel" alignment="CENTER" blendMode="ADD" contentDisplay="CENTER" layoutX="627.0" layoutY="344.0" prefHeight="32.0" prefWidth="74.0" style="-fx-text-fill: green;" text="15/15" textAlignment="CENTER" />
    </children>
 </AnchorPane>

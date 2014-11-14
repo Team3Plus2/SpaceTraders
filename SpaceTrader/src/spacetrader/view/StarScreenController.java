@@ -153,7 +153,7 @@ public class StarScreenController implements Initializable {
      * FXML reference to the player info.
      */
     @FXML
-    private Label playerInfo;
+    private Label playerInfo, playerInfo1,playerInfo2,playerInfo3,playerInfo4,playerInfo5;
     
     /**
      * FXML reference to the star backdrop.
@@ -219,12 +219,19 @@ public class StarScreenController implements Initializable {
         
         });
         
-        playerInfo.setText(player.getName()
-                + "\nPilot Skill: " + player.getPilotSkill()
-                + "\nFighter Skill: " + player.getFighterSkill()
-                + "\nTrader Skill: " + player.getTraderSkill()
-                + "\nEngineer Skill: " + player.getEngineerSkill()
-                + "\nInvestor Skill: " + player.getInvestorSkill());
+//        playerInfo.setText(player.getName()
+//                + "\nPilot Skill: " + player.getPilotSkill()
+//                + "\nFighter Skill: " + player.getFighterSkill()
+//                + "\nTrader Skill: " + player.getTraderSkill()
+//                + "\nEngineer Skill: " + player.getEngineerSkill()
+//                + "\nInvestor Skill: " + player.getInvestorSkill());
+        
+        playerInfo.setText(player.getName());
+        playerInfo1.setText("Pilot: " + player.getPilotSkill());
+        playerInfo2.setText("Fighter: " + player.getFighterSkill());
+        playerInfo3.setText("Trader: " + player.getTraderSkill());
+        playerInfo4.setText("Engineer: " + player.getEngineerSkill());
+        playerInfo5.setText("Investor: " + player.getInvestorSkill());
         // gets graphic object and draws universe to begin
         g = gameCanvas.getGraphicsContext2D();
         g.setFill(Color.WHITE);

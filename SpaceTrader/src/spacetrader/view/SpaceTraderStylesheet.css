@@ -43,6 +43,13 @@ and open the template in the editor.
     -fx-background-color: #0099cc;
 }
 
+.progressbar .track {
+    -fx-border-style: solid;
+    -fx-border-color: white;
+    -fx-border-radius: 5px;
+    -fx-background-color: rgba(0,0,0,0.5);
+}
+
 .slider .thumb {
     -fx-background-image: url('../../visuals/Slider_Thumb.png');
     -fx-background-size: stretch;

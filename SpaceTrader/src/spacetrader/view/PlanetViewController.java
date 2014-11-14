@@ -16,6 +16,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -244,6 +245,25 @@ public class PlanetViewController implements Initializable {
             }
         }
         selectUpgrade();
+    }
+    
+    @FXML
+    private void buyFuel() {
+        curPlanet.getShipyard().buyFuel(player, player.getShip().getMaxFuel() - player.getShip().getFuel());
+        fuelAvailableLabel.setText(String.format("%.1f", player.getShip().getFuel()) + "/" + String.format("%.1f", player.getShip().getMaxFuel()));
+        fuelTank.setProgress(player.getShip().getFuel()/player.getShip().getMaxFuel());
+    }
+    
+    @FXML
+    ProgressBar fuelTank;
+    
+    @FXML
+    Label fuelAvailableLabel;
+    
+    @FXML
+    private void handleTabChange() {
+        fuelTank.setProgress(player.getShip().getFuel()/player.getShip().getMaxFuel());
+        fuelAvailableLabel.setText(String.format("%.1f", player.getShip().getFuel()) + "/" + String.format("%.1f", player.getShip().getMaxFuel()));
     }
     
     /**

@@ -3,6 +3,7 @@ package spacetrader.economy;
 import java.util.ArrayList;
 import spacetrader.cosmos.system.SolarSystem;
 import spacetrader.cosmos.system.Planet;
+import spacetrader.player.Player;
 
 /**
  *
@@ -50,6 +51,30 @@ public class StockExchange {
             if (company[count].companyCheck(solarSystem, this.planet)) {
                 companies.add(company[count]);
             }
+        }
+    }
+    
+    /**
+     * 
+     * @param p
+     * @param c 
+     */
+    public void buyStock(Player p, Company c) {
+        if(p.getMoney()>= c.getNetWorth()) {
+            p.setMoney(p.getMoney() - (float)c.getNetWorth());
+            c.addStock();
+        }
+    }
+    
+    /**
+     * 
+     * @param p
+     * @param c 
+     */
+    public void sellStock(Player p, Company c) {
+        if(c.getStockOwned() > 0) {
+            p.setMoney(p.getMoney() + (float)c.getNetWorth());
+            c.removeStock();
         }
     }
     

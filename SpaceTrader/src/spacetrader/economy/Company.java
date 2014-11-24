@@ -4,12 +4,15 @@ import java.util.ArrayList;
 import spacetrader.cosmos.system.TechLevel;
 import spacetrader.cosmos.system.SolarSystem;
 import spacetrader.cosmos.system.Planet;
+import spacetrader.cosmos.UniverseGenerationListener;
+import spacetrader.cosmos.UniverseGenerationEvent;
+import java.util.Random;
 
 /**
  *
  * @author Gaby
  */
-public class Company {
+public class Company implements UniverseGenerationListener {
     /**
      * List of SolarSystems this Company is affiliated with.
      */
@@ -22,6 +25,10 @@ public class Company {
      * Name of this Company.
      */
     private String name;
+    /**
+     * 
+     */
+    private int stockOwned;
     /**
      * NetWorth of this Company.
      */
@@ -46,10 +53,31 @@ public class Company {
      * @param solarSystems2 the list of SolarSystems this Company will be affiliated with.
      * @param planets2 the list of Planets this Company will be affiliated with.
      */
-    public Company (String name2, ArrayList<SolarSystem> solarSystems2, ArrayList<ArrayList<Planet>> planets2) {
-        this.solarSystems = solarSystems2;
-        this.planets = planets2;
+    public Company (String name2) {
         this.name = name2;
+        solarSystems = new ArrayList<SolarSystem>();
+        planets = new ArrayList<ArrayList<Planet>>();
+        stockOwned = 0;
+    }
+    
+    public void onGeneration(UniverseGenerationEvent event) {
+        ArrayList<SolarSystem> existingSystems = event.getSystems();
+        for (int count = 0; count < existingSystems.size(); count++) {
+            Random rand = new Random();
+            int decider = rand.nextInt();
+            if (decider == 1) {
+                solarSystems.add(existingSystems.get(count));
+                planets.add(new ArrayList<Planet>());
+                Planet[] planets1 = existingSystems.get(count).planets();
+                for (int count1 = 0; count1 < existingSystems.get(count).planets().length; count1++ ) {
+                    Planet planet = planets1[count1];
+                    decider = rand.nextInt();
+                    if (decider == 1) {
+                        planets.get(solarSystems.size() - 1).add(planet);
+                    }
+                }
+            }
+        }
     }
     
     /**
@@ -61,6 +89,28 @@ public class Company {
             total = total + planets.get(count).size();
         }
         totalSize = total;
+    }
+    
+    /**
+     * 
+     */
+    public void addStock() {
+        stockOwned++;
+    }
+    
+    /**
+     * 
+     */
+    public void removeStock() {
+        stockOwned--;
+    }
+    
+    /**
+     * 
+     * @return 
+     */
+    public int getStockOwned() {
+        return stockOwned;
     }
     
     /**
@@ -111,8 +161,8 @@ public class Company {
     /**
      * Calculates the netWorth of this Company.
      */
-    public void calcNetWorth() {
-        netWorth = 3000 * (meanTechLevel + meanRelativeWealth);
+    public double getNetWorth() {
+        return netWorth = 3000 * (meanTechLevel + meanRelativeWealth);
     }
     
     /**

@@ -11,6 +11,7 @@ import spacetrader.turns.TurnEvent;
 import spacetrader.xml.FromXML;
 import spacetrader.cosmos.SparseSpace.SparseIterator;
 import spacetrader.player.Player;
+import spacetrader.economy.Company;
 
 /**
  *
@@ -61,6 +62,10 @@ public class Universe implements Iterable<SolarSystem>, Serializable {
      * SparseSpace that backs this Universe.
      */
     private SparseSpace space;
+    /**
+     * 
+     */
+    private Company[] companies;
     /**
      * Stores all the currently generated points, used to make generation more efficient.
      */
@@ -202,6 +207,11 @@ public class Universe implements Iterable<SolarSystem>, Serializable {
         this.spread = spread2 * MEANING / 42f;
         generateInPosXDirection(0, 0, width / 2, width / 2);
         generateinNegXDirection(0, -1, width / 2, width / 2);
+        companies = new Company[20];
+        for (int count = 0; count < 20; count++) {
+            Random rand = new Random();
+            companies[count] = new Company(generateName(rand));
+        }
     }
     
     /**

@@ -23,6 +23,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import spacetrader.cosmos.system.Planet;
 import spacetrader.cosmos.system.SolarSystem;
+import spacetrader.economy.Company;
 import spacetrader.economy.MarketPlace;
 import spacetrader.economy.TradeGood;
 import spacetrader.global.Utility;
@@ -79,6 +80,9 @@ public class PlanetViewController implements Initializable {
      */
     @FXML
     private Label techLevelLabel;
+    
+    @FXML
+    private ListView availableStock, ownedStock;
 
     /**
      * Initializes the controller class.
@@ -102,6 +106,12 @@ public class PlanetViewController implements Initializable {
         availableUpgrades.getSelectionModel().getSelectedItems().addListener((ListChangeListener.Change c) -> {
                 selectUpgrade();
             });
+        availableStock.getSelectionModel().getSelectedItems().addListener((ListChangeListener.Change c) -> {
+                selectStockToBuy();
+            });
+        ownedStock.getSelectionModel().getSelectedItems().addListener((ListChangeListener.Change c) -> {
+                selectStockToSell();
+            });
         
         player = SpaceTrader.getInstance().getPlayer();
         curSystem = player.getCurrentSolarSystem();
@@ -110,6 +120,7 @@ public class PlanetViewController implements Initializable {
         resourceLabel.setText(curPlanet.resources().getName());
         techLevelLabel.setText(curSystem.techLevel().getName());
         ObservableList<ShipType> list = FXCollections.observableArrayList(curPlanet.getShipyard().getListShipsAvailable());
+        ObservableList<Company> companylist = FXCollections.observableArrayList();
         availableShips.setItems(list);
         ObservableList<AbstractUpgrade> upgradeList = FXCollections.observableArrayList(curPlanet.getShipyard().getListUpgradesAvailable());
         availableUpgrades.setItems(upgradeList);
@@ -117,6 +128,49 @@ public class PlanetViewController implements Initializable {
             buyShipDetails.setText(((ShipType) availableShips.getItems().get(0)).getInfo());
         }
     }
+    /**
+     * *************************************************
+     * Start of Stock Exchange Screen functions *
+     * **************************************************
+     */
+    
+    @FXML
+    private Label sellStockDetails, sellStockCost, buyStockCost, yourStockMoney;
+    
+    @FXML
+    private TabPane stockMarketUI;
+    
+    private void selectStockToBuy() {
+        
+    }
+    
+    private void selectStockToSell() {
+        
+    }
+    
+    @FXML
+    private void handleBuyStock() {
+        
+    }
+    
+    @FXML
+    private void handleSellStock() {
+        
+    }
+    
+    @FXML
+    private void hideStock() {
+        stockMarketUI.setVisible(false);
+        planetOptions.setVisible(true);
+    }
+    
+    @FXML
+    private void showStock() {
+        stockMarketUI.setVisible(true);
+        planetOptions.setVisible(false);
+    }
+    
+    
     /**
      * *************************************************
      * Start of Shipyard Screen functions *

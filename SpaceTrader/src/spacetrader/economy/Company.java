@@ -161,8 +161,8 @@ public class Company implements UniverseGenerationListener {
     /**
      * Calculates the netWorth of this Company.
      */
-    public double getNetWorth() {
-        return netWorth = 3000 * (meanTechLevel + meanRelativeWealth);
+    public void calcNetWorth() {
+        netWorth = 3000 * (meanTechLevel + meanRelativeWealth);
     }
     
     /**

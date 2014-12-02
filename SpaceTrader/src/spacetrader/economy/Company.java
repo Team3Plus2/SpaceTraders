@@ -67,21 +67,16 @@ public class Company implements UniverseGenerationListener, Serializable {
         ArrayList<SolarSystem> existingSystems = event.getSystems();
         for (int count = 0; count < existingSystems.size(); count++) {
             Random rand = new Random();
-            int decider = rand.nextInt()*1048576;
+            int decider = rand.nextInt() * (2 ^ existingSystems.get(count).planets().length);
             if (decider != 0) {
                 solarSystems.add(existingSystems.get(count));
                 planets.add(new ArrayList<Planet>());
                 Planet[] planets1 = existingSystems.get(count).planets();
                 for (int count1 = 0; count1 < existingSystems.get(count).planets().length; count1++ ) {
-                    int index = 0;
-                    while(index < 20) {
-                        if (decider%2 == 1) {
-                            planets.get(solarSystems.size() - 1).add(planets1[count1]);
-                        }
-                        decider = decider >> 1;
-                        index++;
+                    if (decider%2 == 1) {
+                        planets.get(solarSystems.size() - 1).add(planets1[count1]);
                     }
-                    decider = rand.nextInt()*1048576;
+                    decider = decider >> 1;
                 }
             }
         }

@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Locale;
 import java.util.Random;
 import spacetrader.cosmos.system.SolarSystem;
@@ -195,6 +196,15 @@ public class Universe implements Iterable<SolarSystem>, Serializable {
     }
     
     /**
+     * Accessor method for universe companies
+     * 
+     * @return 
+     */
+    public Company[] companies() {
+        return companies;
+    }
+    
+    /**
      * Generate initial universe along with construction.
      * 
      * @param width initial Width/ height of the universe
@@ -211,6 +221,7 @@ public class Universe implements Iterable<SolarSystem>, Serializable {
         for (int count = 0; count < 20; count++) {
             Random rand = new Random();
             companies[count] = new Company(generateName(rand));
+            System.out.println(companies[count].getName());
         }
     }
     

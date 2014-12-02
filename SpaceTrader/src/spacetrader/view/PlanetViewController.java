@@ -25,6 +25,7 @@ import spacetrader.cosmos.system.Planet;
 import spacetrader.cosmos.system.SolarSystem;
 import spacetrader.economy.Company;
 import spacetrader.economy.MarketPlace;
+import spacetrader.economy.StockExchange;
 import spacetrader.economy.TradeGood;
 import spacetrader.global.Utility;
 import spacetrader.main.SpaceTrader;
@@ -81,8 +82,7 @@ public class PlanetViewController implements Initializable {
     @FXML
     private Label techLevelLabel;
     
-    @FXML
-    private ListView availableStock, ownedStock;
+    
 
     /**
      * Initializes the controller class.
@@ -120,7 +120,10 @@ public class PlanetViewController implements Initializable {
         resourceLabel.setText(curPlanet.resources().getName());
         techLevelLabel.setText(curSystem.techLevel().getName());
         ObservableList<ShipType> list = FXCollections.observableArrayList(curPlanet.getShipyard().getListShipsAvailable());
-        ObservableList<Company> companylist = FXCollections.observableArrayList();
+        planetStock = new StockExchange(curSystem, SpaceTrader.getInstance().getUniverse().companies());
+        planetStock.setCompanies(curPlanet);
+        ObservableList<Company> companylist = FXCollections.observableArrayList(planetStock.getCompanies());
+        availableStock.setItems(companylist);
         availableShips.setItems(list);
         ObservableList<AbstractUpgrade> upgradeList = FXCollections.observableArrayList(curPlanet.getShipyard().getListUpgradesAvailable());
         availableUpgrades.setItems(upgradeList);
@@ -140,8 +143,14 @@ public class PlanetViewController implements Initializable {
     @FXML
     private TabPane stockMarketUI;
     
+    @FXML
+    private ListView availableStock, ownedStock;
+    
+    private StockExchange planetStock;
+    
     private void selectStockToBuy() {
-        
+        Company selected = (Company) availableStock.getSelectionModel().getSelectedItem();
+        buyStockCost.setText("Cost: " + selected.getNetWorth() + "\nOwned: " + selected.getStockOwned());
     }
     
     private void selectStockToSell() {

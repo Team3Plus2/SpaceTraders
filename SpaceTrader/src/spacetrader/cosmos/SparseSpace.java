@@ -73,23 +73,30 @@ public class SparseSpace implements Iterable<SolarSystem>, Serializable {
         if (spaceMap.containsKey(x)) {
             spaceMap.get(x).put(y, system);
         } else {
-            HashMap<Integer, SolarSystem> ymap = new HashMap<Integer, SolarSystem>();
+            HashMap<Integer, SolarSystem> ymap = new HashMap<>();
             ymap.put(y, system);
             spaceMap.put(x, ymap);
         }
         
         //at this point, insertion has been successful
-        if (x < xMin) {
+        if(spaceMap.size() == 1) { //then first insertion
             xMin = x;
-        }
-        if (y < yMin) {
-            yMin = y;
-        }
-        if (xMax <= x) {
             xMax = x;
-        }
-        if (yMax <= y) {
+            yMin = y;
             yMax = y;
+        } else { 
+            if (x < xMin) {
+                xMin = x;
+            }
+            if (y < yMin) {
+                yMin = y;
+            }
+            if (xMax <= x) {
+                xMax = x;
+            }
+            if (yMax <= y) {
+                yMax = y;
+            }
         }
     }
     
@@ -165,7 +172,7 @@ public class SparseSpace implements Iterable<SolarSystem>, Serializable {
      * @return the lowest y value in the sparse space
      */
     public int yMin() {
-        return xMin;
+        return yMin;
     }
     
     /**

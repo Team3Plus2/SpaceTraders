@@ -52,6 +52,11 @@ public class StockExchange {
                 companies.add(company[count]);
             }
         }
+        for (int count = 0; count < companies.size(); count++) {
+            companies.get(count).calcMeanRelativeWealth();
+            companies.get(count).calcMeanTechLevel();
+            companies.get(count).calcNetWorth();
+        }
     }
     
     /**
@@ -60,8 +65,8 @@ public class StockExchange {
      * @param c 
      */
     public void buyStock(Player p, Company c) {
-        if(p.getMoney()>= c.getNetWorth()) {
-            p.setMoney(p.getMoney() - (float)c.getNetWorth());
+        if(p.getMoney()>= c.netWorth()) {
+            p.setMoney(p.getMoney() - (float)c.netWorth());
             c.addStock();
         }
     }
@@ -73,7 +78,7 @@ public class StockExchange {
      */
     public void sellStock(Player p, Company c) {
         if(c.getStockOwned() > 0) {
-            p.setMoney(p.getMoney() + (float)c.getNetWorth());
+            p.setMoney(p.getMoney() + (float)c.netWorth());
             c.removeStock();
         }
     }

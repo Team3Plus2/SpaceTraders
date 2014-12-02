@@ -70,8 +70,6 @@
                            <children>
                               <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#openMarketplace" prefHeight="80.0" prefWidth="202.0" style="-fx-font-size: 25;" text="Marketplace" />
                               <Button alignment="CENTER" mnemonicParsing="false" onAction="#showShipyard" prefHeight="80.0" prefWidth="202.0" style="-fx-font-size: 25;" text="Shipyard" GridPane.columnIndex="1" GridPane.valignment="CENTER" />
-                              <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="80.0" prefWidth="202.0" style="-fx-font-size: 25;" text="Mercenaries" GridPane.rowIndex="1" />
-                              <Button mnemonicParsing="false" prefHeight="80.0" prefWidth="202.0" style="-fx-font-size: 25;" text="Stock Market" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                            </children>
                         </GridPane>
                         <Button alignment="CENTER" mnemonicParsing="false" onAction="#backToSolarSystem" prefHeight="80.0" prefWidth="202.0" style="-fx-font-size: 25;" text="Back" translateY="440.0" GridPane.valignment="BOTTOM">
@@ -81,6 +79,7 @@
                         </Button>
                      </children>
                   </GridPane>
+                  <Button layoutX="150.0" layoutY="320.0" mnemonicParsing="false" onAction="#showStock" prefHeight="80.0" prefWidth="202.0" style="-fx-font-size: 25;" text="Stock Market" />
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
@@ -199,6 +198,41 @@
                      </children>
                   </AnchorPane>
               </content>
+            </Tab>
+         </tabs>
+      </TabPane>
+      <TabPane fx:id="stockMarketUI" layoutX="154.0" layoutY="73.0" prefHeight="456.0" prefWidth="725.0" stylesheets="@SpaceTraderStylesheet.css" tabClosingPolicy="UNAVAILABLE" tabMaxHeight="50.0" tabMaxWidth="200.0" tabMinHeight="50.0" tabMinWidth="340.0" visible="false">
+         <tabs>
+            <Tab closable="false" text="Buy Stock">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ListView id="listView" fx:id="availableStock" layoutX="14.0" layoutY="57.0" prefHeight="321.0" prefWidth="391.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="320.0" AnchorPane.topAnchor="57.0" />
+                        <Button fx:id="back111" mnemonicParsing="false" onAction="#hideStock" text="Back" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="420.0" AnchorPane.rightAnchor="15.0" />
+                        <Button fx:id="buyStock" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleBuyStock" text="Buy" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="420.0" AnchorPane.rightAnchor="15.0" />
+                        <Label fx:id="buyShipDetails1" alignment="TOP_LEFT" layoutX="426.0" layoutY="57.0" prefHeight="145.0" prefWidth="290.0" style="-fx-font-size: 18; -fx-line-spacing: -5;" text="Planet tech level too low to sell ships" wrapText="true" AnchorPane.leftAnchor="420.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="57.0" />
+                        <Label fx:id="planetMarketplaceLabel11" layoutX="44.0" layoutY="14.0" prefHeight="32.0" prefWidth="443.0" style="-fx-alignment: CENTER;" text="Companies" textAlignment="CENTER" textOverrun="CLIP" AnchorPane.leftAnchor="44.0" AnchorPane.rightAnchor="44.0" AnchorPane.topAnchor="14.0" />
+                        <Line endX="200.0" layoutX="262.0" layoutY="50.0" opacity="0.6" startX="-400.0" strokeWidth="2.0" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="60.0" />
+                        <Label fx:id="yourStockMoney" layoutX="420.0" layoutY="202.0" prefHeight="35.0" prefWidth="370.0" style="-fx-font-size: 25;" text="Your Money:" AnchorPane.leftAnchor="420.0" AnchorPane.rightAnchor="15.0" />
+                        <Label fx:id="buyStockCost" layoutX="420.0" layoutY="236.0" prefHeight="35.0" prefWidth="287.0" style="-fx-font-size: 25;" text="Cost:" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab closable="false" text="Sell Stock">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ListView fx:id="ownedStock" layoutX="14.0" layoutY="56.0" prefHeight="322.0" prefWidth="309.0" styleClass="gridpane" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="320.0" AnchorPane.topAnchor="56.0" />
+                        <Button fx:id="back211" mnemonicParsing="false" onAction="#hideStock" text="Back" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="420.0" AnchorPane.rightAnchor="15.0" />
+                        <Button fx:id="sellStock" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleSellStock" text="Sell" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="420.0" AnchorPane.rightAnchor="15.0" />
+                        <Label fx:id="sellStockDetails" alignment="TOP_LEFT" layoutY="57.0" prefHeight="167.0" prefWidth="170.0" style="-fx-font-size: 25;" AnchorPane.leftAnchor="420.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="57.0" />
+                        <Label prefHeight="32.0" prefWidth="251.0" style="-fx-alignment: center;" text="Owned Stock" textAlignment="CENTER" textOverrun="CLIP" AnchorPane.leftAnchor="44.0" AnchorPane.rightAnchor="44.0" AnchorPane.topAnchor="14.0" />
+                        <Line endX="200.0" layoutX="262.0" layoutY="50.0" opacity="0.6" startX="-400.0" strokeWidth="2.0" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="60.0" />
+                        <Label fx:id="sellStockCost" layoutX="422.0" layoutY="224.0" prefHeight="35.0" prefWidth="284.0" style="-fx-font-size: 25;" text="Sum:" />
+                     </children>
+                  </AnchorPane>
+               </content>
             </Tab>
          </tabs>
       </TabPane>

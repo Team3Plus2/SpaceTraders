@@ -150,7 +150,7 @@ public class PlanetViewController implements Initializable {
     
     private void selectStockToBuy() {
         Company selected = (Company) availableStock.getSelectionModel().getSelectedItem();
-        buyStockCost.setText("Cost: " + selected.getNetWorth() + "\nOwned: " + selected.getStockOwned());
+        buyStockCost.setText("Cost: " + selected.netWorth() + "\nOwned: " + selected.getStockOwned());
     }
     
     private void selectStockToSell() {

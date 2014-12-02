@@ -7,12 +7,15 @@ import spacetrader.cosmos.system.Planet;
 import spacetrader.cosmos.UniverseGenerationListener;
 import spacetrader.cosmos.UniverseGenerationEvent;
 import java.util.Random;
+import java.io.Serializable;
 
 /**
  *
  * @author Gaby
  */
-public class Company implements UniverseGenerationListener {
+public class Company implements UniverseGenerationListener, Serializable {
+    static final long serialVersionUID = (long) 4006L;
+    
     /**
      * List of SolarSystems this Company is affiliated with.
      */

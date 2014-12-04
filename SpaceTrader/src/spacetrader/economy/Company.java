@@ -117,27 +117,6 @@ public class Company implements UniverseGenerationListener, Serializable {
     public int getStockOwned() {
         return stockOwned;
     }
-    
-    /**
-     * Checks if this Company is affiliated with the given SolarSystem and Planet.
-     * 
-     * @param solarSystem the SolarSystem we are checking the affiliation of
-     * @param planet the Planet we are checking the affiliation of
-     * @return true if this Company is affiliated with the given SolarSystem and Planet.
-     */
-    public boolean companyCheck(SolarSystem solarSystem, Planet planet) {
-        for(int count = 0; count < solarSystems.size(); count++) {
-            if (solarSystems.get(count).equals(solarSystem)) {
-                for (int count1 = 0; count1 < planets.get(count).size(); count1++) {
-                    if (planets.get(count).get(count1).equals(planet)) {
-                        return true;
-                    }
-                }
-                return false;
-            }
-        }
-        return false;
-    }
             
     /**
      * Calculates the meanTechLevel of this Company.

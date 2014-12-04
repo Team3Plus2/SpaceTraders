@@ -16,7 +16,7 @@ import java.io.Serializable;
 public class Company implements UniverseGenerationListener, Serializable {
     static final long serialVersionUID = (long) 4006L;
     
-    private static float planetAdditionChance = 0.5f;
+    private static float planetAdditionChance = 1.5f;
     
     /**
      * List of SolarSystems this Company is affiliated with.

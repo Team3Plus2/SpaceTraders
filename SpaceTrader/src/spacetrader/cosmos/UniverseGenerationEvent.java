@@ -30,7 +30,7 @@ public class UniverseGenerationEvent {
      * @param systems the list of SolarSystems we need to handle events for.
      */
     public static void universeGenerated(ArrayList<SolarSystem> systems) {
-        if (registeredListeners == null) {
+        if (registeredListeners == null || systems.size() == 0) {
             return;
         }
         UniverseGenerationEvent event = new UniverseGenerationEvent(systems);

@@ -46,10 +46,16 @@ public class StockExchange {
      * @param planet2 the Planet this StockExchange is on.
      */
     public void setCompanies (Planet planet2) {
-        this.planet = planet2;
+        planet = planet2;
         for (int count = 0; count < company.length; count++) {
-            if (company[count].companyCheck(solarSystem, this.planet)) {
-                companies.add(company[count]);
+            ArrayList<SolarSystem> ss = company[count].solarSystems();
+            ArrayList<ArrayList<Planet>> ps = company[count].planets();
+            if (ss.contains(solarSystem)) {
+                System.out.println(1);                
+                int index = ss.indexOf(solarSystem);
+                if (ps.get(index).contains(planet)) {
+                    companies.add(company[count]);                  
+                }
             }
         }
         for (int count = 0; count < companies.size(); count++) {

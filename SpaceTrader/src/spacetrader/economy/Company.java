@@ -69,18 +69,18 @@ public class Company implements UniverseGenerationListener, Serializable {
         ArrayList<SolarSystem> existingSystems = event.getSystems();
         for (int count = 0; count < existingSystems.size(); count++) {
             Random rand = new Random();
-            int decider = rand.nextInt() * (2 ^ existingSystems.get(count).planets().length);
-            if (decider != 0) {
-                solarSystems.add(existingSystems.get(count));
-                planets.add(new ArrayList<Planet>());
-                Planet[] planets1 = existingSystems.get(count).planets();
-                for (int count1 = 0; count1 < existingSystems.get(count).planets().length; count1++ ) {
-                    decider = 1 / decider;
-                    if (decider < 1/(existingSystems.get(count).planets().length)) {
-                        planets.get(solarSystems.size() - 1).add(planets1[count1]);
-                    }
-                    decider = rand.nextInt() * (2 ^ existingSystems.get(count).planets().length);
+            int decider = rand.nextInt();
+            Planet[] planets1 = existingSystems.get(count).planets();
+            ArrayList<Planet> planets2 = new ArrayList<Planet>();
+            for (int count1 = 0; count1 < existingSystems.get(count).planets().length; count1++ ) {
+                if (decider != 0) {
+                    planets2.add(planets1[count1]);
                 }
+                decider = rand.nextInt();
+            }
+            if (planets2.size() != 0) {
+                solarSystems.add(existingSystems.get(count));
+                planets.add(planets2);
             }
         }
     }
@@ -126,10 +126,14 @@ public class Company implements UniverseGenerationListener, Serializable {
      * @return true if this Company is affiliated with the given SolarSystem and Planet.
      */
     public boolean companyCheck(SolarSystem solarSystem, Planet planet) {
-        if (solarSystems.contains(solarSystem)) {
-            int index = solarSystems.indexOf(solarSystem);
-            if (planets.get(index).contains(planet)) {
-                return true;
+        for(int count = 0; count < solarSystems.size(); count++) {
+            if (solarSystems.get(count).equals(solarSystem)) {
+                for (int count1 = 0; count1 < planets.get(count).size(); count1++) {
+                    if (planets.get(count).get(count1).equals(planet)) {
+                        return true;
+                    }
+                }
+                return false;
             }
         }
         return false;

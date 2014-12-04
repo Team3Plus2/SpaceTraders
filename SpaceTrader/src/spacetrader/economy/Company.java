@@ -61,9 +61,12 @@ public class Company implements UniverseGenerationListener, Serializable {
         solarSystems = new ArrayList<SolarSystem>();
         planets = new ArrayList<ArrayList<Planet>>();
         stockOwned = 0;
+        UniverseGenerationEvent.registerListener(this);
     }
     
+    @Override
     public void onGeneration(UniverseGenerationEvent event) {
+        System.out.println("company listens");
         ArrayList<SolarSystem> existingSystems = event.getSystems();
         for (int count = 0; count < existingSystems.size(); count++) {
             Random rand = new Random();

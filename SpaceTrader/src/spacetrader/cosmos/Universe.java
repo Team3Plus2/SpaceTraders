@@ -221,7 +221,6 @@ public class Universe implements Iterable<SolarSystem>, Serializable {
         for (int count = 0; count < 20; count++) {
             Random rand = new Random();
             companies[count] = new Company(generateName(rand));
-            System.out.println(companies[count].getName());
         }
     }
     

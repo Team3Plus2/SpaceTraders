@@ -16,6 +16,8 @@ import java.io.Serializable;
 public class Company implements UniverseGenerationListener, Serializable {
     static final long serialVersionUID = (long) 4006L;
     
+    private static float planetAdditionChance = 0.5f;
+    
     /**
      * List of SolarSystems this Company is affiliated with.
      */
@@ -69,14 +71,12 @@ public class Company implements UniverseGenerationListener, Serializable {
         ArrayList<SolarSystem> existingSystems = event.getSystems();
         for (int count = 0; count < existingSystems.size(); count++) {
             Random rand = new Random();
-            int decider = rand.nextInt();
             Planet[] planets1 = existingSystems.get(count).planets();
             ArrayList<Planet> planets2 = new ArrayList<Planet>();
             for (int count1 = 0; count1 < existingSystems.get(count).planets().length; count1++ ) {
-                if (decider != 0) {
+                if (rand.nextFloat() <= planetAdditionChance) {
                     planets2.add(planets1[count1]);
                 }
-                decider = rand.nextInt();
             }
             if (planets2.size() != 0) {
                 solarSystems.add(existingSystems.get(count));

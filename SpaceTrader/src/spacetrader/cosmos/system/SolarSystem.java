@@ -224,4 +224,21 @@ public class SolarSystem implements TurnListener, Serializable {
         }
         return forreturn;
     }
+    
+    @Override
+    public boolean equals(Object other) {
+        if(other instanceof SolarSystem) {
+            SolarSystem sys = (SolarSystem)other;
+            return sys.getX() == x && sys.getY() == y;
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 73 * hash + this.x;
+        hash = 73 * hash + this.y;
+        return hash;
+    }
 }

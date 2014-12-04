@@ -314,6 +314,8 @@ public class Universe implements Iterable<SolarSystem>, Serializable {
             space.insert(x, y, sys);
         }
         generated.add(new Point(x, y));
+        sys.setX(x);
+        sys.setY(y);
         return sys;
     }
     
